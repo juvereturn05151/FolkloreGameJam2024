@@ -51,15 +51,15 @@ public class Blade : MonoBehaviour
 
         circleCollider.enabled = true;
 
-        float velocity = (newPosition - previousPosition).magnitude * Time.deltaTime;
-        if (velocity > minCuttingVelocity)
-        {
-            circleCollider.enabled = true;
-        }
-        else
-        {
-            circleCollider.enabled = false;
-        }
+        // float velocity = (newPosition - previousPosition).magnitude * Time.deltaTime;
+        // if (velocity > minCuttingVelocity)
+        // {
+        //     circleCollider.enabled = true;
+        // }
+        // else
+        // {
+        //     circleCollider.enabled = false;
+        // }
 
         previousPosition = newPosition;
     }

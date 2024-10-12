@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6984934733405998544}
   - component: {fileID: 3513860121264184696}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Brain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,9 +99,9 @@ GameObject:
   - component: {fileID: 7337258793320886352}
   - component: {fileID: 7426698367081530161}
   - component: {fileID: 8907604256687163379}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Organ
-  m_TagString: Untagged
+  m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -207,3 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be0ee6b7a2b25d64597f8b403f19f530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canPlace: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64

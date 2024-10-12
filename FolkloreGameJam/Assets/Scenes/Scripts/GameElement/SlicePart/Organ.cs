@@ -1,16 +1,15 @@
+using System;
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 public class Organ : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void OnMouseDrag()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        var _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = new Vector3(_mousePos.x, _mousePos.y, transform.position.z);
     }
 }
+

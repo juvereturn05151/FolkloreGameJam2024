@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 3
   tags:
   - Blade
+  - Plate
+  - Food
   layers:
   - Default
   - TransparentFX
@@ -12,8 +14,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - DropZone
+  - Draggable
   - 
   - 
   - 
