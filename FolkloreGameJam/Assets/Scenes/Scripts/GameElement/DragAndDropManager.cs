@@ -37,7 +37,7 @@ public class DragAndDropManager : MonoBehaviour
             currentDraggingObject = _hit.collider.gameObject;
             
             var _rb = currentDraggingObject.GetComponent<Rigidbody2D>();
-            _rb.bodyType = RigidbodyType2D.Static;
+            _rb.gravityScale = 0;
         }
         else if (Input.GetMouseButtonUp(0))
         {
@@ -54,7 +54,7 @@ public class DragAndDropManager : MonoBehaviour
         {
             if(currentDraggingObject == null) return;
             var _rb = currentDraggingObject.GetComponent<Rigidbody2D>();
-            _rb.bodyType = RigidbodyType2D.Dynamic;
+            _rb.gravityScale = 1;
             
             return;
         }
