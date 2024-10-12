@@ -24,9 +24,25 @@ public class Customer : MonoBehaviour
 
     private Plate _currentPlate;
 
+    private bool _isEating;
+
     private void Start()
     {
         _visual.sprite = _ghostType.Sprite;
+    }
+
+    private void Update()
+    {
+        if (_isEating) 
+        {
+            if (_currentPlate && _currentPlate.FoodOnPlate) 
+            {
+                if (_currentPlate.FoodOnPlate.IsFinished) 
+                {
+                    Eat(_currentPlate.FoodOnPlate);
+                }
+            }
+        }
     }
 
     public void SetPlate(Plate plate) 
@@ -47,9 +63,7 @@ public class Customer : MonoBehaviour
             {
                 Debug.Log("Favorite food detected! Score added: " + menuRating.Menu.Score);
 
-                Eat(food);
-
-                    
+                _isEating = true;
                 //return menuRating.Menu.Score; // Positive score for favorite food
             }
         }

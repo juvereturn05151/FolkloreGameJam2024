@@ -10,6 +10,7 @@ public class Plate : MonoBehaviour
     public FoodPlacedEvent OnFoodPlaced;
 
     private Food _foodOnPlate;
+    public Food FoodOnPlate => _foodOnPlate;
 
     private void OnTriggerEnter2D(Collider2D other)
     {

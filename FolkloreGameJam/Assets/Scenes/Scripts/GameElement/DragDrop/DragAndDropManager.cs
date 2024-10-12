@@ -6,7 +6,7 @@ public class DragAndDropManager : MonoBehaviour
 {
     [SerializeField] private bool isDragging;
     
-    [SerializeField] private GameObject currentDraggingObject;
+    [SerializeField] private Food currentDraggingObject;
     
     [SerializeField] private LayerMask dragableLayer;
     [SerializeField] private LayerMask dropLayer;
@@ -31,13 +31,16 @@ public class DragAndDropManager : MonoBehaviour
             var _hit = Physics2D.Raycast(_ray.origin, _ray.direction, Mathf.Infinity, dragableLayer);
     
             if(_hit.collider == null) return;
-    
-            if (!_hit.collider.CompareTag("Food")) return;
-            isDragging = true;
-            currentDraggingObject = _hit.collider.gameObject;
-            
-            var _rb = currentDraggingObject.GetComponent<Rigidbody2D>();
-            _rb.gravityScale = 0;
+
+            if (_hit.collider.GetComponent<Food>() is Food food) 
+            {
+                isDragging = true;
+                currentDraggingObject = food;
+
+                var _rb = currentDraggingObject.GetComponent<Rigidbody2D>();
+                _rb.gravityScale = 0;
+            }
+           
         }
         else if (Input.GetMouseButtonUp(0))
         {
@@ -66,7 +69,12 @@ public class DragAndDropManager : MonoBehaviour
         
         if(!isDragging) return;
         isDragging = false;
-        currentDraggingObject.transform.position = _hit.transform.position;
-        currentDraggingObject.transform.SetParent(_hit.transform);
+
+        if (currentDraggingObject != null) 
+        {
+            currentDraggingObject.transform.position = _hit.transform.position;
+            currentDraggingObject.transform.SetParent(_hit.transform);
+            currentDraggingObject.SetIsReadyToEat(true);
+        }
     }
 }
