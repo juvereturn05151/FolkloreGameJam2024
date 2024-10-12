@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 7426698367081530161}
   - component: {fileID: 8907604256687163379}
   m_Layer: 7
-  m_Name: Organ
+  m_Name: Food
   m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -207,3 +207,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be0ee6b7a2b25d64597f8b403f19f530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menu: {fileID: 0}

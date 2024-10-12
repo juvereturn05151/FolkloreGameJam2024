@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b3bb73b9098d1744a618006b19d5aae, type: 3}
   m_Name: Blood
   m_EditorClassIdentifier: 
-  MenuName: 
+  FoodType: 1
   Sprite: {fileID: 0}
   Score: 0

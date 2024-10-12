@@ -4,8 +4,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 
-public class Organ : MonoBehaviour
+public class Food : MonoBehaviour
 {
+    [SerializeField]
+    private Menu menu;
+    public Menu Menu => menu;
+
     private void OnMouseDrag()
     {
         var _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

@@ -2,25 +2,34 @@ using System;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Plate : MonoBehaviour
 {
-    [SerializeField] private GameObject currentCustomer;
-    [SerializeField] private GameObject foodOnPlate;
+    [Serializable] public class FoodPlacedEvent : UnityEvent<Food> { }
+    public FoodPlacedEvent OnFoodPlaced;
+
+    private Food _foodOnPlate;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Food"))
+        if (other.GetComponent<Food>() is Food food)
         {
-            foodOnPlate = other.gameObject;
+            _foodOnPlate = food;
+
+            if (_foodOnPlate != null)
+            {
+                Debug.Log("_foodOnPlate" + _foodOnPlate.name);
+                OnFoodPlaced?.Invoke(_foodOnPlate); // Pass the food object as a parameter to the event
+            }
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Food"))
+        if (other.GetComponent<Food>())
         {
-            foodOnPlate = null;
+            _foodOnPlate = null;
         }
     }
 }
