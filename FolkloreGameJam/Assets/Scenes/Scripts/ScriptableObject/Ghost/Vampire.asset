@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2b3797f8e914c44eba78bc179f639ce, type: 3}
   m_Name: Vampire
   m_EditorClassIdentifier: 
-  Name: 
-  Sprite: {fileID: 0}
-  FavoriteMenu: []
+  Name: Vampire
+  Sprite: {fileID: 21300000, guid: 088030778e86be74bb1c66ccd5220917, type: 3}
+  FavoriteMenu:
+  - Menu: {fileID: 11400000, guid: 98a52210eff4ae241975b44ab5935b79, type: 2}
+    Value: 3
   UnfavoriteMenu: []
