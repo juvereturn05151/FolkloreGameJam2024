@@ -47,9 +47,9 @@ public class Customer : MonoBehaviour
             {
                 Debug.Log("Favorite food detected! Score added: " + menuRating.Menu.Score);
 
-                if(onEatRightFood != null)
-                onEatRightFood.Invoke(null);
+                Eat(food);
 
+                    
                 //return menuRating.Menu.Score; // Positive score for favorite food
             }
         }
@@ -67,5 +67,14 @@ public class Customer : MonoBehaviour
         // If not found in either list, return 0 (neutral score)
         Debug.Log("Neutral food. No score change.");
         //return 0f;
+    }
+
+    void Eat(Food food) 
+    {
+        Destroy(food.gameObject);
+        if (onEatRightFood != null)
+        {
+            onEatRightFood.Invoke(null);
+        }
     }
 }
