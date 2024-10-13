@@ -44,13 +44,14 @@ public class Customer : MonoBehaviour
             {
                 if (_currentPlate.FoodOnPlate.IsFinished) 
                 {
+                    Eat(_currentPlate.FoodOnPlate);
                     if (_isEatingRightFood)
                     {
-                        Eat(_currentPlate.FoodOnPlate);
+                        Satisfy(_currentPlate.FoodOnPlate);
                     }
                     else 
                     {
-                        Spit(_currentPlate.FoodOnPlate);
+                        Anger(_currentPlate.FoodOnPlate);
                     }
                 }
             }
@@ -60,6 +61,7 @@ public class Customer : MonoBehaviour
     public void SetPlate(Plate plate) 
     {
         _currentPlate = plate;
+        plate.SetIsOccupied(true);
         plate.OnFoodPlaced.AddListener(CheckFood); // Customer will check if it's the right food
     }
 
@@ -97,9 +99,8 @@ public class Customer : MonoBehaviour
         _isEating = true;
     }
 
-    private void Eat(Food food) 
+    private void Satisfy(Food food) 
     {
-        Destroy(food.gameObject);
         if (onEatRightFood != null)
         {
             onEatRightFood.Invoke(null);
@@ -110,9 +111,14 @@ public class Customer : MonoBehaviour
         }
     }
 
-    private void Spit(Food food) 
+    private void Anger(Food food) 
     {
-        Destroy(food.gameObject);
         //Reduce score, anger the customer ,and whatever here
+    }
+
+    private void Eat(Food food) 
+    {
+        _currentPlate.SetIsOccupied(false);
+        Destroy(food.gameObject);
     }
 }

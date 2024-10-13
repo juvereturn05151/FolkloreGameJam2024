@@ -13,19 +13,34 @@ public class Plate : MonoBehaviour
     private Food _foodOnPlate;
     public Food FoodOnPlate => _foodOnPlate;
 
+    private bool _isOccupied = false;
+    public bool IsOccupied => _isOccupied;
+
+    public void SetIsOccupied(bool occupy) 
+    {
+        _isOccupied = occupy;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.GetComponent<Food>() is Food food)
         {
-            if (_foodOnPlate == null)
-            {
-                _foodOnPlate = food;
-                if (_foodOnPlate != null)
-                {
-                    _foodOnPlate.SetFoodToBeEaten(this); 
-                    OnFoodPlaced?.Invoke(_foodOnPlate); // Pass the food object as a parameter to the event
-                }
-            }
+            PrepareToEat(food);
+        }
+    }
+
+    public void PrepareToEat(Food food) 
+    {
+        if (!IsOccupied) 
+        {
+            return;
+        }
+
+        if (_foodOnPlate == null)
+        {
+            _foodOnPlate = food;
+            _foodOnPlate.SetFoodToBeEaten(this);
+            OnFoodPlaced?.Invoke(_foodOnPlate); // Pass the food object as a parameter to the event
         }
     }
 }

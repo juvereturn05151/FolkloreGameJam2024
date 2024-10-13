@@ -59,16 +59,11 @@ public class DragAndDropManager : MonoBehaviour
 
         if (_hit.collider != null && _hit.collider.GetComponent<Plate>() is Plate plate)
         {
-            if (plate.FoodOnPlate != null)
-            {
-                return;
-            }
-
             if (currentDraggingFood != null)
             {
-                currentDraggingFood.SetFoodToBeEaten(plate);
+                plate.PrepareToEat(currentDraggingFood);
+                currentDraggingFood = null;
             }
-            currentDraggingFood = null;
         }
         else 
         {
