@@ -13,6 +13,9 @@ public class Food : MonoBehaviour
     [SerializeField]
     private SpriteRenderer _renderer;
 
+    [SerializeField]
+    private Rigidbody2D _rigidBody;
+
     private bool _isReadyToEat = false;
     public bool IsReadyToEat => _isReadyToEat;
     private bool _isFinished = false;
@@ -76,6 +79,17 @@ public class Food : MonoBehaviour
     public void SetIsReadyToEat(bool isReadyToEat) 
     {
         this._isReadyToEat = isReadyToEat;
+    }
+
+    public void SetFoodToBeEaten(Plate plate)
+    {
+        transform.position = plate.transform.position;
+        transform.SetParent(plate.transform);
+        transform.localPosition = Vector3.zero;
+        _rigidBody.velocity = Vector2.zero;
+        _rigidBody.gravityScale = 0;
+        _rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX;
+        _isReadyToEat = true;
     }
 }
 
