@@ -29,11 +29,14 @@ public class DragAndDropManager : MonoBehaviour
         {
             var _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             var _hit = Physics2D.Raycast(_ray.origin, _ray.direction, Mathf.Infinity, dragableLayer);
-    
-            if(_hit.collider == null) return;
 
-            if (_hit.collider.GetComponent<Food>() is Food food) 
+            if (_hit.collider != null && _hit.collider.GetComponent<Food>() is Food food) 
             {
+                if (food.IsReadyToEat) 
+                {
+                    return;
+                }
+
                 isDragging = true;
                 currentDraggingObject = food;
 
@@ -51,30 +54,27 @@ public class DragAndDropManager : MonoBehaviour
     private void OnDropThings()
     {
         var _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        var _hit = Physics2D.Raycast(_ray.origin, _ray.direction, Mathf.Infinity, dropLayer);
-
-        if (_hit.collider == null)
-        {
-            if(currentDraggingObject == null) return;
-            var _rb = currentDraggingObject.GetComponent<Rigidbody2D>();
-            _rb.gravityScale = 1;
-            
-            return;
-        }
-
-        if (!_hit.collider.CompareTag("Plate"))
-        {
-            return;
-        }
-        
-        if(!isDragging) return;
+        RaycastHit2D _hit = Physics2D.Raycast(_ray.origin, _ray.direction, Mathf.Infinity, dropLayer);
         isDragging = false;
 
-        if (currentDraggingObject != null) 
+        if (_hit.collider != null && _hit.collider.GetComponent<Plate>() is Plate plate)
         {
-            currentDraggingObject.transform.position = _hit.transform.position;
-            currentDraggingObject.transform.SetParent(_hit.transform);
-            currentDraggingObject.SetIsReadyToEat(true);
+            if (currentDraggingObject != null)
+            {
+                plate.SetFoodPosition(currentDraggingObject);
+            }
+            currentDraggingObject = null;
         }
+        else 
+        {
+            if (currentDraggingObject == null) 
+            {
+                return;
+            } 
+            var _rb = currentDraggingObject.GetComponent<Rigidbody2D>();
+            _rb.gravityScale = 1;
+        }
+       
+
     }
 }

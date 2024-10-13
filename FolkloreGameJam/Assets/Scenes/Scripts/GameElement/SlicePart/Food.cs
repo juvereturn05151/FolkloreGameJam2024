@@ -11,6 +11,7 @@ public class Food : MonoBehaviour
     public Menu Menu => menu;
 
     private bool _isReadyToEat = false;
+    public bool IsReadyToEat => _isReadyToEat;
     private bool _isFinished = false;
     public bool IsFinished => _isFinished;
     private float _eatingTime = 10.0f;
@@ -29,6 +30,11 @@ public class Food : MonoBehaviour
 
     private void OnMouseDrag()
     {
+        if (IsReadyToEat)
+        {
+            return;
+        }
+
         var _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.position = new Vector3(_mousePos.x, _mousePos.y, transform.position.z);
     }

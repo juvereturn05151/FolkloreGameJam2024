@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -16,12 +17,14 @@ public class Plate : MonoBehaviour
     {
         if (other.GetComponent<Food>() is Food food)
         {
-            _foodOnPlate = food;
-
-            if (_foodOnPlate != null)
+            if (_foodOnPlate == null)
             {
-                Debug.Log("_foodOnPlate" + _foodOnPlate.name);
-                OnFoodPlaced?.Invoke(_foodOnPlate); // Pass the food object as a parameter to the event
+                _foodOnPlate = food;
+                if (_foodOnPlate != null)
+                {
+                    SetFoodPosition(_foodOnPlate);
+                    OnFoodPlaced?.Invoke(_foodOnPlate); // Pass the food object as a parameter to the event
+                }
             }
         }
     }
@@ -32,5 +35,16 @@ public class Plate : MonoBehaviour
         {
             _foodOnPlate = null;
         }
+    }
+
+    public void SetFoodPosition(Food food)
+    {
+        food.transform.position = transform.position;
+        food.transform.SetParent(transform);
+        food.transform.localPosition = Vector3.zero;
+        food.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        food.GetComponent<Rigidbody2D>().gravityScale = 0;
+        food.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionY;
+        food.SetIsReadyToEat(true);
     }
 }
