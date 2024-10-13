@@ -29,6 +29,7 @@ public class Customer : MonoBehaviour
     private CustomerSpot _currentSpot;
 
     private bool _isEating;
+    private bool _isEatingRightFood = false;
 
     private void Start()
     {
@@ -44,6 +45,14 @@ public class Customer : MonoBehaviour
                 if (_currentPlate.FoodOnPlate.IsFinished) 
                 {
                     Eat(_currentPlate.FoodOnPlate);
+                    if (_isEatingRightFood)
+                    {
+                        Satisfy(_currentPlate.FoodOnPlate);
+                    }
+                    else 
+                    {
+                        Anger(_currentPlate.FoodOnPlate);
+                    }
                 }
             }
         }
@@ -52,6 +61,7 @@ public class Customer : MonoBehaviour
     public void SetPlate(Plate plate) 
     {
         _currentPlate = plate;
+        plate.SetIsOccupied(true);
         plate.OnFoodPlaced.AddListener(CheckFood); // Customer will check if it's the right food
     }
 
@@ -62,20 +72,19 @@ public class Customer : MonoBehaviour
 
     private void CheckFood(Food food)
     {
-        // Assume Food has a Menu reference (which could be linked to the in-game menu)
-        FoodType incomingMenu = food.Menu.FoodType; // Assuming Food has a 'Menu' reference
+        FoodType incomingMenu = food.Menu.FoodType; 
 
         // Check if the food is in the FavoriteMenu list
         foreach (var menuRating in _ghostType.FavoriteMenu)
         {
+            //Found Designated Food
             if (menuRating.Menu.FoodType == incomingMenu)
             {
-                Debug.Log("Favorite food detected! Score added: " + menuRating.Menu.Score);
-
-                _isEating = true;
-                //return menuRating.Menu.Score; // Positive score for favorite food
+                _isEatingRightFood = true;
             }
         }
+
+        //---Wrong Food----
 
         // Check if the food is in the UnfavoriteMenu list
         foreach (var menuRating in _ghostType.UnfavoriteMenu)
@@ -83,18 +92,15 @@ public class Customer : MonoBehaviour
             if (menuRating.Menu.FoodType == incomingMenu)
             {
                 Debug.Log("Unfavorite food detected! Score deducted: " + menuRating.Menu.Score);
-                //return menuRating.Menu.Score; // Negative score for unfavorite food
+                _isEatingRightFood = false;
             }
         }
 
-        // If not found in either list, return 0 (neutral score)
-        Debug.Log("Neutral food. No score change.");
-        //return 0f;
+        _isEating = true;
     }
 
-    void Eat(Food food) 
+    private void Satisfy(Food food) 
     {
-        Destroy(food.gameObject);
         if (onEatRightFood != null)
         {
             onEatRightFood.Invoke(null);
@@ -103,5 +109,16 @@ public class Customer : MonoBehaviour
         {
             onLeaveRestaurant.Invoke(_currentSpot);
         }
+    }
+
+    private void Anger(Food food) 
+    {
+        //Reduce score, anger the customer ,and whatever here
+    }
+
+    private void Eat(Food food) 
+    {
+        _currentPlate.SetIsOccupied(false);
+        Destroy(food.gameObject);
     }
 }

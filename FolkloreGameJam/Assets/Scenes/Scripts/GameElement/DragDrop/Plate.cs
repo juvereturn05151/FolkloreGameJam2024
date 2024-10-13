@@ -13,38 +13,34 @@ public class Plate : MonoBehaviour
     private Food _foodOnPlate;
     public Food FoodOnPlate => _foodOnPlate;
 
+    private bool _isOccupied = false;
+    public bool IsOccupied => _isOccupied;
+
+    public void SetIsOccupied(bool occupy) 
+    {
+        _isOccupied = occupy;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.GetComponent<Food>() is Food food)
         {
-            if (_foodOnPlate == null)
-            {
-                _foodOnPlate = food;
-                if (_foodOnPlate != null)
-                {
-                    SetFoodPosition(_foodOnPlate);
-                    OnFoodPlaced?.Invoke(_foodOnPlate); // Pass the food object as a parameter to the event
-                }
-            }
+            PrepareToEat(food);
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    public void PrepareToEat(Food food) 
     {
-        if (other.GetComponent<Food>())
+        if (!IsOccupied) 
         {
-            _foodOnPlate = null;
+            return;
         }
-    }
 
-    public void SetFoodPosition(Food food)
-    {
-        food.transform.position = transform.position;
-        food.transform.SetParent(transform);
-        food.transform.localPosition = Vector3.zero;
-        food.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        food.GetComponent<Rigidbody2D>().gravityScale = 0;
-        food.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionY;
-        food.SetIsReadyToEat(true);
+        if (_foodOnPlate == null)
+        {
+            _foodOnPlate = food;
+            _foodOnPlate.SetFoodToBeEaten(this);
+            OnFoodPlaced?.Invoke(_foodOnPlate); // Pass the food object as a parameter to the event
+        }
     }
 }

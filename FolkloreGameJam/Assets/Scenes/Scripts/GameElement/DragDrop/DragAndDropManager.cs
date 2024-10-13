@@ -6,6 +6,7 @@ public class DragAndDropManager : MonoBehaviour
 {
     public static DragAndDropManager Instance;
     
+    [SerializeField] private Food currentDraggingFood;
     public bool isDragging;
     
     public Food currentDraggingObject;
@@ -46,9 +47,9 @@ public class DragAndDropManager : MonoBehaviour
                 }
 
                 isDragging = true;
-                currentDraggingObject = food;
+                currentDraggingFood = food;
 
-                var _rb = currentDraggingObject.GetComponent<Rigidbody2D>();
+                var _rb = currentDraggingFood.GetComponent<Rigidbody2D>();
                 _rb.gravityScale = 0;
             }
            
@@ -67,19 +68,19 @@ public class DragAndDropManager : MonoBehaviour
         
         if (_hit.collider != null && _hit.collider.GetComponent<Plate>() is Plate plate)
         {
-            if (currentDraggingObject != null)
+            if (currentDraggingFood != null)
             {
-                plate.SetFoodPosition(currentDraggingObject);
+                plate.PrepareToEat(currentDraggingFood);
+                currentDraggingFood = null;
             }
-            currentDraggingObject = null;
         }
         else 
         {
-            if (currentDraggingObject == null) 
+            if (currentDraggingFood == null) 
             {
                 return;
             } 
-            var _rb = currentDraggingObject.GetComponent<Rigidbody2D>();
+            var _rb = currentDraggingFood.GetComponent<Rigidbody2D>();
             _rb.gravityScale = 1;
         }
        
