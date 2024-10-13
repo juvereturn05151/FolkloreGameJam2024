@@ -47,6 +47,7 @@ public class CustomerGenerator : MonoBehaviour
             Customer randomGhost = GetRandomCustomer(); // Get a random ghost from the list
             Customer newCustomer = Instantiate(randomGhost); // Instantiate the ghost
             emptySpot.SetCustomer(newCustomer); // Set the new customer in the spot
+            newCustomer.onLeaveRestaurant.AddListener(ClearCustomerSpot);
         }
         else
         {

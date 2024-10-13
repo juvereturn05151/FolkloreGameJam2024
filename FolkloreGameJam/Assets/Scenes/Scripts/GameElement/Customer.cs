@@ -7,6 +7,9 @@ using UnityEngine.Events;
 // Define the customer class
 public class Customer : MonoBehaviour
 {
+    [Serializable] public class LeaveRestaurant : UnityEvent<CustomerSpot> { }
+    public LeaveRestaurant onLeaveRestaurant;
+
     [Serializable] public class EatRightFood : UnityEvent<Customer> { }
     public EatRightFood onEatRightFood;
 
@@ -23,6 +26,7 @@ public class Customer : MonoBehaviour
     private SpriteRenderer _visual;
 
     private Plate _currentPlate;
+    private CustomerSpot _currentSpot;
 
     private bool _isEating;
 
@@ -49,6 +53,11 @@ public class Customer : MonoBehaviour
     {
         _currentPlate = plate;
         plate.OnFoodPlaced.AddListener(CheckFood); // Customer will check if it's the right food
+    }
+
+    public void SetSpot(CustomerSpot spot) 
+    {
+        _currentSpot = spot;
     }
 
     private void CheckFood(Food food)
@@ -89,6 +98,10 @@ public class Customer : MonoBehaviour
         if (onEatRightFood != null)
         {
             onEatRightFood.Invoke(null);
+        }
+        if (onLeaveRestaurant != null)
+        {
+            onLeaveRestaurant.Invoke(_currentSpot);
         }
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Customer;
 
 public class CustomerSpot : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class CustomerSpot : MonoBehaviour
             _customer.transform.parent = transform; // Parent the customer to this spot
             _customer.transform.localPosition = Vector3.zero; // Center the customer in the spot
             _customer.SetPlate(_plate);
+            _customer.SetSpot(this);
             _customer.onEatRightFood.AddListener(SetCustomer);
         }
         else
