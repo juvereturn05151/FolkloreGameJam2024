@@ -1,12 +1,10 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 public class CustomerGenerator : MonoBehaviour
 {
     [SerializeField]
-    private List<Customer> _possibleCustomers = new List<Customer>(); // List of possible ghost prefabs
+    private List<Customer> _possibleCustomers = new List<Customer>(); // List of possible customer prefabs
 
     [SerializeField]
     private List<CustomerSpot> _customerSpots = new List<CustomerSpot>(); // List of customer spots
@@ -14,25 +12,27 @@ public class CustomerGenerator : MonoBehaviour
     [SerializeField]
     private float _spawnInterval = 5f; // Interval between spawning customers
 
+    private float _spawnTimer; // Timer to track the spawn interval
     private bool _isGenerating = true; // Flag to control customer generation
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(GenerateCustomersRoutine());
+        _spawnTimer = _spawnInterval; // Initialize the spawn timer
     }
 
-    // Coroutine to generate customers at intervals
-    IEnumerator GenerateCustomersRoutine()
+    // Update is called once per frame
+    void Update()
     {
-        while (true)
+        if (_isGenerating)
         {
-            if (_isGenerating)
+            _spawnTimer -= Time.deltaTime; // Countdown the spawn timer
+
+            if (_spawnTimer <= 0f) // If the timer reaches zero
             {
                 GenerateRandomCustomer(); // Attempt to generate a customer
+                _spawnTimer = _spawnInterval; // Reset the spawn timer
             }
-
-            yield return new WaitForSeconds(_spawnInterval); // Wait for the next spawn interval
         }
     }
 
@@ -44,10 +44,10 @@ public class CustomerGenerator : MonoBehaviour
 
         if (emptySpot != null) // If there's an available spot
         {
-            Customer randomGhost = GetRandomCustomer(); // Get a random ghost from the list
-            Customer newCustomer = Instantiate(randomGhost); // Instantiate the ghost
+            Customer randomCustomer = GetRandomCustomer(); // Get a random customer from the list
+            Customer newCustomer = Instantiate(randomCustomer); // Instantiate the customer
             emptySpot.SetCustomer(newCustomer); // Set the new customer in the spot
-            newCustomer.onLeaveRestaurant.AddListener(ClearCustomerSpot);
+            newCustomer.onLeaveRestaurant.AddListener(ClearCustomerSpot); // Listen for when the customer leaves
         }
         else
         {
@@ -55,11 +55,11 @@ public class CustomerGenerator : MonoBehaviour
         }
     }
 
-    // Get a random ghost from the list of possible ghosts
+    // Get a random customer from the list of possible customers
     Customer GetRandomCustomer()
     {
         int randomIndex = Random.Range(0, _possibleCustomers.Count); // Pick a random index
-        return _possibleCustomers[randomIndex]; // Return the randomly selected ghost prefab
+        return _possibleCustomers[randomIndex]; // Return the randomly selected customer prefab
     }
 
     // Find an empty customer spot
@@ -79,7 +79,7 @@ public class CustomerGenerator : MonoBehaviour
     // Clear a customer spot and start generating customers again
     public void ClearCustomerSpot(CustomerSpot spot)
     {
-        spot.SetCustomer(null); // Clear the customer
-        _isGenerating = true; // Start generating customers again
+        spot.SetCustomer(null); // Clear the customer from the spot
+        _isGenerating = true; // Allow customer generation again
     }
 }

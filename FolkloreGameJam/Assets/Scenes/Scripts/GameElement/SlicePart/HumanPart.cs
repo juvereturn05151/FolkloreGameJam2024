@@ -1,7 +1,11 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class HumanPart : MonoBehaviour
 {
+    public UnityEvent OnPartDestroyed;
+
     public GameObject fruitSlicedPrefab;
     public float startForce = 15f;
 
@@ -20,6 +24,10 @@ public class HumanPart : MonoBehaviour
 
             GameObject slicedFruit = Instantiate(fruitSlicedPrefab, transform.position, Quaternion.identity);
             Destroy(gameObject);
+            if (OnPartDestroyed != null) 
+            {
+                OnPartDestroyed.Invoke();
+            }
         }
     }
 }
