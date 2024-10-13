@@ -6,6 +6,8 @@ public class HumanGenerator : MonoBehaviour
     private HumanBody humanPrefab; // Prefab for the human body
     [SerializeField] 
     private Transform spawnPoint; // Where the human will be spawned
+    [SerializeField]
+    private float firstSpawnTime = 2.0f;
     [SerializeField] 
     private float spawnInterval = 5f; // Time in seconds before trying to spawn again
 
@@ -15,7 +17,7 @@ public class HumanGenerator : MonoBehaviour
     void Start()
     {
         // Initialize the timer
-        spawnTimer = spawnInterval;
+        spawnTimer = firstSpawnTime;
     }
 
     void Update()
