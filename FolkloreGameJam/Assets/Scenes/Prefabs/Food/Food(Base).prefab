@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6984934733405998544}
   - component: {fileID: 3513860121264184696}
   m_Layer: 7
-  m_Name: Brain
+  m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 7426698367081530161}
   - component: {fileID: 8907604256687163379}
   m_Layer: 7
-  m_Name: Food
+  m_Name: Food(Base)
   m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
