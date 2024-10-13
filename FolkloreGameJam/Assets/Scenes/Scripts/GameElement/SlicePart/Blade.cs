@@ -17,6 +17,7 @@ public class Blade : MonoBehaviour
     Rigidbody2D rb;
     Camera cam;
     CircleCollider2D circleCollider;
+    public CircleCollider2D CircleCollider => circleCollider;
 
     void Start()
     {
@@ -49,17 +50,7 @@ public class Blade : MonoBehaviour
         Vector2 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
         rb.position = newPosition;
 
-        circleCollider.enabled = true;
-
-        // float velocity = (newPosition - previousPosition).magnitude * Time.deltaTime;
-        // if (velocity > minCuttingVelocity)
-        // {
-        //     circleCollider.enabled = true;
-        // }
-        // else
-        // {
-        //     circleCollider.enabled = false;
-        // }
+        circleCollider.enabled = !DragAndDropManager.Instance.isDragging;
 
         previousPosition = newPosition;
     }

@@ -4,13 +4,21 @@ using UnityEngine;
 
 public class DragAndDropManager : MonoBehaviour
 {
-    [SerializeField] private bool isDragging;
+    public static DragAndDropManager Instance;
     
-    [SerializeField] private Food currentDraggingObject;
+    public bool isDragging;
+    
+    public Food currentDraggingObject;
     
     [SerializeField] private LayerMask dragableLayer;
     [SerializeField] private LayerMask dropLayer;
-    
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -29,7 +37,7 @@ public class DragAndDropManager : MonoBehaviour
         {
             var _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             var _hit = Physics2D.Raycast(_ray.origin, _ray.direction, Mathf.Infinity, dragableLayer);
-
+            
             if (_hit.collider != null && _hit.collider.GetComponent<Food>() is Food food) 
             {
                 if (food.IsReadyToEat) 
@@ -56,7 +64,7 @@ public class DragAndDropManager : MonoBehaviour
         var _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D _hit = Physics2D.Raycast(_ray.origin, _ray.direction, Mathf.Infinity, dropLayer);
         isDragging = false;
-
+        
         if (_hit.collider != null && _hit.collider.GetComponent<Plate>() is Plate plate)
         {
             if (currentDraggingObject != null)
