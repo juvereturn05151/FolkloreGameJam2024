@@ -3,8 +3,7 @@ using static Customer;
 
 public class CustomerSpot : MonoBehaviour
 {
-    [SerializeField]
-    private Plate _plate;
+    [SerializeField] private Plate _plate;
 
     private Customer _customer;
 

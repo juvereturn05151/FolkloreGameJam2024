@@ -18,3 +18,5 @@ MonoBehaviour:
   - Menu: {fileID: 11400000, guid: 98a52210eff4ae241975b44ab5935b79, type: 2}
     Value: 3
   UnfavoriteMenu: []
+  possibleRequest:
+  - {fileID: 11400000, guid: 98a52210eff4ae241975b44ab5935b79, type: 2}

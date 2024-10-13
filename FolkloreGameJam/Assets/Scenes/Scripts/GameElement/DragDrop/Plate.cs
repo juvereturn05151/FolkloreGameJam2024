@@ -16,6 +16,9 @@ public class Plate : MonoBehaviour
     private bool _isOccupied = false;
     public bool IsOccupied => _isOccupied;
 
+    private Customer currentCustomer;
+    public Customer CurrentCustomer { get => currentCustomer; set => currentCustomer = value; }
+
     public void SetIsOccupied(bool occupy) 
     {
         _isOccupied = occupy;
@@ -25,7 +28,8 @@ public class Plate : MonoBehaviour
     {
         if (other.GetComponent<Food>() is Food food)
         {
-            PrepareToEat(food);
+            if(currentCustomer != null && currentCustomer.IsOrdering)
+                PrepareToEat(food);
         }
     }
 

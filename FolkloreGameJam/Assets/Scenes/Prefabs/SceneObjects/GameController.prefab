@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6918805832758136076}
   - component: {fileID: 2693336469859170802}
+  - component: {fileID: 232721953073803165}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -44,11 +45,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885df7c4880239e4a901f017c68e9de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentDraggingFood: {fileID: 0}
   isDragging: 0
-  currentDraggingObject: {fileID: 0}
   dragableLayer:
     serializedVersion: 2
     m_Bits: 128
   dropLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &232721953073803165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210839454063886907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b81dcc466bee2da4c8046eddccb3f7e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

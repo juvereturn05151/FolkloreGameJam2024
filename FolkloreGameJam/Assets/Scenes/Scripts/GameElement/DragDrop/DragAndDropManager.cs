@@ -9,8 +9,6 @@ public class DragAndDropManager : MonoBehaviour
     [SerializeField] private Food currentDraggingFood;
     public bool isDragging;
     
-    public Food currentDraggingObject;
-    
     [SerializeField] private LayerMask dragableLayer;
     [SerializeField] private LayerMask dropLayer;
 
@@ -19,13 +17,7 @@ public class DragAndDropManager : MonoBehaviour
         if (Instance == null)
             Instance = this;
     }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
+    
     // Update is called once per frame
     void Update()
     {
@@ -70,8 +62,16 @@ public class DragAndDropManager : MonoBehaviour
         {
             if (currentDraggingFood != null)
             {
-                plate.PrepareToEat(currentDraggingFood);
-                currentDraggingFood = null;
+                if (!plate.CurrentCustomer.IsOrdering)
+                {
+                    var _rb = currentDraggingFood.GetComponent<Rigidbody2D>();
+                    _rb.gravityScale = 1;
+                }
+                else
+                {
+                    plate.PrepareToEat(currentDraggingFood);
+                    currentDraggingFood = null;
+                }
             }
         }
         else 

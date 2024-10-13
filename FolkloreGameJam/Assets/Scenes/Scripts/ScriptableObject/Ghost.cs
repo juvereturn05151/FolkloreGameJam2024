@@ -10,6 +10,8 @@ public class Ghost : ScriptableObject
     public Sprite Sprite;
     public List<MenuRating> FavoriteMenu = new List<MenuRating>();
     public List<MenuRating> UnfavoriteMenu = new List<MenuRating>();
+
+    public List<Menu> possibleRequest = new List<Menu>();
 }
 
 [Serializable]
