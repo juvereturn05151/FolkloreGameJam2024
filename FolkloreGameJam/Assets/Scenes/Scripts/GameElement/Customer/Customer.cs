@@ -182,7 +182,7 @@ public class Customer : MonoBehaviour
         patienceSlider.DOValue(_decreaseValue, 1f).SetEase(Ease.OutSine);
         patienceSlider.gameObject.transform.DOShakePosition(1f, new Vector3(0.25f, 0.25f, 0));
 
-        foreach (var _menu in _ghostType.UnfavoriteMenu)
+        /*foreach (var _menu in _ghostType.UnfavoriteMenu)
         {
             if (food.Menu != _menu.Menu)
             {
@@ -193,8 +193,10 @@ public class Customer : MonoBehaviour
                 var _decreaseScore = food.Menu.Score * _menu.Value;
                 GameManager.Instance.DecreaseScore(_decreaseScore);
             }
-        }
-        
+        }*/
+        GameManager.Instance.DecreaseScore(15);
+
+
         _isEating = false;
     }
 
