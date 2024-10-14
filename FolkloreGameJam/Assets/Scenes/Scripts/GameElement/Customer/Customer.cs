@@ -110,7 +110,7 @@ public class Customer : MonoBehaviour
 
     private void GenerateFoodState() 
     {
-        int foodStateCount = Enum.GetValues(typeof(FoodState)).Length;
+        int foodStateCount = Enum.GetValues(typeof(FoodState)).Length - 1;
 
         // Generate a random index
         int randomIndex = Random.Range(0, foodStateCount);
