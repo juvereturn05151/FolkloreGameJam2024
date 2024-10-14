@@ -2,10 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+
+
 
 // Define the customer class
 public class Customer : MonoBehaviour
@@ -39,7 +42,9 @@ public class Customer : MonoBehaviour
 
     [SerializeField] private Slider patienceSlider;
     [SerializeField] private float decreasePatienceSpeed = 0.2f;
-    
+
+    [SerializeField] private TextMeshProUGUI _desiredDonenessText;
+
     #endregion
     
     private Dictionary<Menu, GameObject> menuOrder = new Dictionary<Menu, GameObject>();
@@ -48,6 +53,8 @@ public class Customer : MonoBehaviour
     public bool IsOrdering => isOrdering;
 
     private UnityAction OnAngry;
+
+    private FoodState _desiredFoodState;
 
     private void Start()
     {
@@ -59,8 +66,6 @@ public class Customer : MonoBehaviour
         if(!_isEatingRightFood)
             StartCoroutine(OrderThePlate());
 
-        // OnAngry += Anger;
-
         patienceSlider.onValueChanged.AddListener((_value) =>
         {
             if (_value <= 0)
@@ -68,6 +73,8 @@ public class Customer : MonoBehaviour
                 Anger();
             }
         });
+
+        GenerateFoodState();
     }
 
 
@@ -101,6 +108,17 @@ public class Customer : MonoBehaviour
         }
     }
 
+    private void GenerateFoodState() 
+    {
+        int foodStateCount = Enum.GetValues(typeof(FoodState)).Length;
+
+        // Generate a random index
+        int randomIndex = Random.Range(0, foodStateCount);
+
+        _desiredFoodState = (FoodState)randomIndex;
+        _desiredDonenessText.text = _desiredFoodState.ToString();
+    }
+
     public void SetPlate(Plate plate) 
     {
         _currentPlate = plate;
@@ -129,21 +147,15 @@ public class Customer : MonoBehaviour
             //Found Designated Food
             if (menuRating.Menu.FoodType == incomingMenu)
             {
-                _isEatingRightFood = true;
-                patienceSlider.DOValue(patienceSlider.value + menuRating.Value, 1f);
-            }
-        }
-
-        //---Wrong Food----
-
-        // Check if the food is in the UnfavoriteMenu list
-        foreach (var menuRating in _ghostType.UnfavoriteMenu)
-        {
-            if (menuRating.Menu.FoodType == incomingMenu)
-            {
-                // Debug.Log("Unfavorite food detected! Score deducted");
-                _isEatingRightFood = false;
-                // patienceSlider.DOValue(patienceSlider.value - menuRating.Value, 1f);
+                if (food.FoodState == _desiredFoodState)
+                {
+                    _isEatingRightFood = true;
+                    patienceSlider.DOValue(patienceSlider.value + menuRating.Value, 1f);
+                }
+                else 
+                {
+                    _isEatingRightFood = false;
+                }
             }
         }
 
@@ -182,19 +194,8 @@ public class Customer : MonoBehaviour
         patienceSlider.DOValue(_decreaseValue, 1f).SetEase(Ease.OutSine);
         patienceSlider.gameObject.transform.DOShakePosition(1f, new Vector3(0.25f, 0.25f, 0));
 
-        /*foreach (var _menu in _ghostType.UnfavoriteMenu)
-        {
-            if (food.Menu != _menu.Menu)
-            {
-                GameManager.Instance.DecreaseScore(food.Menu.Score);
-            }
-            else
-            {
-                var _decreaseScore = food.Menu.Score * _menu.Value;
-                GameManager.Instance.DecreaseScore(_decreaseScore);
-            }
-        }*/
         GameManager.Instance.DecreaseScore(15);
+        HPManager.Instance.TakeDamage(1);
 
 
         _isEating = false;
@@ -210,6 +211,7 @@ public class Customer : MonoBehaviour
     {
         yield return new WaitForSeconds(_orderTime);
         orderImageBG.DOFade(1f, 0.25f);
+        _desiredDonenessText.gameObject.SetActive(true);
         var _active = orderImageBG.gameObject.transform.DOMoveY(orderImageBG.transform.position.y + 0.5f, 0.25f).SetEase(Ease.InBounce);
         _active.OnComplete(() =>
         {

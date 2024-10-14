@@ -16,6 +16,7 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameOverHighScoreText;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI timeText;
+    [SerializeField] private TextMeshProUGUI hpText;
 
     private void Awake()
     {
@@ -44,6 +45,11 @@ public class GameplayUIManager : MonoBehaviour
             TimeManager.Instance.OnTimeChanged += UpdateTimeUI;
         }
 
+        if (HPManager.Instance != null) 
+        {
+            HPManager.Instance.OnHealthChanged += UpdateHP;
+        }
+
         // Initialize UI with the current score
         UpdateScoreUI(ScoreManager.Instance.GetCurrentScore());
     }
@@ -60,6 +66,11 @@ public class GameplayUIManager : MonoBehaviour
         {
             TimeManager.Instance.OnTimeChanged -= UpdateTimeUI;
         }
+
+        if (HPManager.Instance != null)
+        {
+            HPManager.Instance.OnHealthChanged -= UpdateHP;
+        }
     }
 
     // Callback to update the score UI
@@ -72,6 +83,11 @@ public class GameplayUIManager : MonoBehaviour
     private void UpdateTimeUI(string formattedTime)
     {
         timeText.text = "Time: " + formattedTime;
+    }
+
+    private void UpdateHP(int hp)
+    {
+        hpText.text = "HP: " + hp;
     }
 
     public void OnGameOver()

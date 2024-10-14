@@ -3,6 +3,15 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
+using TMPro;
+
+public enum FoodState
+{
+    Rare,
+    MediumRare,
+    WellDone,
+    Burnt
+}
 
 public class Food : MonoBehaviour
 {
@@ -16,6 +25,15 @@ public class Food : MonoBehaviour
     [SerializeField]
     private Rigidbody2D _rigidBody;
 
+    [SerializeField]
+    private TextMeshProUGUI _textState;
+
+    [SerializeField]
+    private float _rottenRime = 10.0f;
+
+    private FoodState _foodState = FoodState.Rare;
+    public FoodState FoodState => _foodState;
+
     private bool _isReadyToEat = false;
     public bool IsReadyToEat => _isReadyToEat;
     private bool _isFinished = false;
@@ -23,8 +41,8 @@ public class Food : MonoBehaviour
     private float _eatingTime = 10.0f;
 
     private bool isStartingRotten = false;
-    private float _rottenTime = 10.0f;
-    public float RottenTime => _rottenTime;
+    private float _currentRottenTime = 10.0f;
+    public float RottenTime => _currentRottenTime;
 
 
     private Color _initialColor;
@@ -52,16 +70,28 @@ public class Food : MonoBehaviour
         {
             if (isStartingRotten) 
             {
-                _rottenTime -= Time.deltaTime;
+                _currentRottenTime -= Time.deltaTime;
 
                 // Calculate the darkness factor based on the remaining rotten time
-                float darknessFactor = Mathf.Clamp01(_rottenTime / 10.0f); // Normalized value between 0 and 1
+                float darknessFactor = Mathf.Clamp01(_currentRottenTime / 10.0f); // Normalized value between 0 and 1
                 _renderer.color = Color.Lerp(Color.black, _initialColor, darknessFactor); // Interpolate between black and the initial color
 
-                if (_rottenTime <= 0)
+                if (_currentRottenTime <= 0)
                 {
-                    Destroy(this.gameObject);
+                    ChangeFoodState();
+                    _textState.text = _foodState.ToString(); ;
+
+                    if (_foodState == FoodState.Burnt)
+                    {
+                        Destroy(this.gameObject);
+                    }
+                    else 
+                    {
+                        _currentRottenTime = _rottenRime;
+                    }
                 }
+
+
             }
         }
     }
@@ -75,6 +105,14 @@ public class Food : MonoBehaviour
 
         var _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.position = new Vector3(_mousePos.x, _mousePos.y, transform.position.z);
+    }
+
+    private void ChangeFoodState() 
+    {
+        if (_foodState == FoodState.Burnt)
+            return;
+
+        _foodState++;
     }
 
     public void SetIsReadyToEat(bool isReadyToEat) 
