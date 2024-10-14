@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 // Define the customer class
 public class Customer : MonoBehaviour
@@ -47,6 +47,8 @@ public class Customer : MonoBehaviour
     private bool isOrdering = false;
     public bool IsOrdering => isOrdering;
 
+    private UnityAction OnAngry;
+
     private void Start()
     {
         _visual.sprite = _ghostType.Sprite;
@@ -56,17 +58,28 @@ public class Customer : MonoBehaviour
 
         if(!_isEatingRightFood)
             StartCoroutine(OrderThePlate());
+
+        // OnAngry += Anger;
+
+        patienceSlider.onValueChanged.AddListener((_value) =>
+        {
+            if (_value <= 0)
+            {
+                Anger();
+            }
+        });
     }
+
 
     private void Update()
     {
-        if (isOrdering)
+        if(GameManager.Instance.IsGameOver) return;
+        
+        if (isOrdering && !_isEating)
         {
+            if(patienceSlider.value <= 0) return;
             patienceSlider.value = Mathf.Lerp(patienceSlider.value, patienceSlider.value - 1, Time.deltaTime * decreasePatienceSpeed);
         }
-        
-        if(patienceSlider.value <= 0 && !_isEating)
-            Anger();
         
         if (_isEating) 
         {
@@ -117,6 +130,7 @@ public class Customer : MonoBehaviour
             if (menuRating.Menu.FoodType == incomingMenu)
             {
                 _isEatingRightFood = true;
+                patienceSlider.DOValue(patienceSlider.value + menuRating.Value, 1f);
             }
         }
 
@@ -127,8 +141,9 @@ public class Customer : MonoBehaviour
         {
             if (menuRating.Menu.FoodType == incomingMenu)
             {
-                Debug.Log("Unfavorite food detected! Score deducted: " + menuRating.Menu.Score);
+                // Debug.Log("Unfavorite food detected! Score deducted");
                 _isEatingRightFood = false;
+                // patienceSlider.DOValue(patienceSlider.value - menuRating.Value, 1f);
             }
         }
 
@@ -139,6 +154,8 @@ public class Customer : MonoBehaviour
     {
         if (onEatRightFood != null)
         {
+            var _scoreWithPatience = (food.Menu.Score + (int) patienceSlider.value); // if rotten 
+            GameManager.Instance.IncreaseScore(_scoreWithPatience);
             onEatRightFood.Invoke(null);
         }
         if (onLeaveRestaurant != null)
@@ -149,18 +166,43 @@ public class Customer : MonoBehaviour
 
     private void Anger()
     {
-        // Anger without eating food
-        print($"{_ghostType.Name} is Anger");
+        // Anger without eating food or patience is <= 0
+        //decrease health point or something with anger ghost
+        
+        GameManager.Instance.DecreaseHealth(1);
+        
+        _currentPlate.SetIsOccupied(false);
+        onLeaveRestaurant?.Invoke(_currentSpot);
     }
 
-    private void Anger(Food food) 
+    private void Anger(Food food)
     {
+        // anger if didn't eat the right food
         //Reduce score, anger the customer ,and whatever here
+        
+        var _decreaseValue = patienceSlider.value / 2; 
+        patienceSlider.DOValue(_decreaseValue, 1f).SetEase(Ease.OutSine);
+        patienceSlider.gameObject.transform.DOShakePosition(1f, new Vector3(0.25f, 0.25f, 0));
+
+        foreach (var _menu in _ghostType.UnfavoriteMenu)
+        {
+            if (food.Menu != _menu.Menu)
+            {
+                GameManager.Instance.DecreaseScore(food.Menu.Score);
+            }
+            else
+            {
+                var _decreaseScore = food.Menu.Score * _menu.Value;
+                GameManager.Instance.DecreaseScore(_decreaseScore);
+            }
+        }
+        
+        _isEating = false;
     }
 
     private void Eat(Food food) 
     {
-        _currentPlate.SetIsOccupied(false);
+        // _currentPlate.SetIsOccupied(false);
         Destroy(food.gameObject);
     }
 
@@ -171,11 +213,11 @@ public class Customer : MonoBehaviour
         var _active = orderImageBG.gameObject.transform.DOMoveY(orderImageBG.transform.position.y + 0.5f, 0.25f).SetEase(Ease.InBounce);
         _active.OnComplete(() =>
         {
-            foreach (var _request in _ghostType.possibleRequest)
+            foreach (var _request in _ghostType.FavoriteMenu)
             {
                 var _order = Instantiate(orderPrefab, content);
-                _order.sprite = _request.Sprite;
-                menuOrder.Add(_request, _order.gameObject);
+                _order.sprite = _request.Menu.Sprite;
+                menuOrder.Add(_request.Menu, _order.gameObject);
                 isOrdering = true;
                 patienceSlider.gameObject.transform.DOScaleY( 1f, 0.25f);
             }

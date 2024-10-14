@@ -24,6 +24,8 @@ public class CustomerGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(GameManager.Instance.IsGameOver) return;
+        
         if (_isGenerating)
         {
             _spawnTimer -= Time.deltaTime; // Countdown the spawn timer

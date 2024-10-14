@@ -14,5 +14,5 @@ public class Menu : ScriptableObject
     [Header("Menu Properties")]
     public FoodType FoodType;
     public Sprite Sprite;
-    public float Score;
+    public int Score;
 }

@@ -10,10 +10,10 @@ public class Plate : MonoBehaviour
     [Serializable] public class FoodPlacedEvent : UnityEvent<Food> { }
     public FoodPlacedEvent OnFoodPlaced;
 
-    private Food _foodOnPlate;
+    [SerializeField] private Food _foodOnPlate;
     public Food FoodOnPlate => _foodOnPlate;
 
-    private bool _isOccupied = false;
+    [SerializeField]private bool _isOccupied = false;
     public bool IsOccupied => _isOccupied;
 
     private Customer currentCustomer;

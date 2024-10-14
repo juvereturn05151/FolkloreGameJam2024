@@ -60,24 +60,24 @@ public class DragAndDropManager : MonoBehaviour
         
         if (_hit.collider != null && _hit.collider.GetComponent<Plate>() is Plate plate)
         {
-            if (currentDraggingFood != null)
+            if (currentDraggingFood == null) return;
+            
+            if (!plate.CurrentCustomer.IsOrdering)
             {
-                if (!plate.CurrentCustomer.IsOrdering)
-                {
-                    var _rb = currentDraggingFood.GetComponent<Rigidbody2D>();
-                    _rb.gravityScale = 1;
-                }
-                else
-                {
-                    plate.PrepareToEat(currentDraggingFood);
-                    currentDraggingFood = null;
-                }
+                print("test");
+                var _rb = currentDraggingFood.GetComponent<Rigidbody2D>();
+                _rb.gravityScale = 1;
+            }
+            else
+            {
+                plate.PrepareToEat(currentDraggingFood);
+                currentDraggingFood = null;
             }
         }
         else 
         {
             if (currentDraggingFood == null) 
-            {
+            { 
                 return;
             } 
             var _rb = currentDraggingFood.GetComponent<Rigidbody2D>();

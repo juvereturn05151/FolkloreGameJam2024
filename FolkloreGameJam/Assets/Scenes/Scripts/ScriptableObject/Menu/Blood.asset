@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FoodType: 1
   Sprite: {fileID: 21300000, guid: 0440f1c2a6c8432429cc1eaa161b60e5, type: 3}
-  Score: 0
+  Score: 5

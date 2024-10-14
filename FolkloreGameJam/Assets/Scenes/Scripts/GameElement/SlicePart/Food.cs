@@ -24,6 +24,7 @@ public class Food : MonoBehaviour
 
     private bool isStartingRotten = false;
     private float _rottenTime = 10.0f;
+    public float RottenTime => _rottenTime;
 
 
     private Color _initialColor;

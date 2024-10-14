@@ -17,6 +17,5 @@ MonoBehaviour:
   FavoriteMenu:
   - Menu: {fileID: 11400000, guid: 08d3ea487308d614f83bf24208c4d045, type: 2}
     Value: 1
+    RandomRange: 1
   UnfavoriteMenu: []
-  possibleRequest:
-  - {fileID: 11400000, guid: 08d3ea487308d614f83bf24208c4d045, type: 2}

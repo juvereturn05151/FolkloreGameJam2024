@@ -10,8 +10,6 @@ public class Ghost : ScriptableObject
     public Sprite Sprite;
     public List<MenuRating> FavoriteMenu = new List<MenuRating>();
     public List<MenuRating> UnfavoriteMenu = new List<MenuRating>();
-
-    public List<Menu> possibleRequest = new List<Menu>();
 }
 
 [Serializable]
@@ -22,4 +20,7 @@ public class MenuRating
     [Tooltip("If likes this menu will + (score / patience ??) by value but if dislike then the (score / patience) will be - by value")]
     [Range(0, 10)]
     public int Value;
+
+    [Range(1, 10)]
+    public int RandomRange;
 }
