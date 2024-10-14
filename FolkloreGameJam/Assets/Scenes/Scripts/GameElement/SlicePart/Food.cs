@@ -1,9 +1,11 @@
 using System;
+using DG.Tweening;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using TMPro;
+using UnityEngine.UI;
 
 public enum FoodState
 {
@@ -28,8 +30,9 @@ public class Food : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _textState;
 
-    [SerializeField]
-    private float _rottenRime = 10.0f;
+    [SerializeField] private float _rottenTime = 10.0f;
+
+    [SerializeField] private Slider rottenSlider;
 
     private FoodState _foodState = FoodState.Rare;
     public FoodState FoodState => _foodState;
@@ -56,8 +59,15 @@ public class Food : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        rottenSlider.maxValue = _rottenTime;
+        rottenSlider.value = rottenSlider.maxValue;
+    }
+
     private void Update()
     {
+        
         if (_isReadyToEat)
         {
             _eatingTime -= Time.deltaTime;
@@ -71,15 +81,17 @@ public class Food : MonoBehaviour
             if (isStartingRotten) 
             {
                 _currentRottenTime -= Time.deltaTime;
-
+                rottenSlider.value = Mathf.Lerp(rottenSlider.value, _currentRottenTime, Time.deltaTime);
+                
                 // Calculate the darkness factor based on the remaining rotten time
                 float darknessFactor = Mathf.Clamp01(_currentRottenTime / 10.0f); // Normalized value between 0 and 1
                 _renderer.color = Color.Lerp(Color.black, _initialColor, darknessFactor); // Interpolate between black and the initial color
 
                 if (_currentRottenTime <= 0)
                 {
+                    if(rottenSlider.value > 0) return;
                     ChangeFoodState();
-                    _textState.text = _foodState.ToString(); ;
+                    _textState.text = _foodState.ToString();
 
                     if (_foodState == FoodState.Burnt)
                     {
@@ -87,11 +99,10 @@ public class Food : MonoBehaviour
                     }
                     else 
                     {
-                        _currentRottenTime = _rottenRime;
+                        _currentRottenTime = _rottenTime;
+                        rottenSlider.DOValue(_currentRottenTime, 0.25f).SetEase(Ease.InQuart);
                     }
                 }
-
-
             }
         }
     }
