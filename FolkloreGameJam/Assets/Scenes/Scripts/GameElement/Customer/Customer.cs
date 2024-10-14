@@ -166,6 +166,7 @@ public class Customer : MonoBehaviour
     {
         if (onEatRightFood != null)
         {
+            print("on eat right food");
             var _scoreWithPatience = (food.Menu.Score + (int) patienceSlider.value); // if rotten 
             GameManager.Instance.IncreaseScore(_scoreWithPatience);
             onEatRightFood.Invoke(null);
@@ -189,7 +190,6 @@ public class Customer : MonoBehaviour
     {
         // anger if didn't eat the right food
         //Reduce score, anger the customer ,and whatever here
-        
         var _decreaseValue = patienceSlider.value / 2; 
         patienceSlider.DOValue(_decreaseValue, 1f).SetEase(Ease.OutSine);
         patienceSlider.gameObject.transform.DOShakePosition(1f, new Vector3(0.25f, 0.25f, 0));

@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     public void DecreaseScore(int _value)
     {
-        ScoreManager.Instance.AddScore(_value);
+        ScoreManager.Instance.AddScore(-_value);
     }
 
     #endregion
