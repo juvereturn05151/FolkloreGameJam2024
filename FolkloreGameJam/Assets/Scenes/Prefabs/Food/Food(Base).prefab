@@ -348,7 +348,7 @@ MonoBehaviour:
   _renderer: {fileID: 3513860121264184696}
   _rigidBody: {fileID: 7337258793320886352}
   _textState: {fileID: 869634190030506136}
-  _rottenRime: 5
+  _rottenRime: 2.5
 --- !u!1 &8552798871397236092
 GameObject:
   m_ObjectHideFlags: 0
