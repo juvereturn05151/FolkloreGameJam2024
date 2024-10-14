@@ -169,8 +169,6 @@ public class Customer : MonoBehaviour
         // Anger without eating food or patience is <= 0
         //decrease health point or something with anger ghost
         
-        GameManager.Instance.DecreaseHealth(1);
-        
         _currentPlate.SetIsOccupied(false);
         onLeaveRestaurant?.Invoke(_currentSpot);
     }

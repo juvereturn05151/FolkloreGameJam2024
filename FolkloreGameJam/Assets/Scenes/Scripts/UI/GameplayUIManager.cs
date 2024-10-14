@@ -14,6 +14,8 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TextMeshProUGUI gameOverScoreText;
     [SerializeField] private TextMeshProUGUI gameOverHighScoreText;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI timeText;
 
     private void Awake()
     {
@@ -28,22 +30,61 @@ public class GameplayUIManager : MonoBehaviour
             ghostAngerFeedback.PlayFeedbacks();
         };
         
-        GameManager.Instance.MaxScore = PlayerPrefs.GetInt("HighScore", 0);
-        gameOverHighScoreText.text = $"High Score: {GameManager.Instance.MaxScore}";
+        gameOverHighScoreText.text = $"High Score: {ScoreManager.Instance.GetHighScore()}";
+
+        // Subscribe to ScoreManager's score changed event
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.OnScoreChanged += UpdateScoreUI;
+        }
+
+        // Subscribe to TimeManager's time changed event
+        if (TimeManager.Instance != null)
+        {
+            TimeManager.Instance.OnTimeChanged += UpdateTimeUI;
+        }
+
+        // Initialize UI with the current score
+        UpdateScoreUI(ScoreManager.Instance.GetCurrentScore());
+    }
+
+    private void OnDestroy()
+    {
+        // Unsubscribe from events to prevent memory leaks
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.OnScoreChanged -= UpdateScoreUI;
+        }
+
+        if (TimeManager.Instance != null)
+        {
+            TimeManager.Instance.OnTimeChanged -= UpdateTimeUI;
+        }
+    }
+
+    // Callback to update the score UI
+    private void UpdateScoreUI(int newScore)
+    {
+        scoreText.text = "Score: " + newScore;
+    }
+
+    // Callback to update the time UI
+    private void UpdateTimeUI(string formattedTime)
+    {
+        timeText.text = "Time: " + formattedTime;
     }
 
     public void OnGameOver()
     {
         gameOverPanel.SetActive(true);
         
-        var _currentScore = GameManager.Instance.CurrentScore;
+        var _currentScore = ScoreManager.Instance.GetCurrentScore();
         // var _maxScore = GameManager.Instance.MaxScore;
         gameOverScoreText.text = $"Score: {_currentScore}";
-        if (_currentScore >= GameManager.Instance.MaxScore)
+        if (_currentScore >= ScoreManager.Instance.GetHighScore())
         {
-            GameManager.Instance.MaxScore = _currentScore;
-            PlayerPrefs.SetInt("HighScore", GameManager.Instance.MaxScore);
+            PlayerPrefs.SetInt("HighScore", _currentScore);
         }
-        gameOverHighScoreText.text = $"High Score: {GameManager.Instance.MaxScore}";
+        gameOverHighScoreText.text = $"High Score: {_currentScore}";
     }
 }
