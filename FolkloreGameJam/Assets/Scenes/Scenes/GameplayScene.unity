@@ -1610,25 +1610,9 @@ PrefabInstance:
       propertyPath: ghostAngerFeedback
       value: 
       objectReference: {fileID: 614072038}
-    - target: {fileID: 1455051503256870438, guid: 3e5efccf1005ce0429306f973857ade9, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 325.42
-      objectReference: {fileID: 0}
-    - target: {fileID: 1455051503256870438, guid: 3e5efccf1005ce0429306f973857ade9, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 15.09
-      objectReference: {fileID: 0}
     - target: {fileID: 3289484873757203815, guid: 3e5efccf1005ce0429306f973857ade9, type: 3}
       propertyPath: m_Name
       value: GameplayUICanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 5051934378717248644, guid: 3e5efccf1005ce0429306f973857ade9, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 247.62
-      objectReference: {fileID: 0}
-    - target: {fileID: 5051934378717248644, guid: 3e5efccf1005ce0429306f973857ade9, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -23.809982
       objectReference: {fileID: 0}
     - target: {fileID: 5412440935316901115, guid: 3e5efccf1005ce0429306f973857ade9, type: 3}
       propertyPath: m_Camera
