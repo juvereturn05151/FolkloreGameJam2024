@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using MoreMountains.Feedbacks;
 
 public class HPManager : MonoBehaviour
 {
@@ -30,6 +31,12 @@ public class HPManager : MonoBehaviour
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health does not go below 0
         OnHealthChanged?.Invoke(currentHealth); // Notify UI of health change
+        
+        GameplayUIManager.Instance.OnGhostAnger?.Invoke();
+        if (currentHealth <= 0)
+        {
+            GameplayUIManager.Instance.OnGameOver();
+        }
     }
 
     // Method to heal the player

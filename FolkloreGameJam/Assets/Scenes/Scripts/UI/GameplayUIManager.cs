@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using MoreMountains.Feedbacks;
 using TMPro;
 using UnityEngine;
@@ -29,6 +30,7 @@ public class GameplayUIManager : MonoBehaviour
         OnGhostAnger += () =>
         {
             ghostAngerFeedback.PlayFeedbacks();
+            Camera.main.DOShakePosition(0.5f, 1f);
         };
         
         gameOverHighScoreText.text = $"High Score: {ScoreManager.Instance.GetHighScore()}";

@@ -198,8 +198,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 2.0029}
-  m_SizeDelta: {x: 5, y: 0.5542}
+  m_AnchoredPosition: {x: 0.0393, y: 1.63}
+  m_SizeDelta: {x: 3.6332, y: 0.3616}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &438762025342147655
 MonoBehaviour:
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.101
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -649,7 +649,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: 311982861
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &4771527483159231562

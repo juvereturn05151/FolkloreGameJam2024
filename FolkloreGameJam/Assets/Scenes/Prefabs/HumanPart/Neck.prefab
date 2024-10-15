@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 3754438026101494723, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: a933cb46402604245bcb78f720eac267, type: 3}
+      objectReference: {fileID: 2120205388, guid: 36d707b2356c4274ea0e5c2a52e78c1e, type: 3}
     - target: {fileID: 4275624120517581302, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: m_Name
       value: Neck
