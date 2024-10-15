@@ -54,6 +54,7 @@ public class Food : MonoBehaviour
     {
         if (!_isReadyToEat) 
         {
+            _currentRottenTime = _rottenTime; 
             _initialColor = _renderer.color;
             isStartingRotten = true;
         }
@@ -95,6 +96,7 @@ public class Food : MonoBehaviour
 
                     if (_foodState == FoodState.Burnt)
                     {
+                        CustomerGenerator.Instance.PissCustomer();
                         Destroy(this.gameObject);
                     }
                     else 
