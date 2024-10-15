@@ -140,6 +140,8 @@ public class Food : MonoBehaviour
         _rigidBody.gravityScale = 0;
         _rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX;
         _isReadyToEat = true;
+        
+        rottenSlider.gameObject.SetActive(false);
     }
 }
 

@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: fruitSlicedPrefab
       value: 
       objectReference: {fileID: 2417688765679808340, guid: c55666ba8405ed84c87205ae976d770e, type: 3}
+    - target: {fileID: 3754438026101494723, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -482551137, guid: 6ffd6e4185a37e4429f858fc4ed6f950, type: 3}
     - target: {fileID: 4275624120517581302, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: m_Name
       value: Head

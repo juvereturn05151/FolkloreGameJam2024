@@ -168,7 +168,6 @@ public class Customer : MonoBehaviour
     {
         if (onEatRightFood != null)
         {
-            print("on eat right food");
             var _scoreWithPatience = (food.Menu.Score + (int) patienceSlider.value); // if rotten 
             GameManager.Instance.IncreaseScore(_scoreWithPatience);
             onEatRightFood.Invoke(null);
@@ -184,6 +183,8 @@ public class Customer : MonoBehaviour
         // Anger without eating food or patience is <= 0
         //decrease health point or something with anger ghost
         
+        HPManager.Instance.TakeDamage(1);
+        GameManager.Instance.DecreaseScore(15);
         _currentPlate.SetIsOccupied(false);
         onLeaveRestaurant?.Invoke(_currentSpot);
     }
@@ -195,9 +196,10 @@ public class Customer : MonoBehaviour
         var _decreaseValue = patienceSlider.value / 2; 
         patienceSlider.DOValue(_decreaseValue, 1f).SetEase(Ease.OutSine);
         patienceSlider.gameObject.transform.DOShakePosition(1f, new Vector3(0.25f, 0.25f, 0));
+        Camera.main.DOShakePosition(0.5f, 1f);
 
         GameManager.Instance.DecreaseScore(15);
-        HPManager.Instance.TakeDamage(1);
+        // HPManager.Instance.TakeDamage(1);
 
 
         _isEating = false;
