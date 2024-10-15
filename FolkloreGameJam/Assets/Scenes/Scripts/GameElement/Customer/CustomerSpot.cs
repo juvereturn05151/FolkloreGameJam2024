@@ -6,6 +6,7 @@ public class CustomerSpot : MonoBehaviour
     [SerializeField] private Plate _plate;
 
     private Customer _customer;
+    public Customer Customer => _customer;
 
     // Set a customer in this spot
     public void SetCustomer(Customer customer)

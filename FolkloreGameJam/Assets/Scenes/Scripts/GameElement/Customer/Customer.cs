@@ -13,6 +13,7 @@ using Random = UnityEngine.Random;
 // Define the customer class
 public class Customer : MonoBehaviour
 {
+
     [Serializable] public class LeaveRestaurant : UnityEvent<CustomerSpot> { }
     public LeaveRestaurant onLeaveRestaurant;
 
@@ -30,6 +31,7 @@ public class Customer : MonoBehaviour
     private CustomerSpot _currentSpot;
 
     private bool _isEating;
+    public bool IsEating => _isEating;
     private bool _isEatingRightFood = false;
 
     #region -Customer Canvas-
@@ -41,6 +43,7 @@ public class Customer : MonoBehaviour
     [SerializeField] private Transform content;
 
     [SerializeField] private Slider patienceSlider;
+    public Slider PatienceSlider => patienceSlider;
     [SerializeField] private float decreasePatienceSpeed = 0.2f;
 
     [SerializeField] private TextMeshProUGUI _desiredDonenessText;
