@@ -4821,7 +4821,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5095431263341628762}
   m_Layer: 0
-  m_Name: vfx_Blood01_Version02
+  m_Name: VFX_Blood3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
