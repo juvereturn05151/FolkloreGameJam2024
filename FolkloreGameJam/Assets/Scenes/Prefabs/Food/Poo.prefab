@@ -107,15 +107,15 @@ PrefabInstance:
     - target: {fileID: 8907604256687163379, guid: 5eb6c19b6942fe245bd1c95ff1dafd43, type: 3}
       propertyPath: _textState
       value: 
-      objectReference: {fileID: 1585015652298151451}
+      objectReference: {fileID: 4657059616619764050}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5eb6c19b6942fe245bd1c95ff1dafd43, type: 3}
---- !u!114 &1585015652298151451 stripped
+--- !u!114 &4657059616619764050 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 869634190030506136, guid: 5eb6c19b6942fe245bd1c95ff1dafd43, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6435547018710992849, guid: 5eb6c19b6942fe245bd1c95ff1dafd43, type: 3}
   m_PrefabInstance: {fileID: 1868594613987040899}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
