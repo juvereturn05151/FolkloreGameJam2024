@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool isGameOver;
     public bool IsGameOver => isGameOver;
 
+    [SerializeField] private MMF_Player increaseScoreFeedback;
+    [SerializeField] private MMF_Player decreaseScoreFeedback;
+
     private void Awake()
     {
         if(Instance == null)
@@ -28,11 +31,13 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseScore(int _value)
     {
+        increaseScoreFeedback.PlayFeedbacks();
         ScoreManager.Instance.AddScore(_value);
     }
 
     public void DecreaseScore(int _value)
     {
+        decreaseScoreFeedback.PlayFeedbacks();
         ScoreManager.Instance.AddScore(-_value);
     }
 
