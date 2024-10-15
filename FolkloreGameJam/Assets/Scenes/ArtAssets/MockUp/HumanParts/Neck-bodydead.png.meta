@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 36d707b2356c4274ea0e5c2a52e78c1e
+guid: e040c665a4a01144c89df267379eb386
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Neck-bodydead_0
+      name: Neck-bodydead_edit 1_0
       rect:
         serializedVersion: 2
-        x: 425
-        y: 1178
-        width: 241
-        height: 200
+        x: 423
+        y: 1172
+        width: 247
+        height: 209
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -138,8 +138,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 91d042cd90f34ba459b8443c9f639741
-      internalID: 2120205388
+      spriteID: 076b2eca247ecd54ead3b15280202ae4
+      internalID: -1646152292
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 71043a182fedc1b4794b4aff05a24367
+    spriteID: b65990da8e4fc8647b38b3fb76a86d20
     internalID: 0
     vertices: []
     indices: 
@@ -156,7 +156,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Neck-bodydead_0: 2120205388
+      Neck-bodydead_edit 1_0: -1646152292
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
