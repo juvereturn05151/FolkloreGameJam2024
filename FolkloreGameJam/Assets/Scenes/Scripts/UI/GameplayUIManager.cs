@@ -30,7 +30,7 @@ public class GameplayUIManager : MonoBehaviour
         OnGhostAnger += () =>
         {
             ghostAngerFeedback.PlayFeedbacks();
-            Camera.main.DOShakePosition(0.5f, 1f);
+            Camera.main.DOShakePosition(0.5f, 2f);
         };
         
         gameOverHighScoreText.text = $"High Score: {ScoreManager.Instance.GetHighScore()}";
