@@ -86,7 +86,7 @@ public class Food : MonoBehaviour
                 
                 // Calculate the darkness factor based on the remaining rotten time
                 float darknessFactor = Mathf.Clamp01(_currentRottenTime / 10.0f); // Normalized value between 0 and 1
-                _renderer.color = Color.Lerp(Color.black, _initialColor, darknessFactor); // Interpolate between black and the initial color
+               // _renderer.color = Color.Lerp(Color.black, _initialColor, darknessFactor); // Interpolate between black and the initial color
 
                 if (_currentRottenTime <= 0)
                 {
