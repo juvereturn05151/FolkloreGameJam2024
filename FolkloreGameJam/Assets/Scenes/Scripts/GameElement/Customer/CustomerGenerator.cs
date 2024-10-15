@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class CustomerGenerator : MonoBehaviour
 {
+    public static CustomerGenerator Instance { get; private set; }
+
     [SerializeField]
     private List<Customer> _possibleCustomers = new List<Customer>(); // List of possible customer prefabs
 
@@ -14,6 +16,14 @@ public class CustomerGenerator : MonoBehaviour
 
     private float _spawnTimer; // Timer to track the spawn interval
     private bool _isGenerating = true; // Flag to control customer generation
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -83,5 +93,20 @@ public class CustomerGenerator : MonoBehaviour
     {
         spot.SetCustomer(null); // Clear the customer from the spot
         _isGenerating = true; // Allow customer generation again
+    }
+
+    public void PissCustomer() 
+    {
+        foreach (CustomerSpot spot in _customerSpots) 
+        {
+            if (spot.HasCustomer() && spot.Customer != null) 
+            {
+                if (!spot.Customer.IsEating) 
+                {
+                    spot.Customer.PatienceSlider.value -= 10.0f;
+                }
+            }
+            
+        }
     }
 }

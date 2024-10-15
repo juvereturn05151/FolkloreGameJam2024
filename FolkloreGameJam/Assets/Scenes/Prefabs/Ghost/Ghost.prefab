@@ -149,6 +149,7 @@ MonoBehaviour:
   content: {fileID: 7159634608702559576}
   patienceSlider: {fileID: 3528628809251297966}
   decreasePatienceSpeed: 0.5
+  _desiredDonenessText: {fileID: 5944748879288458848}
 --- !u!1001 &3880152402864277133
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -157,18 +158,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7686870930031496268}
     m_Modifications:
-    - target: {fileID: 369619773152599075, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
-      propertyPath: m_Value
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 369619773152599075, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
-      propertyPath: m_Transition
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 369619773152599075, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
-      propertyPath: m_Interactable
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4339513113420161587, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -253,28 +242,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 6082060552533242484, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6234446103766733781, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6234446103766733781, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6691529037428541085, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6691529037428541085, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6691529037428541085, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
-      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -307,6 +276,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5944748879288458848 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7468920461778835693, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
+  m_PrefabInstance: {fileID: 3880152402864277133}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &7159634608702559576 stripped

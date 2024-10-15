@@ -2,14 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
+
+
 // Define the customer class
 public class Customer : MonoBehaviour
 {
+
     [Serializable] public class LeaveRestaurant : UnityEvent<CustomerSpot> { }
     public LeaveRestaurant onLeaveRestaurant;
 
@@ -27,6 +31,7 @@ public class Customer : MonoBehaviour
     private CustomerSpot _currentSpot;
 
     private bool _isEating;
+    public bool IsEating => _isEating;
     private bool _isEatingRightFood = false;
 
     #region -Customer Canvas-
@@ -38,8 +43,11 @@ public class Customer : MonoBehaviour
     [SerializeField] private Transform content;
 
     [SerializeField] private Slider patienceSlider;
+    public Slider PatienceSlider => patienceSlider;
     [SerializeField] private float decreasePatienceSpeed = 0.2f;
-    
+
+    [SerializeField] private TextMeshProUGUI _desiredDonenessText;
+
     #endregion
     
     private Dictionary<Menu, GameObject> menuOrder = new Dictionary<Menu, GameObject>();
@@ -49,17 +57,19 @@ public class Customer : MonoBehaviour
 
     private UnityAction OnAngry;
 
+    private FoodState _desiredFoodState;
+
     private void Start()
     {
         _visual.sprite = _ghostType.Sprite;
-        
-        patienceSlider.maxValue = _patience;
-        patienceSlider.value = _patience;
+
+        GenerateFoodState();
+
+        patienceSlider.maxValue = _patience * ((int)_desiredFoodState + 1);
+        patienceSlider.value = _patience * ((int)_desiredFoodState + 1);
 
         if(!_isEatingRightFood)
             StartCoroutine(OrderThePlate());
-
-        // OnAngry += Anger;
 
         patienceSlider.onValueChanged.AddListener((_value) =>
         {
@@ -68,6 +78,8 @@ public class Customer : MonoBehaviour
                 Anger();
             }
         });
+
+
     }
 
 
@@ -101,6 +113,17 @@ public class Customer : MonoBehaviour
         }
     }
 
+    private void GenerateFoodState() 
+    {
+        int foodStateCount = Enum.GetValues(typeof(FoodState)).Length - 1;
+
+        // Generate a random index
+        int randomIndex = Random.Range(0, foodStateCount);
+
+        _desiredFoodState = (FoodState)randomIndex;
+        _desiredDonenessText.text = _desiredFoodState.ToString();
+    }
+
     public void SetPlate(Plate plate) 
     {
         _currentPlate = plate;
@@ -129,21 +152,15 @@ public class Customer : MonoBehaviour
             //Found Designated Food
             if (menuRating.Menu.FoodType == incomingMenu)
             {
-                _isEatingRightFood = true;
-                patienceSlider.DOValue(patienceSlider.value + menuRating.Value, 1f);
-            }
-        }
-
-        //---Wrong Food----
-
-        // Check if the food is in the UnfavoriteMenu list
-        foreach (var menuRating in _ghostType.UnfavoriteMenu)
-        {
-            if (menuRating.Menu.FoodType == incomingMenu)
-            {
-                // Debug.Log("Unfavorite food detected! Score deducted");
-                _isEatingRightFood = false;
-                // patienceSlider.DOValue(patienceSlider.value - menuRating.Value, 1f);
+                if (food.FoodState == _desiredFoodState)
+                {
+                    _isEatingRightFood = true;
+                    patienceSlider.DOValue(patienceSlider.value + menuRating.Value, 1f);
+                }
+                else 
+                {
+                    _isEatingRightFood = false;
+                }
             }
         }
 
@@ -169,6 +186,8 @@ public class Customer : MonoBehaviour
         // Anger without eating food or patience is <= 0
         //decrease health point or something with anger ghost
         
+        HPManager.Instance.TakeDamage(1);
+        GameManager.Instance.DecreaseScore(15);
         _currentPlate.SetIsOccupied(false);
         onLeaveRestaurant?.Invoke(_currentSpot);
     }
@@ -177,24 +196,15 @@ public class Customer : MonoBehaviour
     {
         // anger if didn't eat the right food
         //Reduce score, anger the customer ,and whatever here
-        
         var _decreaseValue = patienceSlider.value / 2; 
         patienceSlider.DOValue(_decreaseValue, 1f).SetEase(Ease.OutSine);
         patienceSlider.gameObject.transform.DOShakePosition(1f, new Vector3(0.25f, 0.25f, 0));
+        Camera.main.DOShakePosition(0.5f, 1f);
 
-        foreach (var _menu in _ghostType.UnfavoriteMenu)
-        {
-            if (food.Menu != _menu.Menu)
-            {
-                GameManager.Instance.DecreaseScore(food.Menu.Score);
-            }
-            else
-            {
-                var _decreaseScore = food.Menu.Score * _menu.Value;
-                GameManager.Instance.DecreaseScore(_decreaseScore);
-            }
-        }
-        
+        GameManager.Instance.DecreaseScore(15);
+        // HPManager.Instance.TakeDamage(1);
+
+
         _isEating = false;
     }
 
@@ -208,6 +218,7 @@ public class Customer : MonoBehaviour
     {
         yield return new WaitForSeconds(_orderTime);
         orderImageBG.DOFade(1f, 0.25f);
+        _desiredDonenessText.gameObject.SetActive(true);
         var _active = orderImageBG.gameObject.transform.DOMoveY(orderImageBG.transform.position.y + 0.5f, 0.25f).SetEase(Ease.InBounce);
         _active.OnComplete(() =>
         {

@@ -58,32 +58,43 @@ public class DragAndDropManager : MonoBehaviour
         RaycastHit2D _hit = Physics2D.Raycast(_ray.origin, _ray.direction, Mathf.Infinity, dropLayer);
         isDragging = false;
         
-        if (_hit.collider != null && _hit.collider.GetComponent<Plate>() is Plate plate)
+        if (_hit.collider != null)
         {
-            if (currentDraggingFood == null) return;
-            
-            if (!plate.CurrentCustomer.IsOrdering)
+            if (_hit.collider.GetComponent<Plate>() is Plate plate) 
             {
-                print("test");
-                var _rb = currentDraggingFood.GetComponent<Rigidbody2D>();
-                _rb.gravityScale = 1;
-            }
-            else
-            {
-                plate.PrepareToEat(currentDraggingFood);
-                currentDraggingFood = null;
-            }
-        }
-        else 
-        {
-            if (currentDraggingFood == null) 
-            { 
+
+                if (currentDraggingFood == null) return;
+
+                if (!plate.CurrentCustomer.IsOrdering)
+                {
+                    print("test");
+                    currentDraggingFood.GetComponent<Rigidbody2D>().gravityScale = 1;
+                }
+                else
+                {
+                    plate.PrepareToEat(currentDraggingFood);
+                    currentDraggingFood = null;
+                }
+
                 return;
-            } 
-            var _rb = currentDraggingFood.GetComponent<Rigidbody2D>();
-            _rb.gravityScale = 1;
+            }
+
+            if (_hit.collider.GetComponent<Trash>() is Trash trash)
+            {
+                if (currentDraggingFood == null) return;
+                Destroy(currentDraggingFood.gameObject);
+                currentDraggingFood = null;
+                return;
+            }
+
         }
-       
+
+        if (currentDraggingFood == null)
+        {
+            return;
+        }
+        currentDraggingFood.GetComponent<Rigidbody2D>().gravityScale = 1;
+
 
     }
 }
