@@ -59,9 +59,11 @@ public class Customer : MonoBehaviour
     private void Start()
     {
         _visual.sprite = _ghostType.Sprite;
-        
-        patienceSlider.maxValue = _patience;
-        patienceSlider.value = _patience;
+
+        GenerateFoodState();
+
+        patienceSlider.maxValue = _patience * ((int)_desiredFoodState + 1);
+        patienceSlider.value = _patience * ((int)_desiredFoodState + 1);
 
         if(!_isEatingRightFood)
             StartCoroutine(OrderThePlate());
@@ -74,7 +76,7 @@ public class Customer : MonoBehaviour
             }
         });
 
-        GenerateFoodState();
+
     }
 
 
