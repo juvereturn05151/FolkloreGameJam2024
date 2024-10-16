@@ -13,7 +13,7 @@ public class HumanBody : MonoBehaviour
 
     private void Start()
     {
-        _rigidbody.AddForce(transform.up * _upForce, ForceMode2D.Impulse);
+        //_rigidbody.AddForce(transform.up * _upForce, ForceMode2D.Impulse);
         _head.OnPartDestroyed.AddListener(DestroyItself);
     }
 
