@@ -125,6 +125,7 @@ public class Food : MonoBehaviour
         if (_foodState == FoodState.Burnt)
             return;
 
+        rottenSlider.transform.DOShakePosition(0.5f, 0.5f);
         _foodState++;
     }
 
