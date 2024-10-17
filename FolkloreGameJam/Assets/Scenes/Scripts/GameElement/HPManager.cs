@@ -8,6 +8,7 @@ public class HPManager : MonoBehaviour
 
     public event Action<int> OnHealthChanged; // Event to notify UI of health changes
 
+    [SerializeField]
     private int maxHealth = 4; // Max HP
     private int currentHealth;
 
@@ -34,6 +35,12 @@ public class HPManager : MonoBehaviour
         OnHealthChanged?.Invoke(currentHealth); // Notify UI of health change
         
         GameplayUIManager.Instance.OnGhostAnger?.Invoke();
+
+        if (GameManager.Instance.IsTutorial)
+        {
+            return;
+        }
+
         if (currentHealth <= 0)
         {
             GameplayUIManager.Instance.OnGameOver();

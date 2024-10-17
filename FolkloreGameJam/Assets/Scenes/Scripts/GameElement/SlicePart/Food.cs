@@ -41,7 +41,11 @@ public class Food : MonoBehaviour
     public bool IsReadyToEat => _isReadyToEat;
     private bool _isFinished = false;
     public bool IsFinished => _isFinished;
+    [SerializeField]
     private float _eatingTime = 10.0f;
+
+    [SerializeField]
+    private int _decreaseScoreOnBurnt = 10;
 
     private bool isStartingRotten = false;
     private float _currentRottenTime = 10.0f;
@@ -105,7 +109,7 @@ public class Food : MonoBehaviour
 
                     if (_foodState == FoodState.Burnt)
                     {
-                        ScoreManager.Instance.SubtractScore(10);
+                        ScoreManager.Instance.SubtractScore(_decreaseScoreOnBurnt);
                         if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.WaitForRotten) 
                         {
                             AdvancedTutorialManager.Instance.rottenCount++;

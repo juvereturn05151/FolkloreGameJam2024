@@ -27,6 +27,11 @@ public class TimeManager : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance.IsTutorial) 
+        {
+            return;
+        }
+
         // Simulate time passage
         currentTime += timeSpeed * Time.deltaTime;
 
