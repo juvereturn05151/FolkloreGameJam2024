@@ -32,6 +32,7 @@ public class Customer : MonoBehaviour
     private bool _isEating;
     public bool IsEating => _isEating;
     private bool _isEatingRightFood = false;
+    public bool IsEatingRightFood => _isEatingRightFood;
 
     #region -Customer Canvas-
 
@@ -46,6 +47,8 @@ public class Customer : MonoBehaviour
     [SerializeField] private float decreasePatienceSpeed = 0.2f;
 
     [SerializeField] private TextMeshProUGUI _desiredDonenessText;
+
+    [SerializeField] private GameObject eatingIcon;
 
     #endregion
     
@@ -91,7 +94,10 @@ public class Customer : MonoBehaviour
             if(patienceSlider.value <= 0) return;
             patienceSlider.value = Mathf.Lerp(patienceSlider.value, patienceSlider.value - 1, Time.deltaTime * decreasePatienceSpeed);
         }
-        
+
+        eatingIcon.gameObject.SetActive(_isEating);
+        content.gameObject.SetActive(!_isEating);
+
         if (_isEating) 
         {
             if (_currentPlate && _currentPlate.FoodOnPlate) 

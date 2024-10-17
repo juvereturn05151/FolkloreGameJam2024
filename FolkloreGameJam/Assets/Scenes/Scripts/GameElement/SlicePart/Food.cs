@@ -152,7 +152,7 @@ public class Food : MonoBehaviour
         this._isReadyToEat = isReadyToEat;
     }
 
-    public void SetFoodToBeEaten(Plate plate)
+    public void SetFoodToBeEaten(Plate plate, bool eatingRightFood)
     {
         transform.position = plate.transform.position;
         transform.SetParent(plate.transform);
@@ -161,6 +161,10 @@ public class Food : MonoBehaviour
         _rigidBody.gravityScale = 0;
         _rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX;
         _isReadyToEat = true;
+        if (!eatingRightFood) 
+        {
+            _eatingTime = 2.0f;
+        }
         
         rottenSlider.gameObject.SetActive(false);
     }
