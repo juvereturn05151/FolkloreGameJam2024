@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: Pop
   m_EditorClassIdentifier: 
   Name: Pop
-  Sprite: {fileID: 21300000, guid: 90197f3b701b9524f842b8ecb0a58e8d, type: 3}
+  Sprite: {fileID: 21300000, guid: f842d53ad1f29d14fa256589824e22b7, type: 3}
   FavoriteMenu:
   - Menu: {fileID: 11400000, guid: 25ffad743c0fe55468741c06afad76ba, type: 2}
     Value: 2
     RandomRange: 1
-  UnfavoriteMenu: []
