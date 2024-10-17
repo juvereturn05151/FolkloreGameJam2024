@@ -194,6 +194,7 @@ public class AdvancedTutorialManager : MonoBehaviour
 
     private void LoadGameScene()
     {
+        SoundManager.instance.PlayGameplayBGM();
         FadingUI.Instance.StartFadeIn();
         FadingUI.Instance.OnStopFading.AddListener(LoadScene);
     }

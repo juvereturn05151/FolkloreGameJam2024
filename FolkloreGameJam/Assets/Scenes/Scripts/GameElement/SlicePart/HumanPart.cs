@@ -9,6 +9,9 @@ public class HumanPart : MonoBehaviour
     public GameObject fruitSlicedPrefab;
     public float startForce = 15f;
 
+    [SerializeField]
+    bool atMainMenu;
+
     Rigidbody2D rb;
 
     void Start()
@@ -21,10 +24,14 @@ public class HumanPart : MonoBehaviour
     {
         if (col.tag == "Blade")
         {
-            if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.CutHuman) 
+            if (!atMainMenu) 
             {
-                AdvancedTutorialManager.Instance._humanKillCount++;
+                if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.CutHuman)
+                {
+                    AdvancedTutorialManager.Instance._humanKillCount++;
+                }
             }
+
 
             Vector3 direction = (col.transform.position - transform.position).normalized;
 
