@@ -9,12 +9,29 @@ using UnityEngine.Serialization;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    
+
+    public enum GameState
+    {
+        StartGame,
+        EndGame,
+        Stop
+    }
+
+    private GameState state;
+
+    public GameState State
+    {
+        get => state;
+        set => state = value;
+    }
+
     [SerializeField] private bool isGameOver;
     public bool IsGameOver => isGameOver;
 
     [SerializeField] private MMF_Player increaseScoreFeedback;
     [SerializeField] private MMF_Player decreaseScoreFeedback;
+
+    public bool IsTutorial;
 
     private void Awake()
     {
