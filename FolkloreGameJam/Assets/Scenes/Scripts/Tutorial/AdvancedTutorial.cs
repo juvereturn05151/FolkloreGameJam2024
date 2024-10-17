@@ -108,8 +108,15 @@ public class AdvancedTutorialManager : MonoBehaviour
     {
         if (CurrentTutorial.ShowOnLastDialogue)
         {
-            _advancedTutorialUIController.AppearOnLastDialogue[_currentTutorialIndex].SetActive(true);
-            _advancedTutorialUIController.AppearOnSecondDialogue[_currentTutorialIndex].SetActive(false);
+            if (_advancedTutorialUIController.AppearOnLastDialogue[_currentTutorialIndex]) 
+            {
+                _advancedTutorialUIController.AppearOnLastDialogue[_currentTutorialIndex].SetActive(true);
+            }
+
+            if (_advancedTutorialUIController.AppearOnSecondDialogue[_currentTutorialIndex]) 
+            {
+                _advancedTutorialUIController.AppearOnSecondDialogue[_currentTutorialIndex].SetActive(false);
+            }
         }
     }
 

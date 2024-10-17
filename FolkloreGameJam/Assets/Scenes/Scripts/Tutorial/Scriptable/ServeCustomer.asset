@@ -14,14 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 2
   DialogueLines:
-  - As You Might Have Seen, Human's Organs Can Rott
+  - As you can when you cut humans, their organs will drop according to where you
+    cut it.
   - It is essential because some customers like it rotten.
   - When you work in the restaurant, customers will ask different level of rottenness
   - Now, try serving customers what they want
   ShowTutorialGuideOnStart: 0
-  ShowTutorialGuideBackground: 1
-  ShowOnSecondDialogue: 0
-  ShowOnLastDialogue: 0
-  ObjectiveDialogue: Serve 3 customer what they want
-  WhatToDoDialogue: Serve 3 customer what they want
+  ShowTutorialGuideBackground: 0
+  ShowOnSecondDialogue: 1
+  ShowOnLastDialogue: 1
+  ObjectiveDialogue: Serve 3 customers what they want
+  WhatToDoDialogue: Serve 3 customer what they want, don't let them wait for  too
+    long
   TutorialAttribute: {fileID: 11400000, guid: d31112b441ef8e246bde2f8402e6262c, type: 2}

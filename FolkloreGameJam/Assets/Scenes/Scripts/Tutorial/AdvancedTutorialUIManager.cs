@@ -18,17 +18,18 @@ public class AdvancedTutorialUIController : MonoBehaviour
 
     public void OnTutorialEnd(int _currentTutorialIndex)
     {
-        return;
+        if (AdvancedTutorialUI != null && AdvancedTutorialUI[_currentTutorialIndex])
+            AdvancedTutorialUI[_currentTutorialIndex].SetActive(false);
 
-        AdvancedTutorialUI[_currentTutorialIndex].SetActive(false);
-        AppearOnSecondDialogue[_currentTutorialIndex].SetActive(false);
-        AppearOnLastDialogue[_currentTutorialIndex].SetActive(false);
+        if (AppearOnSecondDialogue != null && AppearOnSecondDialogue[_currentTutorialIndex])
+            AppearOnSecondDialogue[_currentTutorialIndex].SetActive(false);
+
+        if (AppearOnLastDialogue != null && AppearOnLastDialogue[_currentTutorialIndex])
+            AppearOnLastDialogue[_currentTutorialIndex].SetActive(false);
     }
 
     public void OnDialogueEnd(int _currentTutorialIndex)
     {
-        return;
-
         if(AppearOnLastDialogue != null && AppearOnLastDialogue[_currentTutorialIndex])
         AppearOnLastDialogue[_currentTutorialIndex].SetActive(false);
 
