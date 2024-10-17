@@ -690,67 +690,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 198ae2b8b76dac646b936e48df0ccee4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &637518046
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 637518048}
-  - component: {fileID: 637518047}
-  m_Layer: 0
-  m_Name: AdvancedTutorial
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &637518047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 637518046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c341c36a3a31ba248a26ff2a2aae993a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueManager: {fileID: 297592577}
-  _backGround: {fileID: 183088351}
-  _tutorialDisplayBackGround: {fileID: 1932172747}
-  _textBox: {fileID: 1340956967}
-  _nextButton: {fileID: 1984946588}
-  _skipButton: {fileID: 1280864500}
-  _tutorialList:
-  - {fileID: 11400000, guid: efeca35d73ebd4c42b23abcaaa6428da, type: 2}
-  - {fileID: 11400000, guid: 41108a3aec708fe46a8ba7d602817aeb, type: 2}
-  - {fileID: 11400000, guid: 2f99098454956ad498a869e1109ce87f, type: 2}
-  _advancedTutorialUIController: {fileID: 297592578}
-  _humanGenerator: {fileID: 358382405}
-  _humanGenerator2: {fileID: 112122078}
-  _customerGenerator: {fileID: 1481935493}
-  _humanKillCount: 0
-  rottenCount: 0
-  serveCount: 0
---- !u!4 &637518048
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 637518046}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &669579176
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1909,6 +1848,103 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54913d272d1c85a498e457eaec454866, type: 3}
+--- !u!1001 &5691162468773266425
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1914730689541641971, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: m_Name
+      value: AdvancedTutorial
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212517209042259440, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212517209042259440, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212517209042259440, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212517209042259440, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212517209042259440, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212517209042259440, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212517209042259440, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212517209042259440, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212517209042259440, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212517209042259440, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: _textBox
+      value: 
+      objectReference: {fileID: 1340956967}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: _backGround
+      value: 
+      objectReference: {fileID: 183088351}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: _nextButton
+      value: 
+      objectReference: {fileID: 1984946588}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: _skipButton
+      value: 
+      objectReference: {fileID: 1280864500}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: _humanGenerator
+      value: 
+      objectReference: {fileID: 358382405}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: dialogueManager
+      value: 
+      objectReference: {fileID: 297592577}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: _humanGenerator2
+      value: 
+      objectReference: {fileID: 112122078}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: _customerGenerator
+      value: 
+      objectReference: {fileID: 1481935493}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: _tutorialDisplayBackGround
+      value: 
+      objectReference: {fileID: 1932172747}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: _advancedTutorialUIController
+      value: 
+      objectReference: {fileID: 297592578}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1932,4 +1968,4 @@ SceneRoots:
   - {fileID: 928274740}
   - {fileID: 669579176}
   - {fileID: 1764604605407173774}
-  - {fileID: 637518048}
+  - {fileID: 5691162468773266425}
