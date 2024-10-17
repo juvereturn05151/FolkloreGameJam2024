@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FoodType: 1
   Sprite: {fileID: 21300000, guid: 72384b8428a18204392caeb8ebf3095f, type: 3}
+  MediumRottenSprite: {fileID: 21300000, guid: 655bece1cded9b8459ec64a41d9bcda0, type: 3}
+  SuperRottenSprite: {fileID: 21300000, guid: ef8985016b9613b449f1ff303ca676b3, type: 3}
   Score: 5
