@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Poo
   m_EditorClassIdentifier: 
   FoodType: 3
-  Sprite: {fileID: 21300000, guid: 74867440bbc904c408865c9b53b7826b, type: 3}
+  Sprite: {fileID: 21300000, guid: 2b77110638041104b9d9d3c2ce6c73dc, type: 3}
   Score: 5
