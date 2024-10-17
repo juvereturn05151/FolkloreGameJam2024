@@ -82,7 +82,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _possibleCustomers:
   - {fileID: 1701110713469014349, guid: 85e2648f22c5ee343a79af1c54504968, type: 3}
-  - {fileID: 199433094773500403, guid: 81d494715e624304db1dff59e919d08d, type: 3}
   - {fileID: 1172729797030012580, guid: 4b7d3fc290bda9c4b8f569aa9380c029, type: 3}
   - {fileID: 1992009682597802814, guid: 0e4be29e1f67a4041b7a40164f7a31c9, type: 3}
   _customerSpots:

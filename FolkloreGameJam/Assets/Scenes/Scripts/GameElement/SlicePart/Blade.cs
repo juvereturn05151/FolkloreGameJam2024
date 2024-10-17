@@ -61,6 +61,7 @@ public class Blade : MonoBehaviour
         currentBladeTrail = Instantiate(bladeTrailPrefab, transform);
         previousPosition = cam.ScreenToWorldPoint(Input.mousePosition);
         circleCollider.enabled = false;
+        SoundManager.instance.PlaySFX("SFX_Slice");
     }
 
     void StopCutting()

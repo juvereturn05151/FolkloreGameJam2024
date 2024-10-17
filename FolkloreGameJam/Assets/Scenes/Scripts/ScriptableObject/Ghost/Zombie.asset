@@ -13,15 +13,8 @@ MonoBehaviour:
   m_Name: Zombie
   m_EditorClassIdentifier: 
   Name: Zombie
-  Sprite: {fileID: 21300000, guid: 49e0d71ea82b0e347930655f1c933706, type: 3}
+  Sprite: {fileID: 21300000, guid: e457b5c256df90a41bed81f3f2b7e088, type: 3}
   FavoriteMenu:
   - Menu: {fileID: 11400000, guid: 547cb9f8123378f4b888bc7a10215823, type: 2}
-    Value: 5
-    RandomRange: 0
-  UnfavoriteMenu:
-  - Menu: {fileID: 11400000, guid: 98a52210eff4ae241975b44ab5935b79, type: 2}
-    Value: 2
-    RandomRange: 0
-  - Menu: {fileID: 11400000, guid: 08d3ea487308d614f83bf24208c4d045, type: 2}
     Value: 5
     RandomRange: 0
