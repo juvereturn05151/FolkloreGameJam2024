@@ -37,13 +37,17 @@ public class DragAndDropManager : MonoBehaviour
                 {
                     return;
                 }
+                if (!isDragging) 
+                {
+                    SoundManager.instance.PlaySFX("SFX_WhenPickUpItem");
+                }
 
                 isDragging = true;
                 currentDraggingFood = food;
 
                 var _rb = currentDraggingFood.GetComponent<Rigidbody2D>();
                 _rb.gravityScale = 0;
-                SoundManager.instance.PlaySFX("SFX_WhenPickUpItem");
+
             }
            
         }
