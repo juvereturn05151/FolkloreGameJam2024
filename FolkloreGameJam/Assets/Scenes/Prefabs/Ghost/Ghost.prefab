@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 100
+  m_SortingOrder: 41
   m_Sprite: {fileID: 21300000, guid: 49e0d71ea82b0e347930655f1c933706, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -241,6 +241,14 @@ PrefabInstance:
     - target: {fileID: 5178727146205683821, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6234446103766733781, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6234446103766733781, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6691529037428541085, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
       propertyPath: m_AnchorMax.x

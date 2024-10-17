@@ -13,12 +13,8 @@ MonoBehaviour:
   m_Name: Vampire
   m_EditorClassIdentifier: 
   Name: Vampire
-  Sprite: {fileID: 21300000, guid: 088030778e86be74bb1c66ccd5220917, type: 3}
+  Sprite: {fileID: 21300000, guid: bc489bf5ff93ab14c9ccad81764660f0, type: 3}
   FavoriteMenu:
   - Menu: {fileID: 11400000, guid: 98a52210eff4ae241975b44ab5935b79, type: 2}
     Value: 3
-    RandomRange: 0
-  UnfavoriteMenu:
-  - Menu: {fileID: 11400000, guid: 547cb9f8123378f4b888bc7a10215823, type: 2}
-    Value: 5
     RandomRange: 0
