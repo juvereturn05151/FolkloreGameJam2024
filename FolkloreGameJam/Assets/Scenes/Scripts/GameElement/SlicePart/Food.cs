@@ -34,6 +34,8 @@ public class Food : MonoBehaviour
 
     [SerializeField] private Slider rottenSlider;
 
+    [SerializeField] private GameObject _dust;
+
     private FoodState _foodState = FoodState.Rare;
     public FoodState FoodState => _foodState;
 
@@ -114,7 +116,7 @@ public class Food : MonoBehaviour
                         {
                             AdvancedTutorialManager.Instance.rottenCount++;
                         }
-
+                        Instantiate(_dust, this.transform.position, this.transform.rotation);
                         Destroy(this.gameObject);
                     }
                     else 
@@ -161,6 +163,7 @@ public class Food : MonoBehaviour
         _rigidBody.gravityScale = 0;
         _rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX;
         _isReadyToEat = true;
+        SoundManager.instance.PlaySFX("Eating");
         if (!eatingRightFood) 
         {
             _eatingTime = 2.0f;

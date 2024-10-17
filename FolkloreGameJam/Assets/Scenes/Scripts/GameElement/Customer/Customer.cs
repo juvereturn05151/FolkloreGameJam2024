@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -68,6 +69,7 @@ public class Customer : MonoBehaviour
     {
         _visual.sprite = _ghostType.Sprite;
 
+        SoundManager.instance.PlaySFX("DoorBell");
         GenerateFoodState();
 
         patienceSlider.maxValue = _patience * ((int)_desiredFoodState + 1);
@@ -181,6 +183,8 @@ public class Customer : MonoBehaviour
         {
             AdvancedTutorialManager.Instance.serveCount++;
         }
+
+        SoundManager.instance.PlaySFX("Like");
         Instantiate(heart, heart.transform.position, heart.transform.rotation, heartLocation);
         orderImageBG.GetComponent<Animator>().SetTrigger("Right");
 
@@ -218,6 +222,7 @@ public class Customer : MonoBehaviour
     {
         // anger if didn't eat the right food
         //Reduce score, anger the customer ,and whatever here
+        SoundManager.instance.PlaySFX("Nah");
         orderImageBG.GetComponent<Animator>().SetTrigger("Wrong");
         var _decreaseValue = patienceSlider.value / 2; 
         patienceSlider.DOValue(_decreaseValue, 1f).SetEase(Ease.OutSine);

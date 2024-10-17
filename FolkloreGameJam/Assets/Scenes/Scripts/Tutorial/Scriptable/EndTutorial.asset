@@ -20,7 +20,7 @@ MonoBehaviour:
   - Have fun!!
   ShowTutorialGuideOnStart: 0
   ShowTutorialGuideBackground: 1
-  ShowOnSecondDialogue: 0
+  ShowOnSecondDialogue: 1
   ShowOnLastDialogue: 0
   ObjectiveDialogue: Time To Slash
   WhatToDoDialogue: Time To Slash

@@ -529,6 +529,7 @@ MonoBehaviour:
   _textState: {fileID: 6435547018710992849}
   _rottenTime: 5
   rottenSlider: {fileID: 4836364960689921697}
+  _dust: {fileID: 5540516936403237619, guid: cc5ebee8525cd5049a44e355cdb1506f, type: 3}
   _eatingTime: 10
   _decreaseScoreOnBurnt: 10
 --- !u!1 &7213418843631013065

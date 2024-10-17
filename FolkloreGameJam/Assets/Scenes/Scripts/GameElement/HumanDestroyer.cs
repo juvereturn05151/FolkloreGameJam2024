@@ -11,6 +11,12 @@ public class HumanDestroyer : MonoBehaviour
             {
                 part.OnPartDestroyed.Invoke();
             }
+            return;
+        }
+
+        if (other.GetComponent<Food>() is Food food) 
+        {
+            Destroy(food.gameObject);
         }
     }
 }
