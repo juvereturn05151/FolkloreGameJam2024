@@ -151,6 +151,8 @@ public class AdvancedTutorialManager : MonoBehaviour
         if (_tutorialList != null && _tutorialList.Count > 0)
         {
             ActivateTutorial();
+            _textBox.SetActive(true);
+            _tutorialDisplayBackGround.SetActive(true);
             ResetEndDialogue();
         }
     }
@@ -206,6 +208,8 @@ public class AdvancedTutorialManager : MonoBehaviour
 
     public void ActivateHumanGenerator()
     {
+        _textBox.SetActive(false);
+        _tutorialDisplayBackGround.SetActive(false);
         _humanGenerator.gameObject.SetActive(true);
         _humanGenerator2.gameObject.SetActive(true);
     }

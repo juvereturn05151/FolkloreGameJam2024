@@ -18,8 +18,8 @@ public class AdvancedTutorialUIController : MonoBehaviour
 
     public void OnTutorialEnd(int _currentTutorialIndex)
     {
-        if (AdvancedTutorialUI != null && AdvancedTutorialUI[_currentTutorialIndex])
-            AdvancedTutorialUI[_currentTutorialIndex].SetActive(false);
+        /*if (AdvancedTutorialUI != null && AdvancedTutorialUI[_currentTutorialIndex])
+            AdvancedTutorialUI[_currentTutorialIndex].SetActive(false);*/
 
         if (AppearOnSecondDialogue != null && AppearOnSecondDialogue[_currentTutorialIndex])
             AppearOnSecondDialogue[_currentTutorialIndex].SetActive(false);
@@ -36,7 +36,7 @@ public class AdvancedTutorialUIController : MonoBehaviour
         if (AppearOnSecondDialogue != null && AppearOnSecondDialogue[_currentTutorialIndex])
             AppearOnSecondDialogue[_currentTutorialIndex].SetActive(false);
 
-        if (AdvancedTutorialUI != null &&  AdvancedTutorialUI[_currentTutorialIndex])
-            AdvancedTutorialUI[_currentTutorialIndex].SetActive(true);
+        /*if (AdvancedTutorialUI != null &&  AdvancedTutorialUI[_currentTutorialIndex])
+            AdvancedTutorialUI[_currentTutorialIndex].SetActive(true);*/
     }
 }
