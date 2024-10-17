@@ -206,11 +206,11 @@ public class Customer : MonoBehaviour
     {
         // anger if didn't eat the right food
         //Reduce score, anger the customer ,and whatever here
+        orderImageBG.GetComponent<Animator>().SetTrigger("Wrong");
         var _decreaseValue = patienceSlider.value / 2; 
         patienceSlider.DOValue(_decreaseValue, 1f).SetEase(Ease.OutSine);
         patienceSlider.gameObject.transform.DOShakePosition(1f, new Vector3(0.25f, 0.25f, 0));
         Camera.main.DOShakePosition(0.5f, 1f);
-
         GameManager.Instance.DecreaseScore(15);
         // HPManager.Instance.TakeDamage(1);
 
