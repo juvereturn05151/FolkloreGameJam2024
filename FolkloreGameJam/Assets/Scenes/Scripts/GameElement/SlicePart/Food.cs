@@ -161,6 +161,7 @@ public class Food : MonoBehaviour
         _rigidBody.gravityScale = 0;
         _rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX;
         _isReadyToEat = true;
+        SoundManager.instance.PlaySFX("Eating");
         if (!eatingRightFood) 
         {
             _eatingTime = 2.0f;
