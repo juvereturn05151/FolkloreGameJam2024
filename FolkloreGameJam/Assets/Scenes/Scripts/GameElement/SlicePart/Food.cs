@@ -105,7 +105,7 @@ public class Food : MonoBehaviour
 
                     if (_foodState == FoodState.Burnt)
                     {
-                        CustomerGenerator.Instance.PissCustomer();
+                        ScoreManager.Instance.SubtractScore(10);
                         Destroy(this.gameObject);
                     }
                     else 
