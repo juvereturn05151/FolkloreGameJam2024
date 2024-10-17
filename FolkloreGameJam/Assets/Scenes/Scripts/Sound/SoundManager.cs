@@ -30,6 +30,7 @@ public class SoundManager : MonoBehaviour
 
     // Background music clip
     public AudioClip backgroundMusic;
+    public AudioClip backgroundGameplayMusic;
 
     private void Awake()
     {
@@ -58,6 +59,11 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         PlayMusic(backgroundMusic);
+    }
+
+    public void PlayGameplayBGM() 
+    {
+        PlayMusic(backgroundGameplayMusic);
     }
 
     // Play background music

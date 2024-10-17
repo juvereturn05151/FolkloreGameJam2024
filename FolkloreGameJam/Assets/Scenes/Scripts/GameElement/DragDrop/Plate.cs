@@ -44,7 +44,7 @@ public class Plate : MonoBehaviour
         {
             SoundManager.instance.PlaySFX("SFX_ServeCustomer");
             _foodOnPlate = food;
-            _foodOnPlate.SetFoodToBeEaten(this);
+            _foodOnPlate.SetFoodToBeEaten(this, currentCustomer.IsEatingRightFood);
             OnFoodPlaced?.Invoke(_foodOnPlate); // Pass the food object as a parameter to the event
         }
     }

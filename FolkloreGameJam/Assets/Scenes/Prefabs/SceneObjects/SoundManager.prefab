@@ -62,6 +62,7 @@ MonoBehaviour:
   - name: SFX_WhenPickUpItem
     clip: {fileID: 8300000, guid: cc3ed89081c9f6248b24c12b4a56898f, type: 3}
   backgroundMusic: {fileID: 8300000, guid: 032d1edf41e27f24891547eae08e6661, type: 3}
+  backgroundGameplayMusic: {fileID: 8300000, guid: 032d1edf41e27f24891547eae08e6661, type: 3}
 --- !u!82 &7865003671529669970
 AudioSource:
   m_ObjectHideFlags: 0
