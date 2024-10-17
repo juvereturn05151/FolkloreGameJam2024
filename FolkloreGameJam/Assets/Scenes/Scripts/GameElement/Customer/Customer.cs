@@ -179,12 +179,21 @@ public class Customer : MonoBehaviour
             AdvancedTutorialManager.Instance.serveCount++;
         }
 
+        orderImageBG.GetComponent<Animator>().SetTrigger("Right");
+
+        StartCoroutine(LeaveAfterDelay(food));
+    }
+
+    private IEnumerator LeaveAfterDelay(Food food)
+    {
+        yield return new WaitForSeconds(1.0f); // Adjust the delay time as needed (2 seconds in this case)
         if (onEatRightFood != null)
         {
-            var _scoreWithPatience = (food.Menu.Score + (int) patienceSlider.value); // if rotten 
+            var _scoreWithPatience = (food.Menu.Score + (int)patienceSlider.value); // if rotten 
             GameManager.Instance.IncreaseScore(_scoreWithPatience);
             onEatRightFood.Invoke(null);
         }
+
         if (onLeaveRestaurant != null)
         {
             onLeaveRestaurant.Invoke(_currentSpot);

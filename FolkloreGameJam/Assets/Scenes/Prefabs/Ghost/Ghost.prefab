@@ -1,80 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2095279153195430504
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6189484832482186609}
-  - component: {fileID: 7835986572229482056}
-  - component: {fileID: 4097845828918008870}
-  m_Layer: 5
-  m_Name: EatingIcon
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &6189484832482186609
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2095279153195430504}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.01005, y: 0.01005, z: 0.01005}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6001345381981774923}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &7835986572229482056
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2095279153195430504}
-  m_CullTransparentMesh: 1
---- !u!114 &4097845828918008870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2095279153195430504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cda470b9df3f14a47846d74ac0d9eb44, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &2730754159425257772
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,7 +149,7 @@ MonoBehaviour:
   patienceSlider: {fileID: 3528628809251297966}
   decreasePatienceSpeed: 0.5
   _desiredDonenessText: {fileID: 5944748879288458848}
-  eatingIcon: {fileID: 2095279153195430504}
+  eatingIcon: {fileID: 8261258301930835968}
 --- !u!1001 &3880152402864277133
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -317,35 +242,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 6234446103766733781, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6234446103766733781, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6691529037428541085, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 7390439808447734470, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6189484832482186609}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6733688004354156438, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1813249567906448801}
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
 --- !u!114 &523600879180471974 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3647113281656117291, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
   m_PrefabInstance: {fileID: 3880152402864277133}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7542350275668615451}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -378,40 +289,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &6001345381981774923 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7390439808447734470, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
-  m_PrefabInstance: {fileID: 3880152402864277133}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7159634608702559576 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6234446103766733781, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
   m_PrefabInstance: {fileID: 3880152402864277133}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7542350275668615451 stripped
+--- !u!1 &8261258301930835968 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 6733688004354156438, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5151256689882633869, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
   m_PrefabInstance: {fileID: 3880152402864277133}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1813249567906448801
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7542350275668615451}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b24ab52f448bcc645a6875f5fbda4023, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
