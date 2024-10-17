@@ -229,18 +229,20 @@ public class Customer : MonoBehaviour
             foreach (var _request in _ghostType.FavoriteMenu)
             {
                 var _order = Instantiate(orderPrefab, content);
-                _order.sprite = _request.Menu.Sprite;
+
 
                 if (_desiredFoodState == FoodState.MediumRare)
                 {
-                    _order.canvasRenderer.SetColor(Color.magenta);
-                } 
-                else if (_desiredFoodState == FoodState.WellDone) 
-                {
-                    _order.canvasRenderer.SetColor(Color.black);
+                    _order.sprite = _request.Menu.MediumRottenSprite;
                 }
-
-    
+                else if (_desiredFoodState == FoodState.WellDone)
+                {
+                    _order.sprite = _request.Menu.SuperRottenSprite;
+                }
+                else 
+                {
+                    _order.sprite = _request.Menu.Sprite;
+                }
 
                 menuOrder.Add(_request.Menu, _order.gameObject);
                 isOrdering = true;

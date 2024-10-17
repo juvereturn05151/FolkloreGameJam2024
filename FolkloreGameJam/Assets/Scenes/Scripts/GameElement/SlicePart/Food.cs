@@ -100,11 +100,11 @@ public class Food : MonoBehaviour
 
                     if (_foodState == FoodState.MediumRare)
                     {
-                        _renderer.color = Color.magenta;
+                        _renderer.sprite = Menu.MediumRottenSprite;
                     }
                     else if (_foodState == FoodState.WellDone)
                     {
-                        _renderer.color = Color.black;
+                        _renderer.sprite = Menu.SuperRottenSprite;
                     }
 
                     if (_foodState == FoodState.Burnt)
