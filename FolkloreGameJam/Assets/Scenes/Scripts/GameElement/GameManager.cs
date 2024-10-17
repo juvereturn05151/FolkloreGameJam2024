@@ -31,6 +31,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MMF_Player increaseScoreFeedback;
     [SerializeField] private MMF_Player decreaseScoreFeedback;
 
+    [SerializeField] private HumanGenerator humanGen1;
+    [SerializeField] private HumanGenerator humanGen2;
+    [SerializeField] private CustomerGenerator customerGen;
+
     public bool IsTutorial;
 
     private void Awake()
@@ -63,5 +67,25 @@ public class GameManager : MonoBehaviour
     public void PlayAgain()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ApplyGameOver() 
+    {
+        isGameOver = true;
+
+        if (humanGen1 != null) 
+        {
+            humanGen1.gameObject.SetActive(false);
+        }
+
+        if (humanGen2 != null) 
+        {
+            humanGen2.gameObject.SetActive(false);
+        }
+
+        if (customerGen != null) 
+        {
+            customerGen.gameObject.SetActive(false);
+        }
     }
 }

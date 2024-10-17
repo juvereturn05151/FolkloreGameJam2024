@@ -17,7 +17,6 @@ public class TimeManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -38,7 +37,10 @@ public class TimeManager : MonoBehaviour
         // If time reaches 6:00 AM (30.0), reset to 6:00 PM (18.0)
         if (currentTime >= 30.0f)
         {
-            currentTime = 18.0f;  // Reset back to 6:00 PM
+            GameplayUIManager.Instance.OnGameOver();
+            currentTime = 30.0f;
+
+            //currentTime = 18.0f;  // Reset back to 6:00 PM
         }
 
         // Notify UIManager about the updated time

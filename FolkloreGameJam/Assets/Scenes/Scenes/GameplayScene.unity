@@ -223,6 +223,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a982c268f117b2a449f29fbef247b73f, type: 3}
+--- !u!114 &437330385 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5918114440580550621, guid: 34b8b01a95c4aff4d8f0a142b6b2a1b9, type: 3}
+  m_PrefabInstance: {fileID: 7063294279955337906}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 198ae2b8b76dac646b936e48df0ccee4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &439696543
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,6 +353,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &442826726 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5918114440580550621, guid: 34b8b01a95c4aff4d8f0a142b6b2a1b9, type: 3}
+  m_PrefabInstance: {fileID: 1242025703}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 198ae2b8b76dac646b936e48df0ccee4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &489008859 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9065588633544692840, guid: 3e5efccf1005ce0429306f973857ade9, type: 3}
@@ -767,6 +789,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1537300496 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2425889638656552930, guid: b578ac80c02ed7c4b853ee4f1f0a7a13, type: 3}
+  m_PrefabInstance: {fileID: 6964887123368021577}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d5207a468768204da4037d4fab93ac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1712205245
 GameObject:
   m_ObjectHideFlags: 0
@@ -1248,6 +1281,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Restaurant
       objectReference: {fileID: 0}
+    - target: {fileID: 4860573384091046932, guid: 4ad11961a0525e8488bd71248569bf07, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860573384091046932, guid: 4ad11961a0525e8488bd71248569bf07, type: 3}
+      propertyPath: m_Color.b
+      value: 0.33962262
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860573384091046932, guid: 4ad11961a0525e8488bd71248569bf07, type: 3}
+      propertyPath: m_Color.g
+      value: 0.33962262
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860573384091046932, guid: 4ad11961a0525e8488bd71248569bf07, type: 3}
+      propertyPath: m_Color.r
+      value: 0.33962262
+      objectReference: {fileID: 0}
     - target: {fileID: 5999417980789277082, guid: 4ad11961a0525e8488bd71248569bf07, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.7221382
@@ -1435,6 +1484,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 232721953073803165, guid: 30799e89dc78a7d48836e12aa4a0d0b9, type: 3}
+      propertyPath: humanGen1
+      value: 
+      objectReference: {fileID: 437330385}
+    - target: {fileID: 232721953073803165, guid: 30799e89dc78a7d48836e12aa4a0d0b9, type: 3}
+      propertyPath: humanGen2
+      value: 
+      objectReference: {fileID: 442826726}
+    - target: {fileID: 232721953073803165, guid: 30799e89dc78a7d48836e12aa4a0d0b9, type: 3}
+      propertyPath: customerGen
+      value: 
+      objectReference: {fileID: 1537300496}
     - target: {fileID: 232721953073803165, guid: 30799e89dc78a7d48836e12aa4a0d0b9, type: 3}
       propertyPath: decreaseScoreFeedback
       value: 

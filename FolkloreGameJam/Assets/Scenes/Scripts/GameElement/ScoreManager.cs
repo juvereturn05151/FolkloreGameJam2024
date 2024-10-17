@@ -17,15 +17,19 @@ public class ScoreManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
 
             // Load the saved high score from PlayerPrefs
-            highScore = PlayerPrefs.GetInt("HighScore", 0);
+            
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start() 
+    {
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
     }
 
     public void AddScore(int points)

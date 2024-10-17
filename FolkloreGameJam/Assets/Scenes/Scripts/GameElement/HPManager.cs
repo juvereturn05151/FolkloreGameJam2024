@@ -17,13 +17,17 @@ public class HPManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            currentHealth = maxHealth; // Initialize current health
-            DontDestroyOnLoad(gameObject);
+
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        currentHealth = maxHealth; // Initialize current health
     }
 
     // Method to take damage
