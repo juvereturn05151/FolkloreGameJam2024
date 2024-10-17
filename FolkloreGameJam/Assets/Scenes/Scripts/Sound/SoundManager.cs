@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class SoundEffect
+{
+    public string name;
+    public AudioClip clip;
+}
+
 public class SoundManager : MonoBehaviour
 {
     // Singleton instance
@@ -14,6 +21,9 @@ public class SoundManager : MonoBehaviour
     // Volume controls
     [Range(0f, 1f)] public float musicVolume = 1f;
     [Range(0f, 1f)] public float sfxVolume = 1f;
+
+    // List of sound effects for inspector
+    [SerializeField] private List<SoundEffect> soundEffectsList;
 
     // Dictionary to hold audio clips
     private Dictionary<string, AudioClip> soundEffects;
@@ -34,8 +44,15 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        // Initialize sound effects dictionary
+        // Initialize sound effects dictionary from list
         soundEffects = new Dictionary<string, AudioClip>();
+        foreach (var soundEffect in soundEffectsList)
+        {
+            if (!soundEffects.ContainsKey(soundEffect.name))
+            {
+                soundEffects[soundEffect.name] = soundEffect.clip;
+            }
+        }
     }
 
     private void Start()

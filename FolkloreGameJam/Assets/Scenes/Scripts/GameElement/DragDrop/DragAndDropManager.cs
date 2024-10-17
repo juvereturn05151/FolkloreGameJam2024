@@ -43,6 +43,7 @@ public class DragAndDropManager : MonoBehaviour
 
                 var _rb = currentDraggingFood.GetComponent<Rigidbody2D>();
                 _rb.gravityScale = 0;
+                SoundManager.instance.PlaySFX("SFX_WhenPickUpItem");
             }
            
         }

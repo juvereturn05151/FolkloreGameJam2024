@@ -28,6 +28,7 @@ public class HPManager : MonoBehaviour
     // Method to take damage
     public void TakeDamage(int damage)
     {
+        SoundManager.instance.PlaySFX("SFX_PlayerLoseHP");
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health does not go below 0
         OnHealthChanged?.Invoke(currentHealth); // Notify UI of health change
