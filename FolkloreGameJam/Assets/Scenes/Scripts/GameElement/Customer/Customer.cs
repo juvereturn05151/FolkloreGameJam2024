@@ -218,7 +218,7 @@ public class Customer : MonoBehaviour
     {
         yield return new WaitForSeconds(_orderTime);
         orderImageBG.DOFade(1f, 0.25f);
-        _desiredDonenessText.gameObject.SetActive(true);
+        //_desiredDonenessText.gameObject.SetActive(true);
         var _active = orderImageBG.gameObject.transform.DOMoveY(orderImageBG.transform.position.y + 0.5f, 0.25f).SetEase(Ease.InBounce);
         _active.OnComplete(() =>
         {
@@ -226,6 +226,18 @@ public class Customer : MonoBehaviour
             {
                 var _order = Instantiate(orderPrefab, content);
                 _order.sprite = _request.Menu.Sprite;
+
+                if (_desiredFoodState == FoodState.MediumRare)
+                {
+                    _order.canvasRenderer.SetColor(Color.magenta);
+                } 
+                else if (_desiredFoodState == FoodState.WellDone) 
+                {
+                    _order.canvasRenderer.SetColor(Color.black);
+                }
+
+    
+
                 menuOrder.Add(_request.Menu, _order.gameObject);
                 isOrdering = true;
                 patienceSlider.gameObject.transform.DOScaleY( 1f, 0.25f);

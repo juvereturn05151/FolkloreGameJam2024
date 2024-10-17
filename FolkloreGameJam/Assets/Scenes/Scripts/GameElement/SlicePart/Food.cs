@@ -94,6 +94,15 @@ public class Food : MonoBehaviour
                     ChangeFoodState();
                     _textState.text = _foodState.ToString();
 
+                    if (_foodState == FoodState.MediumRare)
+                    {
+                        _renderer.color = Color.magenta;
+                    }
+                    else if (_foodState == FoodState.WellDone)
+                    {
+                        _renderer.color = Color.black;
+                    }
+
                     if (_foodState == FoodState.Burnt)
                     {
                         CustomerGenerator.Instance.PissCustomer();
