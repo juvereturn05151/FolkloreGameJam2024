@@ -51,7 +51,10 @@ public class Customer : MonoBehaviour
     [SerializeField] private GameObject eatingIcon;
 
     #endregion
-    
+
+    [SerializeField] private GameObject heart;
+    [SerializeField] private Transform heartLocation;
+
     private Dictionary<Menu, GameObject> menuOrder = new Dictionary<Menu, GameObject>();
 
     private bool isOrdering = false;
@@ -178,7 +181,7 @@ public class Customer : MonoBehaviour
         {
             AdvancedTutorialManager.Instance.serveCount++;
         }
-
+        Instantiate(heart, heart.transform.position, heart.transform.rotation, heartLocation);
         orderImageBG.GetComponent<Animator>().SetTrigger("Right");
 
         StartCoroutine(LeaveAfterDelay(food));
