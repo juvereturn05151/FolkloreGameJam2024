@@ -44,7 +44,7 @@ public class AdvancedTutorialManager : MonoBehaviour
 
     public TutorialStep CurrentTutorial { get; private set; }
 
-    private const string _firstGameplayScene = "StageSelection";
+    private const string _firstGameplayScene = "GameplayScene";
     private bool _isOperating;
     private int _currentTutorialIndex;
 
