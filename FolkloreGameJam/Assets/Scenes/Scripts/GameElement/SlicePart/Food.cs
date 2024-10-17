@@ -106,6 +106,11 @@ public class Food : MonoBehaviour
                     if (_foodState == FoodState.Burnt)
                     {
                         ScoreManager.Instance.SubtractScore(10);
+                        if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.WaitForRotten) 
+                        {
+                            AdvancedTutorialManager.Instance.rottenCount++;
+                        }
+
                         Destroy(this.gameObject);
                     }
                     else 

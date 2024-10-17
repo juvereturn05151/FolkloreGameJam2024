@@ -21,6 +21,11 @@ public class HumanPart : MonoBehaviour
     {
         if (col.tag == "Blade")
         {
+            if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.CutHuman) 
+            {
+                AdvancedTutorialManager.Instance._humanKillCount++;
+            }
+
             Vector3 direction = (col.transform.position - transform.position).normalized;
 
             GameObject slicedFruit = Instantiate(fruitSlicedPrefab, transform.position, Quaternion.identity);

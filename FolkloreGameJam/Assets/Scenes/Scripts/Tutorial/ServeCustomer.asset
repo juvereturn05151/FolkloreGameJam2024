@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecab875e323a68408f44322daec0f38, type: 3}
+  m_Name: ServeCustomer
+  m_EditorClassIdentifier: 
+  Type: 2
+  DialogueLines:
+  - As You Might Have Seen, Human's Organs Can Rott
+  - It is essential because some customers like it rotten.
+  - When you work in the restaurant, customers will ask different level of rottenness
+  - Now, try serving customers what they want
+  ShowTutorialGuideOnStart: 0
+  ShowTutorialGuideBackground: 1
+  ShowOnSecondDialogue: 0
+  ShowOnLastDialogue: 0
+  ObjectiveDialogue: Slash human and wait for 3 organs to rot
+  WhatToDoDialogue: Slash human and wait for 3 organs to rot
+  TutorialAttribute: {fileID: 11400000, guid: d31112b441ef8e246bde2f8402e6262c, type: 2}

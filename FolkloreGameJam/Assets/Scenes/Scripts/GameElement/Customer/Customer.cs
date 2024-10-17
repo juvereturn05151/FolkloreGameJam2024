@@ -169,6 +169,11 @@ public class Customer : MonoBehaviour
 
     private void Satisfy(Food food) 
     {
+        if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.ServeCustomer) 
+        {
+            AdvancedTutorialManager.Instance.serveCount++;
+        }
+
         if (onEatRightFood != null)
         {
             var _scoreWithPatience = (food.Menu.Score + (int) patienceSlider.value); // if rotten 

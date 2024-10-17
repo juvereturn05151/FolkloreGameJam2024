@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecab875e323a68408f44322daec0f38, type: 3}
+  m_Name: EndTutorial
+  m_EditorClassIdentifier: 
+  Type: 3
+  DialogueLines:
+  - Note that, the restaurant will open from 6:00PM to 6:00AM
+  - You have 4 chances to make mistakes
+  - Try to earn the score as much as you can
+  - Have fun!!
+  ShowTutorialGuideOnStart: 0
+  ShowTutorialGuideBackground: 1
+  ShowOnSecondDialogue: 0
+  ShowOnLastDialogue: 0
+  ObjectiveDialogue: Time To Slash
+  WhatToDoDialogue: Time To Slash
+  TutorialAttribute: {fileID: 11400000, guid: e527f59bd964c27489e9d5481b6bd5e0, type: 2}
