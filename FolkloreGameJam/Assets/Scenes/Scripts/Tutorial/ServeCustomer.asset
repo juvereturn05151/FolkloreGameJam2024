@@ -22,6 +22,6 @@ MonoBehaviour:
   ShowTutorialGuideBackground: 1
   ShowOnSecondDialogue: 0
   ShowOnLastDialogue: 0
-  ObjectiveDialogue: Slash human and wait for 3 organs to rot
-  WhatToDoDialogue: Slash human and wait for 3 organs to rot
+  ObjectiveDialogue: Serve 3 customer what they want
+  WhatToDoDialogue: Serve 3 customer what they want
   TutorialAttribute: {fileID: 11400000, guid: d31112b441ef8e246bde2f8402e6262c, type: 2}

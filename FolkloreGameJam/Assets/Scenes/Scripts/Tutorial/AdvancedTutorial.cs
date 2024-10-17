@@ -119,7 +119,7 @@ public class AdvancedTutorialManager : MonoBehaviour
         _isOperating = true;
         _backGround.SetActive(false);
         _nextButton.SetActive(false);
-        _tutorialDisplayBackGround.SetActive(true);
+        //_tutorialDisplayBackGround.SetActive(true);
         _advancedTutorialUIController.OnDialogueEnd(_currentTutorialIndex);
         GameManager.Instance.State = GameManager.GameState.StartGame;
     }
@@ -130,7 +130,7 @@ public class AdvancedTutorialManager : MonoBehaviour
         GameManager.Instance.State = GameManager.GameState.Stop;
         _backGround.SetActive(true);
         _nextButton.SetActive(true);
-        _tutorialDisplayBackGround.SetActive(false);
+        //_tutorialDisplayBackGround.SetActive(false);
         _advancedTutorialUIController.OnTutorialEnd(_currentTutorialIndex);
         DeactivateGenerator();
         _currentTutorialIndex++;
@@ -155,7 +155,7 @@ public class AdvancedTutorialManager : MonoBehaviour
         if (CurrentTutorial.ShowTutorialGuideOnStart)
         {
             _advancedTutorialUIController.AdvancedTutorialUI[_currentTutorialIndex].SetActive(true);
-            _tutorialDisplayBackGround.SetActive(CurrentTutorial.ShowTutorialGuideBackground);
+            //_tutorialDisplayBackGround.SetActive(CurrentTutorial.ShowTutorialGuideBackground);
         }
 
         dialogueManager._onDialogueEnd.AddListener(CurrentTutorial.StartOperating);
