@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: atMainMenu
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 83728175101965506, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: fruitSlicedPrefab
+      value: 
+      objectReference: {fileID: 1380852210859090364, guid: fac28d4041600104cb6ff47b5a1ce5f4, type: 3}
     - target: {fileID: 752638607334200436, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: m_Name
       value: Human Menu
@@ -20,10 +24,18 @@ PrefabInstance:
       propertyPath: atMainMenu
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3592174121423691014, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: fruitSlicedPrefab
+      value: 
+      objectReference: {fileID: 8846248092394446896, guid: 666275df9816c0746acd0af27858c8b1, type: 3}
     - target: {fileID: 5983385280804613021, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: atMainMenu
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5983385280804613021, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: fruitSlicedPrefab
+      value: 
+      objectReference: {fileID: 3036385971898085685, guid: d6df4a2739c95bf41a554cf97d09ce3f, type: 3}
     - target: {fileID: 6137906145378110690, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.3672507
@@ -88,6 +100,10 @@ PrefabInstance:
       propertyPath: atMainMenu
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7008882931735631613, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: fruitSlicedPrefab
+      value: 
+      objectReference: {fileID: 2417688765679808340, guid: 3beccd80f266b4744a9a507c5fa4762d, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
