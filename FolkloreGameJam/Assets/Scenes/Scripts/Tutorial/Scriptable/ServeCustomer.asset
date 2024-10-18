@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 2
   DialogueLines:
-  - As you can when you cut humans, their organs will drop according to where you
-    cut it.
-  - It is essential because some customers like it rotten.
-  - When you work in the restaurant, customers will ask different level of rottenness
-  - Now, try serving customers what they want
+  - When you slice humans, their organs will drop where you cut them
+  - Some customers like rotten organs.
+  - So, they will ask for different levels of rottenness.
+  - Now, serve customers what they want!
   ShowTutorialGuideOnStart: 0
   ShowTutorialGuideBackground: 0
   ShowOnSecondDialogue: 1

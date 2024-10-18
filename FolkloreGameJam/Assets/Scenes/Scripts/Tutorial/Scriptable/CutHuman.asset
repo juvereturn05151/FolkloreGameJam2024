@@ -14,15 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   DialogueLines:
-  - Mwahahaha! Welcome to our slaughter house
-  - Your main job here is to SLASH humans that fall from above and serve organs to
-    our precious customer
-  - Now, Slash them by dragging your mouse like a game where you cut fruits!!!
+  - Mwahahaha! Welcome to our restaurant!
+  - Your job is to slice humans and serve their organs to our customers.
+  - Now, try slicing them by dragging your mouse, like that fruit-slicing game!
   ShowTutorialGuideOnStart: 0
   ShowTutorialGuideBackground: 0
   ShowOnSecondDialogue: 0
   ShowOnLastDialogue: 0
-  ObjectiveDialogue: Slash 3 humans
-  WhatToDoDialogue: Slash humans by dragging your mouse like a game where you slash
-    fruits
+  ObjectiveDialogue: Slice 3 humans
+  WhatToDoDialogue: Slice humans by dragging your mouse, like a game where you slice
+    fruits!
   TutorialAttribute: {fileID: 11400000, guid: 436d28d54c7466a40981c8518462f8e9, type: 2}
