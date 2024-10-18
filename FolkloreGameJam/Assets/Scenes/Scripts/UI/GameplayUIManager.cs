@@ -103,7 +103,8 @@ public class GameplayUIManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("HighScore", _currentScore);
         }
-        gameOverHighScoreText.text = $"High Score: {_currentScore}";
+        // gameOverHighScoreText.text = $"High Score: {_currentScore}";
+        gameOverHighScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0);
 
         GameManager.Instance.ApplyGameOver();
     }
