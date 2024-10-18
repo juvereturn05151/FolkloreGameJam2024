@@ -16,7 +16,7 @@ MonoBehaviour:
   DialogueLines:
   - We're open from 6:00 PM to 6:00 AM
   - "You\u2019ve got 4 chances to make mistakes."
-  - Try to core as high as you can
+  - Try to score as high as you can
   - and most importantly, have fun!!!
   ShowTutorialGuideOnStart: 0
   ShowTutorialGuideBackground: 1
