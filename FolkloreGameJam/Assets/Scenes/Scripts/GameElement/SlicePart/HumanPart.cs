@@ -13,6 +13,9 @@ public class HumanPart : MonoBehaviour
     bool atMainMenu;
 
     Rigidbody2D rb;
+    
+    [SerializeField] private GameObject bloodFX;
+    [SerializeField] private GameObject bloodSplashFX;
 
     void Start()
     {
@@ -24,6 +27,9 @@ public class HumanPart : MonoBehaviour
     {
         if (col.tag == "Blade")
         {
+            Instantiate(bloodFX, transform.position, Quaternion.identity);
+            Instantiate(bloodSplashFX, transform.position, Quaternion.identity);
+            
             if (!atMainMenu) 
             {
                 if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.CutHuman)

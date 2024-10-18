@@ -53,6 +53,7 @@ MonoBehaviour:
   dropLayer:
     serializedVersion: 2
     m_Bits: 64
+  dropFoodFX: {fileID: 8216745540882889271, guid: 4d4ebef3c6af4424c91226f6d50345c8, type: 3}
 --- !u!114 &232721953073803165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,3 +67,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGameOver: 0
+  increaseScoreFeedback: {fileID: 0}
+  decreaseScoreFeedback: {fileID: 0}
+  humanGen1: {fileID: 0}
+  humanGen2: {fileID: 0}
+  customerGen: {fileID: 0}
+  IsTutorial: 0
