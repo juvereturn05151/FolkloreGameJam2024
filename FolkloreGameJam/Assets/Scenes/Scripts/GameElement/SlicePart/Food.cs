@@ -56,6 +56,8 @@ public class Food : MonoBehaviour
 
     private Color _initialColor;
 
+    [SerializeField] private GameObject foodStateEffect;
+
     private void OnEnable()
     {
         if (!_isReadyToEat) 
@@ -146,6 +148,8 @@ public class Food : MonoBehaviour
             return;
 
         rottenSlider.transform.DOShakePosition(0.5f, 0.5f);
+        SoundManager.instance.PlaySFX("ChangeFoodState");
+        Instantiate(foodStateEffect, transform.position, Quaternion.identity, transform);
         _foodState++;
     }
 

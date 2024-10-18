@@ -152,6 +152,7 @@ MonoBehaviour:
   _desiredDonenessText: {fileID: 5944748879288458848}
   eatingIcon: {fileID: 8261258301930835968}
   heart: {fileID: 3385033955819638691, guid: 5052f5d6ebdd9b74a8acc60b3131e090, type: 3}
+  brokenHeart: {fileID: 6855314210357232287, guid: 7c2a9b83b809a0848915fabd9596b68b, type: 3}
   heartLocation: {fileID: 1856251926329004594}
 --- !u!1 &6387989486699807696
 GameObject:
