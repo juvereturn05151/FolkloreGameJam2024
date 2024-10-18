@@ -160,9 +160,9 @@ public class Food : MonoBehaviour
 
     public void SetFoodToBeEaten(Plate plate, bool eatingRightFood)
     {
-        transform.position = plate.transform.position;
+        transform.position = plate.transform.position ;
         transform.SetParent(plate.transform);
-        transform.localPosition = Vector3.zero;
+        transform.localPosition = Vector3.zero + new Vector3(0.0f, 0.86f, 0.0f);
         _rigidBody.velocity = Vector2.zero;
         _rigidBody.gravityScale = 0;
         _rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX;
