@@ -164,6 +164,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4875406320138523630}
     m_Modifications:
+    - target: {fileID: 271588967708860682, guid: fdf48e6fdcef84b42b4381e0d53de84c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 44
+      objectReference: {fileID: 0}
     - target: {fileID: 349352637997570504, guid: fdf48e6fdcef84b42b4381e0d53de84c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.27
@@ -208,6 +212,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Plate (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7756634274568793163, guid: fdf48e6fdcef84b42b4381e0d53de84c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 44
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -237,6 +245,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3700894078756614304}
     m_Modifications:
+    - target: {fileID: 271588967708860682, guid: fdf48e6fdcef84b42b4381e0d53de84c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 44
+      objectReference: {fileID: 0}
     - target: {fileID: 349352637997570504, guid: fdf48e6fdcef84b42b4381e0d53de84c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13.21
@@ -280,6 +292,10 @@ PrefabInstance:
     - target: {fileID: 4812665308420189380, guid: fdf48e6fdcef84b42b4381e0d53de84c, type: 3}
       propertyPath: m_Name
       value: Plate
+      objectReference: {fileID: 0}
+    - target: {fileID: 7756634274568793163, guid: fdf48e6fdcef84b42b4381e0d53de84c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 44
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -387,6 +403,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 210470791712408081}
     m_Modifications:
+    - target: {fileID: 271588967708860682, guid: fdf48e6fdcef84b42b4381e0d53de84c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 44
+      objectReference: {fileID: 0}
     - target: {fileID: 349352637997570504, guid: fdf48e6fdcef84b42b4381e0d53de84c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.59
@@ -430,6 +450,10 @@ PrefabInstance:
     - target: {fileID: 4812665308420189380, guid: fdf48e6fdcef84b42b4381e0d53de84c, type: 3}
       propertyPath: m_Name
       value: Plate (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7756634274568793163, guid: fdf48e6fdcef84b42b4381e0d53de84c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 44
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
