@@ -533,6 +533,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 78948297106428686, guid: 9b5fe3015cbc3234c99a932e3d5916a5, type: 3}
+      propertyPath: ghostAngerFeedback
+      value: 
+      objectReference: {fileID: 2085512605}
     - target: {fileID: 3289484873757203815, guid: 9b5fe3015cbc3234c99a932e3d5916a5, type: 3}
       propertyPath: m_Name
       value: GameplayUICanvas_Remake
@@ -1649,6 +1653,17 @@ MonoBehaviour:
 --- !u!114 &2085512604 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3844561075116741231, guid: a982c268f117b2a449f29fbef247b73f, type: 3}
+  m_PrefabInstance: {fileID: 2085512602}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6da43522623d4704e979466dc7650b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2085512605 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 694874946811012640, guid: a982c268f117b2a449f29fbef247b73f, type: 3}
   m_PrefabInstance: {fileID: 2085512602}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
