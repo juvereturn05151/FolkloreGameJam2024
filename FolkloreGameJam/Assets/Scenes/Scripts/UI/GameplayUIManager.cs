@@ -102,8 +102,13 @@ public class GameplayUIManager : MonoBehaviour
         if (_currentScore >= ScoreManager.Instance.GetHighScore())
         {
             PlayerPrefs.SetInt("HighScore", _currentScore);
+            gameOverHighScoreText.text = $"High Score: {_currentScore}";
         }
-        gameOverHighScoreText.text = $"High Score: {_currentScore}";
+        else 
+        {
+            gameOverHighScoreText.text = $"High Score: {ScoreManager.Instance.GetHighScore()}";
+        }
+
 
         GameManager.Instance.ApplyGameOver();
     }
