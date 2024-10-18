@@ -107,4 +107,9 @@ public class GameplayUIManager : MonoBehaviour
 
         GameManager.Instance.ApplyGameOver();
     }
+
+    public void Restart() 
+    {
+        GameManager.Instance.PlayAgain();
+    }
 }
