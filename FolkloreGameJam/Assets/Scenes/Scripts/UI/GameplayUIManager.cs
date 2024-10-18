@@ -104,5 +104,7 @@ public class GameplayUIManager : MonoBehaviour
             PlayerPrefs.SetInt("HighScore", _currentScore);
         }
         gameOverHighScoreText.text = $"High Score: {_currentScore}";
+
+        GameManager.Instance.ApplyGameOver();
     }
 }
