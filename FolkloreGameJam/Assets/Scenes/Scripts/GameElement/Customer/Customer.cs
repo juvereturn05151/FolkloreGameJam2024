@@ -6,6 +6,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -53,9 +54,14 @@ public class Customer : MonoBehaviour
 
     #endregion
 
+    [Header("Customer Feedback")]
     [SerializeField] private GameObject heart;
     [SerializeField] private GameObject brokenHeart;
     [SerializeField] private Transform heartLocation;
+    
+    [SerializeField] private Transform feedbackParent;
+    [SerializeField] private GameObject satifyFeedback;
+    [SerializeField] private GameObject unSatifyFeedback;
 
     private bool isOrdering = false;
     public bool IsOrdering => isOrdering;
@@ -180,6 +186,7 @@ public class Customer : MonoBehaviour
 
         SoundManager.instance.PlaySFX("Like");
         Instantiate(heart, heart.transform.position, heart.transform.rotation, heartLocation);
+        Instantiate(satifyFeedback, feedbackParent);
         orderImageBG.GetComponent<Animator>().SetTrigger("Right");
 
         StartCoroutine(LeaveAfterDelay(food));
@@ -217,6 +224,7 @@ public class Customer : MonoBehaviour
         // anger if didn't eat the right food
         //Reduce score, anger the customer ,and whatever here
         SoundManager.instance.PlaySFX("Nah");
+        Instantiate(unSatifyFeedback, feedbackParent);
         Instantiate(brokenHeart, heartLocation.transform.position, Quaternion.identity, heartLocation);
         orderImageBG.GetComponent<Animator>().SetTrigger("Wrong");
         var _decreaseValue = patienceSlider.value / 2; 
