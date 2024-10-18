@@ -103,7 +103,7 @@ public class GameplayUIManager : MonoBehaviour
     public void OnGameOver()
     {
         gameOverPanel.SetActive(true);
-        receiptImage.DOScale(new Vector3(120f, 120f), 0.5f).SetEase(Ease.InQuart);
+        // receiptImage.DOScale(new Vector3(120f, 120f), 0.5f).SetEase(Ease.InQuart);
         
         var _currentScore = ScoreManager.Instance.GetCurrentScore();
         // var _maxScore = GameManager.Instance.MaxScore;
