@@ -113,7 +113,8 @@ public class Food : MonoBehaviour
 
                     if (_foodState == FoodState.Burnt)
                     {
-                        ScoreManager.Instance.SubtractScore(_decreaseScoreOnBurnt);
+                        if(!GameManager.Instance.IsGameOver)
+                            ScoreManager.Instance.SubtractScore(_decreaseScoreOnBurnt);
                         if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.WaitForRotten) 
                         {
                             AdvancedTutorialManager.Instance.rottenCount++;
