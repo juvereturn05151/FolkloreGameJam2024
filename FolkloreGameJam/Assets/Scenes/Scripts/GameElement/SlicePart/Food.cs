@@ -56,6 +56,8 @@ public class Food : MonoBehaviour
 
     private Color _initialColor;
 
+    [SerializeField] private GameObject foodStateEffect;
+
     private void OnEnable()
     {
         if (!_isReadyToEat) 
@@ -111,7 +113,8 @@ public class Food : MonoBehaviour
 
                     if (_foodState == FoodState.Burnt)
                     {
-                        ScoreManager.Instance.SubtractScore(_decreaseScoreOnBurnt);
+                        if(!GameManager.Instance.IsGameOver)
+                            ScoreManager.Instance.SubtractScore(_decreaseScoreOnBurnt);
                         if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.WaitForRotten) 
                         {
                             AdvancedTutorialManager.Instance.rottenCount++;
@@ -146,6 +149,8 @@ public class Food : MonoBehaviour
             return;
 
         rottenSlider.transform.DOShakePosition(0.5f, 0.5f);
+        SoundManager.instance.PlaySFX("ChangeFoodState");
+        Instantiate(foodStateEffect, transform.position, Quaternion.identity, transform);
         _foodState++;
     }
 
@@ -156,9 +161,9 @@ public class Food : MonoBehaviour
 
     public void SetFoodToBeEaten(Plate plate, bool eatingRightFood)
     {
-        transform.position = plate.transform.position;
+        transform.position = plate.transform.position ;
         transform.SetParent(plate.transform);
-        transform.localPosition = Vector3.zero;
+        transform.localPosition = Vector3.zero + new Vector3(0.0f, 0.86f, 0.0f);
         _rigidBody.velocity = Vector2.zero;
         _rigidBody.gravityScale = 0;
         _rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX;

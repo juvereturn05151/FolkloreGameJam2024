@@ -240,7 +240,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 200
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: 1ee7fdb34a9e4c143aad25d858f1ed06, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -532,6 +532,7 @@ MonoBehaviour:
   _dust: {fileID: 5540516936403237619, guid: cc5ebee8525cd5049a44e355cdb1506f, type: 3}
   _eatingTime: 10
   _decreaseScoreOnBurnt: 10
+  foodStateEffect: {fileID: 3060276948223746265, guid: 45660aa6b68842442b78a03c408cb4d1, type: 3}
 --- !u!1 &7213418843631013065
 GameObject:
   m_ObjectHideFlags: 0

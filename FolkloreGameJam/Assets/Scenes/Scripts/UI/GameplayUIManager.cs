@@ -4,6 +4,7 @@ using MoreMountains.Feedbacks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class GameplayUIManager : MonoBehaviour
 {
@@ -13,11 +14,15 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private MMF_Player ghostAngerFeedback;
     public UnityAction OnGhostAnger;
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private RectTransform receiptImage;
     [SerializeField] private TextMeshProUGUI gameOverScoreText;
     [SerializeField] private TextMeshProUGUI gameOverHighScoreText;
+    
+    [Header("Gameplay UI Elements")]
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private TextMeshProUGUI hpText;
+    [SerializeField] private Image heartImage;
 
     private void Awake()
     {
@@ -54,6 +59,9 @@ public class GameplayUIManager : MonoBehaviour
 
         // Initialize UI with the current score
         UpdateScoreUI(ScoreManager.Instance.GetCurrentScore());
+        
+        heartImage.DOColor(Color.red, 0.5f).SetLoops(-1, LoopType.Yoyo);
+        heartImage.rectTransform.DOShakePosition(0.5f, 5f).SetLoops(-1, LoopType.Yoyo);
     }
 
     private void OnDestroy()
@@ -95,6 +103,7 @@ public class GameplayUIManager : MonoBehaviour
     public void OnGameOver()
     {
         gameOverPanel.SetActive(true);
+        // receiptImage.DOScale(new Vector3(120f, 120f), 0.5f).SetEase(Ease.InQuart);
         
         var _currentScore = ScoreManager.Instance.GetCurrentScore();
         // var _maxScore = GameManager.Instance.MaxScore;
@@ -103,7 +112,8 @@ public class GameplayUIManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("HighScore", _currentScore);
         }
-        gameOverHighScoreText.text = $"High Score: {_currentScore}";
+        // gameOverHighScoreText.text = $"High Score: {_currentScore}";
+        gameOverHighScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0);
 
         GameManager.Instance.ApplyGameOver();
     }
