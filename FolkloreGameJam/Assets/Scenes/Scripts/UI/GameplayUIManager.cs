@@ -11,7 +11,7 @@ public class GameplayUIManager : MonoBehaviour
     public static GameplayUIManager Instance;
     
     [Header("Game Over Elements")]
-    [SerializeField] private MMF_Player ghostAngerFeedback;
+    // [SerializeField] private MMF_Player ghostAngerFeedback;
     public UnityAction OnGhostAnger;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private RectTransform receiptImage;
@@ -34,8 +34,9 @@ public class GameplayUIManager : MonoBehaviour
     {
         OnGhostAnger += () =>
         {
-            ghostAngerFeedback.PlayFeedbacks();
-            Camera.main.DOShakePosition(0.5f, 2f);
+            FeedbackManager.Instance.damageFeedback.PlayFeedbacks();
+            FeedbackManager.Instance.ShakeCameraFeedback(0.5f, 2f);
+            // Camera.main.DOShakePosition(0.5f, 2f);
         };
         
         gameOverHighScoreText.text = $"High Score: {ScoreManager.Instance.GetHighScore()}";
