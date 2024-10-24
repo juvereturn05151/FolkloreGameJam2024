@@ -230,10 +230,11 @@ public class Customer : MonoBehaviour
         var _decreaseValue = patienceSlider.value / 2; 
         patienceSlider.DOValue(_decreaseValue, 1f).SetEase(Ease.OutSine);
         patienceSlider.gameObject.transform.DOShakePosition(1f, new Vector3(0.25f, 0.25f, 0));
-        Camera.main.DOShakePosition(0.5f, 1f);
+        // Camera.main.DOShakePosition(0.5f, 1f);
         GameManager.Instance.DecreaseScore(15);
         // HPManager.Instance.TakeDamage(1);
         transform.DOShakePosition(1f, 0.5f);
+        FeedbackManager.Instance.ShakeCameraFeedback(0.5f, 1f);
 
 
         _isEating = false;

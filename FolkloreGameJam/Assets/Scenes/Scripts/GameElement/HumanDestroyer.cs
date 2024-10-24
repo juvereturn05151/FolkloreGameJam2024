@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class HumanDestroyer : MonoBehaviour
@@ -13,10 +14,13 @@ public class HumanDestroyer : MonoBehaviour
             }
             return;
         }
+    }
 
-        if (other.GetComponent<Food>() is Food food) 
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Food"))
         {
-            Destroy(food.gameObject);
+            Destroy(other.gameObject);
         }
     }
 }

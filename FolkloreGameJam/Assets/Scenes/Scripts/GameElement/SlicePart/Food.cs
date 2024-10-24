@@ -151,6 +151,7 @@ public class Food : MonoBehaviour
                 if (!GameManager.Instance.IsGameOver)
                 {
                     ScoreManager.Instance.SubtractScore(_decreaseScoreOnBurnt);
+                    FeedbackManager.Instance.decreaseScoreFeedback.PlayFeedbacks();
                 }
 
                 if (GameUtility.AdvancedTutorialManagerExists()) 

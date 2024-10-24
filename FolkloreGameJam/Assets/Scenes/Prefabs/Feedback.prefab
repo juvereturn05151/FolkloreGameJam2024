@@ -2043,6 +2043,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5732611390437013070}
+  - component: {fileID: 2135684674646126804}
   m_Layer: 0
   m_Name: Feedback
   m_TagString: Untagged
@@ -2068,3 +2069,18 @@ Transform:
   - {fileID: 8019404664553501281}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2135684674646126804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5794440133891652331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4946137ce456f0244b8deb8d9ba1825c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  increaseScoreFeedback: {fileID: 3844561075116741231}
+  decreaseScoreFeedback: {fileID: 7793434036902215408}
+  damageFeedback: {fileID: 694874946811012640}

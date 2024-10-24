@@ -30,6 +30,8 @@ public class HumanPart : MonoBehaviour
             Instantiate(bloodFX, transform.position, Quaternion.identity);
             Instantiate(bloodSplashFX, transform.position, Quaternion.identity);
             
+            FeedbackManager.Instance.ShakeCameraFeedback(0.5f, 0.25f);
+            
             if (!atMainMenu) 
             {
                 if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.CutHuman)
