@@ -17,5 +17,10 @@ public static class GameUtility
         return AdvancedTutorialManager.Instance != null;
     }
 
+    public static bool FeedbackManagerExists()
+    {
+        return FeedbackManager.Instance != null;
+    }
+
     // Other utility methods
 }

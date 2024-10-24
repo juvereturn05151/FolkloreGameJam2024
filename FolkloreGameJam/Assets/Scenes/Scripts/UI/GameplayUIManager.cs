@@ -35,8 +35,11 @@ public class GameplayUIManager : MonoBehaviour
     {
         OnGhostAnger += () =>
         {
-            FeedbackManager.Instance.damageFeedback.PlayFeedbacks();
-            FeedbackManager.Instance.ShakeCameraFeedback(0.5f, 2f);
+            if (GameUtility.FeedbackManagerExists()) 
+            {
+                FeedbackManager.Instance.damageFeedback.PlayFeedbacks();
+                FeedbackManager.Instance.ShakeCameraFeedback(0.5f, 2f);
+            }
             // Camera.main.DOShakePosition(0.5f, 2f);
         };
         

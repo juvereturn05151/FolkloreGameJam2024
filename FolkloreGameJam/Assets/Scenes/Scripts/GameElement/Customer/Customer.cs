@@ -234,7 +234,12 @@ public class Customer : MonoBehaviour
         GameManager.Instance.DecreaseScore(15);
         // HPManager.Instance.TakeDamage(1);
         transform.DOShakePosition(1f, 0.5f);
-        FeedbackManager.Instance.ShakeCameraFeedback(0.5f, 1f);
+
+        if (GameUtility.FeedbackManagerExists()) 
+        {
+            FeedbackManager.Instance.ShakeCameraFeedback(0.5f, 1f);
+        }
+
 
 
         _isEating = false;
