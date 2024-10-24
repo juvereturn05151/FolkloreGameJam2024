@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SteamLeaderboardManager : MonoBehaviour
 {
-    private const string s_leaderboardName = "Scores";
+    private const string s_leaderboardName = "Slice, Suffer, Serve! High-Score Demo";
 
     public static SteamLeaderboardManager instance;
     public static bool s_initialized = false;
@@ -35,6 +35,8 @@ public class SteamLeaderboardManager : MonoBehaviour
 
     public static void UpdateScore(int score)
     {
+        Debug.Log("Upload Score");
+
         if (!SteamManager.Initialized)
             return;
 
@@ -62,11 +64,16 @@ public class SteamLeaderboardManager : MonoBehaviour
 
     private static void OnLeaderboardFindResult(LeaderboardFindResult_t pCallback, bool failure)
     {
+        if (failure) 
+        {
+            Debug.Log("dont' find");
+        }
+
         s_currentLeaderboard = pCallback.m_hSteamLeaderboard;
         s_initialized = true;
 
-        if(instance.getScores)
-            SteamLeaderboardDisplay.GetScores();
+        /*if(instance.getScores)
+            SteamLeaderboardDisplay.GetScores();*/
     }
 
     private static void OnLeaderboardUploadResult(LeaderboardScoreUploaded_t pCallback, bool failure)

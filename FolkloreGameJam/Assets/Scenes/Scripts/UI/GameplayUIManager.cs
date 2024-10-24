@@ -107,6 +107,11 @@ public class GameplayUIManager : MonoBehaviour
 
     public void OnGameOver()
     {
+        if (gameOverPanel.activeSelf) 
+        {
+            return;
+        }
+
         gameOverPanel.SetActive(true);
         // receiptImage.DOScale(new Vector3(120f, 120f), 0.5f).SetEase(Ease.InQuart);
         
@@ -116,11 +121,11 @@ public class GameplayUIManager : MonoBehaviour
         if (_currentScore >= ScoreManager.Instance.GetHighScore())
         {
             PlayerPrefs.SetInt("HighScore", _currentScore);
-            SteamLeaderboardManager.UpdateScore(_currentScore);
+
         }
         // gameOverHighScoreText.text = $"High Score: {_currentScore}";
         gameOverHighScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0);
-
+        SteamLeaderboardManager.UpdateScore(_currentScore);
         GameManager.Instance.ApplyGameOver();
     }
 
