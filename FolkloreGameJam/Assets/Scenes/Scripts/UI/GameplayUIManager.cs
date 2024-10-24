@@ -4,6 +4,7 @@ using MoreMountains.Feedbacks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class GameplayUIManager : MonoBehaviour
@@ -111,6 +112,7 @@ public class GameplayUIManager : MonoBehaviour
         if (_currentScore >= ScoreManager.Instance.GetHighScore())
         {
             PlayerPrefs.SetInt("HighScore", _currentScore);
+            SteamLeaderboardManager.UpdateScore(_currentScore);
         }
         // gameOverHighScoreText.text = $"High Score: {_currentScore}";
         gameOverHighScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0);
