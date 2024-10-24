@@ -31,4 +31,10 @@ public class MainManager : MonoBehaviour
     {
         SceneManager.LoadScene("TutorialScene");
     }
+
+    public void ClickToExit()
+    {
+        //Call start game
+        Application.Quit();
+    }
 }
