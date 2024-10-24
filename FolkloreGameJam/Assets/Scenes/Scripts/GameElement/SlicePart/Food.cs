@@ -53,9 +53,6 @@ public class Food : MonoBehaviour
     private float _currentRottenTime = 10.0f;
     public float RottenTime => _currentRottenTime;
 
-
-    private Color _initialColor;
-
     [SerializeField] private GameObject foodStateEffect;
 
     private void OnEnable()
@@ -63,7 +60,6 @@ public class Food : MonoBehaviour
         if (!_isReadyToEat) 
         {
             _currentRottenTime = _rottenTime; 
-            _initialColor = _renderer.color;
             isStartingRotten = true;
         }
     }
@@ -76,58 +72,15 @@ public class Food : MonoBehaviour
 
     private void Update()
     {
-        
         if (_isReadyToEat)
         {
-            _eatingTime -= Time.deltaTime;
-            if (_eatingTime <= 0)
-            {
-                _isFinished = true;
-            }
+            UpdateEaten();
         }
         else 
         {
             if (isStartingRotten) 
             {
-                _currentRottenTime -= Time.deltaTime;
-                rottenSlider.value = Mathf.Lerp(rottenSlider.value, _currentRottenTime, Time.deltaTime);
-                
-                // Calculate the darkness factor based on the remaining rotten time
-                float darknessFactor = Mathf.Clamp01(_currentRottenTime / 10.0f); // Normalized value between 0 and 1
-               // _renderer.color = Color.Lerp(Color.black, _initialColor, darknessFactor); // Interpolate between black and the initial color
-
-                if (_currentRottenTime <= 0)
-                {
-                    if(rottenSlider.value > 0) return;
-                    ChangeFoodState();
-                    _textState.text = _foodState.ToString();
-
-                    if (_foodState == FoodState.MediumRare)
-                    {
-                        _renderer.sprite = Menu.MediumRottenSprite;
-                    }
-                    else if (_foodState == FoodState.WellDone)
-                    {
-                        _renderer.sprite = Menu.SuperRottenSprite;
-                    }
-
-                    if (_foodState == FoodState.Burnt)
-                    {
-                        if(!GameManager.Instance.IsGameOver)
-                            ScoreManager.Instance.SubtractScore(_decreaseScoreOnBurnt);
-                        if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.WaitForRotten) 
-                        {
-                            AdvancedTutorialManager.Instance.rottenCount++;
-                        }
-                        Instantiate(_dust, this.transform.position, this.transform.rotation);
-                        Destroy(this.gameObject);
-                    }
-                    else 
-                    {
-                        _currentRottenTime = _rottenTime;
-                        rottenSlider.DOValue(_currentRottenTime, 0.25f).SetEase(Ease.InQuart);
-                    }
-                }
+                UpdateRotten();
             }
         }
     }
@@ -143,20 +96,80 @@ public class Food : MonoBehaviour
         transform.position = new Vector3(_mousePos.x, _mousePos.y, transform.position.z);
     }
 
-    private void ChangeFoodState() 
+
+
+    private void UpdateEaten() 
     {
-        if (_foodState == FoodState.Burnt)
+        _eatingTime -= Time.deltaTime;
+        if (_eatingTime <= 0)
+        {
+            _isFinished = true;
+        }
+    }
+
+    private void UpdateRotten() 
+    {
+        _currentRottenTime -= Time.deltaTime;
+        rottenSlider.value = Mathf.Lerp(rottenSlider.value, _currentRottenTime, Time.deltaTime);
+
+        if (_currentRottenTime <= 0)
+        {
+            if (rottenSlider.value > 0) 
+            {
+                return;
+            } 
+
+            ChangeFoodState();
+        }
+    }
+
+    private void ChangeFoodState()
+    {
+        if (_foodState == FoodState.Burnt) 
+        {
             return;
+        }
 
         rottenSlider.transform.DOShakePosition(0.5f, 0.5f);
         SoundManager.instance.PlaySFX("ChangeFoodState");
         Instantiate(foodStateEffect, transform.position, Quaternion.identity, transform);
         _foodState++;
-    }
 
-    public void SetIsReadyToEat(bool isReadyToEat) 
-    {
-        this._isReadyToEat = isReadyToEat;
+        if (_foodState == FoodState.MediumRare)
+        {
+            _renderer.sprite = Menu.MediumRottenSprite;
+        }
+        else if (_foodState == FoodState.WellDone)
+        {
+            _renderer.sprite = Menu.SuperRottenSprite;
+        }
+
+        if (_foodState == FoodState.Burnt)
+        {
+            if (GameUtility.GameManagerExists())
+            {
+                if (!GameManager.Instance.IsGameOver)
+                {
+                    ScoreManager.Instance.SubtractScore(_decreaseScoreOnBurnt);
+                }
+
+                if (GameUtility.AdvancedTutorialManagerExists()) 
+                {
+                    if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.WaitForRotten)
+                    {
+                        AdvancedTutorialManager.Instance.rottenCount++;
+                    }
+                }
+            }
+
+            Instantiate(_dust, this.transform.position, this.transform.rotation);
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _currentRottenTime = _rottenTime;
+            rottenSlider.DOValue(_currentRottenTime, 0.25f).SetEase(Ease.InQuart);
+        }
     }
 
     public void SetFoodToBeEaten(Plate plate, bool eatingRightFood)
