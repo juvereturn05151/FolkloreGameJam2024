@@ -2,23 +2,31 @@ using Steamworks;
 
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SteamLeaderboardDisplay : MonoBehaviour
 {
-    public Text info;
-    public Text scores;
+    public TextMeshProUGUI info;
+    public TextMeshProUGUI scores;
 
     [HideInInspector]
     public SteamLeaderboardEntries_t m_SteamLeaderboardEntries;
     private static readonly CallResult<LeaderboardScoresDownloaded_t> m_scoresDownloadedResult = new CallResult<LeaderboardScoresDownloaded_t>();
 
-    private void OnEnable()
+    public void Activate()
     {
+        if (!SteamLeaderboardManager.s_initialized) 
+        {
+            SteamLeaderboardManager.Init();
+        }
+
         if (info)
         {
             info.gameObject.SetActive(true);
             info.text = "LOADING SCORES...";
         }
+
+        GetScores();
     }
 
     public static void GetScores()

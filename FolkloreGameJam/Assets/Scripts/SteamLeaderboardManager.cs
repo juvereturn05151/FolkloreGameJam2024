@@ -35,8 +35,6 @@ public class SteamLeaderboardManager : MonoBehaviour
 
     public static void UpdateScore(int score)
     {
-        Debug.Log("Upload Score");
-
         if (!SteamManager.Initialized)
             return;
 
