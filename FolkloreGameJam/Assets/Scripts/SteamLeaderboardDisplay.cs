@@ -6,6 +6,9 @@ using TMPro;
 
 public class SteamLeaderboardDisplay : MonoBehaviour
 {
+    [SerializeField]
+    private int _maxPlayer = 13;
+
     private TextMeshProUGUI info;
     private TextMeshProUGUI scores;
 
@@ -67,7 +70,7 @@ public class SteamLeaderboardDisplay : MonoBehaviour
         scores.text = "";
         scores.gameObject.SetActive(true);
         
-        int numEntries = pCallback.m_cEntryCount;
+        int numEntries = Mathf.Min(pCallback.m_cEntryCount, _maxPlayer);;
         m_SteamLeaderboardEntries = pCallback.m_hSteamLeaderboardEntries;
 
         int rank = 1;
