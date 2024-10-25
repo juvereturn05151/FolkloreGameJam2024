@@ -1,4 +1,10 @@
+#if Steamworks
+using Steamworks;
+#endif
+
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LeaderboardWrapper : MonoBehaviour
 {
@@ -12,5 +18,28 @@ public class LeaderboardWrapper : MonoBehaviour
     void Update()
     {
         
+    }
+
+    //EventClass
+    public void GoToMainMenu() 
+    {
+        FadingUI.Instance.StartFadeIn();
+        FadingUI.Instance.OnStopFading.AddListener(LoadMainMenu);
+    }
+
+    public void GoToGameplay()
+    {
+        FadingUI.Instance.StartFadeIn();
+        FadingUI.Instance.OnStopFading.AddListener(LoadGameplayScene);
+    }
+
+    private void LoadGameplayScene()
+    {
+        SceneManager.LoadScene("GameplayScene");
+    }
+
+    private void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

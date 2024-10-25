@@ -4,6 +4,7 @@ using MoreMountains.Feedbacks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameplayUIManager : MonoBehaviour
@@ -125,5 +126,16 @@ public class GameplayUIManager : MonoBehaviour
     public void Restart()
     {
         GameManager.Instance.PlayAgain();
+    }
+
+    public void GoToLeaderboard() 
+    {
+        FadingUI.Instance.StartFadeIn();
+        FadingUI.Instance.OnStopFading.AddListener(LoadLeaderboard);
+    }
+
+    private void LoadLeaderboard()
+    {
+        SceneManager.LoadScene("Leaderboard");
     }
 }

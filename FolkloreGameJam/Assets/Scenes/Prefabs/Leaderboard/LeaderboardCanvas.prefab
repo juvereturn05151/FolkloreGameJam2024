@@ -256,7 +256,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1415823505841021650}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 962827826848692369}
+        m_TargetAssemblyTypeName: LeaderboardWrapper, Assembly-CSharp
+        m_MethodName: GoToMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3087733060843782111
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,7 +859,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1448661727997136180}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 962827826848692369}
+        m_TargetAssemblyTypeName: LeaderboardWrapper, Assembly-CSharp
+        m_MethodName: GoToGameplay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8337619033875516160
 GameObject:
   m_ObjectHideFlags: 0
