@@ -1,5 +1,5 @@
 #if Steamworks
-using Steamworks;
+using STEAMWORKS_NET;
 #endif
 using UnityEngine;
 using TMPro;
@@ -9,7 +9,7 @@ public class SteamLeaderboardDisplay : MonoBehaviour
     private TextMeshProUGUI info;
     private TextMeshProUGUI scores;
 
-#if Steamworks
+#if STEAMWORKS_NET
 
     [HideInInspector]
     public SteamLeaderboardEntries_t m_SteamLeaderboardEntries;
@@ -38,7 +38,7 @@ public class SteamLeaderboardDisplay : MonoBehaviour
 
     public static void GetScores()
     {
-#if Steamworks
+#if STEAMWORKS_NET
 
         if (!SteamLeaderboardManager.s_initialized)
         {
@@ -53,7 +53,7 @@ public class SteamLeaderboardDisplay : MonoBehaviour
 
 #endif
     }
-    #if Steamworks
+#if STEAMWORKS_NET
     private static void OnLeaderboardScoresDownloaded(LeaderboardScoresDownloaded_t pCallback, bool bIOFailure)
     {
         SteamLeaderboardDisplay instance = FindObjectOfType<SteamLeaderboardDisplay>();

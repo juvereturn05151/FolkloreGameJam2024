@@ -1,4 +1,4 @@
-#if Steamworks
+#if STEAMWORKS_NET
 using Steamworks;
 #endif
 
@@ -12,7 +12,7 @@ public class SteamLeaderboardManager : MonoBehaviour
     public static SteamLeaderboardManager instance;
     public static bool s_initialized = false;
 
-#if Steamworks
+#if STEAMWORKS_NET
 
     public static SteamLeaderboard_t s_currentLeaderboard;
     
@@ -42,7 +42,7 @@ public class SteamLeaderboardManager : MonoBehaviour
 
     public static void UpdateScore(int score)
     {
-#if Steamworks
+#if STEAMWORKS_NET
 
         if (!SteamManager.Initialized)
             return;
@@ -64,7 +64,7 @@ public class SteamLeaderboardManager : MonoBehaviour
 
     public static void Init()
     {
-#if Steamworks
+#if STEAMWORKS_NET
 
 
         if (!SteamManager.Initialized)
@@ -76,7 +76,7 @@ public class SteamLeaderboardManager : MonoBehaviour
 #endif
     }
 
-#if Steamworks
+#if STEAMWORKS_NET
 
     private static void OnLeaderboardFindResult(LeaderboardFindResult_t pCallback, bool failure)
     {
