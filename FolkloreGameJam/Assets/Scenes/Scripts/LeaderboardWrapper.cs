@@ -3,15 +3,22 @@ using Steamworks;
 #endif
 
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class LeaderboardWrapper : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField]
+    private TextMeshProUGUI info;
+    [SerializeField]
+    private TextMeshProUGUI scores;
+
+    [SerializeField]
+    private SteamLeaderboardDisplay steamLeaderboardDisplay;
+
     void Start()
     {
-        
+        steamLeaderboardDisplay.Activate(info, scores);
     }
 
     // Update is called once per frame
