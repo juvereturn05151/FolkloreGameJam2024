@@ -1,5 +1,5 @@
 #if STEAMWORKS_NET
-using STEAMWORKS_NET;
+using Steamworks;
 #endif
 using UnityEngine;
 using TMPro;
