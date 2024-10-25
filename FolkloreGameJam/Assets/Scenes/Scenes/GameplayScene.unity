@@ -223,17 +223,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a982c268f117b2a449f29fbef247b73f, type: 3}
---- !u!114 &245209270 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 694874946811012640, guid: a982c268f117b2a449f29fbef247b73f, type: 3}
-  m_PrefabInstance: {fileID: 245209269}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6da43522623d4704e979466dc7650b65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &294997064 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9065588633544692840, guid: 9b5fe3015cbc3234c99a932e3d5916a5, type: 3}
@@ -1106,10 +1095,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 78948297106428686, guid: 9b5fe3015cbc3234c99a932e3d5916a5, type: 3}
-      propertyPath: ghostAngerFeedback
-      value: 
-      objectReference: {fileID: 245209270}
     - target: {fileID: 3289484873757203815, guid: 9b5fe3015cbc3234c99a932e3d5916a5, type: 3}
       propertyPath: m_Name
       value: GameplayUICanvas_Remake

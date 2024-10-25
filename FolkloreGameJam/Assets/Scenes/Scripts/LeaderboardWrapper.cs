@@ -1,26 +1,52 @@
-using UnityEngine;
+#if Steamworks
 using Steamworks;
+#endif
+
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class LeaderboardWrapper : MonoBehaviour
 {
-    [HideInInspector]
-    public TextMeshProUGUI info;
-    [HideInInspector]
-    public TextMeshProUGUI scores;
+    [SerializeField]
+    private TextMeshProUGUI info;
+    [SerializeField]
+    private TextMeshProUGUI scores;
 
     [SerializeField]
-    private SteamLeaderboardDisplay _steamLeaderboardDisplay;
+    private SteamLeaderboardDisplay steamLeaderboardDisplay;
+
     void Start()
     {
-        _steamLeaderboardDisplay.info = info;
-        _steamLeaderboardDisplay.scores = scores;
-        _steamLeaderboardDisplay.Activate();
+        steamLeaderboardDisplay.Activate(info, scores);
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    //EventClass
+    public void GoToMainMenu() 
+    {
+        FadingUI.Instance.StartFadeIn();
+        FadingUI.Instance.OnStopFading.AddListener(LoadMainMenu);
+    }
+
+    public void GoToGameplay()
+    {
+        FadingUI.Instance.StartFadeIn();
+        FadingUI.Instance.OnStopFading.AddListener(LoadGameplayScene);
+    }
+
+    private void LoadGameplayScene()
+    {
+        SceneManager.LoadScene("GameplayScene");
+    }
+
+    private void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

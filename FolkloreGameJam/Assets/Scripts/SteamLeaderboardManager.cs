@@ -1,4 +1,8 @@
+#if Steamworks
 using Steamworks;
+#endif
+
+
 using UnityEngine;
 
 public class SteamLeaderboardManager : MonoBehaviour
@@ -7,13 +11,16 @@ public class SteamLeaderboardManager : MonoBehaviour
 
     public static SteamLeaderboardManager instance;
     public static bool s_initialized = false;
+
+#if Steamworks
+
     public static SteamLeaderboard_t s_currentLeaderboard;
     
     private static readonly CallResult<LeaderboardFindResult_t> m_findResult = new CallResult<LeaderboardFindResult_t>();
     private static readonly CallResult<LeaderboardScoreUploaded_t> m_uploadResult = new CallResult<LeaderboardScoreUploaded_t>();
 
     private const ELeaderboardUploadScoreMethod s_leaderboardMethod = ELeaderboardUploadScoreMethod.k_ELeaderboardUploadScoreMethodKeepBest;
-
+#endif
     public bool getScores = false;
 
     private void Awake()
@@ -35,6 +42,8 @@ public class SteamLeaderboardManager : MonoBehaviour
 
     public static void UpdateScore(int score)
     {
+#if Steamworks
+
         if (!SteamManager.Initialized)
             return;
 
@@ -49,16 +58,25 @@ public class SteamLeaderboardManager : MonoBehaviour
             m_uploadResult.Set(hSteamAPICall, OnLeaderboardUploadResult);
             SteamAPI.RunCallbacks();
         }
+
+#endif
     }
 
     public static void Init()
     {
+#if Steamworks
+
+
         if (!SteamManager.Initialized)
             return;
 
         SteamAPICall_t hSteamAPICall = SteamUserStats.FindLeaderboard(s_leaderboardName);
         m_findResult.Set(hSteamAPICall, OnLeaderboardFindResult);
+
+#endif
     }
+
+#if Steamworks
 
     private static void OnLeaderboardFindResult(LeaderboardFindResult_t pCallback, bool failure)
     {
@@ -74,8 +92,12 @@ public class SteamLeaderboardManager : MonoBehaviour
             SteamLeaderboardDisplay.GetScores();*/
     }
 
+
+
     private static void OnLeaderboardUploadResult(LeaderboardScoreUploaded_t pCallback, bool failure)
     {
         Debug.Log("STEAM LEADERBOARDS: failure - " + failure + " Completed - " + pCallback.m_bSuccess + " NewScore: " + pCallback.m_nGlobalRankNew + " Score " + pCallback.m_nScore + " HasChanged - " + pCallback.m_bScoreChanged);
     }
+
+#endif
 }

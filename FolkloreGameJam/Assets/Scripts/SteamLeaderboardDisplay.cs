@@ -1,20 +1,27 @@
+#if Steamworks
 using Steamworks;
-
+#endif
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class SteamLeaderboardDisplay : MonoBehaviour
 {
-    public TextMeshProUGUI info;
-    public TextMeshProUGUI scores;
+    private TextMeshProUGUI info;
+    private TextMeshProUGUI scores;
+
+#if Steamworks
 
     [HideInInspector]
     public SteamLeaderboardEntries_t m_SteamLeaderboardEntries;
     private static readonly CallResult<LeaderboardScoresDownloaded_t> m_scoresDownloadedResult = new CallResult<LeaderboardScoresDownloaded_t>();
 
-    public void Activate()
+#endif
+
+    public void Activate(TextMeshProUGUI info, TextMeshProUGUI scores)
     {
+        this.info = info;
+        this.scores = scores;
+
         if (!SteamLeaderboardManager.s_initialized) 
         {
             SteamLeaderboardManager.Init();
@@ -31,6 +38,8 @@ public class SteamLeaderboardDisplay : MonoBehaviour
 
     public static void GetScores()
     {
+#if Steamworks
+
         if (!SteamLeaderboardManager.s_initialized)
         {
             Debug.Log("Can't fetch leaderboard because it isn't loaded yet");
@@ -41,8 +50,10 @@ public class SteamLeaderboardDisplay : MonoBehaviour
             SteamAPICall_t handle = SteamUserStats.DownloadLeaderboardEntries(SteamLeaderboardManager.s_currentLeaderboard, ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobal, 1, 10); // Maximum of 10 entries
             m_scoresDownloadedResult.Set(handle, OnLeaderboardScoresDownloaded);
         }
-    }
 
+#endif
+    }
+    #if Steamworks
     private static void OnLeaderboardScoresDownloaded(LeaderboardScoresDownloaded_t pCallback, bool bIOFailure)
     {
         SteamLeaderboardDisplay instance = FindObjectOfType<SteamLeaderboardDisplay>();
@@ -91,4 +102,6 @@ public class SteamLeaderboardDisplay : MonoBehaviour
         // Update the "info" text field with additional information
         info.text += "\n\nPRESS ANY KEY TO RETURN";
     }
+
+#endif
 }
