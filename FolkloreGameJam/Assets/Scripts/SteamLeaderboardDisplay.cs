@@ -1,4 +1,4 @@
-#if Steamworks
+#if STEAMWORKS_NET
 using STEAMWORKS_NET;
 #endif
 using UnityEngine;
