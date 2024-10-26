@@ -72,6 +72,10 @@ public class GameManager : MonoBehaviour
 
     public void PlayAgain()
     {
+        if (GameUtility.SoundManagerExists()) 
+        {
+            SoundManager.instance.PlayGameplayBGM();
+        }
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

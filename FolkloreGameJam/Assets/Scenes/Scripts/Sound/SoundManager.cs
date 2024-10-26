@@ -31,6 +31,7 @@ public class SoundManager : MonoBehaviour
     // Background music clip
     public AudioClip backgroundMusic;
     public AudioClip backgroundGameplayMusic;
+    public AudioClip backgroundMenu;
 
     private void Awake()
     {
@@ -66,6 +67,11 @@ public class SoundManager : MonoBehaviour
         PlayMusic(backgroundGameplayMusic);
     }
 
+    public void PlayMenuBGM()
+    {
+        PlayMusic(backgroundMenu);
+    }
+
     // Play background music
     public void PlayMusic(AudioClip clip)
     {
@@ -76,7 +82,13 @@ public class SoundManager : MonoBehaviour
         musicSource.clip = clip;
         musicSource.volume = musicVolume;
         musicSource.loop = true;
+        musicSource.pitch = 1.0f;
         musicSource.Play();
+    }
+
+    public void SpeedUpMusic() 
+    {
+        musicSource.pitch = 1.5f;
     }
 
     // Play a one-shot sound effect
