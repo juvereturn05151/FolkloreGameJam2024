@@ -553,6 +553,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameplayUICanvas_Remake
       objectReference: {fileID: 0}
+    - target: {fileID: 5412440935316901115, guid: 9b5fe3015cbc3234c99a932e3d5916a5, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1313626539}
+    - target: {fileID: 5412440935316901115, guid: 9b5fe3015cbc3234c99a932e3d5916a5, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8441383517994858254, guid: 9b5fe3015cbc3234c99a932e3d5916a5, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1073,11 +1081,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5033570109810557843, guid: 34b8b01a95c4aff4d8f0a142b6b2a1b9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.7
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5033570109810557843, guid: 34b8b01a95c4aff4d8f0a142b6b2a1b9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.08
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5033570109810557843, guid: 34b8b01a95c4aff4d8f0a142b6b2a1b9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1678,11 +1686,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5033570109810557843, guid: 34b8b01a95c4aff4d8f0a142b6b2a1b9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.27
+      value: -6.35
       objectReference: {fileID: 0}
     - target: {fileID: 5033570109810557843, guid: 34b8b01a95c4aff4d8f0a142b6b2a1b9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.35
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5033570109810557843, guid: 34b8b01a95c4aff4d8f0a142b6b2a1b9, type: 3}
       propertyPath: m_LocalPosition.z
