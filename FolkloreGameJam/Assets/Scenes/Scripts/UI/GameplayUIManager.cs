@@ -67,10 +67,6 @@ public class GameplayUIManager : MonoBehaviour
         UpdateScoreUI(ScoreManager.Instance.GetCurrentScore());
         
         heartImage.DOColor(Color.red, 0.5f).SetLoops(-1, LoopType.Yoyo);
-        heartImage.rectTransform.DOShakePosition(0.5f, 5f).SetLoops(-1, LoopType.Yoyo);
-#if STEAMWORKS_NET
-        leaderboardUI.gameObject.SetActive(true);
-#endif
     }
 
     private void OnDestroy()
