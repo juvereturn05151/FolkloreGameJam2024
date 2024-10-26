@@ -16,6 +16,8 @@ public class FeedbackManager : MonoBehaviour
     [Header("Damage Feedback")]
     public MMF_Player damageFeedback;
 
+    private Vector3 defaultCamPos;
+
     #endregion
 
 
@@ -32,8 +34,17 @@ public class FeedbackManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        defaultCamPos = new Vector3(0f, 1f, -10f);
+    }
+
     public void ShakeCameraFeedback(float _duration, float _strength)
     {
-        Camera.main.DOShakePosition(_duration, _strength);
+        var _camTweener = Camera.main.DOShakePosition(_duration, _strength);
+        _camTweener.OnComplete(() =>
+        {
+            Camera.main.transform.DOMove(defaultCamPos, 0.15f);
+        });
     }
 }

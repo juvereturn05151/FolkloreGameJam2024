@@ -11,16 +11,18 @@ public class SteamLeaderboardDisplay : MonoBehaviour
 
     private TextMeshProUGUI info;
     private TextMeshProUGUI scores;
+    private TextMeshProUGUI yourRankNumber;
 
 #if STEAMWORKS_NET
 
     [HideInInspector]
     public SteamLeaderboardEntries_t m_SteamLeaderboardEntries;
     private static readonly CallResult<LeaderboardScoresDownloaded_t> m_scoresDownloadedResult = new CallResult<LeaderboardScoresDownloaded_t>();
+    private static readonly CallResult<LeaderboardScoresDownloaded_t> m_playerRankDownloadedResult = new CallResult<LeaderboardScoresDownloaded_t>();
 
 #endif
 
-    public void Activate(TextMeshProUGUI info, TextMeshProUGUI scores)
+    public void Activate(TextMeshProUGUI info, TextMeshProUGUI scores, TextMeshProUGUI yourRankNumber)
     {
         this.info = info;
         this.scores = scores;
@@ -97,14 +99,48 @@ public class SteamLeaderboardDisplay : MonoBehaviour
                 return;
             }
 
-            scores.text += "#" + rank.ToString() + ". " + username.ToUpper() + "  : <color=white> " + leaderboardEntry.m_nScore.ToString("n0") + "</color>\n";
+            scores.text += "#" + rank.ToString() + ". " + username.ToUpper() + "  :  " + leaderboardEntry.m_nScore.ToString("n0") + "\n";
 
             rank++;
         }
 
-        // Update the "info" text field with additional information
-        info.text += "\n\nPRESS ANY KEY TO RETURN";
+        GetCurrentPlayerRank();
     }
 
 #endif
+    private static void GetCurrentPlayerRank()
+    {
+#if STEAMWORKS_NET
+        if (SteamLeaderboardManager.s_initialized)
+        {
+            CSteamID[] users = { SteamUser.GetSteamID() };
+            SteamAPICall_t handle = SteamUserStats.DownloadLeaderboardEntriesForUsers(SteamLeaderboardManager.s_currentLeaderboard, users, users.Length);
+            m_playerRankDownloadedResult.Set(handle, OnLeaderboardScoresDownloadedForCurrentPlayer);
+        }
+        else
+        {
+            Debug.Log("Leaderboard is not initialized.");
+        }
+#endif
+    }
+
+#if STEAMWORKS_NET
+    private void DisplayCurrentPlayerRank(LeaderboardScoresDownloaded_t pCallback)
+    {
+        // Retrieve only the current player's entry (should only be one entry here)
+        SteamUserStats.GetDownloadedLeaderboardEntry(pCallback.m_hSteamLeaderboardEntries, 0, out LeaderboardEntry_t leaderboardEntry, null, 0);
+
+        int playerRank = leaderboardEntry.m_nGlobalRank;
+        CSteamID playerSteamID = leaderboardEntry.m_steamIDUser;
+        string playerName = SteamFriends.GetFriendPersonaName(playerSteamID);
+
+        if (yourRankNumber != null)
+        {
+            yourRankNumber.gameObject.SetActive(true);
+            yourRankNumber.text = "#" + playerRank + ". " + playerName + "  :  " + PlayerPrefs.GetInt("HighScore", 0).ToString() + "\n";
+        }
+    }
+#endif
+
+
 }

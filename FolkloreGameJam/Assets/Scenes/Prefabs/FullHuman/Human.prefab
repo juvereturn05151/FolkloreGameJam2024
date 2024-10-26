@@ -235,10 +235,10 @@ HingeJoint2D:
   m_Anchor: {x: -0.012529373, y: 3.0069838}
   m_ConnectedAnchor: {x: -0.012529373, y: -2.3230157}
   m_UseConnectedAnchor: 1
-  m_UseMotor: 0
+  m_UseMotor: 1
   m_Motor:
     m_MotorSpeed: 20
-    m_MaximumMotorForce: 15
+    m_MaximumMotorForce: 25
   m_UseLimits: 1
   m_AngleLimits:
     m_LowerAngle: 0
@@ -286,7 +286,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5284819162757745457, guid: 7e2cb3f88f9220c409007e7fe5337a70, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.53
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5284819162757745457, guid: 7e2cb3f88f9220c409007e7fe5337a70, type: 3}
       propertyPath: m_LocalPosition.y
@@ -373,7 +373,7 @@ HingeJoint2D:
     m_MaximumMotorForce: 15
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 0
+    m_LowerAngle: -360
     m_UpperAngle: 360
 --- !u!58 &8751187022874412369
 CircleCollider2D:
@@ -565,7 +565,7 @@ HingeJoint2D:
   m_Anchor: {x: -0.019636631, y: 2.2435136}
   m_ConnectedAnchor: {x: -0.02352333, y: -0.8965707}
   m_UseConnectedAnchor: 1
-  m_UseMotor: 0
+  m_UseMotor: 1
   m_Motor:
     m_MotorSpeed: 20
     m_MaximumMotorForce: 25
