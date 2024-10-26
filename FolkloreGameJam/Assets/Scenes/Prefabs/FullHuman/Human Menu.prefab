@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Human Menu
       objectReference: {fileID: 0}
+    - target: {fileID: 3446121888839635188, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_UseMotor
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3592174121423691014, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: atMainMenu
       value: 1
@@ -28,6 +32,10 @@ PrefabInstance:
       propertyPath: fruitSlicedPrefab
       value: 
       objectReference: {fileID: 8846248092394446896, guid: 666275df9816c0746acd0af27858c8b1, type: 3}
+    - target: {fileID: 5702818048948668893, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_UseMotor
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5983385280804613021, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: atMainMenu
       value: 1
