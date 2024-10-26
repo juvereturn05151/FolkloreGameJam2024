@@ -37,6 +37,12 @@ public class DragAndDropManager : MonoBehaviour
                 {
                     return;
                 }
+
+                if (currentDraggingFood != null) 
+                {
+                    return;
+                }
+
                 if (!isDragging) 
                 {
                     SoundManager.instance.PlaySFX("SFX_WhenPickUpItem");
