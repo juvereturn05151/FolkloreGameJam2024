@@ -26,6 +26,7 @@ public class SteamLeaderboardDisplay : MonoBehaviour
     {
         this.info = info;
         this.scores = scores;
+        this.yourRankNumber = yourRankNumber;
 
         if (!SteamLeaderboardManager.s_initialized) 
         {
@@ -132,12 +133,13 @@ public class SteamLeaderboardDisplay : MonoBehaviour
 
         int playerRank = leaderboardEntry.m_nGlobalRank;
         CSteamID playerSteamID = leaderboardEntry.m_steamIDUser;
+        int highScore = leaderboardEntry.m_nScore;     
         string playerName = SteamFriends.GetFriendPersonaName(playerSteamID);
 
         if (yourRankNumber != null)
         {
             yourRankNumber.gameObject.SetActive(true);
-            yourRankNumber.text = "#" + playerRank + ". " + playerName + "  :  " + PlayerPrefs.GetInt("HighScore", 0).ToString() + "\n";
+            yourRankNumber.text = "#" + playerRank + ". " + playerName + "  :  " + highScore + "\n";
         }
     }
 #endif
@@ -150,7 +152,8 @@ public class SteamLeaderboardDisplay : MonoBehaviour
             return;
         }
 
-        DisplayCurrentPlayerRank(pCallback);
+        SteamLeaderboardDisplay instance = FindObjectOfType<SteamLeaderboardDisplay>();
+        instance.DisplayCurrentPlayerRank(pCallback);
     }
 #endif
 }
