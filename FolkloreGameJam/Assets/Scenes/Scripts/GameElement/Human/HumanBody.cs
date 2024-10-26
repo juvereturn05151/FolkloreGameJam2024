@@ -14,6 +14,7 @@ public class HumanBody : MonoBehaviour
     private void Start()
     {
         //_rigidbody.AddForce(transform.up * _upForce, ForceMode2D.Impulse);
+        _head.GetComponent<Rigidbody2D>().AddForce(new Vector3(-_upForce,0,0));
         _head.OnPartDestroyed.AddListener(DestroyItself);
     }
 
