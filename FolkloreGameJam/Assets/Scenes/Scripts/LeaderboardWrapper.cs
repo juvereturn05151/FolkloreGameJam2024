@@ -12,13 +12,15 @@ public class LeaderboardWrapper : MonoBehaviour
     private TextMeshProUGUI info;
     [SerializeField]
     private TextMeshProUGUI scores;
+    [SerializeField]
+    private TextMeshProUGUI yourRankNumber;
 
     [SerializeField]
     private SteamLeaderboardDisplay steamLeaderboardDisplay;
 
     void Start()
     {
-        steamLeaderboardDisplay.Activate(info, scores);
+        steamLeaderboardDisplay.Activate(info, scores, yourRankNumber);
     }
 
     // Update is called once per frame
