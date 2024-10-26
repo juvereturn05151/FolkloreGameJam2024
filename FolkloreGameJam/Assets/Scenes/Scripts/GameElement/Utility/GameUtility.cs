@@ -27,6 +27,11 @@ public static class GameUtility
         return DragAndDropManager.Instance != null;
     }
 
+    public static bool SoundManagerExists()
+    {
+        return SoundManager.instance != null;
+    }
+
 
 
     // Other utility methods

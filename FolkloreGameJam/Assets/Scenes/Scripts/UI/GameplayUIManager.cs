@@ -137,6 +137,10 @@ public class GameplayUIManager : MonoBehaviour
 
     public void GoToLeaderboard() 
     {
+        if (GameUtility.SoundManagerExists())
+        {
+            SoundManager.instance.PlayMenuBGM();
+        }
         FadingUI.Instance.StartFadeIn();
         FadingUI.Instance.OnStopFading.AddListener(LoadLeaderboard);
     }

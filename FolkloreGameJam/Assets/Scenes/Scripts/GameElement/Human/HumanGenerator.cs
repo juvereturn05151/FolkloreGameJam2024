@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class HumanGenerator : MonoBehaviour
 {
-    [SerializeField] 
-    private HumanBody humanPrefab; // Prefab for the human body
+    [SerializeField]
+    private HumanBody[] humanPrefabs; // Array of human prefabs
     [SerializeField] 
     private Transform spawnPoint; // Where the human will be spawned
     [SerializeField]
@@ -44,8 +44,11 @@ public class HumanGenerator : MonoBehaviour
         // Ensure that we only spawn if there is no human present
         if (currentHuman == null)
         {
-            // Instantiate the human at the specified spawn point
-            currentHuman = Instantiate(humanPrefab, spawnPoint.position, spawnPoint.rotation);
+            // Choose a random human prefab from the array
+            HumanBody selectedPrefab = humanPrefabs[Random.Range(0, humanPrefabs.Length)];
+
+            // Instantiate the selected human prefab at the specified spawn point
+            currentHuman = Instantiate(selectedPrefab, spawnPoint.position, selectedPrefab.transform.rotation);
         }
     }
 
