@@ -366,7 +366,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4477812685002687701
 RectTransform:
   m_ObjectHideFlags: 0
@@ -812,6 +812,7 @@ MonoBehaviour:
   receiptImage: {fileID: 5371235976817645341}
   gameOverScoreText: {fileID: 4056408155794166483}
   gameOverHighScoreText: {fileID: 5386273141836896299}
+  leaderboardUI: {fileID: 6141971924300789583}
   scoreText: {fileID: 1206392465460054849}
   timeText: {fileID: 8973912829803620533}
   hpText: {fileID: 8951032466282533499}
