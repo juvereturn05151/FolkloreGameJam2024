@@ -150,8 +150,7 @@ public class SteamLeaderboardDisplay : MonoBehaviour
             return;
         }
 
-        SteamLeaderboardDisplay instance = FindObjectOfType<SteamLeaderboardDisplay>();
-        instance.DisplayCurrentPlayerRank(pCallback);
+        DisplayCurrentPlayerRank(pCallback);
     }
 #endif
 }
