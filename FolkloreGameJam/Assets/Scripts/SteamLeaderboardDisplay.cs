@@ -141,6 +141,17 @@ public class SteamLeaderboardDisplay : MonoBehaviour
         }
     }
 #endif
+#if STEAMWORKS_NET
+    private static void OnLeaderboardScoresDownloadedForCurrentPlayer(LeaderboardScoresDownloaded_t pCallback, bool bIOFailure)
+    {
+        if (bIOFailure || pCallback.m_cEntryCount == 0)
+        {
+            Debug.Log("Failed to retrieve current player rank.");
+            return;
+        }
 
-
+        SteamLeaderboardDisplay instance = FindObjectOfType<SteamLeaderboardDisplay>();
+        instance.DisplayCurrentPlayerRank(pCallback);
+    }
+#endif
 }
