@@ -36,7 +36,7 @@ public class SteamLeaderboardDisplay : MonoBehaviour
         if (info)
         {
             info.gameObject.SetActive(true);
-            info.text = "LOADING SCORES...";
+            info.text = "Please Download The Steam Version For Leaderboard";
         }
 
         GetScores();

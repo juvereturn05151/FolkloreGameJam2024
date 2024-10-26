@@ -22,5 +22,12 @@ public static class GameUtility
         return FeedbackManager.Instance != null;
     }
 
+    public static bool DragAndDropManagerExists()
+    {
+        return DragAndDropManager.Instance != null;
+    }
+
+
+
     // Other utility methods
 }

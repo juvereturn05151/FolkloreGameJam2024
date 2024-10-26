@@ -19,6 +19,7 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private RectTransform receiptImage;
     [SerializeField] private TextMeshProUGUI gameOverScoreText;
     [SerializeField] private TextMeshProUGUI gameOverHighScoreText;
+    [SerializeField] private Button leaderboardUI;
     
     [Header("Gameplay UI Elements")]
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -67,7 +68,6 @@ public class GameplayUIManager : MonoBehaviour
         UpdateScoreUI(ScoreManager.Instance.GetCurrentScore());
         
         heartImage.DOColor(Color.red, 0.5f).SetLoops(-1, LoopType.Yoyo);
-        heartImage.rectTransform.DOShakePosition(0.5f, 5f).SetLoops(-1, LoopType.Yoyo);
     }
 
     private void OnDestroy()
