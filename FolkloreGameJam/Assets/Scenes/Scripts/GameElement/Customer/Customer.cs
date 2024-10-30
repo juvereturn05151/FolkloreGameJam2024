@@ -6,7 +6,6 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -54,14 +53,10 @@ public class Customer : MonoBehaviour
 
     #endregion
 
-    [Header("Customer Feedback")]
     [SerializeField] private GameObject heart;
-    [SerializeField] private GameObject brokenHeart;
     [SerializeField] private Transform heartLocation;
-    
-    [SerializeField] private Transform feedbackParent;
-    [SerializeField] private GameObject satifyFeedback;
-    [SerializeField] private GameObject unSatifyFeedback;
+
+    private Dictionary<Menu, GameObject> menuOrder = new Dictionary<Menu, GameObject>();
 
     private bool isOrdering = false;
     public bool IsOrdering => isOrdering;
@@ -156,6 +151,11 @@ public class Customer : MonoBehaviour
     {
         FoodType incomingMenu = food.Menu.FoodType;
         
+        if (menuOrder.TryGetValue(food.Menu, out var _order))
+        {
+            _order.GetComponent<Image>().color = Color.gray;
+        }
+        
         // Check if the food is in the FavoriteMenu list
         foreach (var menuRating in _ghostType.FavoriteMenu)
         {
@@ -186,7 +186,6 @@ public class Customer : MonoBehaviour
 
         SoundManager.instance.PlaySFX("Like");
         Instantiate(heart, heart.transform.position, heart.transform.rotation, heartLocation);
-        Instantiate(satifyFeedback, feedbackParent);
         orderImageBG.GetComponent<Animator>().SetTrigger("Right");
 
         StartCoroutine(LeaveAfterDelay(food));
@@ -224,8 +223,6 @@ public class Customer : MonoBehaviour
         // anger if didn't eat the right food
         //Reduce score, anger the customer ,and whatever here
         SoundManager.instance.PlaySFX("Nah");
-        Instantiate(unSatifyFeedback, feedbackParent);
-        Instantiate(brokenHeart, heartLocation.transform.position, Quaternion.identity, heartLocation);
         orderImageBG.GetComponent<Animator>().SetTrigger("Wrong");
         var _decreaseValue = patienceSlider.value / 2; 
         patienceSlider.DOValue(_decreaseValue, 1f).SetEase(Ease.OutSine);
@@ -233,7 +230,6 @@ public class Customer : MonoBehaviour
         // Camera.main.DOShakePosition(0.5f, 1f);
         GameManager.Instance.DecreaseScore(15);
         // HPManager.Instance.TakeDamage(1);
-        transform.DOShakePosition(1f, 0.5f);
 
         if (GameUtility.FeedbackManagerExists()) 
         {
@@ -276,7 +272,8 @@ public class Customer : MonoBehaviour
                 {
                     _order.sprite = _request.Menu.Sprite;
                 }
-                
+
+                menuOrder.Add(_request.Menu, _order.gameObject);
                 isOrdering = true;
                 patienceSlider.gameObject.transform.DOScaleY( 1f, 0.25f);
             }

@@ -11,7 +11,7 @@ public class DragAndDropManager : MonoBehaviour
     
     [SerializeField] private LayerMask dragableLayer;
     [SerializeField] private LayerMask dropLayer;
-    
+
     private void Awake()
     {
         if (Instance == null)
@@ -73,8 +73,9 @@ public class DragAndDropManager : MonoBehaviour
         {
             if (_hit.collider.GetComponent<Plate>() is Plate plate) 
             {
+
                 if (currentDraggingFood == null) return;
-                
+
                 if (!plate.CurrentCustomer.IsOrdering)
                 {
                     print("test");

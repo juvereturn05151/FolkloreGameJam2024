@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1459669552216183880
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6644025497767961298}
-  m_Layer: 0
-  m_Name: Customer Feedback
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6644025497767961298
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1459669552216183880}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.01, y: 8.62, z: -0.69}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6341537730938480952}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2730754159425257772
 GameObject:
   m_ObjectHideFlags: 0
@@ -62,7 +31,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1856251926329004594}
-  - {fileID: 6644025497767961298}
   m_Father: {fileID: 7686870930031496268}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3426251491178899112
@@ -184,11 +152,7 @@ MonoBehaviour:
   _desiredDonenessText: {fileID: 5944748879288458848}
   eatingIcon: {fileID: 8261258301930835968}
   heart: {fileID: 3385033955819638691, guid: 5052f5d6ebdd9b74a8acc60b3131e090, type: 3}
-  brokenHeart: {fileID: 6855314210357232287, guid: 7c2a9b83b809a0848915fabd9596b68b, type: 3}
   heartLocation: {fileID: 1856251926329004594}
-  feedbackParent: {fileID: 6644025497767961298}
-  satifyFeedback: {fileID: 3560014775208800981, guid: 72117327bf158c943948cb4fc223e665, type: 3}
-  unSatifyFeedback: {fileID: 5133655064742041499, guid: dcd45b31e28eee74bb47a887b6842218, type: 3}
 --- !u!1 &6387989486699807696
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,14 +192,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7686870930031496268}
     m_Modifications:
-    - target: {fileID: 369619773152599075, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
-      propertyPath: m_Value
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3647113281656117291, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
-      propertyPath: m_Color.a
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4339513113420161587, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -320,10 +276,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 6082060552533242484, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6234446103766733781, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -334,10 +286,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6691529037428541085, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6691529037428541085, guid: 7ecc6018e3d34934a90d5a2f6e6762f9, type: 3}
-      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

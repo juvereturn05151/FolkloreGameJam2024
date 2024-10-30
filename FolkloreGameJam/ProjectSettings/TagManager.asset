@@ -7,7 +7,6 @@ TagManager:
   - Blade
   - Plate
   - Food
-  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -18,7 +17,7 @@ TagManager:
   - DropZone
   - Draggable
   - 
-  - PostProcessing
+  - 
   - 
   - 
   - 
