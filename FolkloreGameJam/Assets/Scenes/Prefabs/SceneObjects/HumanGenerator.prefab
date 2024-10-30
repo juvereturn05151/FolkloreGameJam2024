@@ -45,9 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 198ae2b8b76dac646b936e48df0ccee4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  humanPrefab: {fileID: 6643490498467574925, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+  humanPrefabs:
+  - {fileID: 6643490498467574925, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+  - {fileID: 9146783203289523913, guid: 11459b7c95d94fd4a975ddf32b4b0759, type: 3}
+  - {fileID: 8911860076978081529, guid: c2e6239c092ba42469de1925b1e3988d, type: 3}
   spawnPoint: {fileID: 7530986704672447851}
-  firstSpawnTime: 2
+  firstSpawnTime: 7
   spawnInterval: 5
 --- !u!1 &8721968128081737636
 GameObject:

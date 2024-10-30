@@ -27,10 +27,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private bool isGameOver;
     public bool IsGameOver => isGameOver;
-
-    [SerializeField] private MMF_Player increaseScoreFeedback;
-    [SerializeField] private MMF_Player decreaseScoreFeedback;
-
     [SerializeField] private HumanGenerator humanGen1;
     [SerializeField] private HumanGenerator humanGen2;
     [SerializeField] private CustomerGenerator customerGen;
@@ -52,13 +48,23 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseScore(int _value)
     {
-        increaseScoreFeedback.PlayFeedbacks();
+        // increaseScoreFeedback.PlayFeedbacks();
+        if (GameUtility.FeedbackManagerExists()) 
+        {
+            FeedbackManager.Instance.increaseScoreFeedback.PlayFeedbacks();
+        }
+
         ScoreManager.Instance.AddScore(_value);
     }
 
     public void DecreaseScore(int _value)
     {
-        decreaseScoreFeedback.PlayFeedbacks();
+        // decreaseScoreFeedback.PlayFeedbacks();
+        if (GameUtility.FeedbackManagerExists())
+        {
+            FeedbackManager.Instance.ShakeCameraFeedback(0.5f, 0.25f);
+            FeedbackManager.Instance.decreaseScoreFeedback.PlayFeedbacks();
+        }
         ScoreManager.Instance.AddScore(-_value);
     }
 
@@ -66,6 +72,10 @@ public class GameManager : MonoBehaviour
 
     public void PlayAgain()
     {
+        if (GameUtility.SoundManagerExists()) 
+        {
+            SoundManager.instance.PlayGameplayBGM();
+        }
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

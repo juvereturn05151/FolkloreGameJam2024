@@ -29,6 +29,8 @@ public class CustomerGenerator : MonoBehaviour
     void Start()
     {
         _spawnTimer = _spawnInterval; // Initialize the spawn timer
+
+        TimeManager.Instance.OnRushTime.AddListener(DoubleSpawnInterval);
     }
 
     // Update is called once per frame
@@ -46,6 +48,11 @@ public class CustomerGenerator : MonoBehaviour
                 _spawnTimer = _spawnInterval; // Reset the spawn timer
             }
         }
+    }
+
+    private void DoubleSpawnInterval() 
+    {
+        _spawnTimer = _spawnInterval;
     }
 
     // Generate a random customer and place them in an empty spot
@@ -93,20 +100,5 @@ public class CustomerGenerator : MonoBehaviour
     {
         spot.SetCustomer(null); // Clear the customer from the spot
         _isGenerating = true; // Allow customer generation again
-    }
-
-    public void PissCustomer() 
-    {
-        foreach (CustomerSpot spot in _customerSpots) 
-        {
-            if (spot.HasCustomer() && spot.Customer != null) 
-            {
-                if (!spot.Customer.IsEating) 
-                {
-                    spot.Customer.PatienceSlider.value -= 10.0f;
-                }
-            }
-            
-        }
     }
 }

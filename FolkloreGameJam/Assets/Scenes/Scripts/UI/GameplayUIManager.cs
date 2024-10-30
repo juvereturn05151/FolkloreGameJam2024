@@ -4,6 +4,8 @@ using MoreMountains.Feedbacks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class GameplayUIManager : MonoBehaviour
@@ -11,12 +13,13 @@ public class GameplayUIManager : MonoBehaviour
     public static GameplayUIManager Instance;
     
     [Header("Game Over Elements")]
-    [SerializeField] private MMF_Player ghostAngerFeedback;
+    // [SerializeField] private MMF_Player ghostAngerFeedback;
     public UnityAction OnGhostAnger;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private RectTransform receiptImage;
     [SerializeField] private TextMeshProUGUI gameOverScoreText;
     [SerializeField] private TextMeshProUGUI gameOverHighScoreText;
+    [SerializeField] private Button leaderboardUI;
     
     [Header("Gameplay UI Elements")]
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -34,8 +37,12 @@ public class GameplayUIManager : MonoBehaviour
     {
         OnGhostAnger += () =>
         {
-            ghostAngerFeedback.PlayFeedbacks();
-            Camera.main.DOShakePosition(0.5f, 2f);
+            if (GameUtility.FeedbackManagerExists()) 
+            {
+                FeedbackManager.Instance.damageFeedback.PlayFeedbacks();
+                FeedbackManager.Instance.ShakeCameraFeedback(0.5f, 2f);
+            }
+            // Camera.main.DOShakePosition(0.5f, 2f);
         };
         
         gameOverHighScoreText.text = $"High Score: {ScoreManager.Instance.GetHighScore()}";
@@ -61,7 +68,6 @@ public class GameplayUIManager : MonoBehaviour
         UpdateScoreUI(ScoreManager.Instance.GetCurrentScore());
         
         heartImage.DOColor(Color.red, 0.5f).SetLoops(-1, LoopType.Yoyo);
-        heartImage.rectTransform.DOShakePosition(0.5f, 5f).SetLoops(-1, LoopType.Yoyo);
     }
 
     private void OnDestroy()
@@ -102,6 +108,11 @@ public class GameplayUIManager : MonoBehaviour
 
     public void OnGameOver()
     {
+        if (gameOverPanel.activeSelf) 
+        {
+            return;
+        }
+
         gameOverPanel.SetActive(true);
         // receiptImage.DOScale(new Vector3(120f, 120f), 0.5f).SetEase(Ease.InQuart);
         
@@ -111,15 +122,31 @@ public class GameplayUIManager : MonoBehaviour
         if (_currentScore >= ScoreManager.Instance.GetHighScore())
         {
             PlayerPrefs.SetInt("HighScore", _currentScore);
+
         }
         // gameOverHighScoreText.text = $"High Score: {_currentScore}";
         gameOverHighScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0);
-
+        SteamLeaderboardManager.UpdateScore(_currentScore);
         GameManager.Instance.ApplyGameOver();
     }
 
     public void Restart()
     {
         GameManager.Instance.PlayAgain();
+    }
+
+    public void GoToLeaderboard() 
+    {
+        if (GameUtility.SoundManagerExists())
+        {
+            SoundManager.instance.PlayMenuBGM();
+        }
+        FadingUI.Instance.StartFadeIn();
+        FadingUI.Instance.OnStopFading.AddListener(LoadLeaderboard);
+    }
+
+    private void LoadLeaderboard()
+    {
+        SceneManager.LoadScene("Leaderboard");
     }
 }

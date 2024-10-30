@@ -1,16 +1,21 @@
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance { get; private set; }
 
     public event Action<string> OnTimeChanged;
+    public UnityEvent OnRushTime;
 
     // Time variables
     [SerializeField]
     private float timeSpeed = 1.0f;  // Speed at which time progresses
     private float currentTime = 18.0f;  // Starting at 6:00 PM (18:00 in 24-hour format)
+
+    private float rushTime = 27.0f;
+    private bool activateRushTime;
 
     private void Awake()
     {
@@ -33,6 +38,17 @@ public class TimeManager : MonoBehaviour
 
         // Simulate time passage
         currentTime += timeSpeed * Time.deltaTime;
+
+        if (currentTime >= rushTime) 
+        {
+            if (!activateRushTime) 
+            {
+                OnRushTime?.Invoke();
+                SoundManager.instance.SpeedUpMusic();
+            }
+
+            activateRushTime = true;
+        }
 
         // If time reaches 6:00 AM (30.0), reset to 6:00 PM (18.0)
         if (currentTime >= 30.0f)

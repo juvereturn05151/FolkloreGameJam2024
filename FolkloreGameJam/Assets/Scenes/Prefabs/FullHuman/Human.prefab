@@ -46,8 +46,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _head: {fileID: 7008882931735631613}
-  _rigidbody: {fileID: 6891517490676250439}
-  _upForce: 40
 --- !u!1 &5245707710223056521
 GameObject:
   m_ObjectHideFlags: 0
@@ -75,7 +73,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 368601188732956255}
@@ -93,10 +91,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 60
   m_LinearDrag: 5
   m_AngularDrag: 0.05
-  m_GravityScale: 0.1
+  m_GravityScale: 6
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -235,10 +233,10 @@ HingeJoint2D:
   m_Anchor: {x: -0.012529373, y: 3.0069838}
   m_ConnectedAnchor: {x: -0.012529373, y: -2.3230157}
   m_UseConnectedAnchor: 1
-  m_UseMotor: 0
+  m_UseMotor: 1
   m_Motor:
     m_MotorSpeed: 20
-    m_MaximumMotorForce: 15
+    m_MaximumMotorForce: 25
   m_UseLimits: 1
   m_AngleLimits:
     m_LowerAngle: 0
@@ -286,7 +284,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5284819162757745457, guid: 7e2cb3f88f9220c409007e7fe5337a70, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.53
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5284819162757745457, guid: 7e2cb3f88f9220c409007e7fe5337a70, type: 3}
       propertyPath: m_LocalPosition.y
@@ -373,7 +371,7 @@ HingeJoint2D:
     m_MaximumMotorForce: 15
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 0
+    m_LowerAngle: -360
     m_UpperAngle: 360
 --- !u!58 &8751187022874412369
 CircleCollider2D:
@@ -565,7 +563,7 @@ HingeJoint2D:
   m_Anchor: {x: -0.019636631, y: 2.2435136}
   m_ConnectedAnchor: {x: -0.02352333, y: -0.8965707}
   m_UseConnectedAnchor: 1
-  m_UseMotor: 0
+  m_UseMotor: 1
   m_Motor:
     m_MotorSpeed: 20
     m_MaximumMotorForce: 25

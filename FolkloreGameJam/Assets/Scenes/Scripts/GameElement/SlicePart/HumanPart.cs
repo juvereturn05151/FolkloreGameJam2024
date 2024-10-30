@@ -29,6 +29,13 @@ public class HumanPart : MonoBehaviour
         {
             Instantiate(bloodFX, transform.position, Quaternion.identity);
             Instantiate(bloodSplashFX, transform.position, Quaternion.identity);
+
+            if (GameUtility.FeedbackManagerExists()) 
+            {
+                FeedbackManager.Instance.ShakeCameraFeedback(0.5f, 0.25f);
+            }
+
+
             
             if (!atMainMenu) 
             {
