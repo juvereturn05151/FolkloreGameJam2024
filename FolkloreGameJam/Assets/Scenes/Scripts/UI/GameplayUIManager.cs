@@ -126,7 +126,7 @@ public class GameplayUIManager : MonoBehaviour
         }
         // gameOverHighScoreText.text = $"High Score: {_currentScore}";
         gameOverHighScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0);
-        SteamLeaderboardManager.UpdateScore(_currentScore);
+        //SteamLeaderboardManager.UpdateScore(_currentScore);
         GameManager.Instance.ApplyGameOver();
     }
 

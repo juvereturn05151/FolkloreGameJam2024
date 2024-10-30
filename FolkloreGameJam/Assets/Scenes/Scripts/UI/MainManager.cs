@@ -1,4 +1,4 @@
-using Steamworks;
+//using Steamworks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,15 +9,15 @@ public class MainManager : MonoBehaviour
 
     private void Start()
     {
-        if (SteamManager.Initialized)
+        //if (SteamManager.Initialized)
         {
-            string name = SteamFriends.GetPersonaName();
-            Debug.Log(name);
+            //string name = SteamFriends.GetPersonaName();
+            //Debug.Log(name);
         }
 
-        SteamLeaderboardManager.Init();
+        //SteamLeaderboardManager.Init();
 
-        humanPart.OnPartDestroyed.AddListener(OnClickStart);
+        //humanPart.OnPartDestroyed.AddListener(OnClickStart);
     }
 
     public void OnClickStart()
