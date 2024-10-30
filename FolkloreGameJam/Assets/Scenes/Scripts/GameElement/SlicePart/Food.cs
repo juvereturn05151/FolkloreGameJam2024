@@ -98,6 +98,12 @@ public class Food : MonoBehaviour
             return;
         }
         SoundManager.instance.PlaySFX("SFX_WhenPickUpItem");
+
+        if (GameUtility.DragAndDropManagerExists()) 
+        {
+            DragAndDropManager.Instance.isDragging = true;
+        }
+
         isDragging = true;
     }
 
