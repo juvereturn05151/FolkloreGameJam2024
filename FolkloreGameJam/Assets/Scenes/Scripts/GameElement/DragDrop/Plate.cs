@@ -16,18 +16,37 @@ public class Plate : MonoBehaviour
     private Customer currentCustomer;
     public Customer CurrentCustomer { get => currentCustomer; set => currentCustomer = value; }
 
+    [SerializeField] SpriteRenderer _spriteRenderer;
+
+    [SerializeField] Color _defaultColor;
+
+    private void Update()
+    {
+        if (CurrentCustomer)
+        {
+            if (CurrentCustomer.IsEatingRightFood && _foodOnPlate == null)
+            {
+
+            }
+        }
+
+    }
+
     public void SetIsOccupied(bool occupy) 
     {
         _isOccupied = occupy;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public bool canBeDropped() { return currentCustomer != null && currentCustomer.IsOrdering; }
+
+    public void OnFoodInOnPlate() 
     {
-        if (other.GetComponent<Food>() is Food food)
-        {
-            if(currentCustomer != null && currentCustomer.IsOrdering)
-                PrepareToEat(food);
-        }
+        _spriteRenderer.color = Color.yellow;
+    }
+
+    public void OnFoodIsOffPlate()
+    {
+        _spriteRenderer.color = _defaultColor;
     }
 
     public void PrepareToEat(Food food) 

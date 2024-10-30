@@ -68,6 +68,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Intestine
       objectReference: {fileID: 0}
+    - target: {fileID: 7426698367081530161, guid: 5eb6c19b6942fe245bd1c95ff1dafd43, type: 3}
+      propertyPath: m_Size.x
+      value: 2.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 7426698367081530161, guid: 5eb6c19b6942fe245bd1c95ff1dafd43, type: 3}
+      propertyPath: m_Size.y
+      value: 3.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 7426698367081530161, guid: 5eb6c19b6942fe245bd1c95ff1dafd43, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.11
+      objectReference: {fileID: 0}
     - target: {fileID: 8907604256687163379, guid: 5eb6c19b6942fe245bd1c95ff1dafd43, type: 3}
       propertyPath: menu
       value: 

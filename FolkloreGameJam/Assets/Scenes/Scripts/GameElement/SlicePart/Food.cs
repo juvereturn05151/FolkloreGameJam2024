@@ -55,6 +55,12 @@ public class Food : MonoBehaviour
 
     [SerializeField] private GameObject foodStateEffect;
 
+    private bool isDragging = false;
+    public bool IsDragging => isDragging;
+    private bool canDrag = true;
+
+    private Plate currentPlate;
+
     private void OnEnable()
     {
         if (!_isReadyToEat) 
@@ -85,18 +91,35 @@ public class Food : MonoBehaviour
         }
     }
 
-    private void OnMouseDrag()
+    private void OnMouseDown()
     {
-        if (IsReadyToEat)
+        if (!canDrag || _isReadyToEat)
         {
             return;
         }
+        SoundManager.instance.PlaySFX("SFX_WhenPickUpItem");
 
-        var _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = new Vector3(_mousePos.x, _mousePos.y, transform.position.z);
+        if (GameUtility.DragAndDropManagerExists()) 
+        {
+            DragAndDropManager.Instance.isDragging = true;
+        }
+
+        isDragging = true;
     }
 
+    private void OnMouseDrag()
+    {
+        if (isDragging && !IsReadyToEat)
+        {
+            var _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = new Vector3(_mousePos.x, _mousePos.y, transform.position.z);
+        }
+    }
 
+    private void OnMouseUp()
+    {
+        isDragging = false;
+    }
 
     private void UpdateEaten() 
     {
@@ -193,6 +216,40 @@ public class Food : MonoBehaviour
         }
         
         rottenSlider.gameObject.SetActive(false);
+    }
+
+
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.GetComponent<Plate>() is Plate plate)
+        {
+            if (currentPlate == null) // Only register if there’s no current plate
+            {
+                currentPlate = plate;
+                currentPlate.OnFoodInOnPlate();
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.GetComponent<Plate>() is Plate plate && currentPlate == plate)
+        {
+            currentPlate.OnFoodIsOffPlate();
+            currentPlate = null; // Clear the reference when food leaves the plate
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.GetComponent<Plate>() is Plate plate && plate == currentPlate)
+        {
+            if (currentPlate.canBeDropped() && !IsDragging)
+            {
+                currentPlate.PrepareToEat(this);
+            }
+        }
     }
 }
 
