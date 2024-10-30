@@ -221,7 +221,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.67, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &6312082451104974211
 MonoBehaviour:
@@ -240,3 +240,5 @@ MonoBehaviour:
       m_Calls: []
   _foodOnPlate: {fileID: 0}
   _isOccupied: 0
+  _spriteRenderer: {fileID: 7756634274568793163}
+  _defaultColor: {r: 0.3529412, g: 0.8627451, b: 1, a: 0.47058824}

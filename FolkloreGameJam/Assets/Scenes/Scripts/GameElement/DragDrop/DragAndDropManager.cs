@@ -5,106 +5,69 @@ using UnityEngine;
 public class DragAndDropManager : MonoBehaviour
 {
     public static DragAndDropManager Instance;
-    
+
     [SerializeField] private Food currentDraggingFood;
-    public bool isDragging;
-    
-    [SerializeField] private LayerMask dragableLayer;
+    [SerializeField] private LayerMask draggableLayer;
     [SerializeField] private LayerMask dropLayer;
-    
+
+    public bool isDragging { get; private set; }
+
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-    }
-    
-    // Update is called once per frame
-    void Update()
-    {
-        OnDragThings();
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
 
-    private void OnDragThings()
+    private void Update()
     {
-        if (Input.GetMouseButton(0))
+       // if (Input.GetMouseButtonDown(0)) StartDragging();
+       // else if (Input.GetMouseButtonUp(0)) StopDragging();
+    }
+
+    private void StartDragging()
+    {
+        if (isDragging) return;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity, draggableLayer);
+
+        if (hit.collider != null && hit.collider.TryGetComponent(out Food food) && !food.IsReadyToEat)
         {
-            var _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            var _hit = Physics2D.Raycast(_ray.origin, _ray.direction, Mathf.Infinity, dragableLayer);
-            
-            if (_hit.collider != null && _hit.collider.GetComponent<Food>() is Food food) 
-            {
-                if (food.IsReadyToEat) 
-                {
-                    return;
-                }
-
-                if (currentDraggingFood != null) 
-                {
-                    return;
-                }
-
-                if (!isDragging) 
-                {
-                    SoundManager.instance.PlaySFX("SFX_WhenPickUpItem");
-                }
-
-                isDragging = true;
-                currentDraggingFood = food;
-
-                var _rb = currentDraggingFood.GetComponent<Rigidbody2D>();
-                _rb.gravityScale = 0;
-
-            }
-           
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            OnDropThings();
+            currentDraggingFood = food;
+            isDragging = true;
+            SoundManager.instance.PlaySFX("SFX_WhenPickUpItem");
+            currentDraggingFood.GetComponent<Rigidbody2D>().gravityScale = 0;
         }
     }
 
-    private void OnDropThings()
+    private void StopDragging()
     {
-        var _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit2D _hit = Physics2D.Raycast(_ray.origin, _ray.direction, Mathf.Infinity, dropLayer);
+        if (!isDragging || currentDraggingFood == null) return;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity, dropLayer);
         isDragging = false;
-        
-        if (_hit.collider != null)
+
+        if (hit.collider != null)
         {
-            if (_hit.collider.GetComponent<Plate>() is Plate plate) 
+            if (hit.collider.TryGetComponent(out Plate plate) && plate.CurrentCustomer.IsOrdering)
             {
-                if (currentDraggingFood == null) return;
-                
-                if (!plate.CurrentCustomer.IsOrdering)
-                {
-                    print("test");
-                    currentDraggingFood.GetComponent<Rigidbody2D>().gravityScale = 1;
-                }
-                else
-                {
-                    plate.PrepareToEat(currentDraggingFood);
-                    currentDraggingFood = null;
-                }
-
-                return;
+                plate.PrepareToEat(currentDraggingFood);
             }
-
-            if (_hit.collider.GetComponent<Trash>() is Trash trash)
+            else if (hit.collider.TryGetComponent(out Trash _))
             {
-                if (currentDraggingFood == null) return;
                 Destroy(currentDraggingFood.gameObject);
-                currentDraggingFood = null;
-                return;
             }
-
+            else
+            {
+                currentDraggingFood.GetComponent<Rigidbody2D>().gravityScale = 1;
+            }
         }
-
-        if (currentDraggingFood == null)
+        else
         {
-            return;
+            currentDraggingFood.GetComponent<Rigidbody2D>().gravityScale = 1;
         }
-        currentDraggingFood.GetComponent<Rigidbody2D>().gravityScale = 1;
 
-
+        currentDraggingFood = null;
     }
 }
