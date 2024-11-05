@@ -45,7 +45,7 @@ public class AdvancedTutorialManager : MonoBehaviour
     public TutorialStep CurrentTutorial { get; private set; }
 
     private const string _firstGameplayScene = "GameplayScene";
-    private bool _isOperating;
+    public bool _isOperating;
     private int _currentTutorialIndex;
 
     public int _humanKillCount;

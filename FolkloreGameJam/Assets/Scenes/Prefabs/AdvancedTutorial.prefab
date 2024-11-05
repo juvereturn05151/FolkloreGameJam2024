@@ -52,6 +52,7 @@ MonoBehaviour:
   _skipButton: {fileID: 0}
   _tutorialList:
   - {fileID: 11400000, guid: efeca35d73ebd4c42b23abcaaa6428da, type: 2}
+  - {fileID: 11400000, guid: f4159ec8445893349969debb35f6a3bc, type: 2}
   - {fileID: 11400000, guid: 41108a3aec708fe46a8ba7d602817aeb, type: 2}
   - {fileID: 11400000, guid: 4d798e0061c377446a07791ad6341c20, type: 2}
   - {fileID: 11400000, guid: 2f99098454956ad498a869e1109ce87f, type: 2}
@@ -59,6 +60,7 @@ MonoBehaviour:
   _humanGenerator: {fileID: 0}
   _humanGenerator2: {fileID: 0}
   _customerGenerator: {fileID: 0}
+  _isOperating: 0
   _humanKillCount: 0
   rottenCount: 0
   serveCount: 0
