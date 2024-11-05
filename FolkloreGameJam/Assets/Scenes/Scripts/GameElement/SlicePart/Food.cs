@@ -55,6 +55,7 @@ public class Food : MonoBehaviour
 
     [SerializeField] private GameObject foodStateEffect;
     [SerializeField] private BoxCollider2D _boxCollider;
+    [SerializeField] private Animator _animator;
 
     private bool isDragging = false;
     public bool IsDragging => isDragging;
@@ -135,6 +136,14 @@ public class Food : MonoBehaviour
     {
         _currentRottenTime -= Time.deltaTime;
         rottenSlider.value = Mathf.Lerp(rottenSlider.value, _currentRottenTime, Time.deltaTime);
+
+        if (_foodState == FoodState.WellDone && _currentRottenTime <= 3.0f)
+        {
+            if (_animator != null)
+            {
+                _animator.SetBool("almost_disappear", true);
+            }
+        }
 
         if (_currentRottenTime <= 0)
         {
