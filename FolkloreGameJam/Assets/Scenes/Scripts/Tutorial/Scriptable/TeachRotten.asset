@@ -15,7 +15,7 @@ MonoBehaviour:
   Type: 1
   DialogueLines:
   - When you slice humans, their organs will drop where you cut them
-  - The position where you cut will give you different organs accordingl to the diagram.
+  - The position where you cut will give you different organs according to the diagram.
   - Each organ is considered food, and they can get rotten
   - Now watch them rotten to the fullest
   ShowTutorialGuideOnStart: 0
