@@ -1048,11 +1048,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34b8b01a95c4aff4d8f0a142b6b2a1b9, type: 3}
---- !u!1 &1113378372 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7725752465848045614, guid: 54913d272d1c85a498e457eaec454866, type: 3}
-  m_PrefabInstance: {fileID: 1764604605407173774}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1225713383
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1665,11 +1660,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d5207a468768204da4037d4fab93ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1577612979 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 678920043247264200, guid: 54913d272d1c85a498e457eaec454866, type: 3}
-  m_PrefabInstance: {fileID: 1764604605407173774}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1757850154
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1800,11 +1790,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30799e89dc78a7d48836e12aa4a0d0b9, type: 3}
---- !u!1 &1870104285 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5642633136194815023, guid: 54913d272d1c85a498e457eaec454866, type: 3}
-  m_PrefabInstance: {fileID: 1764604605407173774}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1932172747 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3707586491222583712, guid: 54913d272d1c85a498e457eaec454866, type: 3}
@@ -1849,30 +1834,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1313626539}
-    - target: {fileID: 678920043247264200, guid: 54913d272d1c85a498e457eaec454866, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1844457673190373461, guid: 54913d272d1c85a498e457eaec454866, type: 3}
       propertyPath: m_Name
       value: TutorialCanvasCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 2799259420214256184, guid: 54913d272d1c85a498e457eaec454866, type: 3}
-      propertyPath: '_appearOnLastDialogue.Array.data[1]'
-      value: 
-      objectReference: {fileID: 1113378372}
-    - target: {fileID: 2799259420214256184, guid: 54913d272d1c85a498e457eaec454866, type: 3}
-      propertyPath: '_appearOnSecondDialogue.Array.data[1]'
-      value: 
-      objectReference: {fileID: 1870104285}
-    - target: {fileID: 2799259420214256184, guid: 54913d272d1c85a498e457eaec454866, type: 3}
-      propertyPath: '_appearOnSecondDialogue.Array.data[2]'
-      value: 
-      objectReference: {fileID: 1577612979}
-    - target: {fileID: 2849378290526341749, guid: 54913d272d1c85a498e457eaec454866, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 13562964, guid: 5154a2a763ba73147ac7c8607cbc0a97, type: 3}
     - target: {fileID: 5501538462752286076, guid: 54913d272d1c85a498e457eaec454866, type: 3}
       propertyPath: m_Pivot.x
       value: 0
