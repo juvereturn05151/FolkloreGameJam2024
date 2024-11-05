@@ -54,6 +54,8 @@ public class AdvancedTutorialManager : MonoBehaviour
 
     public int serveCount;
 
+    public int trashInBinCount;
+
     private void Awake()
     {
         if (instance != null && instance != this)

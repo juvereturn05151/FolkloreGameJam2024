@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecab875e323a68408f44322daec0f38, type: 3}
+  m_Name: PutTrashToBin
+  m_EditorClassIdentifier: 
+  Type: 4
+  DialogueLines:
+  - Leaving the food for too long can cause you vto lose money.
+  - Now, try put unused food to the bin.
+  ShowTutorialGuideOnStart: 0
+  ShowTutorialGuideBackground: 0
+  ShowOnSecondDialogue: 1
+  ShowOnLastDialogue: 1
+  ObjectiveDialogue: Put 3 food into the bin.
+  WhatToDoDialogue: Put 3 food into the bin.
+  TutorialAttribute: {fileID: 11400000, guid: bd1910e259e99054ab648f5dd24d6fc5, type: 2}
