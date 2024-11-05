@@ -56,6 +56,7 @@ public class Food : MonoBehaviour
     [SerializeField] private GameObject foodStateEffect;
     [SerializeField] private BoxCollider2D _boxCollider;
     [SerializeField] private Animator _animator;
+    [SerializeField] private ScoreFeedback _scoreFeedback;
 
     private bool isDragging = false;
     public bool IsDragging => isDragging;
@@ -183,6 +184,14 @@ public class Food : MonoBehaviour
             {
                 if (!GameManager.Instance.IsGameOver)
                 {
+                    GameObject scoreFeedbackObj = Instantiate(_scoreFeedback.gameObject, transform.position, transform.rotation);
+
+                    if (scoreFeedbackObj.GetComponent<ScoreFeedback>() is ScoreFeedback scoreFeedback)
+                    {
+                        // Set the score value
+                        scoreFeedback.SetScore(-1 * _decreaseScoreOnBurnt);  // Example score value
+                    }
+
                     ScoreManager.Instance.SubtractScore(_decreaseScoreOnBurnt);
 
                     if (GameUtility.FeedbackManagerExists()) 

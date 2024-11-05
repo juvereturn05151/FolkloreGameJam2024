@@ -1313,8 +1313,8 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 311982861
-  m_SortingOrder: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 395
   m_TargetDisplay: 0
 --- !u!114 &7974197894418170784
 MonoBehaviour:
@@ -1405,7 +1405,7 @@ RectTransform:
   m_GameObject: {fileID: 3642138863111707388}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6928533, y: 0.6928533, z: 0.6928533}
+  m_LocalScale: {x: 1.0480791, y: 1.0480791, z: 1.0480791}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4812294651645392494}
@@ -1416,7 +1416,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -188, y: -27}
+  m_AnchoredPosition: {x: 640, y: -27}
   m_SizeDelta: {x: 400, y: 300}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &944293281695042073
@@ -2693,7 +2693,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 88, y: 417}
+  m_AnchoredPosition: {x: 52.6, y: 417}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2662877862510771462
