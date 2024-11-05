@@ -54,6 +54,9 @@ public class Food : MonoBehaviour
     public float RottenTime => _currentRottenTime;
 
     [SerializeField] private GameObject foodStateEffect;
+    [SerializeField] private BoxCollider2D _boxCollider;
+    [SerializeField] private Animator _animator;
+    [SerializeField] private ScoreFeedback _scoreFeedback;
 
     private bool isDragging = false;
     public bool IsDragging => isDragging;
@@ -135,6 +138,14 @@ public class Food : MonoBehaviour
         _currentRottenTime -= Time.deltaTime;
         rottenSlider.value = Mathf.Lerp(rottenSlider.value, _currentRottenTime, Time.deltaTime);
 
+        if (_foodState == FoodState.WellDone && _currentRottenTime <= 3.0f)
+        {
+            if (_animator != null)
+            {
+                _animator.SetBool("almost_disappear", true);
+            }
+        }
+
         if (_currentRottenTime <= 0)
         {
             if (rottenSlider.value > 0) 
@@ -173,6 +184,14 @@ public class Food : MonoBehaviour
             {
                 if (!GameManager.Instance.IsGameOver)
                 {
+                    GameObject scoreFeedbackObj = Instantiate(_scoreFeedback.gameObject, transform.position, transform.rotation);
+
+                    if (scoreFeedbackObj.GetComponent<ScoreFeedback>() is ScoreFeedback scoreFeedback)
+                    {
+                        // Set the score value
+                        scoreFeedback.SetScore(-1 * _decreaseScoreOnBurnt);  // Example score value
+                    }
+
                     ScoreManager.Instance.SubtractScore(_decreaseScoreOnBurnt);
 
                     if (GameUtility.FeedbackManagerExists()) 
@@ -183,7 +202,7 @@ public class Food : MonoBehaviour
 
                 if (GameUtility.AdvancedTutorialManagerExists()) 
                 {
-                    if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.WaitForRotten)
+                    if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.WaitForRotten && AdvancedTutorialManager.Instance._isOperating)
                     {
                         AdvancedTutorialManager.Instance.rottenCount++;
                     }
@@ -210,6 +229,11 @@ public class Food : MonoBehaviour
         _rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX;
         _isReadyToEat = true;
         SoundManager.instance.PlaySFX("Eating");
+        if (_boxCollider != null) 
+        {
+            _boxCollider.enabled = false;
+        }
+
         if (!eatingRightFood) 
         {
             _eatingTime = 2.0f;

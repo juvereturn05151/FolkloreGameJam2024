@@ -7,6 +7,7 @@ public class TimeManager : MonoBehaviour
     public static TimeManager Instance { get; private set; }
 
     public event Action<string> OnTimeChanged;
+    public event Action<float, float> OnClockChanged;
     public UnityEvent OnRushTime;
 
     // Time variables
@@ -61,6 +62,7 @@ public class TimeManager : MonoBehaviour
 
         // Notify UIManager about the updated time
         string formattedTime = FormatTime(currentTime);
+        OnClockChanged?.Invoke(currentTime, 30.0f);
         OnTimeChanged?.Invoke(formattedTime);
     }
 

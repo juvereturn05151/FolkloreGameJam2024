@@ -62,6 +62,7 @@ public class Customer : MonoBehaviour
     [SerializeField] private Transform feedbackParent;
     [SerializeField] private GameObject satifyFeedback;
     [SerializeField] private GameObject unSatifyFeedback;
+    [SerializeField] private ScoreFeedback _scoreFeedback;
 
     private bool isOrdering = false;
     public bool IsOrdering => isOrdering;
@@ -198,6 +199,15 @@ public class Customer : MonoBehaviour
         if (onEatRightFood != null)
         {
             var _scoreWithPatience = (food.Menu.Score + (int)patienceSlider.value); // if rotten 
+
+            GameObject scoreFeedbackObj = Instantiate(_scoreFeedback.gameObject, transform.position, transform.rotation);
+
+            if (scoreFeedbackObj.GetComponent<ScoreFeedback>() is ScoreFeedback scoreFeedback)
+            {
+                // Set the score value
+                scoreFeedback.SetScore(_scoreWithPatience);  // Example score value
+            }
+
             GameManager.Instance.IncreaseScore(_scoreWithPatience);
             onEatRightFood.Invoke(null);
         }

@@ -26,6 +26,7 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private Image heartImage;
+    [SerializeField] private Image clockTimerImage;
 
     private void Awake()
     {
@@ -57,6 +58,7 @@ public class GameplayUIManager : MonoBehaviour
         if (TimeManager.Instance != null)
         {
             TimeManager.Instance.OnTimeChanged += UpdateTimeUI;
+            TimeManager.Instance.OnClockChanged += UpdateClockUI;
         }
 
         if (HPManager.Instance != null) 
@@ -81,6 +83,7 @@ public class GameplayUIManager : MonoBehaviour
         if (TimeManager.Instance != null)
         {
             TimeManager.Instance.OnTimeChanged -= UpdateTimeUI;
+            TimeManager.Instance.OnClockChanged -= UpdateClockUI;
         }
 
         if (HPManager.Instance != null)
@@ -99,6 +102,11 @@ public class GameplayUIManager : MonoBehaviour
     private void UpdateTimeUI(string formattedTime)
     {
         timeText.text = "Time: " + formattedTime;
+    }
+
+    private void UpdateClockUI(float currentTime, float maxTime) 
+    {
+        clockTimerImage.fillAmount = (currentTime - 18.0f) / (maxTime - 18.0f);
     }
 
     private void UpdateHP(int hp)

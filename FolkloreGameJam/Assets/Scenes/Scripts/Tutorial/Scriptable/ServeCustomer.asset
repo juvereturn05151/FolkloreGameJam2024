@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 2
   DialogueLines:
-  - When you slice humans, their organs will drop where you cut them
+  - Each customer has their preferences
   - Some customers like rotten organs.
   - So, they will ask for different levels of rottenness.
+  - Don't let them wait too long or serve them the wrong food/rottenness.
+  - ' otherwise they will get mad'
   - Now, serve customers what they want!
   ShowTutorialGuideOnStart: 0
   ShowTutorialGuideBackground: 0

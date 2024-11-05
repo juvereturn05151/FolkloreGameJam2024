@@ -7,6 +7,14 @@ public class Trash : MonoBehaviour
     {
         if (other.GetComponent<Food>() is Food food)
         {
+            if (GameUtility.AdvancedTutorialManagerExists())
+            {
+                if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.PutTrashToBin)
+                {
+                    AdvancedTutorialManager.Instance.trashInBinCount++;
+                }
+            }
+
             SoundManager.instance.PlaySFX("Trash");
             Instantiate(trashFX, transform.position, Quaternion.identity);
             Destroy(food.gameObject);

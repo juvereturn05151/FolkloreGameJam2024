@@ -22,14 +22,10 @@ public class Plate : MonoBehaviour
 
     private void Update()
     {
-        if (CurrentCustomer)
+        if (CurrentCustomer == null && _foodOnPlate != null)
         {
-            if (CurrentCustomer.IsEatingRightFood && _foodOnPlate == null)
-            {
-
-            }
+            Destroy(_foodOnPlate.gameObject);
         }
-
     }
 
     public void SetIsOccupied(bool occupy) 

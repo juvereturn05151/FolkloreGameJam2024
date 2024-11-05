@@ -5,7 +5,8 @@ public enum TutorialType
     CutHuman,
     WaitForRotten,
     ServeCustomer,
-    EndTutorial
+    EndTutorial,
+    PutTrashToBin
 }
 
 

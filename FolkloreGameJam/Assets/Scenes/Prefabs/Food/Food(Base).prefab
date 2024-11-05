@@ -175,6 +175,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6984934733405998544}
   - component: {fileID: 3513860121264184696}
+  - component: {fileID: 5323099459700301096}
   m_Layer: 7
   m_Name: Visual
   m_TagString: Untagged
@@ -252,6 +253,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &5323099459700301096
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2242379985818785710}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6b0f0d4a2272ed3459f6c6fb55f5e52e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2936108790951632478
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,6 +556,9 @@ MonoBehaviour:
   _eatingTime: 10
   _decreaseScoreOnBurnt: 10
   foodStateEffect: {fileID: 3060276948223746265, guid: 45660aa6b68842442b78a03c408cb4d1, type: 3}
+  _boxCollider: {fileID: 7426698367081530161}
+  _animator: {fileID: 5323099459700301096}
+  _scoreFeedback: {fileID: 492758904945007180, guid: d40a8afb1aa186245a342bb5db6dca3f, type: 3}
 --- !u!1 &7213418843631013065
 GameObject:
   m_ObjectHideFlags: 0

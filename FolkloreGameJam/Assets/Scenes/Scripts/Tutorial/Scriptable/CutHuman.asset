@@ -21,7 +21,7 @@ MonoBehaviour:
   ShowTutorialGuideBackground: 0
   ShowOnSecondDialogue: 0
   ShowOnLastDialogue: 0
-  ObjectiveDialogue: Slice 3 humans
+  ObjectiveDialogue: Slice Human(s) 3 times
   WhatToDoDialogue: Slice humans by dragging your mouse, like a game where you slice
     fruits!
   TutorialAttribute: {fileID: 11400000, guid: 436d28d54c7466a40981c8518462f8e9, type: 2}

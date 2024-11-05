@@ -52,7 +52,16 @@ public class Blade : MonoBehaviour
         Vector2 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
         rb.position = newPosition;
 
-        circleCollider.enabled = !DragAndDropManager.Instance.isDragging;
+        float velocity = (newPosition - previousPosition).magnitude * Time.deltaTime;
+        if (velocity > minCuttingVelocity)
+        {
+            circleCollider.enabled = !DragAndDropManager.Instance.isDragging;
+        }
+        else
+        {
+            circleCollider.enabled = false;
+        }
+
 
         previousPosition = newPosition;
     }

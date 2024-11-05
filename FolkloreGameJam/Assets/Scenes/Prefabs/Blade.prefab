@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bladeTrailPrefab: {fileID: 1945049117440188, guid: eea06d9b51e1d524296d60ae4c42b0af, type: 3}
-  minCuttingVelocity: 0.001
+  minCuttingVelocity: 1e-20
 --- !u!58 &4803802644840929784
 CircleCollider2D:
   m_ObjectHideFlags: 0
