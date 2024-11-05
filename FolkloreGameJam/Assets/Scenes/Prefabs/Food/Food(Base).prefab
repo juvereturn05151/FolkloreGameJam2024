@@ -533,6 +533,7 @@ MonoBehaviour:
   _eatingTime: 10
   _decreaseScoreOnBurnt: 10
   foodStateEffect: {fileID: 3060276948223746265, guid: 45660aa6b68842442b78a03c408cb4d1, type: 3}
+  _boxCollider: {fileID: 7426698367081530161}
 --- !u!1 &7213418843631013065
 GameObject:
   m_ObjectHideFlags: 0

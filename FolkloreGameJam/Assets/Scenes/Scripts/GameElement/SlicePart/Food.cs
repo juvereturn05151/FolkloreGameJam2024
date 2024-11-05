@@ -54,6 +54,7 @@ public class Food : MonoBehaviour
     public float RottenTime => _currentRottenTime;
 
     [SerializeField] private GameObject foodStateEffect;
+    [SerializeField] private BoxCollider2D _boxCollider;
 
     private bool isDragging = false;
     public bool IsDragging => isDragging;
@@ -210,6 +211,11 @@ public class Food : MonoBehaviour
         _rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX;
         _isReadyToEat = true;
         SoundManager.instance.PlaySFX("Eating");
+        if (_boxCollider != null) 
+        {
+            _boxCollider.enabled = false;
+        }
+
         if (!eatingRightFood) 
         {
             _eatingTime = 2.0f;
