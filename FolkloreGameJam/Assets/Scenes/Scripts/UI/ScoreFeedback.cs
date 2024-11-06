@@ -1,3 +1,6 @@
+using System;
+using DG.Tweening;
+using MoreMountains.Feedbacks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
@@ -8,7 +11,15 @@ public class ScoreFeedback : MonoBehaviour
     [SerializeField] float speed = 2.0f;     // Speed of the upward movement
     [SerializeField] TextMeshProUGUI scoreText;
 
+    [SerializeField] private MMF_Player increaseScoreTextFeedback;
+    [SerializeField] private MMF_Player decreaseScoreTextFeedback;
+
     private float elapsedTime = 0.0f;
+
+    private void Start()
+    {
+        
+    }
 
     private void Update()
     {
@@ -35,11 +46,13 @@ public class ScoreFeedback : MonoBehaviour
         {
             if (newScore >= 0)
             {
-                scoreText.color = Color.green;  // Positive score: green color
+                // scoreText.color = Color.green;  // Positive score: green color
+                increaseScoreTextFeedback.PlayFeedbacks();
             }
             else
             {
-                scoreText.color = Color.red;    // Negative score: red color
+                // scoreText.color = Color.red;    // Negative score: red color
+                decreaseScoreTextFeedback.PlayFeedbacks();
             }
 
             // Update the text to show the score

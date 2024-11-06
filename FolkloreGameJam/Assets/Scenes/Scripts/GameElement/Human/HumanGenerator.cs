@@ -11,6 +11,9 @@ public class HumanGenerator : MonoBehaviour
     [SerializeField] 
     private float spawnInterval = 5f; // Time in seconds before trying to spawn again
 
+    [SerializeField] private GameObject humanSpawnCaution;
+    private GameObject currentCaution;
+    
     private HumanBody currentHuman; // Reference to the current human on stage
     private float spawnTimer; // Timer to track spawn interval
 
@@ -29,6 +32,10 @@ public class HumanGenerator : MonoBehaviour
             spawnTimer -= Time.deltaTime;
 
             // If the timer hits zero, try to spawn a human
+            if (spawnTimer <= (spawnInterval / 2) && !currentCaution)
+            {
+                currentCaution = Instantiate(humanSpawnCaution, spawnPoint.position, Quaternion.identity);
+            }
             if (spawnTimer <= 0f)
             {
                 SpawnHuman();
@@ -49,6 +56,7 @@ public class HumanGenerator : MonoBehaviour
 
             // Instantiate the selected human prefab at the specified spawn point
             currentHuman = Instantiate(selectedPrefab, spawnPoint.position, selectedPrefab.transform.rotation);
+            Destroy(currentCaution);
         }
     }
 
