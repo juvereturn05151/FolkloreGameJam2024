@@ -32,9 +32,10 @@ public class HumanGenerator : MonoBehaviour
             spawnTimer -= Time.deltaTime;
 
             // If the timer hits zero, try to spawn a human
-            if (spawnTimer <= (spawnInterval / 2) && !currentCaution)
+            if (spawnTimer <= (spawnInterval / 2) 
+                && !currentCaution)
             {
-                currentCaution = Instantiate(humanSpawnCaution, spawnPoint.position, Quaternion.identity);
+                currentCaution = Instantiate(humanSpawnCaution, spawnPoint.position, Quaternion.identity, spawnPoint.transform);
             }
             if (spawnTimer <= 0f)
             {
