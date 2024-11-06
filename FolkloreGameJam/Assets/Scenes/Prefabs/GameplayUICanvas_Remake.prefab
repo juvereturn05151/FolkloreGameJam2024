@@ -4294,11 +4294,11 @@ PrefabInstance:
     - target: {fileID: 3844561075116741231, guid: a982c268f117b2a449f29fbef247b73f, type: 3}
       propertyPath: managedReferences[2544899176337244232].TargetTMPText
       value: 
-      objectReference: {fileID: 1206392465460054849}
+      objectReference: {fileID: 4714019241364390220}
     - target: {fileID: 3844561075116741231, guid: a982c268f117b2a449f29fbef247b73f, type: 3}
       propertyPath: managedReferences[2544899176337244229].SquashAndStretchTarget
       value: 
-      objectReference: {fileID: 4812294651645392494}
+      objectReference: {fileID: 3722738293530480959}
     - target: {fileID: 5732611390437013070, guid: a982c268f117b2a449f29fbef247b73f, type: 3}
       propertyPath: m_LocalScale.x
       value: 54.004498
@@ -4358,11 +4358,11 @@ PrefabInstance:
     - target: {fileID: 7793434036902215408, guid: a982c268f117b2a449f29fbef247b73f, type: 3}
       propertyPath: managedReferences[2544899176337244232].TargetTMPText
       value: 
-      objectReference: {fileID: 1206392465460054849}
+      objectReference: {fileID: 4714019241364390220}
     - target: {fileID: 7793434036902215408, guid: a982c268f117b2a449f29fbef247b73f, type: 3}
       propertyPath: managedReferences[2544899176337244229].SquashAndStretchTarget
       value: 
-      objectReference: {fileID: 4812294651645392494}
+      objectReference: {fileID: 3722738293530480959}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
