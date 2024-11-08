@@ -127,28 +127,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 65773826}
-  - component: {fileID: 65773825}
   - component: {fileID: 65773827}
   m_Layer: 0
-  m_Name: MainManager
+  m_Name: DragAndDropManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &65773825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 65773824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ded420dc6d628094da7951f4bd562c8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  humanPart: {fileID: 263102397}
 --- !u!4 &65773826
 Transform:
   m_ObjectHideFlags: 0
@@ -176,14 +162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885df7c4880239e4a901f017c68e9de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentDraggingFood: {fileID: 0}
-  isDragging: 0
-  dragableLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  dropLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1 &135720824
 GameObject:
   m_ObjectHideFlags: 0
@@ -995,10 +973,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainMenuCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 1673205713429606147, guid: 68ded46e5872a97468a5e41d2e73d50b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -8
-      objectReference: {fileID: 0}
     - target: {fileID: 3793864132775376106, guid: 68ded46e5872a97468a5e41d2e73d50b, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1079,62 +1053,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6338741611842537817, guid: 68ded46e5872a97468a5e41d2e73d50b, type: 3}
-      propertyPath: m_ReferenceResolution.x
-      value: 1920
-      objectReference: {fileID: 0}
-    - target: {fileID: 6338741611842537817, guid: 68ded46e5872a97468a5e41d2e73d50b, type: 3}
-      propertyPath: m_ReferenceResolution.y
-      value: 1080
-      objectReference: {fileID: 0}
-    - target: {fileID: 6530952085262791197, guid: 68ded46e5872a97468a5e41d2e73d50b, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 6530952085262791197, guid: 68ded46e5872a97468a5e41d2e73d50b, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 6530952085262791197, guid: 68ded46e5872a97468a5e41d2e73d50b, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6530952085262791197, guid: 68ded46e5872a97468a5e41d2e73d50b, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6530952085262791197, guid: 68ded46e5872a97468a5e41d2e73d50b, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6530952085262791197, guid: 68ded46e5872a97468a5e41d2e73d50b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -411
-      objectReference: {fileID: 0}
     - target: {fileID: 7656893804803691380, guid: 68ded46e5872a97468a5e41d2e73d50b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 65773825}
-    - target: {fileID: 8899449637396544744, guid: 68ded46e5872a97468a5e41d2e73d50b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9036332029989596910, guid: 68ded46e5872a97468a5e41d2e73d50b, type: 3}
+      propertyPath: humanPart
+      value: 
+      objectReference: {fileID: 263102397}
     - target: {fileID: 9095583483371914824, guid: 68ded46e5872a97468a5e41d2e73d50b, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 576035439}
-    - target: {fileID: 9095583483371914824, guid: 68ded46e5872a97468a5e41d2e73d50b, type: 3}
-      propertyPath: m_RenderMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9095583483371914824, guid: 68ded46e5872a97468a5e41d2e73d50b, type: 3}
-      propertyPath: m_PixelPerfect
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9095583483371914824, guid: 68ded46e5872a97468a5e41d2e73d50b, type: 3}
-      propertyPath: m_VertexColorAlwaysGammaSpace
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

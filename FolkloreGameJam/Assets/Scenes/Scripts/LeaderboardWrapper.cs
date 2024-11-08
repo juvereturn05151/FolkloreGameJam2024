@@ -44,6 +44,11 @@ public class LeaderboardWrapper : MonoBehaviour
 
     private void LoadGameplayScene()
     {
+        if (GameUtility.SoundManagerExists())
+        {
+            SoundManager.instance.PlayGameplayBGM();
+        }
+
         SceneManager.LoadScene("GameplayScene");
     }
 
