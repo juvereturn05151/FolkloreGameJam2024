@@ -427,7 +427,7 @@ RectTransform:
   m_GameObject: {fileID: 5279768268999479084}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.4417778, y: 1.4417778, z: 1.4417778}
+  m_LocalScale: {x: 1.1461269, y: 1.1461269, z: 1.1461269}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8820848509533109378}
@@ -435,7 +435,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 748, y: 445}
+  m_AnchoredPosition: {x: -803, y: 448}
   m_SizeDelta: {x: 160, y: 62.007}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1152141441293085429
@@ -459,7 +459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -559,7 +559,7 @@ RectTransform:
   m_GameObject: {fileID: 7363014764245244340}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.67473, y: 0.67473, z: 0.67473}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5134229657907349814}
@@ -599,15 +599,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: Exit
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d626e554084d33a4d9d2ec8aa24388f1, type: 2}
-  m_sharedMaterial: {fileID: -6464586243645488690, guid: d626e554084d33a4d9d2ec8aa24388f1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e2820357450b2d44fb61f7cfc0b46bdf, type: 2}
+  m_sharedMaterial: {fileID: 8027569774994263215, guid: e2820357450b2d44fb61f7cfc0b46bdf, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4278190335
+  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
