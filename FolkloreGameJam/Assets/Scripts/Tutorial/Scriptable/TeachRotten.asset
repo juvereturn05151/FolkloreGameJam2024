@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecab875e323a68408f44322daec0f38, type: 3}
+  m_Name: TeachRotten
+  m_EditorClassIdentifier: 
+  Type: 1
+  DialogueLines:
+  - When you slice humans, their organs will drop where you cut them
+  - The position where you cut will give you different organs according to the diagram.
+  - Each organ is considered food, and they can get rotten
+  - Now watch them rotten to the fullest
+  ShowTutorialGuideOnStart: 0
+  ShowTutorialGuideBackground: 0
+  ShowOnSecondDialogue: 1
+  ShowOnLastDialogue: 1
+  ObjectiveDialogue: Wait For 3 Food To Fully Rotten
+  WhatToDoDialogue: Wait For 3 Food To Fully Rotten
+  TutorialAttribute: {fileID: 11400000, guid: 2e803742b4fe1a0409b44aaee1a73eba, type: 2}
