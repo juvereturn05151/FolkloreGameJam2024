@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Krasue
   m_EditorClassIdentifier: 
   Name: Krasue
-  Sprite: {fileID: 21300000, guid: 65dab85470413164db6c7c2f137854cd, type: 3}
+  Sprite: {fileID: -403460866, guid: c7c63fe6b5c229449a581a360ce252cb, type: 3}
   FavoriteMenu:
   - Menu: {fileID: 11400000, guid: 08d3ea487308d614f83bf24208c4d045, type: 2}
     Value: 1

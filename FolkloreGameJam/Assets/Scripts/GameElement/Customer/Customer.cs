@@ -73,8 +73,6 @@ public class Customer : MonoBehaviour
 
     private void Start()
     {
-        _visual.sprite = _ghostType.Sprite;
-
         SoundManager.instance.PlaySFX("DoorBell");
         GenerateFoodState();
 

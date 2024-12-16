@@ -39,7 +39,7 @@ PrefabInstance:
     - target: {fileID: 3426251491178899112, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 65dab85470413164db6c7c2f137854cd, type: 3}
+      objectReference: {fileID: 21300000, guid: f842d53ad1f29d14fa256589824e22b7, type: 3}
     - target: {fileID: 6178263106477494215, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
       propertyPath: m_Name
       value: Pop
