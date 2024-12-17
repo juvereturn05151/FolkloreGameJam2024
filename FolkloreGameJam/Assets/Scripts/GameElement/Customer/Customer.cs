@@ -64,6 +64,8 @@ public class Customer : MonoBehaviour
     [SerializeField] private GameObject unSatifyFeedback;
     [SerializeField] private ScoreFeedback _scoreFeedback;
 
+    [SerializeField] private Animator _animator;
+
     private bool isOrdering = false;
     public bool IsOrdering => isOrdering;
 
@@ -109,6 +111,11 @@ public class Customer : MonoBehaviour
 
         if (_isEating) 
         {
+            if (_animator != null) 
+            {
+                _animator.SetBool("Pick", true);
+            }
+
             if (_currentPlate && _currentPlate.FoodOnPlate) 
             {
                 if (_currentPlate.FoodOnPlate.IsFinished) 

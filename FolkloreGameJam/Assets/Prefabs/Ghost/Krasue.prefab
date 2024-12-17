@@ -43,11 +43,11 @@ PrefabInstance:
     - target: {fileID: 3426251491178899112, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -403460866, guid: c7c63fe6b5c229449a581a360ce252cb, type: 3}
+      objectReference: {fileID: -277835553, guid: 4fa1ecd2f63e2f845b1e5a67502b4dfa, type: 3}
     - target: {fileID: 4274485951742538966, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 49424a824e8bba84cb480db454bfe7e8, type: 2}
+      objectReference: {fileID: 9100000, guid: f165110e730479b488ad02410b9d1794, type: 2}
     - target: {fileID: 6178263106477494215, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
       propertyPath: m_Name
       value: Krasue
@@ -145,6 +145,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7711665025995996395, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 5472535901444307715}
+    - target: {fileID: 7711665025995996395, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
       propertyPath: _ghostType
       value: 
       objectReference: {fileID: 11400000, guid: aadd87bc3fa161f4399ab252ca555a53, type: 2}
@@ -177,3 +181,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
+--- !u!95 &5472535901444307715 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4274485951742538966, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
+  m_PrefabInstance: {fileID: 8115587937886408661}
+  m_PrefabAsset: {fileID: 0}
