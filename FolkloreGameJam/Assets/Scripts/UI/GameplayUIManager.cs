@@ -27,6 +27,7 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private Image heartImage;
     [SerializeField] private Image clockTimerImage;
+    [SerializeField] private Image clockHand;
 
     private void Awake()
     {
@@ -106,7 +107,16 @@ public class GameplayUIManager : MonoBehaviour
 
     private void UpdateClockUI(float currentTime, float maxTime) 
     {
-        clockTimerImage.fillAmount = (currentTime - 18.0f) / (maxTime - 18.0f);
+        //clockTimerImage.fillAmount = (currentTime - 18.0f) / (maxTime - 18.0f);
+        float normalizedTime = (currentTime - 18.0f) / (maxTime - 18.0f);
+
+        clockTimerImage.fillAmount = normalizedTime;
+
+        // Calculate the angle (0 - 360 degrees) for the clock hand rotation
+        float angle = normalizedTime * 360.0f;
+
+        // Rotate the clock hand by the calculated angle
+        clockHand.transform.rotation = Quaternion.Euler(0, 0, -angle);
     }
 
     private void UpdateHP(int hp)
