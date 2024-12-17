@@ -44,6 +44,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -403460866, guid: c7c63fe6b5c229449a581a360ce252cb, type: 3}
+    - target: {fileID: 4274485951742538966, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 49424a824e8bba84cb480db454bfe7e8, type: 2}
     - target: {fileID: 6178263106477494215, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
       propertyPath: m_Name
       value: Krasue
