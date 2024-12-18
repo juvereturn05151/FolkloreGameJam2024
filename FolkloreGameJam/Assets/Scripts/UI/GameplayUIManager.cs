@@ -102,7 +102,7 @@ public class GameplayUIManager : MonoBehaviour
     // Callback to update the time UI
     private void UpdateTimeUI(string formattedTime)
     {
-        timeText.text = "Time: " + formattedTime;
+        //timeText.text = "Time: " + formattedTime;
     }
 
     private void UpdateClockUI(float currentTime, float maxTime) 

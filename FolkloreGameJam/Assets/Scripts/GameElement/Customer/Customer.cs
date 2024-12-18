@@ -190,6 +190,11 @@ public class Customer : MonoBehaviour
             AdvancedTutorialManager.Instance.serveCount++;
         }
 
+        if (_animator != null)
+        {
+            _animator.SetBool("Happy", true);
+        }
+
         SoundManager.instance.PlaySFX("Like");
         Instantiate(heart, heart.transform.position, heart.transform.rotation, heartLocation);
         Instantiate(satifyFeedback, feedbackParent);
@@ -201,6 +206,7 @@ public class Customer : MonoBehaviour
     private IEnumerator LeaveAfterDelay(Food food)
     {
         yield return new WaitForSeconds(1.0f); // Adjust the delay time as needed (2 seconds in this case)
+
         if (onEatRightFood != null)
         {
             var _scoreWithPatience = (food.Menu.Score + (int)patienceSlider.value); // if rotten 
