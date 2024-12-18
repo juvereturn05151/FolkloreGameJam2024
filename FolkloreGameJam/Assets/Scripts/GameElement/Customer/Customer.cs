@@ -109,13 +109,13 @@ public class Customer : MonoBehaviour
         eatingIcon.gameObject.SetActive(_isEating);
         content.gameObject.SetActive(!_isEating);
 
+        if (_animator != null)
+        {
+            _animator.SetBool("Pick", _isEating);
+        }
+
         if (_isEating) 
         {
-            if (_animator != null) 
-            {
-                _animator.SetBool("Pick", true);
-            }
-
             if (_currentPlate && _currentPlate.FoodOnPlate) 
             {
                 if (_currentPlate.FoodOnPlate.IsFinished) 
@@ -233,7 +233,11 @@ public class Customer : MonoBehaviour
     {
         // Anger without eating food or patience is <= 0
         //decrease health point or something with anger ghost
-        
+        if (_animator != null)
+        {
+            _animator.SetBool("Anger", true);
+        }
+
         HPManager.Instance.TakeDamage(1);
         GameManager.Instance.DecreaseScore(15);
         _currentPlate.SetIsOccupied(false);
@@ -244,6 +248,11 @@ public class Customer : MonoBehaviour
     {
         // anger if didn't eat the right food
         //Reduce score, anger the customer ,and whatever here
+        if (_animator != null)
+        {
+            _animator.SetTrigger("Anger");
+        }
+
         SoundManager.instance.PlaySFX("Nah");
         Instantiate(unSatifyFeedback, feedbackParent);
         Instantiate(brokenHeart, heartLocation.transform.position, Quaternion.identity, heartLocation);
@@ -260,8 +269,6 @@ public class Customer : MonoBehaviour
         {
             FeedbackManager.Instance.ShakeCameraFeedback(0.5f, 1f);
         }
-
-
 
         _isEating = false;
     }
