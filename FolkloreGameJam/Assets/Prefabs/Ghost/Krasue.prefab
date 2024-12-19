@@ -48,6 +48,14 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: f165110e730479b488ad02410b9d1794, type: 2}
+    - target: {fileID: 5917561800468646584, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 7f6c5cbd1cd1e8d449d0df6ea5d48c50, type: 3}
+    - target: {fileID: 5917561800468646584, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7f6c5cbd1cd1e8d449d0df6ea5d48c50, type: 3}
     - target: {fileID: 6178263106477494215, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
       propertyPath: m_Name
       value: Krasue

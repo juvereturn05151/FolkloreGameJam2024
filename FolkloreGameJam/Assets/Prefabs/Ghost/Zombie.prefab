@@ -48,6 +48,14 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 22100000, guid: e59e1cdf73a93ca45aa78e8fdd7dd5a7, type: 2}
+    - target: {fileID: 5917561800468646584, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 9242f55d1814b2043a9c99657e024c7a, type: 3}
+    - target: {fileID: 5917561800468646584, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9242f55d1814b2043a9c99657e024c7a, type: 3}
     - target: {fileID: 6178263106477494215, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
       propertyPath: m_Name
       value: Zombie
