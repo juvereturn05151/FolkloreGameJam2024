@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Trash : MonoBehaviour
 {
+    [SerializeField] private Animator _animator;
     [SerializeField] private GameObject trashFX;
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -13,6 +14,11 @@ public class Trash : MonoBehaviour
                 {
                     AdvancedTutorialManager.Instance.trashInBinCount++;
                 }
+            }
+
+            if (_animator != null) 
+            {
+                _animator.SetTrigger("Hover");
             }
 
             SoundManager.instance.PlaySFX("Trash");
