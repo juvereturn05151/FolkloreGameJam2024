@@ -69,9 +69,9 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 21528dcc2a989ef40ab2e8827777f38a, type: 3}
   - name: DoorBell
     clip: {fileID: 8300000, guid: 1e3e2d38a1f0277489105e0455cf2d87, type: 3}
-  backgroundMusic: {fileID: 8300000, guid: 032d1edf41e27f24891547eae08e6661, type: 3}
-  backgroundGameplayMusic: {fileID: 8300000, guid: 032d1edf41e27f24891547eae08e6661, type: 3}
-  backgroundMenu: {fileID: 8300000, guid: c04bc4ae52522c441bf1c48dd40c6f63, type: 3}
+  backgroundMusic: {fileID: 8300000, guid: eca0330b3cc5de248adb72c110963cc5, type: 3}
+  backgroundGameplayMusic: {fileID: 8300000, guid: eca0330b3cc5de248adb72c110963cc5, type: 3}
+  backgroundMenu: {fileID: 8300000, guid: fdeefbb7fd7114d41b9dc2c0fe5097ac, type: 3}
 --- !u!82 &7865003671529669970
 AudioSource:
   m_ObjectHideFlags: 0
