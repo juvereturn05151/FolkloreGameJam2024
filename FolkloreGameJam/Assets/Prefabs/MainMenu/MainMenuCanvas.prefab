@@ -523,7 +523,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9036332029989596910}
         m_TargetAssemblyTypeName: MainManager, Assembly-CSharp
-        m_MethodName: ClickToExit
+        m_MethodName: ClickToGoToCredit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
