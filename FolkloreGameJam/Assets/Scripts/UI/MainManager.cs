@@ -37,4 +37,9 @@ public class MainManager : MonoBehaviour
         //Call start game
         Application.Quit();
     }
+
+    public void ClickToGoToCredit()
+    {
+        FadingUI.Instance.StartFadeIn();
+    }
 }
