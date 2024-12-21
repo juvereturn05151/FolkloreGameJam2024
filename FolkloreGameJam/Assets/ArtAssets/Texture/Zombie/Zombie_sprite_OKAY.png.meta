@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d28cb2c9df755494d86dd6a7ca88c552
+guid: 5e58fdd3f43fbc34b99f007e0daab594
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,89 +123,111 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Zombie_sprite_Idle_0
+      name: Zombie_sprite_OKAY_0
       rect:
         serializedVersion: 2
-        x: 222
-        y: 38
-        width: 267
-        height: 989
+        x: 258
+        y: 37
+        width: 269
+        height: 991
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bda6ca66db140c04b87be7d7c3f5bb3e
-      internalID: -1594527295
+      spriteID: 727dca62a237448478532290f45cfcc2
+      internalID: 1137428765
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zombie_sprite_Idle_1
+      name: Zombie_sprite_OKAY_1
       rect:
         serializedVersion: 2
-        x: 639
-        y: 38
-        width: 271
-        height: 981
+        x: 582
+        y: 37
+        width: 318
+        height: 983
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a5bb11bf43900674ab35ab6561db581d
-      internalID: 1105509074
+      spriteID: aa3fdacedca8d594aaaf8b1d35791c19
+      internalID: 731431206
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zombie_sprite_Idle_2
+      name: Zombie_sprite_OKAY_2
       rect:
         serializedVersion: 2
-        x: 1001
-        y: 38
-        width: 271
+        x: 954
+        y: 37
+        width: 354
+        height: 983
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26f5f53007d4ed14aaf7905e35515589
+      internalID: -2048012325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zombie_sprite_OKAY_4
+      rect:
+        serializedVersion: 2
+        x: 1331
+        y: 37
+        width: 349
         height: 971
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 312184768ed255d4fb51b118651e8592
-      internalID: -703558550
+      spriteID: 486a48750d8760e49b6bc2f76defd50e
+      internalID: 231148959
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zombie_sprite_Idle_3
+      name: Zombie_sprite_OKAY_6
       rect:
         serializedVersion: 2
-        x: 1375
-        y: 38
-        width: 266
-        height: 984
+        x: 1707
+        y: 37
+        width: 288
+        height: 983
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 02680656b3790a14b92a3227a6383245
-      internalID: -1747090786
+      spriteID: 9cde79656b0da514ea8c999bfea8369f
+      internalID: 1368716058
       vertices: []
       indices: 
       edges: []
@@ -214,7 +236,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 88b48b1a51de87f45997fd6bc6133fe5
+    spriteID: d62ee6f643a1c4645aaeaa93a0722b40
     internalID: 0
     vertices: []
     indices: 
@@ -222,10 +244,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Zombie_sprite_Idle_0: -1594527295
-      Zombie_sprite_Idle_1: 1105509074
-      Zombie_sprite_Idle_2: -703558550
-      Zombie_sprite_Idle_3: -1747090786
+      Zombie_sprite_OKAY_0: 1137428765
+      Zombie_sprite_OKAY_1: 731431206
+      Zombie_sprite_OKAY_2: -2048012325
+      Zombie_sprite_OKAY_3: 994792923
+      Zombie_sprite_OKAY_4: 231148959
+      Zombie_sprite_OKAY_5: 437507555
+      Zombie_sprite_OKAY_6: 1368716058
+      Zombie_sprite_OKAY_7: -425457152
+      Zombie_sprite_OKAY_8: -1229097587
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
