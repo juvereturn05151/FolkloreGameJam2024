@@ -695,7 +695,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 507718731442823387, guid: 34b8b01a95c4aff4d8f0a142b6b2a1b9, type: 3}
       propertyPath: m_Name
-      value: HumanGenerator (1)
+      value: HumanGenerator2
       objectReference: {fileID: 0}
     - target: {fileID: 5033570109810557843, guid: 34b8b01a95c4aff4d8f0a142b6b2a1b9, type: 3}
       propertyPath: m_LocalPosition.x
