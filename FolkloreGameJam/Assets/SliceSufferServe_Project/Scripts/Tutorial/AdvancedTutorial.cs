@@ -38,7 +38,6 @@ public class AdvancedTutorialManager : MonoBehaviour
     [SerializeField]
     private HumanGenerator _humanGenerator2;
 
-
     [SerializeField]
     private CustomerGenerator _customerGenerator;
 
@@ -89,15 +88,13 @@ public class AdvancedTutorialManager : MonoBehaviour
             {
                 CurrentTutorial.TutorialAttribute.CheckingObjective();
 
-                if (CurrentTutorial.TutorialAttribute.Clear)
+                if (CurrentTutorial.TutorialAttribute.IsComplete)
                 {
-
                     OnTutorialEnd();
                 }
             }
         }
     }
-
     public void OnSecondDialogue()
     {
         if (CurrentTutorial.ShowOnSecondDialogue)
@@ -124,11 +121,9 @@ public class AdvancedTutorialManager : MonoBehaviour
 
     public void OnDialogueEnd()
     {
-        Debug.Log("_isOperating");
         _isOperating = true;
         _backGround.SetActive(false);
         _nextButton.SetActive(false);
-        //_tutorialDisplayBackGround.SetActive(true);
         _advancedTutorialUIController.OnDialogueEnd(_currentTutorialIndex);
         GameManager.Instance.State = GameManager.GameState.StartGame;
     }
@@ -139,7 +134,6 @@ public class AdvancedTutorialManager : MonoBehaviour
         GameManager.Instance.State = GameManager.GameState.Stop;
         _backGround.SetActive(true);
         _nextButton.SetActive(true);
-        //_tutorialDisplayBackGround.SetActive(false);
         _advancedTutorialUIController.OnTutorialEnd(_currentTutorialIndex);
         DeactivateGenerator();
         _currentTutorialIndex++;
@@ -166,7 +160,6 @@ public class AdvancedTutorialManager : MonoBehaviour
         if (CurrentTutorial.ShowTutorialGuideOnStart)
         {
             _advancedTutorialUIController.AdvancedTutorialUI[_currentTutorialIndex].SetActive(true);
-            //_tutorialDisplayBackGround.SetActive(CurrentTutorial.ShowTutorialGuideBackground);
         }
 
         dialogueManager._onDialogueEnd.AddListener(CurrentTutorial.StartOperating);
@@ -179,7 +172,6 @@ public class AdvancedTutorialManager : MonoBehaviour
         ResetDialogueListener();
         dialogueManager._onSecondLineAppear.AddListener(OnSecondDialogue);
         dialogueManager._onLastLineAppear.AddListener(OnLastDialogue);
-
     }
 
     private void ResetEndDialogue()

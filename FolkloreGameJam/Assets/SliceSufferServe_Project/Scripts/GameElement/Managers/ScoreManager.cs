@@ -13,13 +13,9 @@ public class ScoreManager : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("Score Manager");
         if (Instance == null)
         {
             Instance = this;
-
-            // Load the saved high score from PlayerPrefs
-            
         }
         else
         {
@@ -80,6 +76,5 @@ public class ScoreManager : MonoBehaviour
         PlayerPrefs.SetInt("HighScore", highScore);
         PlayerPrefs.Save();
         OnHighScoreChanged?.Invoke(highScore);
-        Debug.Log("High Score has been reset.");
     }
 }

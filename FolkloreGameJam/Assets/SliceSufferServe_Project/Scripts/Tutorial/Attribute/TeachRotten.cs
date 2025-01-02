@@ -1,10 +1,11 @@
 using UnityEngine;
-[CreateAssetMenu(menuName = "TutorialAttribute/PutTrashAttribute")]
-public class PutTrashAttribute : TutorialAttribute
+
+[CreateAssetMenu(menuName = "TutorialAttribute/TeachRotten")]
+public class TeachRotten : TutorialAttribute
 {
     public override void CheckingObjective()
     {
-        _clear = AdvancedTutorialManager.Instance.trashInBinCount >= 3;
+        _isObjectiveComplete = AdvancedTutorialManager.Instance.rottenCount >= 3;
     }
 
     public override void SetBegin()

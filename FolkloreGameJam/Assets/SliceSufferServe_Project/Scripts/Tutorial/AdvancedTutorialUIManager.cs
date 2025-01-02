@@ -1,10 +1,16 @@
-using System.Collections;
+/*
+ Brief: I designed the advanced tutorial system to make 
+ the tutorial UI either appear at start(_advancedTutorialUI), second dialogue,
+ or last dialogue.
+*/
+
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AdvancedTutorialUIController : MonoBehaviour
 {
     [SerializeField]
+    [Tooltip("Appear At First Dialogue")]
     private List<GameObject> _advancedTutorialUI = new List<GameObject>();
     public List<GameObject> AdvancedTutorialUI => _advancedTutorialUI;
 
@@ -16,27 +22,36 @@ public class AdvancedTutorialUIController : MonoBehaviour
     private List<GameObject> _appearOnLastDialogue = new List<GameObject>();
     public List<GameObject> AppearOnLastDialogue => _appearOnLastDialogue;
 
-    public void OnTutorialEnd(int _currentTutorialIndex)
+    /// <summary>
+    /// Deactivates the relevant UI elements when a tutorial ends.
+    /// </summary>
+    /// <param name="currentTutorialIndex">The index of the current tutorial.</param>
+    public void OnTutorialEnd(int currentTutorialIndex)
     {
-        /*if (AdvancedTutorialUI != null && AdvancedTutorialUI[_currentTutorialIndex])
-            AdvancedTutorialUI[_currentTutorialIndex].SetActive(false);*/
-
-        if (AppearOnSecondDialogue != null && AppearOnSecondDialogue[_currentTutorialIndex])
-            AppearOnSecondDialogue[_currentTutorialIndex].SetActive(false);
-
-        if (AppearOnLastDialogue != null && AppearOnLastDialogue[_currentTutorialIndex])
-            AppearOnLastDialogue[_currentTutorialIndex].SetActive(false);
+        DeactivateElement(_appearOnSecondDialogue, currentTutorialIndex);
+        DeactivateElement(_appearOnLastDialogue, currentTutorialIndex);
     }
 
-    public void OnDialogueEnd(int _currentTutorialIndex)
+    /// <summary>
+    /// Deactivates the relevant UI elements when a dialogue ends.
+    /// </summary>
+    /// <param name="currentTutorialIndex">The index of the current tutorial.</param>
+    public void OnDialogueEnd(int currentTutorialIndex)
     {
-        if(AppearOnLastDialogue != null && AppearOnLastDialogue[_currentTutorialIndex])
-        AppearOnLastDialogue[_currentTutorialIndex].SetActive(false);
+        DeactivateElement(_appearOnSecondDialogue, currentTutorialIndex);
+        DeactivateElement(_appearOnLastDialogue, currentTutorialIndex);
+    }
 
-        if (AppearOnSecondDialogue != null && AppearOnSecondDialogue[_currentTutorialIndex])
-            AppearOnSecondDialogue[_currentTutorialIndex].SetActive(false);
-
-        /*if (AdvancedTutorialUI != null &&  AdvancedTutorialUI[_currentTutorialIndex])
-            AdvancedTutorialUI[_currentTutorialIndex].SetActive(true);*/
+    /// <summary>
+    /// Deactivates a GameObject from a list based on the specified index.
+    /// </summary>
+    /// <param name="list">The list of GameObjects.</param>
+    /// <param name="index">The index of the GameObject to deactivate.</param>
+    private void DeactivateElement(List<GameObject> list, int index)
+    {
+        if (list != null && index >= 0 && index < list.Count && list[index] != null)
+        {
+            list[index].SetActive(false);
+        }
     }
 }

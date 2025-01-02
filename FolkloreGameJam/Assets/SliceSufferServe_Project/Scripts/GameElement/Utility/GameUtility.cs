@@ -32,7 +32,5 @@ public static class GameUtility
         return SoundManager.instance != null;
     }
 
-
-
     // Other utility methods
 }

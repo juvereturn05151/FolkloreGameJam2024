@@ -144,7 +144,6 @@ public class Customer : MonoBehaviour
         }
     }
 
-
     #endregion
 
     #region Patience Events

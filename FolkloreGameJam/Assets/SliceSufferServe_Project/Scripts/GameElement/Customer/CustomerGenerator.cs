@@ -25,16 +25,14 @@ public class CustomerGenerator : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _spawnTimer = _spawnInterval; // Initialize the spawn timer
 
         TimeManager.Instance.OnRushTime.AddListener(DoubleSpawnInterval);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if(GameManager.Instance.IsGameOver) return;
         

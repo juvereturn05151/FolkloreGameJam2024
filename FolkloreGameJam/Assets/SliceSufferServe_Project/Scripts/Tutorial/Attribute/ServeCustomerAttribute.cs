@@ -6,7 +6,7 @@ public class ServeCustomerAttribute : TutorialAttribute
 {
     public override void CheckingObjective()
     {
-        _clear = AdvancedTutorialManager.Instance.serveCount >= 3;
+        _isObjectiveComplete = AdvancedTutorialManager.Instance.serveCount >= 3;
     }
 
     public override void SetBegin()

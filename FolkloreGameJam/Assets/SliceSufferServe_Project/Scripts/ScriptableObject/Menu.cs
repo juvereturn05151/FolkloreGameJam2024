@@ -8,7 +8,7 @@ public enum FoodType
     Poo
 }
 
-[CreateAssetMenu(fileName = "Menu", menuName = "Scriptable Objects/Menu")]
+[CreateAssetMenu(fileName = "Food", menuName = "Scriptable Objects/Food")]
 public class Menu : ScriptableObject
 {
     [Header("Menu Properties")]
