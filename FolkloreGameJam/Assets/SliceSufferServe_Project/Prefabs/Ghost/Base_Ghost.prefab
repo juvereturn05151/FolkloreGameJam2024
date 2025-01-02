@@ -200,21 +200,21 @@ MonoBehaviour:
   _patience: 10
   _orderTime: 2
   _visual: {fileID: 3426251491178899112}
+  _animator: {fileID: 0}
   orderPrefab: {fileID: 8096172761158799893, guid: 1981ffb629ecdfd4fbb2ee183b174f2a, type: 3}
   orderImageBG: {fileID: 523600879180471974}
   content: {fileID: 7159634608702559576}
   patienceSlider: {fileID: 3528628809251297966}
-  decreasePatienceSpeed: 0.5
   _desiredDonenessText: {fileID: 5944748879288458848}
   eatingIcon: {fileID: 8261258301930835968}
   heart: {fileID: 3385033955819638691, guid: 5052f5d6ebdd9b74a8acc60b3131e090, type: 3}
   brokenHeart: {fileID: 6855314210357232287, guid: 7c2a9b83b809a0848915fabd9596b68b, type: 3}
   heartLocation: {fileID: 1856251926329004594}
   feedbackParent: {fileID: 6644025497767961298}
-  satifyFeedback: {fileID: 3560014775208800981, guid: 72117327bf158c943948cb4fc223e665, type: 3}
-  unSatifyFeedback: {fileID: 5133655064742041499, guid: dcd45b31e28eee74bb47a887b6842218, type: 3}
+  _satisfyFeedback: {fileID: 3560014775208800981, guid: 72117327bf158c943948cb4fc223e665, type: 3}
+  _unsatisfyFeedback: {fileID: 5133655064742041499, guid: dcd45b31e28eee74bb47a887b6842218, type: 3}
   _scoreFeedback: {fileID: 492758904945007180, guid: d40a8afb1aa186245a342bb5db6dca3f, type: 3}
-  _animator: {fileID: 0}
+  decreasePatienceSpeed: 0.5
 --- !u!82 &5917561800468646584
 AudioSource:
   m_ObjectHideFlags: 0
