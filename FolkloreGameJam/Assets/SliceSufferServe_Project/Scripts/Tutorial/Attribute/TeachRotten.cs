@@ -5,12 +5,12 @@ public class TeachRotten : TutorialAttribute
 {
     public override void CheckingObjective()
     {
-        _isObjectiveComplete = AdvancedTutorialManager.Instance.rottenCount >= 3;
+        _isObjectiveComplete = SSSAdvancedTutorialManager.Instance.rottenCount >= 3;
     }
 
     public override void SetBegin()
     {
         base.SetBegin();
-        AdvancedTutorialManager.Instance.ActivateHumanGenerator();
+        SSSAdvancedTutorialManager.Instance.ActivateHumanGenerator();
     }
 }

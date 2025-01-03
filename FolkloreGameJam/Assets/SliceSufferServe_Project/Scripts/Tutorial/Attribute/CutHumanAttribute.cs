@@ -5,12 +5,12 @@ public class CutHumanAttribute : TutorialAttribute
 {
     public override void CheckingObjective()
     {
-        _isObjectiveComplete = AdvancedTutorialManager.Instance._humanKillCount >= 3;
+        _isObjectiveComplete = SSSAdvancedTutorialManager.Instance._humanKillCount >= 3;
     }
 
     public override void SetBegin()
     {
         base.SetBegin();
-        AdvancedTutorialManager.Instance.ActivateHumanGenerator();
+        SSSAdvancedTutorialManager.Instance.ActivateHumanGenerator();
     }
 }

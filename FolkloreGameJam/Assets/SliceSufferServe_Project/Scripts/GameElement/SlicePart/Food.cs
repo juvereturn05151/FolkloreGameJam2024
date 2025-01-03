@@ -202,9 +202,9 @@ public class Food : MonoBehaviour
 
                 if (GameUtility.AdvancedTutorialManagerExists()) 
                 {
-                    if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.WaitForRotten && AdvancedTutorialManager.Instance._isOperating)
+                    if (GameManager.Instance.IsTutorial && SSSAdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.WaitForRotten && SSSAdvancedTutorialManager.Instance.IsOperating)
                     {
-                        AdvancedTutorialManager.Instance.rottenCount++;
+                        SSSAdvancedTutorialManager.Instance.rottenCount++;
                     }
                 }
             }

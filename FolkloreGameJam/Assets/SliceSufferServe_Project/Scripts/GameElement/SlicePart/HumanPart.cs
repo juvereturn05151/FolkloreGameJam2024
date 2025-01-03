@@ -39,9 +39,9 @@ public class HumanPart : MonoBehaviour
             
             if (!atMainMenu) 
             {
-                if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.CutHuman)
+                if (GameManager.Instance.IsTutorial && SSSAdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.CutHuman)
                 {
-                    AdvancedTutorialManager.Instance._humanKillCount++;
+                    SSSAdvancedTutorialManager.Instance._humanKillCount++;
                 }
             }
 

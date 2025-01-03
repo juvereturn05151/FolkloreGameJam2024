@@ -14,7 +14,7 @@ public static class GameUtility
 
     public static bool AdvancedTutorialManagerExists()
     {
-        return AdvancedTutorialManager.Instance != null;
+        return SSSAdvancedTutorialManager.Instance != null;
     }
 
     public static bool FeedbackManagerExists()

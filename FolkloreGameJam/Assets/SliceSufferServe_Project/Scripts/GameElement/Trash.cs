@@ -10,9 +10,9 @@ public class Trash : MonoBehaviour
         {
             if (GameUtility.AdvancedTutorialManagerExists())
             {
-                if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.PutTrashToBin)
+                if (GameManager.Instance.IsTutorial && SSSAdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.PutTrashToBin)
                 {
-                    AdvancedTutorialManager.Instance.trashInBinCount++;
+                    SSSAdvancedTutorialManager.Instance.trashInBinCount++;
                 }
             }
 

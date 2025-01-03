@@ -6,13 +6,13 @@ public class ServeCustomerAttribute : TutorialAttribute
 {
     public override void CheckingObjective()
     {
-        _isObjectiveComplete = AdvancedTutorialManager.Instance.serveCount >= 3;
+        _isObjectiveComplete = SSSAdvancedTutorialManager.Instance.serveCount >= 3;
     }
 
     public override void SetBegin()
     {
         base.SetBegin();
-        AdvancedTutorialManager.Instance.ActivateHumanGenerator();
-        AdvancedTutorialManager.Instance.ActivateCustomerGenerator();
+        SSSAdvancedTutorialManager.Instance.ActivateHumanGenerator();
+        SSSAdvancedTutorialManager.Instance.ActivateCustomerGenerator();
     }
 }

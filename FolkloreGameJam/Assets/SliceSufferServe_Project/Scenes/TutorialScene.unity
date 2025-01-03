@@ -525,6 +525,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 198ae2b8b76dac646b936e48df0ccee4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &458002433 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5212517209042259440, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+  m_PrefabInstance: {fileID: 5691162468773266425}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &466716368
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1852,6 +1857,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3707586491222583712, guid: 54913d272d1c85a498e457eaec454866, type: 3}
   m_PrefabInstance: {fileID: 1764604605407173774}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &1982890600 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5501538462752286076, guid: 54913d272d1c85a498e457eaec454866, type: 3}
+  m_PrefabInstance: {fileID: 1764604605407173774}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1984946588 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8013191441938097056, guid: 54913d272d1c85a498e457eaec454866, type: 3}
@@ -1885,7 +1895,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 458002433}
     m_Modifications:
     - target: {fileID: 115855285602376306, guid: 54913d272d1c85a498e457eaec454866, type: 3}
       propertyPath: m_Camera
@@ -1893,7 +1903,7 @@ PrefabInstance:
       objectReference: {fileID: 1313626539}
     - target: {fileID: 1844457673190373461, guid: 54913d272d1c85a498e457eaec454866, type: 3}
       propertyPath: m_Name
-      value: TutorialCanvasCanvas
+      value: TutorialCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 5501538462752286076, guid: 54913d272d1c85a498e457eaec454866, type: 3}
       propertyPath: m_Pivot.x
@@ -1990,7 +2000,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1914730689541641971, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
       propertyPath: m_Name
-      value: AdvancedTutorial
+      value: AdvancedTutorialManager
       objectReference: {fileID: 0}
     - target: {fileID: 5212517209042259440, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2033,9 +2043,25 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: textBox
+      value: 
+      objectReference: {fileID: 1340956967}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
       propertyPath: _textBox
       value: 
       objectReference: {fileID: 1340956967}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: background
+      value: 
+      objectReference: {fileID: 183088351}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: nextButton
+      value: 
+      objectReference: {fileID: 1984946588}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: skipButton
+      value: 
+      objectReference: {fileID: 1280864500}
     - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
       propertyPath: _backGround
       value: 
@@ -2057,6 +2083,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 297592577}
     - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: _dialogueManager
+      value: 
+      objectReference: {fileID: 297592577}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
       propertyPath: _humanGenerator2
       value: 
       objectReference: {fileID: 112122078}
@@ -2065,16 +2095,47 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1481935493}
     - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: tutorialList.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: tutorialDisplayBackground
+      value: 
+      objectReference: {fileID: 1932172747}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
       propertyPath: _tutorialDisplayBackGround
       value: 
       objectReference: {fileID: 1932172747}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: 'tutorialList.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: efeca35d73ebd4c42b23abcaaa6428da, type: 2}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: 'tutorialList.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f4159ec8445893349969debb35f6a3bc, type: 2}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: 'tutorialList.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4d798e0061c377446a07791ad6341c20, type: 2}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: 'tutorialList.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 41108a3aec708fe46a8ba7d602817aeb, type: 2}
+    - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      propertyPath: 'tutorialList.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 2f99098454956ad498a869e1109ce87f, type: 2}
     - target: {fileID: 6909440355888384740, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
       propertyPath: _advancedTutorialUIController
       value: 
       objectReference: {fileID: 297592578}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 5212517209042259440, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1982890600}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26ca96a3e20d6d2409750521c3fb26a6, type: 3}
 --- !u!1660057539 &9223372036854775807
@@ -2098,6 +2159,5 @@ SceneRoots:
   - {fileID: 1225713383}
   - {fileID: 928274740}
   - {fileID: 669579176}
-  - {fileID: 1764604605407173774}
   - {fileID: 5691162468773266425}
   - {fileID: 1154140486}

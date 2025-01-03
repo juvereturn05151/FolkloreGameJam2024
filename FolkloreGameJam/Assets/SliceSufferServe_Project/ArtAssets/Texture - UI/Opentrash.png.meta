@@ -126,12 +126,12 @@ TextureImporter:
       name: Opentrash_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 1324
         y: 0
-        width: 1920
-        height: 1080
+        width: 596
+        height: 387
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []

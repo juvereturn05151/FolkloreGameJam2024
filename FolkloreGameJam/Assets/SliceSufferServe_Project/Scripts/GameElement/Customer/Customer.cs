@@ -203,9 +203,9 @@ public class Customer : MonoBehaviour
 
     private void TriggerSatisfaction(Food food)
     {
-        if (GameManager.Instance.IsTutorial && AdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.ServeCustomer)
+        if (GameManager.Instance.IsTutorial && SSSAdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.ServeCustomer)
         {
-            AdvancedTutorialManager.Instance.serveCount++;
+            SSSAdvancedTutorialManager.Instance.serveCount++;
         }
 
         if (_animator != null)

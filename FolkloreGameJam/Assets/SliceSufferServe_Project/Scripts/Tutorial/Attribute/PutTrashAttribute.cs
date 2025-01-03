@@ -4,12 +4,12 @@ public class PutTrashAttribute : TutorialAttribute
 {
     public override void CheckingObjective()
     {
-        _isObjectiveComplete = AdvancedTutorialManager.Instance.trashInBinCount >= 3;
+        _isObjectiveComplete = SSSAdvancedTutorialManager.Instance.trashInBinCount >= 3;
     }
 
     public override void SetBegin()
     {
         base.SetBegin();
-        AdvancedTutorialManager.Instance.ActivateHumanGenerator();
+        SSSAdvancedTutorialManager.Instance.ActivateHumanGenerator();
     }
 }
