@@ -200,7 +200,7 @@ public class Food : MonoBehaviour
                     }
                 }
 
-                if (GameUtility.AdvancedTutorialManagerExists()) 
+                if (GameUtility.SSSAdvancedTutorialManagerExists()) 
                 {
                     if (GameManager.Instance.IsTutorial && SSSAdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.WaitForRotten && SSSAdvancedTutorialManager.Instance.IsOperating)
                     {

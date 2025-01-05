@@ -8,7 +8,7 @@ public class Trash : MonoBehaviour
     {
         if (other.GetComponent<Food>() is Food food)
         {
-            if (GameUtility.AdvancedTutorialManagerExists())
+            if (GameUtility.SSSAdvancedTutorialManagerExists())
             {
                 if (GameManager.Instance.IsTutorial && SSSAdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.PutTrashToBin)
                 {

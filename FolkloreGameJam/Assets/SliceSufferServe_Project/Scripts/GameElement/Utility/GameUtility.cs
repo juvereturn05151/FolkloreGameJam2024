@@ -12,7 +12,7 @@ public static class GameUtility
         return ScoreManager.Instance != null;
     }
 
-    public static bool AdvancedTutorialManagerExists()
+    public static bool SSSAdvancedTutorialManagerExists()
     {
         return SSSAdvancedTutorialManager.Instance != null;
     }
