@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5933412838758528528
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 83728175101965506, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: atMainMenu
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 83728175101965506, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: fruitSlicedPrefab
+      value: 
+      objectReference: {fileID: 1380852210859090364, guid: fac28d4041600104cb6ff47b5a1ce5f4, type: 3}
+    - target: {fileID: 752638607334200436, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_Name
+      value: Human Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446121888839635188, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_UseMotor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3592174121423691014, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: atMainMenu
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3592174121423691014, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: fruitSlicedPrefab
+      value: 
+      objectReference: {fileID: 8846248092394446896, guid: 666275df9816c0746acd0af27858c8b1, type: 3}
+    - target: {fileID: 5702818048948668893, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_UseMotor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5983385280804613021, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: atMainMenu
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5983385280804613021, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: fruitSlicedPrefab
+      value: 
+      objectReference: {fileID: 3036385971898085685, guid: d6df4a2739c95bf41a554cf97d09ce3f, type: 3}
+    - target: {fileID: 6137906145378110690, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.3672507
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137906145378110690, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.3672507
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137906145378110690, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.3672507
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137906145378110690, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.51
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137906145378110690, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137906145378110690, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137906145378110690, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137906145378110690, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137906145378110690, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137906145378110690, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137906145378110690, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137906145378110690, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137906145378110690, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6891517490676250439, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_BodyType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6891517490676250439, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_Constraints
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7008882931735631613, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: atMainMenu
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7008882931735631613, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: fruitSlicedPrefab
+      value: 
+      objectReference: {fileID: 2417688765679808340, guid: 3beccd80f266b4744a9a507c5fa4762d, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}

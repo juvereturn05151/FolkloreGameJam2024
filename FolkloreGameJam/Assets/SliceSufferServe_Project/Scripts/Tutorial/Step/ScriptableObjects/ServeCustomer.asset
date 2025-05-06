@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecab875e323a68408f44322daec0f38, type: 3}
+  m_Name: ServeCustomer
+  m_EditorClassIdentifier: 
+  Type: 2
+  DialogueLines:
+  - Each customer has their preferences
+  - Some customers like rotten organs.
+  - So, they will ask for different levels of rottenness.
+  - Don't let them wait too long or serve them the wrong food/rottenness.
+  - ' otherwise they will get mad'
+  - Now, serve customers what they want!
+  ShowTutorialGuideOnStart: 0
+  ShowTutorialGuideBackground: 0
+  ShowOnSecondDialogue: 1
+  ShowOnLastDialogue: 1
+  ObjectiveDialogue: Serve 3 customers what they want
+  WhatToDoDialogue: Serve 3 customer what they want, don't let them wait for  too
+    long
+  TutorialAttribute: {fileID: 11400000, guid: d31112b441ef8e246bde2f8402e6262c, type: 2}
