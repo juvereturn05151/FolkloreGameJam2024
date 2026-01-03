@@ -20,7 +20,7 @@ public class HumanPart : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(startForce, 0);
+        rb.linearVelocity = new Vector2(startForce, 0);
     }
 
     void OnTriggerEnter2D(Collider2D col)

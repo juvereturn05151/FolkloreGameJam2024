@@ -224,7 +224,7 @@ public class Food : MonoBehaviour
         transform.position = plate.transform.position ;
         transform.SetParent(plate.transform);
         transform.localPosition = Vector3.zero + new Vector3(0.0f, 0.86f, 0.0f);
-        _rigidBody.velocity = Vector2.zero;
+        _rigidBody.linearVelocity = Vector2.zero;
         _rigidBody.gravityScale = 0;
         _rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX;
         _isReadyToEat = true;
@@ -248,7 +248,7 @@ public class Food : MonoBehaviour
     {
         if (other.GetComponent<Plate>() is Plate plate)
         {
-            if (currentPlate == null) // Only register if there’s no current plate
+            if (currentPlate == null) // Only register if thereï¿½s no current plate
             {
                 currentPlate = plate;
                 currentPlate.OnFoodInOnPlate();
