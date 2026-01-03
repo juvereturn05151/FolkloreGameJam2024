@@ -42,7 +42,8 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -162,7 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!50 &439696545
 Rigidbody2D:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -173,8 +174,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -771,7 +772,7 @@ GameObject:
   m_IsActive: 1
 --- !u!50 &1255087080
 Rigidbody2D:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -782,8 +783,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -1544,21 +1545,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Restaurant
       objectReference: {fileID: 0}
-    - target: {fileID: 1202390224679512278, guid: 4ad11961a0525e8488bd71248569bf07, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5999417980789277082, guid: 4ad11961a0525e8488bd71248569bf07, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.7221382
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5999417980789277082, guid: 4ad11961a0525e8488bd71248569bf07, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.34
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5999417980789277082, guid: 4ad11961a0525e8488bd71248569bf07, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.042203784
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5999417980789277082, guid: 4ad11961a0525e8488bd71248569bf07, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1587,10 +1584,6 @@ PrefabInstance:
     - target: {fileID: 5999417980789277082, guid: 4ad11961a0525e8488bd71248569bf07, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9113497990717941289, guid: 4ad11961a0525e8488bd71248569bf07, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
