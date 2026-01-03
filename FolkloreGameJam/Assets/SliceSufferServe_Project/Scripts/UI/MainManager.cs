@@ -1,4 +1,6 @@
+#if STEAMWORKS_NET
 using Steamworks;
+#endif
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,6 +22,7 @@ public class MainManager : MonoBehaviour
 
     private void Start()
     {
+#if STEAMWORKS_NET
         if (SteamManager.Initialized)
         {
             string name = SteamFriends.GetPersonaName();
@@ -27,9 +30,10 @@ public class MainManager : MonoBehaviour
         }
 
         SteamLeaderboardManager.Init();
+#endif
 
         // Add listener for part destruction
-        if(humanPart != null)
+        if (humanPart != null)
         humanPart.OnPartDestroyed.AddListener(() => OnPartDestroyed(tutorialSceneName));
     }
 
