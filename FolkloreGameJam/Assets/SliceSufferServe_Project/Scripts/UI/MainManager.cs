@@ -1,4 +1,4 @@
-#if STEAMWORKS_NET
+#if !DISABLESTEAMWORKS && STEAMWORKS_NET
 using Steamworks;
 #endif
 using UnityEngine;
@@ -22,7 +22,7 @@ public class MainManager : MonoBehaviour
 
     private void Start()
     {
-#if STEAMWORKS_NET
+#if !DISABLESTEAMWORKS && STEAMWORKS_NET
         if (SteamManager.Initialized)
         {
             string name = SteamFriends.GetPersonaName();

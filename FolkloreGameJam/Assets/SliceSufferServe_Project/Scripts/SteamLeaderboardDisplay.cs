@@ -1,4 +1,4 @@
-#if STEAMWORKS_NET
+#if !DISABLESTEAMWORKS && STEAMWORKS_NET
 using Steamworks;
 #endif
 using UnityEngine;
@@ -13,7 +13,7 @@ public class SteamLeaderboardDisplay : MonoBehaviour
     private TextMeshProUGUI scores;
     private TextMeshProUGUI yourRankNumber;
 
-#if STEAMWORKS_NET
+#if !DISABLESTEAMWORKS && STEAMWORKS_NET
 
     [HideInInspector]
     public SteamLeaderboardEntries_t m_SteamLeaderboardEntries;
@@ -44,7 +44,7 @@ public class SteamLeaderboardDisplay : MonoBehaviour
 
     public static void GetScores()
     {
-#if STEAMWORKS_NET
+#if !DISABLESTEAMWORKS && STEAMWORKS_NET
 
         if (!SteamLeaderboardManager.s_initialized)
         {
@@ -59,7 +59,7 @@ public class SteamLeaderboardDisplay : MonoBehaviour
 
 #endif
     }
-#if STEAMWORKS_NET
+#if !DISABLESTEAMWORKS && STEAMWORKS_NET
     private static void OnLeaderboardScoresDownloaded(LeaderboardScoresDownloaded_t pCallback, bool bIOFailure)
     {
         SteamLeaderboardDisplay instance = FindObjectOfType<SteamLeaderboardDisplay>();
@@ -111,7 +111,7 @@ public class SteamLeaderboardDisplay : MonoBehaviour
 #endif
     private static void GetCurrentPlayerRank()
     {
-#if STEAMWORKS_NET
+#if !DISABLESTEAMWORKS && STEAMWORKS_NET
         if (SteamLeaderboardManager.s_initialized)
         {
             CSteamID[] users = { SteamUser.GetSteamID() };
@@ -125,7 +125,7 @@ public class SteamLeaderboardDisplay : MonoBehaviour
 #endif
     }
 
-#if STEAMWORKS_NET
+#if !DISABLESTEAMWORKS && STEAMWORKS_NET
     private void DisplayCurrentPlayerRank(LeaderboardScoresDownloaded_t pCallback)
     {
         // Retrieve only the current player's entry (should only be one entry here)
@@ -143,7 +143,7 @@ public class SteamLeaderboardDisplay : MonoBehaviour
         }
     }
 #endif
-#if STEAMWORKS_NET
+#if !DISABLESTEAMWORKS && STEAMWORKS_NET
     private static void OnLeaderboardScoresDownloadedForCurrentPlayer(LeaderboardScoresDownloaded_t pCallback, bool bIOFailure)
     {
         if (bIOFailure || pCallback.m_cEntryCount == 0)

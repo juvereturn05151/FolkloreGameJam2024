@@ -1,4 +1,4 @@
-#if STEAMWORKS_NET
+#if !DISABLESTEAMWORKS && STEAMWORKS_NET
 using Steamworks;
 #endif
 
