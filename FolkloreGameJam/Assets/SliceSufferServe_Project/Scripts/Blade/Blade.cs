@@ -69,8 +69,11 @@ public class Blade : MonoBehaviour
 
     void StartCutting()
     {
-        if (!bladeStamina.TryConsumeForSlice())
+        if(DragAndDropManager.Instance.isDragging)
             return;
+
+        //if (!bladeStamina.TryConsumeForSlice())
+        //    return;
 
         isCutting = true;
         currentBladeTrail = Instantiate(bladeTrailPrefab, transform);

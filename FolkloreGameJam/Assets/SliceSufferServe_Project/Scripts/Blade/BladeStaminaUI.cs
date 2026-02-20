@@ -69,7 +69,7 @@ public class BladeStaminaUI : MonoBehaviour
         if (fillImage != null)
         {
             var c = fillImage.color;
-            c.a = (current < 99f) ? 0.7f : 1f;
+            c.a = (current < 50f) ? 0.7f : 1f;
             fillImage.color = c;
         }
 
