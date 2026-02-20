@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4060343635512952236}
   - component: {fileID: 4803802644840929784}
   - component: {fileID: 4148937759417104274}
+  - component: {fileID: 5762531817812715274}
   m_Layer: 0
   m_Name: Blade
   m_TagString: Blade
@@ -48,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bladeTrailPrefab: {fileID: 1945049117440188, guid: eea06d9b51e1d524296d60ae4c42b0af, type: 3}
   minCuttingVelocity: 1e-20
+  bladeStamina: {fileID: 5762531817812715274}
 --- !u!58 &4803802644840929784
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -86,7 +88,7 @@ CircleCollider2D:
   m_Radius: 0.5
 --- !u!50 &4148937759417104274
 Rigidbody2D:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -97,8 +99,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -111,3 +113,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5762531817812715274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8595074874446986919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35f8537710773164fb0cdaf41db4cedb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxStamina: 100
+  sliceCost: 99
+  regenPerSecond: 20
+  regenOnlyWhenNotSlicing: 0

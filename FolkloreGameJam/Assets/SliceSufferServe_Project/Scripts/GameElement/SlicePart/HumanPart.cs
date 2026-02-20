@@ -34,8 +34,6 @@ public class HumanPart : MonoBehaviour
             {
                 FeedbackManager.Instance.ShakeCameraFeedback(0.5f, 0.25f);
             }
-
-
             
             if (!atMainMenu) 
             {
