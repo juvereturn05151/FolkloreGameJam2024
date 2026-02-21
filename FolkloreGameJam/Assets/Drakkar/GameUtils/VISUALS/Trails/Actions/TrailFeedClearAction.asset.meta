@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3684a50b678e7664688b10522dac9b45
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 307886
+  packageName: Drakkar Trail
+  packageVersion: 1.0.17
+  assetPath: Assets/Drakkar/GameUtils/VISUALS/Trails/Actions/TrailFeedClearAction.asset
+  uploadId: 846752

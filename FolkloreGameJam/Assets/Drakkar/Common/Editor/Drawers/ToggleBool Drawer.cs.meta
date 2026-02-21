@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 42c9dd1facd291841942d5eea3efdf50
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 307886
+  packageName: Drakkar Trail
+  packageVersion: 1.0.17
+  assetPath: Assets/Drakkar/Common/Editor/Drawers/ToggleBool Drawer.cs
+  uploadId: 846752

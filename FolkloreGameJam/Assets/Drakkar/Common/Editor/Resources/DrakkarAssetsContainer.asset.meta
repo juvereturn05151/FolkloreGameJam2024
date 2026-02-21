@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 149f7bb64c1a27a449ada97542e6bea8
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 307886
+  packageName: Drakkar Trail
+  packageVersion: 1.0.17
+  assetPath: Assets/Drakkar/Common/Editor/Resources/DrakkarAssetsContainer.asset
+  uploadId: 846752

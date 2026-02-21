@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: d94e3e78c9168ca41b48a8d6ef9ee975
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 307886
+  packageName: Drakkar Trail
+  packageVersion: 1.0.17
+  assetPath: Assets/Drakkar/Common/Editor/DrakkarUpdaterEditor.cs
+  uploadId: 846752

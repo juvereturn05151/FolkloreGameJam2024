@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 3ac2552be4d54404c9d41b8f14f3ccd9
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 307886
+  packageName: Drakkar Trail
+  packageVersion: 1.0.17
+  assetPath: Assets/Drakkar/GameUtils/VISUALS/Trails/DrakkarTrails Examples/Assets/Trail
+    Shader Alpha.shader
+  uploadId: 846752

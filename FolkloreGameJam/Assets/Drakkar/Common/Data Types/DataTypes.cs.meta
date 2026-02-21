@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 8545b00edb70b3743bc3b4e51e595431
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 307886
+  packageName: Drakkar Trail
+  packageVersion: 1.0.17
+  assetPath: Assets/Drakkar/Common/Data Types/DataTypes.cs
+  uploadId: 846752

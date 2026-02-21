@@ -1,0 +1,25 @@
+{
+    "name": "Drakkar",
+    "rootNamespace": "",
+    "references": [
+        "MEC",
+        "Unity.TextMeshPro",
+        "Unity.Timeline",
+        "Unity.Timeline.Editor",
+        "Unity.InputSystem",
+        "Unity.Mathematics",
+        "Unity.Burst",
+        "Unity.Addressables",
+        "Unity.ResourceManager",
+        "Unity.Animation.Rigging"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

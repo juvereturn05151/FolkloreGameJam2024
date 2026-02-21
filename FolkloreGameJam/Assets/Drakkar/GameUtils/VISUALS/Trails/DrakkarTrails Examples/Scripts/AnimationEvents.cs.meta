@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 988792906e92739449474a43267e2e84
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 307886
+  packageName: Drakkar Trail
+  packageVersion: 1.0.17
+  assetPath: Assets/Drakkar/GameUtils/VISUALS/Trails/DrakkarTrails Examples/Scripts/AnimationEvents.cs
+  uploadId: 846752

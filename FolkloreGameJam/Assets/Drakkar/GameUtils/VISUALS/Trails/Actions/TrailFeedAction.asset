@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d0b859cdb4601f40a34c56f2ddfcb5b, type: 3}
+  m_Name: TrailFeedAction
+  m_EditorClassIdentifier: 
+  Name: Trail
+  showGO: 0
+  showTransform: 0
+  showString: 0
+  showInt: 0
+  intClamp: 
+  showInt2: 0
+  int2Clamp: 
+  showFloat: 0
+  floatClamp: []
+  showFloat2: 0
+  float2Clamp: []
+  showColor: 0
+  showBool: 1
+  showCustom: 1
+  showCustom2: 0
+  showCustomScriptable: 0
+  showCustomInspector: 0
+  NameSource: 4
+  GameObjectName: 
+  BoolName: Begin
+  IntName: 
+  Int2Name: 
+  FloatName: 
+  Float2Name: 
+  StringName: 
+  ColorName: 
+  TransformName: 
+  ScriptableObjectName: 
+  CustomName: Trail
+  Custom2Name: 
+  BGColor: {r: 0.45736519, g: 0, b: 0.5019608, a: 0.5}
+  icon: {fileID: 2800000, guid: 7132dfb3d18bdbc4bb8ccc1da53ed27e, type: 3}
+  ParametersOrder: 

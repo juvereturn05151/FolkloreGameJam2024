@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 475ae47a50976ca408e66e6123fef493
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 307886
+  packageName: Drakkar Trail
+  packageVersion: 1.0.17
+  assetPath: Assets/Drakkar/Drakkar.asmdef
+  uploadId: 846752

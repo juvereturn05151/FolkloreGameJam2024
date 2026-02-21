@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5422d7e384a96c048acf1e1dfbdbc9d4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 307886
+  packageName: Drakkar Trail
+  packageVersion: 1.0.17
+  assetPath: Assets/Drakkar/GameUtils/VISUALS/Trails/DrakkarTrails Examples/Assets/Character.controller
+  uploadId: 846752

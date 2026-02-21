@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 9eeed5ba6795f314781eeffbeec0d55a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 307886
+  packageName: Drakkar Trail
+  packageVersion: 1.0.17
+  assetPath: Assets/Drakkar/GameUtils/VISUALS/Trails/DrakkarTrails Examples/Assets/Mat
+    Red.mat
+  uploadId: 846752

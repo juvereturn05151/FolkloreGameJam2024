@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 0409e7b1c232d6541ab883a7f9c67982
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 307886
+  packageName: Drakkar Trail
+  packageVersion: 1.0.17
+  assetPath: Assets/Drakkar/Plugins/Drakkar/Classes/Extensions/ArrayExtension.cs
+  uploadId: 846752

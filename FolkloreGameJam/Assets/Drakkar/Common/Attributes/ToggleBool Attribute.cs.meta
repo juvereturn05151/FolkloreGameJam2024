@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: ab34b72ec96152c44b08e526a05ea3ae
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 307886
+  packageName: Drakkar Trail
+  packageVersion: 1.0.17
+  assetPath: Assets/Drakkar/Common/Attributes/ToggleBool Attribute.cs
+  uploadId: 846752
