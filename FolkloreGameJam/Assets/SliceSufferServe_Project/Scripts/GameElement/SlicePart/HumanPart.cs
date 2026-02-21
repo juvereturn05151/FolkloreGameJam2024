@@ -1,15 +1,9 @@
-using System;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class HumanPart : MonoBehaviour
+public class HumanPart : SliceableObject
 {
-    public UnityEvent OnPartDestroyed;
-
     [SerializeField]
     private GameObject fruitSlicedPrefab;
-    [SerializeField]
-    private float startForce = 15f;
 
     [SerializeField]
     private bool atMainMenu;
@@ -17,43 +11,28 @@ public class HumanPart : MonoBehaviour
     [SerializeField] private GameObject bloodFX;
     [SerializeField] private GameObject bloodSplashFX;
 
-    Rigidbody2D rb;
-
-    void Start()
+    protected override void OnHitWithBlade(Collider2D col)
     {
-        rb = GetComponent<Rigidbody2D>();
-        rb.linearVelocity = new Vector2(startForce, 0);
-    }
+        Instantiate(bloodFX, transform.position, Quaternion.identity);
+        Instantiate(bloodSplashFX, transform.position, Quaternion.identity);
 
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.tag == "Blade")
+        if (GameUtility.FeedbackManagerExists())
         {
-            Instantiate(bloodFX, transform.position, Quaternion.identity);
-            Instantiate(bloodSplashFX, transform.position, Quaternion.identity);
+            FeedbackManager.Instance.ShakeCameraFeedback(0.5f, 0.25f);
+        }
 
-            if (GameUtility.FeedbackManagerExists()) 
+        if (!atMainMenu)
+        {
+            if (GameManager.Instance.IsTutorial && SSSAdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.CutHuman)
             {
-                FeedbackManager.Instance.ShakeCameraFeedback(0.5f, 0.25f);
-            }
-            
-            if (!atMainMenu) 
-            {
-                if (GameManager.Instance.IsTutorial && SSSAdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.CutHuman)
-                {
-                    SSSAdvancedTutorialManager.Instance._humanKillCount++;
-                }
-            }
-
-
-            Vector3 direction = (col.transform.position - transform.position).normalized;
-
-            GameObject slicedFruit = Instantiate(fruitSlicedPrefab, transform.position, Quaternion.identity);
-            Destroy(gameObject);
-            if (OnPartDestroyed != null) 
-            {
-                OnPartDestroyed.Invoke();
+                SSSAdvancedTutorialManager.Instance._humanKillCount++;
             }
         }
+
+
+        Vector3 direction = (col.transform.position - transform.position).normalized;
+
+        GameObject slicedFruit = Instantiate(fruitSlicedPrefab, transform.position, Quaternion.identity);
+        base.OnHitWithBlade(col);
     }
 }

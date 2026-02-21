@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HumanBody : MonoBehaviour
+public class HumanBody : SpawnableObject
 {
     [SerializeField]
     private HumanPart _head;

@@ -4,7 +4,7 @@ public class HumanGenerator : MonoBehaviour
 {
     // Array of human prefabs
     [SerializeField]
-    private HumanBody[] humanPrefabs;
+    private SpawnableObject[] humanPrefabs;
     // Where the human will be spawned
     [SerializeField] 
     private Transform spawnPoint; 
@@ -14,7 +14,7 @@ public class HumanGenerator : MonoBehaviour
     [SerializeField] 
     private float spawnInterval = 5f;
 
-    private HumanBody _currentHuman; 
+    private SpawnableObject _currentHuman; 
     private float _spawnTimer; 
 
     private void Start()
@@ -41,7 +41,7 @@ public class HumanGenerator : MonoBehaviour
     {
         if (_currentHuman == null)
         {
-            HumanBody selectedPrefab = humanPrefabs[Random.Range(0, humanPrefabs.Length)];
+            SpawnableObject selectedPrefab = humanPrefabs[Random.Range(0, humanPrefabs.Length)];
             _currentHuman = Instantiate(selectedPrefab, spawnPoint.position, selectedPrefab.transform.rotation);
         }
     }
