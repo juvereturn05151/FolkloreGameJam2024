@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -6395715925062629289}
   - component: {fileID: 3020630588660221651}
   - component: {fileID: 9061726935559511515}
+  - component: {fileID: 8364829232565349652}
   m_Layer: 0
   m_Name: blood1
   m_TagString: Untagged
@@ -118,3 +119,24 @@ MonoBehaviour:
   fadeDuration: 2
   delayBeforeFade: 0
   destroyAfterFade: 1
+--- !u!114 &8364829232565349652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 551ffdd873786924187d4829b9f2a074, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 493e3d4c4724c804f8bbebe749c9ff77, type: 3}
+  - {fileID: 21300000, guid: 5e14fc2d91e94974ab4aa5c614368aa1, type: 3}
+  - {fileID: 21300000, guid: 57d2109c3c949be489f1be7e1606777c, type: 3}
+  - {fileID: 21300000, guid: 815ba632b4464eb4a813592a7f01fb7b, type: 3}
+  - {fileID: 21300000, guid: 6016dd71388801a4ca4591af47627618, type: 3}
+  - {fileID: 21300000, guid: 80b7da75141e8414387fd3593a172a09, type: 3}
+  - {fileID: 21300000, guid: 5e7327cab4c8de24696ab0ad11955926, type: 3}
+  - {fileID: 21300000, guid: eb68a545b98b039419d6a0bd6982f09d, type: 3}

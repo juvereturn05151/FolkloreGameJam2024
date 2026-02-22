@@ -11,9 +11,6 @@ public class SliceableObject : MonoBehaviour
     [SerializeField]
     private bool atMainMenu;
 
-    [SerializeField] private GameObject bloodFX;
-    [SerializeField] private GameObject bloodSplashFX;
-
     private Rigidbody2D rb;
 
     protected virtual void Start()

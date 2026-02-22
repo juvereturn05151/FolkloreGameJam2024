@@ -49,6 +49,8 @@ MonoBehaviour:
   _neck: {fileID: 5983385280804613021}
   _body: {fileID: 83728175101965506}
   _leg: {fileID: 3592174121423691014}
+  _bombPrefab: {fileID: 5961313853668729417, guid: a23863d89cad0074d80d51ed2df12398, type: 3}
+  _bombSpawnChance: 0.4
 --- !u!1 &5245707710223056521
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,7 +89,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &6891517490676250439
 Rigidbody2D:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -98,8 +100,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 60
-  m_LinearDrag: 5
-  m_AngularDrag: 0.05
+  m_LinearDamping: 5
+  m_AngularDamping: 0.05
   m_GravityScale: 6
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -151,6 +153,10 @@ PrefabInstance:
     - target: {fileID: 4479068185978876611, guid: 6df7be04419b7c140939127da0fb39d2, type: 3}
       propertyPath: m_SortingOrder
       value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 4479068185978876611, guid: 6df7be04419b7c140939127da0fb39d2, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7262196079143250604, guid: 6df7be04419b7c140939127da0fb39d2, type: 3}
       propertyPath: m_LocalScale.x
@@ -514,6 +520,10 @@ PrefabInstance:
     - target: {fileID: 5798787461738663495, guid: 563a9e405dd83294a868dab867db5c54, type: 3}
       propertyPath: m_SortingOrder
       value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 5798787461738663495, guid: 563a9e405dd83294a868dab867db5c54, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6012258890503259133, guid: 563a9e405dd83294a868dab867db5c54, type: 3}
       propertyPath: m_LocalScale.x
