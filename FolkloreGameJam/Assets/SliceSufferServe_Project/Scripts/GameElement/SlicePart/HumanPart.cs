@@ -5,9 +5,6 @@ public class HumanPart : SliceableObject
     [SerializeField]
     private GameObject fruitSlicedPrefab;
 
-    [SerializeField]
-    private bool atMainMenu;
-
     [SerializeField] private GameObject bloodFX;
     [SerializeField] private GameObject bloodSplashFX;
 

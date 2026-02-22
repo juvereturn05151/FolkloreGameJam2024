@@ -9,7 +9,7 @@ public class SliceableObject : MonoBehaviour
     private float startForce = 15f;
 
     [SerializeField]
-    private bool atMainMenu;
+    protected bool atMainMenu;
 
     private Rigidbody2D rb;
 

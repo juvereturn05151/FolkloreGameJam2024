@@ -7,7 +7,7 @@ public class Bomb : SliceableObject
     protected override void OnHitWithBlade(Collider2D col)
     {
 
-Debug.Log("Bomb hit!");
+        Debug.Log("Bomb hit!");
         Instantiate(bombFX, transform.position, Quaternion.identity);
         ScoreManager.Instance.AddScore(-100); // Subtract points for hitting a bomb
         base.OnHitWithBlade(col);

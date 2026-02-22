@@ -44,7 +44,16 @@ public class HumanBody : SpawnableObject
 
         HumanPart targetPart = availableParts[Random.Range(0, availableParts.Count)];
 
-        GameObject bomb = Instantiate(_bombPrefab, targetPart.transform);
-        bomb.transform.localPosition = Vector3.zero;
+        // Spawn at part position, but do NOT parent it
+        GameObject bomb = Instantiate(_bombPrefab,
+            targetPart.transform.position,
+            Quaternion.identity);
+
+        // Optional: give slight random force so it looks natural
+        Rigidbody2D rb = bomb.GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.AddForce(new Vector2(Random.Range(-1f, 1f), 2f), ForceMode2D.Impulse);
+        }
     }
 }

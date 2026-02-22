@@ -1746,6 +1746,14 @@ PrefabInstance:
       propertyPath: firstSpawnTime
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5918114440580550621, guid: 34b8b01a95c4aff4d8f0a142b6b2a1b9, type: 3}
+      propertyPath: humanPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5918114440580550621, guid: 34b8b01a95c4aff4d8f0a142b6b2a1b9, type: 3}
+      propertyPath: 'humanPrefabs.Array.data[3]'
+      value: 
+      objectReference: {fileID: 6396417103903542081, guid: a23863d89cad0074d80d51ed2df12398, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
