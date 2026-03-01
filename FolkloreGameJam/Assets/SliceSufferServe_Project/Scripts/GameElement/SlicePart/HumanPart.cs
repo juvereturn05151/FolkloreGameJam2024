@@ -6,20 +6,26 @@ public class HumanPart : MonoBehaviour
 {
     public UnityEvent OnPartDestroyed;
 
-    public GameObject fruitSlicedPrefab;
-    public float startForce = 15f;
-
     [SerializeField]
-    bool atMainMenu;
+    private GameObject fruitSlicedPrefab;
+    [SerializeField]
+    private GameObject bloodFX;
+    [SerializeField] 
+    private GameObject bloodSplashFX;
+    [SerializeField]
+    private Rigidbody2D rb;
+    [SerializeField]
+    private float startForce = 15f;
+    [SerializeField]
+    private bool atMainMenu;
 
-    Rigidbody2D rb;
-    
-    [SerializeField] private GameObject bloodFX;
-    [SerializeField] private GameObject bloodSplashFX;
-
-    void Start()
+    private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody2D>();
+        }
+        
         rb.linearVelocity = new Vector2(startForce, 0);
     }
 
