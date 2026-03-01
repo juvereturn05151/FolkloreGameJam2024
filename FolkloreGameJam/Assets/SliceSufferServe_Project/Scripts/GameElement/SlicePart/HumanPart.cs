@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -29,9 +28,9 @@ public class HumanPart : MonoBehaviour
         rb.linearVelocity = new Vector2(startForce, 0);
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.tag == "Blade")
+        if (col.CompareTag(GameTagContainer.BladeTag))
         {
             Instantiate(bloodFX, transform.position, Quaternion.identity);
             Instantiate(bloodSplashFX, transform.position, Quaternion.identity);
@@ -48,7 +47,6 @@ public class HumanPart : MonoBehaviour
                     SSSAdvancedTutorialManager.Instance._humanKillCount++;
                 }
             }
-
 
             Vector3 direction = (col.transform.position - transform.position).normalized;
 
