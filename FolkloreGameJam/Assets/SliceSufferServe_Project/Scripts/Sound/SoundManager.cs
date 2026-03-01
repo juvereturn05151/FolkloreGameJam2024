@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,31 +10,24 @@ public class SoundEffect
 
 public class SoundManager : MonoBehaviour
 {
-    // Singleton instance
     public static SoundManager instance;
 
-    // Audio sources
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
 
-    // Volume controls
     [Range(0f, 1f)] public float musicVolume = 1f;
     [Range(0f, 1f)] public float sfxVolume = 1f;
 
-    // List of sound effects for inspector
     [SerializeField] private List<SoundEffect> soundEffectsList;
 
-    // Dictionary to hold audio clips
     private Dictionary<string, AudioClip> soundEffects;
 
-    // Background music clip
     public AudioClip backgroundMusic;
     public AudioClip backgroundGameplayMusic;
     public AudioClip backgroundMenu;
 
     private void Awake()
     {
-        // Ensure only one SoundManager exists
         if (instance == null)
         {
             instance = this;
@@ -46,7 +38,6 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        // Initialize sound effects dictionary from list
         soundEffects = new Dictionary<string, AudioClip>();
         foreach (var soundEffect in soundEffectsList)
         {
@@ -72,13 +63,13 @@ public class SoundManager : MonoBehaviour
         PlayMusic(backgroundMenu);
     }
 
-    // Play background music
     public void PlayMusic(AudioClip clip)
     {
         if (musicSource.isPlaying)
         {
             musicSource.Stop();
         }
+
         musicSource.clip = clip;
         musicSource.volume = musicVolume;
         musicSource.loop = true;
@@ -91,7 +82,6 @@ public class SoundManager : MonoBehaviour
         musicSource.pitch = 1.5f;
     }
 
-    // Play a one-shot sound effect
     public void PlaySFX(string sfxName)
     {
         if (soundEffects.ContainsKey(sfxName))
@@ -104,7 +94,6 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    // Add a sound effect to the dictionary
     public void AddSoundEffect(string sfxName, AudioClip clip)
     {
         if (!soundEffects.ContainsKey(sfxName))
@@ -113,7 +102,6 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    // Update volumes dynamically
     public void SetMusicVolume(float volume)
     {
         musicVolume = volume;
