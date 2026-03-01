@@ -5,10 +5,10 @@ public class SSSAdvancedTutorialManager : AdvancedTutorialManager_Base
     public static SSSAdvancedTutorialManager Instance { get; private set; }
 
     [SerializeField]
-    private HumanGenerator _humanGenerator;
+    private ObjectSpawner _humanGenerator;
 
     [SerializeField]
-    private HumanGenerator _humanGenerator2;
+    private ObjectSpawner _humanGenerator2;
 
     [SerializeField]
     private CustomerGenerator _customerGenerator;

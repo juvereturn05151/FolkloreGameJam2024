@@ -1,10 +1,5 @@
-using System;
-using MoreMountains.Feedbacks;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,8 +22,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private bool isGameOver;
     public bool IsGameOver => isGameOver;
-    [SerializeField] private HumanGenerator humanGen1;
-    [SerializeField] private HumanGenerator humanGen2;
+    [SerializeField] private ObjectSpawner humanGen1;
+    [SerializeField] private ObjectSpawner humanGen2;
     [SerializeField] private CustomerGenerator customerGen;
 
     public bool IsTutorial;
