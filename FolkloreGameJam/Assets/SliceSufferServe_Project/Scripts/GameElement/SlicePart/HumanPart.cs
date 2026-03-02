@@ -54,6 +54,8 @@ public class HumanPart : MonoBehaviour
 
         Sliced?.Invoke(transform.position, feedbackRequests);
 
+        OnPartDestroyed?.Invoke();
+
         Destroy(gameObject);
     }
 }

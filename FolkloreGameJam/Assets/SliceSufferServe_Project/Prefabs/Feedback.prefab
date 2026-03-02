@@ -2491,7 +2491,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 14.727379, y: 6.725638, z: 0.9397669}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 54.004498, y: 54.004498, z: 54.004498}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 264346906984028513}
@@ -2515,3 +2515,7 @@ MonoBehaviour:
   increaseScoreFeedback: {fileID: 3844561075116741231}
   decreaseScoreFeedback: {fileID: 7793434036902215408}
   damageFeedback: {fileID: 694874946811012640}
+  bloodFX: {fileID: 6823200998282874702, guid: 8f8fe12323625f5499b2853dd2ad3e58, type: 3}
+  bloodSplashFX: {fileID: 4553287630450876385, guid: 15483e51212e3d74886ea57291f4639a, type: 3}
+  cameraTransform: {fileID: 0}
+  defaultCamPos: {x: 0, y: 1, z: -10}
