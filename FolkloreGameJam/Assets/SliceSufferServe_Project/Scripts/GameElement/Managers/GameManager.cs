@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
         // increaseScoreFeedback.PlayFeedbacks();
         if (GameUtility.FeedbackManagerExists()) 
         {
-            FeedbackManager.Instance.increaseScoreFeedback.PlayFeedbacks();
+            FeedbackManager.Instance.IncreaseScoreFeedback.PlayFeedbacks();
         }
 
         ScoreManager.Instance.AddScore(_value);
@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
         if (GameUtility.FeedbackManagerExists())
         {
             FeedbackManager.Instance.ShakeCameraFeedback(0.5f, 0.25f);
-            FeedbackManager.Instance.decreaseScoreFeedback.PlayFeedbacks();
+            FeedbackManager.Instance.DecreaseScoreFeedback.PlayFeedbacks();
         }
         ScoreManager.Instance.AddScore(-_value);
     }

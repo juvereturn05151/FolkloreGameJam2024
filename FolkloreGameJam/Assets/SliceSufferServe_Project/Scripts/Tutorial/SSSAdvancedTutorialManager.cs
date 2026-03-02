@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SSSAdvancedTutorialManager : AdvancedTutorialManager_Base
@@ -33,8 +34,6 @@ public class SSSAdvancedTutorialManager : AdvancedTutorialManager_Base
     protected override void Start()
     {
         base.Start();
-
-        // Additional initialization for SSS-specific logic
     }
 
     public void ActivateHumanGenerator()
@@ -61,5 +60,42 @@ public class SSSAdvancedTutorialManager : AdvancedTutorialManager_Base
     {
         base.OnTutorialEnd();
         DeactivateGenerator();
+    }
+
+    public void Hook(HumanPart part)
+    {
+        part.Sliced -= OnHumanPartSliced;
+        part.Sliced += OnHumanPartSliced;
+    }
+
+    public void Unhook(HumanPart part)
+    {
+        part.Sliced -= OnHumanPartSliced;
+    }
+
+    private void OnHumanPartSliced(Vector3 pos, IReadOnlyList<FeedbackRequest> requests)
+    {
+        if (requests == null) return;
+
+        foreach (var req in requests)
+        {
+            if (req.feedbackID == "") continue;
+
+            switch (req.feedbackID)
+            {
+                case "CutHumanTutorial":
+                    FeedbackCutHuman();
+                    break;
+            }
+        }
+    }
+
+    public void FeedbackCutHuman()
+    {
+        if (GameManager.Instance.IsTutorial &&
+            CurrentTutorial.Type == TutorialType.CutHuman)
+        {
+            _humanKillCount++;
+        }
     }
 }

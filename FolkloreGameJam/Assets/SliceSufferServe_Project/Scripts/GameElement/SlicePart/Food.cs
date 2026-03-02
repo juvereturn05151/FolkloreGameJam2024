@@ -196,7 +196,7 @@ public class Food : MonoBehaviour
 
                     if (GameUtility.FeedbackManagerExists()) 
                     {
-                        FeedbackManager.Instance.decreaseScoreFeedback.PlayFeedbacks();
+                        FeedbackManager.Instance.DecreaseScoreFeedback.PlayFeedbacks();
                     }
                 }
 

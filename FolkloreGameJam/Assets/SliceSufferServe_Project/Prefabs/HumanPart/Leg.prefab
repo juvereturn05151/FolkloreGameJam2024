@@ -9,6 +9,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 766505142281876238, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
+      propertyPath: foodPrefab
+      value: 
+      objectReference: {fileID: 8846248092394446896, guid: 60d9e0046bccb9548b7a0f2a6fd2b331, type: 3}
+    - target: {fileID: 766505142281876238, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: fruitSlicedPrefab
       value: 
       objectReference: {fileID: 8846248092394446896, guid: 60d9e0046bccb9548b7a0f2a6fd2b331, type: 3}

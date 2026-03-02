@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -5,12 +7,15 @@ public class HumanPart : MonoBehaviour
 {
     public UnityEvent OnPartDestroyed;
 
+    public event Action<Vector3, IReadOnlyList<FeedbackRequest>> Sliced;
+
+    [Header("Slice Feedback Settings")]
+    [SerializeField] private List<FeedbackRequest> feedbackRequests = new();
+
+    private bool _sliced;
+
     [SerializeField]
-    private GameObject fruitSlicedPrefab;
-    [SerializeField]
-    private GameObject bloodFX;
-    [SerializeField] 
-    private GameObject bloodSplashFX;
+    private GameObject foodPrefab;
     [SerializeField]
     private Rigidbody2D rb;
     [SerializeField]
@@ -28,34 +33,27 @@ public class HumanPart : MonoBehaviour
         rb.linearVelocity = new Vector2(startForce, 0);
     }
 
+    private void OnEnable()
+    {
+        if (GameUtility.FeedbackManagerExists())
+            FeedbackManager.Instance.Hook(this);
+
+        if (!atMainMenu && GameUtility.SSSAdvancedTutorialManagerExists())
+            SSSAdvancedTutorialManager.Instance.Hook(this);
+    }
+
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag(GameTagContainer.BladeTag))
-        {
-            Instantiate(bloodFX, transform.position, Quaternion.identity);
-            Instantiate(bloodSplashFX, transform.position, Quaternion.identity);
+        if (_sliced) return;
+        if (!col.CompareTag(GameTagContainer.BladeTag)) return;
 
-            if (GameUtility.FeedbackManagerExists()) 
-            {
-                FeedbackManager.Instance.ShakeCameraFeedback(0.5f, 0.25f);
-            }
-            
-            if (!atMainMenu) 
-            {
-                if (GameManager.Instance.IsTutorial && SSSAdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.CutHuman)
-                {
-                    SSSAdvancedTutorialManager.Instance._humanKillCount++;
-                }
-            }
+        _sliced = true;
 
-            Vector3 direction = (col.transform.position - transform.position).normalized;
+        if (foodPrefab)
+            Instantiate(foodPrefab, transform.position, Quaternion.identity);
 
-            GameObject slicedFruit = Instantiate(fruitSlicedPrefab, transform.position, Quaternion.identity);
-            Destroy(gameObject);
-            if (OnPartDestroyed != null) 
-            {
-                OnPartDestroyed.Invoke();
-            }
-        }
+        Sliced?.Invoke(transform.position, feedbackRequests);
+
+        Destroy(gameObject);
     }
 }

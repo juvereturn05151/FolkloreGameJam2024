@@ -41,7 +41,7 @@ public class GameplayUIManager : MonoBehaviour
         {
             if (GameUtility.FeedbackManagerExists()) 
             {
-                FeedbackManager.Instance.damageFeedback.PlayFeedbacks();
+                FeedbackManager.Instance.DamageFeedback.PlayFeedbacks();
                 FeedbackManager.Instance.ShakeCameraFeedback(0.5f, 2f);
             }
             // Camera.main.DOShakePosition(0.5f, 2f);
