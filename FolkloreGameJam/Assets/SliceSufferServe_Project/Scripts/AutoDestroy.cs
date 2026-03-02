@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class AutoDestroy : MonoBehaviour
 {
-    public void AutoDestroyItSelf() 
+    [SerializeField]
+    private float destroyCooldown = 2f;
+
+    public void AutoDestroyItSelf()
     {
-        Destroy(gameObject);
+        Destroy(gameObject, destroyCooldown);
     }
 }

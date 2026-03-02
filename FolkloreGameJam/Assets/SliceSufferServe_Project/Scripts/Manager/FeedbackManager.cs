@@ -70,7 +70,7 @@ public class FeedbackManager : MonoBehaviour
                     SpawnBlood(pos);
                     break;
 
-                case"ShakeCamera":
+                case "ShakeCamera":
                     ShakeCameraFeedback(0.5f, 0.25f);
                     break;
             }

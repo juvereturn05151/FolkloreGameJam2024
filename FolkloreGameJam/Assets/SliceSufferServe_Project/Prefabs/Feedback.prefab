@@ -2515,7 +2515,7 @@ MonoBehaviour:
   increaseScoreFeedback: {fileID: 3844561075116741231}
   decreaseScoreFeedback: {fileID: 7793434036902215408}
   damageFeedback: {fileID: 694874946811012640}
-  bloodFX: {fileID: 6823200998282874702, guid: 8f8fe12323625f5499b2853dd2ad3e58, type: 3}
+  bloodFX: {fileID: 8758790208080651277, guid: 37182c1816e98584294273259e2e3a9b, type: 3}
   bloodSplashFX: {fileID: 4553287630450876385, guid: 15483e51212e3d74886ea57291f4639a, type: 3}
   cameraTransform: {fileID: 0}
   defaultCamPos: {x: 0, y: 1, z: -10}
