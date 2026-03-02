@@ -11,6 +11,7 @@ public class BloodSplash : MonoBehaviour
     private float fadeDuration = 1.5f;
     [SerializeField]
     private SpriteRenderer spriteRenderer;
+
     private Color _originalColor;
 
     private void Awake()

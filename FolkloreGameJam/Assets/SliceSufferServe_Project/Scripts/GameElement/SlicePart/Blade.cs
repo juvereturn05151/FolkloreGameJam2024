@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Blade : MonoBehaviour
@@ -82,5 +80,4 @@ public class Blade : MonoBehaviour
         Destroy(currentBladeTrail, 2f);
         circleCollider.enabled = false;
     }
-
 }
