@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   humanPart: {fileID: 0}
-  tutorialSceneName: TutorialScene
+  tutorialSceneName: GameModeSelect
   creditsSceneName: Credits
   menuSceneName: MainMenu
 --- !u!1 &527461477483750121
