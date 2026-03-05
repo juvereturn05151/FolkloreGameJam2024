@@ -310,11 +310,11 @@ public class Customer : MonoBehaviour
                 var _order = Instantiate(orderPrefab, content);
 
 
-                if (_desiredFoodState == FoodState.MediumRare)
+                if (_desiredFoodState == FoodState.MediumRotten)
                 {
                     _order.sprite = _request.Menu.MediumRottenSprite;
                 }
-                else if (_desiredFoodState == FoodState.WellDone)
+                else if (_desiredFoodState == FoodState.SuperRotten)
                 {
                     _order.sprite = _request.Menu.SuperRottenSprite;
                 }
