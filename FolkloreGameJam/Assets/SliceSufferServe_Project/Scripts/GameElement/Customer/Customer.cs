@@ -182,7 +182,7 @@ public class Customer : MonoBehaviour
             //Found Designated Food
             if (menuRating.Menu.FoodType == incomingMenu)
             {
-                if (food.FoodState == _desiredFoodState)
+                if (food.FoodRotting.State == _desiredFoodState)
                 {
                     _isEatingRightFood = true;
                     patienceSlider.DOValue(patienceSlider.value + menuRating.Value, 1f);

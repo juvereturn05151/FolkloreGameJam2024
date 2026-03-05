@@ -19,60 +19,30 @@ public class Food : MonoBehaviour
     public Menu Menu => menu;
 
     [SerializeField]
-    private SpriteRenderer _renderer;
-
-    [SerializeField]
     private Rigidbody2D _rigidBody;
 
     [SerializeField]
     private TextMeshProUGUI _textState;
 
     [SerializeField] 
-    private float _rottenTime = 10.0f;
-
-    [SerializeField] 
-    private Slider rottenSlider;
-
-    [SerializeField] 
-    private GameObject _dust;
-
-    [SerializeField] 
-    private GameObject foodStateEffect;
-    [SerializeField] 
     private BoxCollider2D _boxCollider;
-    [SerializeField] 
-    private Animator _animator;
-    [SerializeField] 
-    private ScoreFeedback _scoreFeedback;
 
     [SerializeField]
     private float _eatingTime = 10.0f;
 
     [SerializeField]
-    private int _decreaseScoreOnBurnt = 10;
-
-    [SerializeField]
     private FoodRotting foodRotting;
+    public FoodRotting FoodRotting => foodRotting;
     [SerializeField] 
     private FoodVisuals foodVisuals;
     [SerializeField] 
     private FoodScoringOnExpire foodScoring;
 
 
-    private FoodState _foodState = FoodState.Normal;
-    public FoodState FoodState => _foodState;
-
     private bool _isReadyToEat = false;
     public bool IsReadyToEat => _isReadyToEat;
     private bool _isFinished = false;
     public bool IsFinished => _isFinished;
-
-
-    private bool isStartingRotten = false;
-    private float _currentRottenTime = 10.0f;
-    public float RottenTime => _currentRottenTime;
-
-
 
     private bool isDragging = false;
     public bool IsDragging => isDragging;
@@ -84,18 +54,6 @@ public class Food : MonoBehaviour
     {
         foodRotting.OnStateChanged += foodVisuals.ApplyState;   
         foodRotting.OnExpired += HandleExpired;            
-
-        if (!_isReadyToEat) 
-        {
-            _currentRottenTime = _rottenTime; 
-            isStartingRotten = true;
-        }
-    }
-
-    private void Start()
-    {
-        rottenSlider.maxValue = _rottenTime;
-        rottenSlider.value = rottenSlider.maxValue;
     }
 
     private void Update()
@@ -175,7 +133,7 @@ public class Food : MonoBehaviour
             _eatingTime = 2.0f;
         }
         
-        rottenSlider.gameObject.SetActive(false);
+        foodVisuals.HideRotUI();
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -194,7 +152,7 @@ public class Food : MonoBehaviour
         if (other.GetComponent<Plate>() is Plate plate && currentPlate == plate)
         {
             currentPlate.OnFoodIsOffPlate();
-            currentPlate = null; // Clear the reference when food leaves the plate
+            currentPlate = null; 
         }
     }
 
