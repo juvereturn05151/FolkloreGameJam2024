@@ -7,7 +7,8 @@ public class FoodRotting : MonoBehaviour
     public event Action<FoodState> OnStateChanged;
     public event Action OnExpired;
 
-    [SerializeField] private float baseRottenTime = 10f;
+    [SerializeField] 
+    private float baseRottenTime = 10f;
 
     private float remaining;
     private FoodState state = FoodState.Normal;
