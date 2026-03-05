@@ -10,6 +10,9 @@ public class FoodRotting : MonoBehaviour
     [SerializeField] 
     private float baseRottenTime = 10f;
 
+    [SerializeField]
+    private GameObject rottenEffect;
+
     private float remaining;
     private FoodState state = FoodState.Normal;
 
@@ -26,14 +29,20 @@ public class FoodRotting : MonoBehaviour
 
     public void AddModifier(IRotModifier mod)
     {
-        if (mod != null && !modifiers.Contains(mod))
+        if (mod != null && !modifiers.Contains(mod)) 
+        {
             modifiers.Add(mod);
+            rottenEffect.SetActive(true);
+        } 
     }
 
     public void RemoveModifier(IRotModifier mod)
     {
-        if (mod != null)
+        if (mod != null) 
+        {
             modifiers.Remove(mod);
+            rottenEffect.SetActive(false);
+        }
     }
 
     private float EffectiveMultiplier

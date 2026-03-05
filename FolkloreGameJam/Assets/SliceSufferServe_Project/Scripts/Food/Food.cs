@@ -74,6 +74,7 @@ public class Food : MonoBehaviour
         {
             return;
         }
+
         SoundManager.instance.PlaySFX("SFX_WhenPickUpItem");
 
         if (GameUtility.DragAndDropManagerExists()) 
