@@ -78,6 +78,14 @@ public class CustomerFeedbackController : MonoBehaviour
         }
     }
 
+    public void SetHappyAnimation(bool isHappy) 
+    {
+        if (animator != null)
+        {
+            animator.SetBool("Happy", isHappy);
+        }
+    }
+
     public void SpawnScoreFeedback(int score)
     {
         if (scoreFeedback == null)

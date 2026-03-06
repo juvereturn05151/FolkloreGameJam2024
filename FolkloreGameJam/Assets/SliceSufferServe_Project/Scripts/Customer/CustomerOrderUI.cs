@@ -40,14 +40,10 @@ public class CustomerOrderUI : MonoBehaviour
         orderImageBG.gameObject.SetActive(true);
         patienceController.PatienceSlider.gameObject.SetActive(true);
 
-        Debug.Log($"Attempting to show orders for customer: {gameObject.name}. Orders count: {(orders != null ? orders.Count : 0)}");
-
         if (orderPrefab == null || content == null || orders == null)
             return;
 
         UpdateGlobalDonenessText(orders);
-
-        Debug.Log($"Showing {orders.Count} orders for customer: {gameObject.name}");
 
         foreach (CustomerOrder order in orders)
         {

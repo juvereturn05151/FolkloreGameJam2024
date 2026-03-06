@@ -227,6 +227,7 @@ public class Customer : MonoBehaviour
         if (currentOrders.Count > 0)
         {
             currentState = CustomerState.WaitingForFood;
+            feedbackController?.SetHappyAnimation(false);
             return;
         }
 
