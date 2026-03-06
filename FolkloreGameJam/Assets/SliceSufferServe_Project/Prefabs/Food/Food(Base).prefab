@@ -460,6 +460,7 @@ GameObject:
   - component: {fileID: 3820388303736004562}
   - component: {fileID: 14430919584825911}
   - component: {fileID: 7558950114203630038}
+  - component: {fileID: 4382946176104338061}
   m_Layer: 7
   m_Name: Food(Base)
   m_TagString: Food
@@ -577,6 +578,7 @@ MonoBehaviour:
   foodEating: {fileID: 7558950114203630038}
   foodVisuals: {fileID: 2610020155637249405}
   foodScoring: {fileID: 14430919584825911}
+  draggable2D: {fileID: 4382946176104338061}
 --- !u!114 &3820388303736004562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -619,6 +621,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eatingTimeRightFood: 10
   eatingTimeWrongFood: 2
+--- !u!114 &4382946176104338061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7145729521898110643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6c6dda61e742234abce8b5d78959f31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canDrag: 1
+  zOffset: 0
 --- !u!1 &7213418843631013065
 GameObject:
   m_ObjectHideFlags: 0

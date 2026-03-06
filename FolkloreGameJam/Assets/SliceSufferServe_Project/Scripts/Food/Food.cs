@@ -15,6 +15,7 @@ public class Food : MonoBehaviour
     [SerializeField] private FoodEating foodEating;
     [SerializeField] private FoodVisuals foodVisuals;
     [SerializeField] private FoodScoringOnExpire foodScoring;
+    [SerializeField] private Draggable2D draggable2D;
 
     public FoodRotting FoodRotting => foodRotting;
 
@@ -24,11 +25,9 @@ public class Food : MonoBehaviour
     private bool _isFinished;
     public bool IsFinished => _isFinished;
 
-    private bool _isDragging;
-    public bool IsDragging => _isDragging;
-
-    private bool _canDrag = true;
-    private Plate _currentPlate;
+    public bool IsDragging => draggable2D != null && draggable2D.IsDragging;
+    public bool IsSnapped => draggable2D != null && draggable2D.IsSnapped;
+    private CustomerFoodPlace _currentPlate;
 
     private void Reset()
     {
@@ -42,7 +41,6 @@ public class Food : MonoBehaviour
     {
         _isFinished = false;
         _isReadyToEat = false;
-        _isDragging = false;
 
         if (foodRotting != null && foodVisuals != null)
         {
@@ -53,6 +51,13 @@ public class Food : MonoBehaviour
         if (foodEating != null)
         {
             foodEating.OnFinished += HandleFinishedEating;
+        }
+
+        if (draggable2D != null)
+        {
+            draggable2D.DragStarted += HandleDragStarted;
+            draggable2D.DragEnded += HandleDragEnded;
+            draggable2D.DragCancelled += HandleDragCancelled;
         }
     }
 
@@ -67,6 +72,13 @@ public class Food : MonoBehaviour
         if (foodEating != null)
         {
             foodEating.OnFinished -= HandleFinishedEating;
+        }
+
+        if (draggable2D != null)
+        {
+            draggable2D.DragStarted -= HandleDragStarted;
+            draggable2D.DragEnded -= HandleDragEnded;
+            draggable2D.DragCancelled -= HandleDragCancelled;
         }
     }
 
@@ -83,6 +95,35 @@ public class Food : MonoBehaviour
         if (foodVisuals != null)
         {
             foodVisuals.UpdateRotSlider(foodRotting.Remaining, foodRotting.BaseRottenTime);
+        }
+    }
+
+    private void HandleDragStarted()
+    {
+        if (_isReadyToEat)
+            return;
+
+        SoundManager.instance.PlaySFX("SFX_WhenPickUpItem");
+
+        if (GameUtility.DragAndDropManagerExists())
+        {
+            DragAndDropManager.Instance.isDragging = true;
+        }
+    }
+
+    private void HandleDragEnded()
+    {
+        if (GameUtility.DragAndDropManagerExists())
+        {
+            DragAndDropManager.Instance.isDragging = false;
+        }
+    }
+
+    private void HandleDragCancelled()
+    {
+        if (GameUtility.DragAndDropManagerExists())
+        {
+            DragAndDropManager.Instance.isDragging = false;
         }
     }
 
@@ -106,40 +147,18 @@ public class Food : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnMouseDown()
+    public void SnapToPlate(CustomerFoodPlace plate, bool eatingRightFood)
     {
-        if (!_canDrag || _isReadyToEat)
-            return;
-
-        SoundManager.instance.PlaySFX("SFX_WhenPickUpItem");
-
-        if (GameUtility.DragAndDropManagerExists())
+        if (draggable2D != null)
         {
-            DragAndDropManager.Instance.isDragging = true;
+            draggable2D.SnapTo(plate.transform, new Vector3(0f, 0.86f, 0f));
+            draggable2D.SetCanDrag(false);
         }
-
-        _isDragging = true;
-    }
-
-    private void OnMouseDrag()
-    {
-        if (_isDragging && !IsReadyToEat)
+        else
         {
-            var _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = new Vector3(_mousePos.x, _mousePos.y, transform.position.z);
+            transform.SetParent(plate.transform);
+            transform.localPosition = new Vector3(0f, 0.86f, 0f);
         }
-    }
-
-    private void OnMouseUp()
-    {
-        _isDragging = false;
-    }
-
-    public void SetFoodToBeEaten(Plate plate, bool eatingRightFood)
-    {
-        transform.position = plate.transform.position;
-        transform.SetParent(plate.transform);
-        transform.localPosition = new Vector3(0f, 0.86f, 0f);
 
         if (rigidBody2D != null)
         {
@@ -170,7 +189,7 @@ public class Food : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.TryGetComponent(out Plate plate))
+        if (!other.TryGetComponent(out CustomerFoodPlace plate))
             return;
 
         if (_currentPlate == null)
@@ -182,7 +201,7 @@ public class Food : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (!other.TryGetComponent(out Plate plate))
+        if (!other.TryGetComponent(out CustomerFoodPlace plate))
             return;
 
         if (_currentPlate == plate)
@@ -194,10 +213,10 @@ public class Food : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (!other.TryGetComponent(out Plate plate))
+        if (!other.TryGetComponent(out CustomerFoodPlace plate))
             return;
 
-        if (_currentPlate == plate && _currentPlate.canBeDropped() && !_isDragging)
+        if (_currentPlate == plate && _currentPlate.canBeDropped() && !IsDragging && !_isReadyToEat)
         {
             _currentPlate.PrepareToEat(this);
         }

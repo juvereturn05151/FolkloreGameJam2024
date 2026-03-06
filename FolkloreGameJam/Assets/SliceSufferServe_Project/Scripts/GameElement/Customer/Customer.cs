@@ -59,7 +59,7 @@ public class Customer : MonoBehaviour
         FoodState.SuperRotten
     };
 
-    private Plate currentPlate;
+    private CustomerFoodPlace currentPlate;
     private CustomerSpot currentSpot;
     private FoodState desiredFoodState;
     private CustomerState currentState = CustomerState.Arriving;
@@ -207,7 +207,7 @@ public class Customer : MonoBehaviour
         }
     }
 
-    public void SetPlate(Plate plate)
+    public void SetPlate(CustomerFoodPlace plate)
     {
         if (currentPlate != null)
         {

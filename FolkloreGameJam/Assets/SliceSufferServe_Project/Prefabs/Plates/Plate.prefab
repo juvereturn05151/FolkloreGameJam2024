@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 74
   m_Sprite: {fileID: 21300000, guid: 93811acd30109a04db4b58388627524d, type: 3}
-  m_Color: {r: 0.35294116, g: 0.8625191, b: 1, a: 0.47058824}
+  m_Color: {r: 0.35294116, g: 0.8625191, b: 1, a: 0.16862746}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4812665308420189380}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db5298efa9897f040a5c00be49ae54a2, type: 3}
+  m_Script: {fileID: 11500000, guid: cc14ee5adc729cf4d9ec4acdb5a8425a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   OnFoodPlaced:
@@ -241,4 +241,4 @@ MonoBehaviour:
   _foodOnPlate: {fileID: 0}
   _isOccupied: 0
   _spriteRenderer: {fileID: 7756634274568793163}
-  _defaultColor: {r: 0.3529412, g: 0.8627451, b: 1, a: 0.47058824}
+  _defaultColor: {r: 0.3529412, g: 0.8627451, b: 1, a: 0.16862746}

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Plate : MonoBehaviour
+public class CustomerFoodPlace : MonoBehaviour
 {
     [Serializable] public class FoodPlacedEvent : UnityEvent<Food> { }
     public FoodPlacedEvent OnFoodPlaced;
@@ -56,8 +56,8 @@ public class Plate : MonoBehaviour
         {
             SoundManager.instance.PlaySFX("SFX_ServeCustomer");
             _foodOnPlate = food;
-            _foodOnPlate.SetFoodToBeEaten(this, currentCustomer.IsEatingRightFood);
-            OnFoodPlaced?.Invoke(_foodOnPlate); // Pass the food object as a parameter to the event
+            _foodOnPlate.SnapToPlate(this, currentCustomer.IsEatingRightFood);
+            OnFoodPlaced?.Invoke(_foodOnPlate);
         }
     }
 }
