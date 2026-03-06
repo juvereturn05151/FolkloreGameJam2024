@@ -18,3 +18,4 @@ MonoBehaviour:
   - Menu: {fileID: 11400000, guid: 547cb9f8123378f4b888bc7a10215823, type: 2}
     Value: 5
     RandomRange: 0
+  SubFavoriteMenu: []

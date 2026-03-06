@@ -148,6 +148,10 @@ PrefabInstance:
       propertyPath: _ghostType
       value: 
       objectReference: {fileID: 11400000, guid: 3773c85fcdaf6f841839a87456861e97, type: 2}
+    - target: {fileID: 7711665025995996395, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
+      propertyPath: hungryLevel
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8993642390098856284, guid: a3a0acd6b50ec70468e47d00c5c1ae94, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

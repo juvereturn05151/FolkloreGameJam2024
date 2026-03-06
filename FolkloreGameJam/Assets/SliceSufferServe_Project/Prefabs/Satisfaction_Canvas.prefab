@@ -250,6 +250,8 @@ GameObject:
   - component: {fileID: 4887359458425844111}
   - component: {fileID: 3082072809047591594}
   - component: {fileID: 1462633524711443047}
+  - component: {fileID: 4663025543086848739}
+  - component: {fileID: 3452713996471295603}
   m_Layer: 5
   m_Name: Satisfaction_Canvas
   m_TagString: Untagged
@@ -341,6 +343,41 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4663025543086848739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5178727146205683821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a28682a8f30244bb99f1c95c6f7366, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orderPrefab: {fileID: 8096172761158799893, guid: 1981ffb629ecdfd4fbb2ee183b174f2a, type: 3}
+  orderImageBG: {fileID: 3647113281656117291}
+  content: {fileID: 6234446103766733781}
+  desiredDonenessText: {fileID: 7468920461778835693}
+  eatingIcon: {fileID: 5151256689882633869}
+  patienceController: {fileID: 3452713996471295603}
+--- !u!114 &3452713996471295603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5178727146205683821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7b75ca15372614fa9775476e5fea21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patienceSlider: {fileID: 369619773152599075}
+  decreasePatienceSpeed: 0.2
+  onPatienceDepleted:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5432864335824014564
 GameObject:
   m_ObjectHideFlags: 0
@@ -759,7 +796,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 0.15
+  m_Spacing: -0.3
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
