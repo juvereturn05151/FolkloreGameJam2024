@@ -1,93 +1,129 @@
-using DG.Tweening;
-using System;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-public enum FoodState
-{
-    Normal,
-    MediumRotten,
-    SuperRotten,
-    Disappear
-}
-
+[RequireComponent(typeof(FoodRotting))]
+[RequireComponent(typeof(FoodEating))]
 public class Food : MonoBehaviour
 {
-    [SerializeField]
-    private Menu menu;
+    [Header("Data")]
+    [SerializeField] private Menu menu;
     public Menu Menu => menu;
 
-    [SerializeField]
-    private Rigidbody2D _rigidBody;
+    [Header("References")]
+    [SerializeField] private Rigidbody2D rigidBody2D;
+    [SerializeField] private BoxCollider2D boxCollider2D;
+    [SerializeField] private FoodRotting foodRotting;
+    [SerializeField] private FoodEating foodEating;
+    [SerializeField] private FoodVisuals foodVisuals;
+    [SerializeField] private FoodScoringOnExpire foodScoring;
 
-    [SerializeField]
-    private TextMeshProUGUI _textState;
-
-    [SerializeField] 
-    private BoxCollider2D _boxCollider;
-
-    [SerializeField]
-    private float _eatingTime = 10.0f;
-
-    [SerializeField]
-    private FoodRotting foodRotting;
     public FoodRotting FoodRotting => foodRotting;
-    [SerializeField] 
-    private FoodVisuals foodVisuals;
-    [SerializeField] 
-    private FoodScoringOnExpire foodScoring;
 
-
-    private bool _isReadyToEat = false;
+    private bool _isReadyToEat;
     public bool IsReadyToEat => _isReadyToEat;
-    private bool _isFinished = false;
+
+    private bool _isFinished;
     public bool IsFinished => _isFinished;
 
-    private bool isDragging = false;
-    public bool IsDragging => isDragging;
-    private bool canDrag = true;
+    private bool _isDragging;
+    public bool IsDragging => _isDragging;
 
-    private Plate currentPlate;
+    private bool _canDrag = true;
+    private Plate _currentPlate;
+
+    private void Reset()
+    {
+        foodRotting = GetComponent<FoodRotting>();
+        foodEating = GetComponent<FoodEating>();
+        rigidBody2D = GetComponent<Rigidbody2D>();
+        boxCollider2D = GetComponent<BoxCollider2D>();
+    }
 
     private void OnEnable()
     {
-        foodRotting.OnStateChanged += foodVisuals.ApplyState;   
-        foodRotting.OnExpired += HandleExpired;            
+        _isFinished = false;
+        _isReadyToEat = false;
+        _isDragging = false;
+
+        if (foodRotting != null && foodVisuals != null)
+        {
+            foodRotting.OnStateChanged += foodVisuals.ApplyState;
+            foodRotting.OnExpired += HandleExpired;
+        }
+
+        if (foodEating != null)
+        {
+            foodEating.OnFinished += HandleFinishedEating;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (foodRotting != null && foodVisuals != null)
+        {
+            foodRotting.OnStateChanged -= foodVisuals.ApplyState;
+            foodRotting.OnExpired -= HandleExpired;
+        }
+
+        if (foodEating != null)
+        {
+            foodEating.OnFinished -= HandleFinishedEating;
+        }
     }
 
     private void Update()
     {
         if (_isReadyToEat)
         {
-            UpdateEaten();
+            foodEating.Tick(Time.deltaTime);
             return;
         }
-        
+
         foodRotting.Tick(Time.deltaTime);
-        foodVisuals.UpdateRotSlider(foodRotting.Remaining, foodRotting.BaseRottenTime);
+
+        if (foodVisuals != null)
+        {
+            foodVisuals.UpdateRotSlider(foodRotting.Remaining, foodRotting.BaseRottenTime);
+        }
+    }
+
+    private void HandleFinishedEating()
+    {
+        _isFinished = true;
+    }
+
+    private void HandleExpired()
+    {
+        if (foodScoring != null)
+        {
+            foodScoring.ApplyPenalty(transform.position, transform.rotation);
+        }
+
+        if (foodVisuals != null)
+        {
+            foodVisuals.SpawnDust(transform.position, transform.rotation);
+        }
+
+        Destroy(gameObject);
     }
 
     private void OnMouseDown()
     {
-        if (!canDrag || _isReadyToEat)
-        {
+        if (!_canDrag || _isReadyToEat)
             return;
-        }
 
         SoundManager.instance.PlaySFX("SFX_WhenPickUpItem");
 
-        if (GameUtility.DragAndDropManagerExists()) 
+        if (GameUtility.DragAndDropManagerExists())
         {
             DragAndDropManager.Instance.isDragging = true;
         }
 
-        isDragging = true;
+        _isDragging = true;
     }
 
     private void OnMouseDrag()
     {
-        if (isDragging && !IsReadyToEat)
+        if (_isDragging && !IsReadyToEat)
         {
             var _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(_mousePos.x, _mousePos.y, transform.position.z);
@@ -96,76 +132,74 @@ public class Food : MonoBehaviour
 
     private void OnMouseUp()
     {
-        isDragging = false;
-    }
-
-    private void HandleExpired()
-    {
-        foodScoring.ApplyPenalty(transform.position);
-        foodVisuals.SpawnDustAndDestroy(gameObject);
-    }
-
-    private void UpdateEaten() 
-    {
-        _eatingTime -= Time.deltaTime;
-        if (_eatingTime <= 0)
-        {
-            _isFinished = true;
-        }
+        _isDragging = false;
     }
 
     public void SetFoodToBeEaten(Plate plate, bool eatingRightFood)
     {
-        transform.position = plate.transform.position ;
+        transform.position = plate.transform.position;
         transform.SetParent(plate.transform);
-        transform.localPosition = Vector3.zero + new Vector3(0.0f, 0.86f, 0.0f);
-        _rigidBody.linearVelocity = Vector2.zero;
-        _rigidBody.gravityScale = 0;
-        _rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX;
-        _isReadyToEat = true;
-        SoundManager.instance.PlaySFX("Eating");
-        if (_boxCollider != null) 
+        transform.localPosition = new Vector3(0f, 0.86f, 0f);
+
+        if (rigidBody2D != null)
         {
-            _boxCollider.enabled = false;
+            rigidBody2D.linearVelocity = Vector2.zero;
+            rigidBody2D.gravityScale = 0f;
+            rigidBody2D.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
         }
 
-        if (!eatingRightFood) 
+        _isReadyToEat = true;
+
+        SoundManager.instance.PlaySFX("Eating");
+
+        if (boxCollider2D != null)
         {
-            _eatingTime = 2.0f;
+            boxCollider2D.enabled = false;
         }
-        
-        foodVisuals.HideRotUI();
+
+        if (foodVisuals != null)
+        {
+            foodVisuals.HideRotUI();
+        }
+
+        if (foodEating != null)
+        {
+            foodEating.Begin(eatingRightFood);
+        }
     }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.GetComponent<Plate>() is Plate plate)
+        if (!other.TryGetComponent(out Plate plate))
+            return;
+
+        if (_currentPlate == null)
         {
-            if (currentPlate == null) // Only register if there�s no current plate
-            {
-                currentPlate = plate;
-                currentPlate.OnFoodInOnPlate();
-            }
+            _currentPlate = plate;
+            _currentPlate.OnFoodInOnPlate();
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.GetComponent<Plate>() is Plate plate && currentPlate == plate)
+        if (!other.TryGetComponent(out Plate plate))
+            return;
+
+        if (_currentPlate == plate)
         {
-            currentPlate.OnFoodIsOffPlate();
-            currentPlate = null; 
+            _currentPlate.OnFoodIsOffPlate();
+            _currentPlate = null;
         }
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.GetComponent<Plate>() is Plate plate && plate == currentPlate)
+        if (!other.TryGetComponent(out Plate plate))
+            return;
+
+        if (_currentPlate == plate && _currentPlate.canBeDropped() && !_isDragging)
         {
-            if (currentPlate.canBeDropped() && !IsDragging)
-            {
-                currentPlate.PrepareToEat(this);
-            }
+            _currentPlate.PrepareToEat(this);
         }
     }
 }
-

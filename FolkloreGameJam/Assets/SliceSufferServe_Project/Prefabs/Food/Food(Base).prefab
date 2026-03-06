@@ -459,6 +459,7 @@ GameObject:
   - component: {fileID: 8907604256687163379}
   - component: {fileID: 3820388303736004562}
   - component: {fileID: 14430919584825911}
+  - component: {fileID: 7558950114203630038}
   m_Layer: 7
   m_Name: Food(Base)
   m_TagString: Food
@@ -570,11 +571,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 0}
-  _rigidBody: {fileID: 7337258793320886352}
-  _textState: {fileID: 6435547018710992849}
-  _boxCollider: {fileID: 7426698367081530161}
-  _eatingTime: 10
+  rigidBody2D: {fileID: 7337258793320886352}
+  boxCollider2D: {fileID: 7426698367081530161}
   foodRotting: {fileID: 3820388303736004562}
+  foodEating: {fileID: 7558950114203630038}
   foodVisuals: {fileID: 2610020155637249405}
   foodScoring: {fileID: 14430919584825911}
 --- !u!114 &3820388303736004562
@@ -605,6 +605,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decreaseScoreOnBurnt: 10
   scoreFeedbackPrefab: {fileID: 492758904945007180, guid: d40a8afb1aa186245a342bb5db6dca3f, type: 3}
+--- !u!114 &7558950114203630038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7145729521898110643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bd65205c298112499e4e0e6fbbf9ff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eatingTimeRightFood: 10
+  eatingTimeWrongFood: 2
 --- !u!1 &7213418843631013065
 GameObject:
   m_ObjectHideFlags: 0

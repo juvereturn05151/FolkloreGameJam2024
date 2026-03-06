@@ -68,11 +68,11 @@ public class FoodVisuals : MonoBehaviour
             rottenSlider.gameObject.SetActive(false);
     }
 
-    public void SpawnDustAndDestroy(GameObject foodObject)
+    public void SpawnDust(Vector3 position, Quaternion rotation)
     {
         if (dustPrefab != null)
-            Instantiate(dustPrefab, transform.position, transform.rotation);
-
-        Destroy(foodObject);
+        {
+            Instantiate(dustPrefab, position, rotation);
+        }
     }
 }

@@ -9,27 +9,35 @@ using Random = UnityEngine.Random;
 
 public class Customer : MonoBehaviour
 {
-    // Unity Events
     [Serializable] public class LeaveRestaurant : UnityEvent<CustomerSpot> { }
     [Serializable] public class EatRightFood : UnityEvent<Customer> { }
+
+    private enum CustomerState
+    {
+        Arriving,
+        Ordering,
+        WaitingForFood,
+        Eating,
+        Leaving,
+        Angry
+    }
 
     public LeaveRestaurant onLeaveRestaurant;
     public EatRightFood onEatRightFood;
 
-    // Serialized Fields
     [Header("Customer Settings")]
-    [SerializeField] private Ghost _ghostType;
-    [SerializeField] private int _patience; // Patience level (higher means more time before getting angry)
-    [SerializeField] private float _orderTime; // Time it takes for the customer to place an order
-    [SerializeField] private SpriteRenderer _visual;
-    [SerializeField] private Animator _animator;
-    
+    [SerializeField] private Ghost ghostType;
+    [SerializeField] private int patience = 10;
+    [SerializeField] private float orderTime = 1f;
+    [SerializeField] private SpriteRenderer visual;
+    [SerializeField] private Animator animator;
+
     [Header("Customer Request Order Canvas Elements")]
     [SerializeField] private Image orderPrefab;
     [SerializeField] private Image orderImageBG;
     [SerializeField] private Transform content;
     [SerializeField] private Slider patienceSlider;
-    [SerializeField] private TextMeshProUGUI _desiredDonenessText;
+    [SerializeField] private TextMeshProUGUI desiredDonenessText;
     [SerializeField] private GameObject eatingIcon;
 
     [Header("Customer Feedback")]
@@ -37,22 +45,50 @@ public class Customer : MonoBehaviour
     [SerializeField] private GameObject brokenHeart;
     [SerializeField] private Transform heartLocation;
     [SerializeField] private Transform feedbackParent;
-    [SerializeField] private GameObject _satisfyFeedback;
-    [SerializeField] private GameObject _unsatisfyFeedback;
-    [SerializeField] private ScoreFeedback _scoreFeedback;
+    [SerializeField] private GameObject satisfyFeedback;
+    [SerializeField] private GameObject unsatisfyFeedback;
+    [SerializeField] private ScoreFeedback scoreFeedback;
 
     [Header("Patience Settings")]
     [SerializeField] private float decreasePatienceSpeed = 0.2f;
 
-    private Plate _currentPlate;
-    private CustomerSpot _currentSpot;
-    private FoodState _desiredFoodState;
-    private bool _isEating;
-    private bool _isEatingRightFood = false;
-    private bool _isOrdering = false;
+    private static readonly FoodState[] DesiredFoodStates =
+    {
+        FoodState.Normal,
+        FoodState.MediumRotten,
+        FoodState.SuperRotten
+    };
 
-    public bool IsEatingRightFood => _isEatingRightFood;
-    public bool IsOrdering => _isOrdering;
+    private Plate currentPlate;
+    private CustomerSpot currentSpot;
+    private FoodState desiredFoodState;
+    private CustomerState currentState = CustomerState.Arriving;
+
+    private bool isEatingRightFood;
+
+    public bool IsEatingRightFood => isEatingRightFood;
+    public bool IsOrdering => currentState == CustomerState.Ordering || currentState == CustomerState.WaitingForFood;
+
+    private void OnEnable()
+    {
+        if (patienceSlider != null)
+        {
+            patienceSlider.onValueChanged.AddListener(OnPatienceChanged);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (patienceSlider != null)
+        {
+            patienceSlider.onValueChanged.RemoveListener(OnPatienceChanged);
+        }
+
+        if (currentPlate != null)
+        {
+            currentPlate.OnFoodPlaced.RemoveListener(CheckFood);
+        }
+    }
 
     private void Start()
     {
@@ -61,197 +97,244 @@ public class Customer : MonoBehaviour
 
     private void Update()
     {
-        if(GameManager.Instance.IsGameOver) return;
+        if (GameManager.Instance.IsGameOver)
+            return;
 
-        HandlePatience();
+        switch (currentState)
+        {
+            case CustomerState.Ordering:
+            case CustomerState.WaitingForFood:
+                HandlePatience();
+                break;
+
+            case CustomerState.Eating:
+                HandleEating();
+                break;
+        }
+
         UpdateUIElements();
-        HandleEating();
     }
-
-    #region Initialization
 
     private void InitializeCustomer()
     {
         SoundManager.instance.PlaySFX("DoorBell");
+
         GenerateDesiredFoodState();
         SetupPatienceSlider();
 
-        if (!_isEatingRightFood) 
-        {
-            StartCoroutine(OrderThePlate());
-        }
-
-        patienceSlider.onValueChanged.AddListener(OnPatienceChanged);
+        currentState = CustomerState.Ordering;
+        StartCoroutine(OrderThePlate());
     }
 
     private void GenerateDesiredFoodState()
     {
-        int foodStateCount = Enum.GetValues(typeof(FoodState)).Length - 1;
-        _desiredFoodState = (FoodState)Random.Range(0, foodStateCount);
-        _desiredDonenessText.text = _desiredFoodState.ToString();
+        desiredFoodState = DesiredFoodStates[Random.Range(0, DesiredFoodStates.Length)];
+
+        if (desiredDonenessText != null)
+        {
+            desiredDonenessText.text = desiredFoodState.ToString();
+        }
     }
 
     private void SetupPatienceSlider()
     {
-        float maxPatience = _patience * ((int)_desiredFoodState + 1);
+        float maxPatience = patience * ((int)desiredFoodState + 1);
+
         patienceSlider.maxValue = maxPatience;
         patienceSlider.value = maxPatience;
     }
 
-    #endregion
-
-    #region Update Logic
-
     private void HandlePatience()
     {
-        if (_isOrdering && !_isEating && patienceSlider.value > 0)
+        if (patienceSlider.value <= 0f)
+            return;
+
+        float nextValue = Mathf.Lerp(
+            patienceSlider.value,
+            patienceSlider.value - 1f,
+            Time.deltaTime * decreasePatienceSpeed
+        );
+
+        patienceSlider.value = nextValue;
+    }
+
+    private void HandleEating()
+    {
+        if (currentPlate == null || currentPlate.FoodOnPlate == null)
+            return;
+
+        if (!currentPlate.FoodOnPlate.IsFinished)
+            return;
+
+        Food finishedFood = currentPlate.FoodOnPlate;
+        Eat(finishedFood);
+
+        if (isEatingRightFood)
         {
-            patienceSlider.value = Mathf.Lerp(patienceSlider.value, patienceSlider.value - 1, Time.deltaTime * decreasePatienceSpeed);
+            TriggerSatisfaction(finishedFood);
+        }
+        else
+        {
+            TriggerAnger(finishedFood);
         }
     }
 
     private void UpdateUIElements()
     {
-        eatingIcon.SetActive(_isEating);
-        content.gameObject.SetActive(!_isEating);
-
-        if (_animator != null)
+        if (eatingIcon != null)
         {
-            _animator.SetBool("Pick", _isEating);
+            eatingIcon.SetActive(currentState == CustomerState.Eating);
+        }
+
+        if (content != null)
+        {
+            content.gameObject.SetActive(currentState != CustomerState.Eating);
+        }
+
+        if (animator != null)
+        {
+            animator.SetBool("Pick", currentState == CustomerState.Eating);
         }
     }
-
-    private void HandleEating() 
-    {
-        if (_isEating)
-        {
-            if (_currentPlate && _currentPlate.FoodOnPlate)
-            {
-                if (_currentPlate.FoodOnPlate.IsFinished)
-                {
-                    Eat(_currentPlate.FoodOnPlate);
-
-                    if (_isEatingRightFood)
-                    {
-                        TriggerSatisfaction(_currentPlate.FoodOnPlate);
-                    }
-                    else
-                    {
-                        TriggerAnger(_currentPlate.FoodOnPlate);
-                    }
-                }
-            }
-        }
-    }
-
-    #endregion
-
-    #region Patience Events
 
     private void OnPatienceChanged(float value)
     {
-        if (value <= 0)
+        if (value <= 0f &&
+            currentState != CustomerState.Angry &&
+            currentState != CustomerState.Leaving)
         {
             TriggerAnger();
         }
     }
 
-    #endregion
-
-    #region Plate and Food Interaction
     public void SetPlate(Plate plate)
     {
-        _currentPlate = plate;
-        plate.CurrentCustomer = this;
-        plate.SetIsOccupied(true);
-        plate.OnFoodPlaced.AddListener(CheckFood); // Customer will check if it's the right food
+        if (currentPlate != null)
+        {
+            currentPlate.OnFoodPlaced.RemoveListener(CheckFood);
+        }
+
+        currentPlate = plate;
+        currentPlate.CurrentCustomer = this;
+        currentPlate.SetIsOccupied(true);
+        currentPlate.OnFoodPlaced.AddListener(CheckFood);
     }
 
     public void SetSpot(CustomerSpot spot)
     {
-        _currentSpot = spot;
+        currentSpot = spot;
     }
 
     private void CheckFood(Food food)
     {
-        FoodType incomingMenu = food.Menu.FoodType;
+        isEatingRightFood = false;
 
-        // Check if the food is in the FavoriteMenu list
-        foreach (var menuRating in _ghostType.FavoriteMenu)
+        FoodType incomingFoodType = food.Menu.FoodType;
+
+        foreach (var menuRating in ghostType.FavoriteMenu)
         {
-            //Found Designated Food
-            if (menuRating.Menu.FoodType == incomingMenu)
+            if (menuRating.Menu.FoodType != incomingFoodType)
+                continue;
+
+            isEatingRightFood = food.FoodRotting.State == desiredFoodState;
+
+            if (isEatingRightFood)
             {
-                if (food.FoodRotting.State == _desiredFoodState)
-                {
-                    _isEatingRightFood = true;
-                    patienceSlider.DOValue(patienceSlider.value + menuRating.Value, 1f);
-                }
-                else
-                {
-                    _isEatingRightFood = false;
-                }
+                patienceSlider.DOValue(patienceSlider.value + menuRating.Value, 1f);
             }
+
+            break;
         }
 
-        _isEating = true;
+        currentState = CustomerState.Eating;
     }
-
-    #endregion
-
-    #region Customer Reactions
 
     private void TriggerSatisfaction(Food food)
     {
-        if (GameManager.Instance.IsTutorial && SSSAdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.ServeCustomer)
+        currentState = CustomerState.Leaving;
+
+        if (GameUtility.SSSAdvancedTutorialManagerExists())
         {
-            SSSAdvancedTutorialManager.Instance.serveCount++;
+            if (GameManager.Instance.IsTutorial &&
+                SSSAdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.ServeCustomer)
+            {
+                SSSAdvancedTutorialManager.Instance.serveCount++;
+            }
         }
 
-        if (_animator != null)
+        if (animator != null)
         {
-            _animator.SetBool("Happy", true);
+            animator.SetBool("Happy", true);
         }
 
         SoundManager.instance.PlaySFX("Like");
-        Instantiate(heart, heart.transform.position, heart.transform.rotation, heartLocation);
-        Instantiate(_satisfyFeedback, feedbackParent);
-        orderImageBG.GetComponent<Animator>().SetTrigger("Right");
+
+        if (heart != null && heartLocation != null)
+        {
+            Instantiate(heart, heartLocation.position, Quaternion.identity, heartLocation);
+        }
+
+        if (satisfyFeedback != null && feedbackParent != null)
+        {
+            Instantiate(satisfyFeedback, feedbackParent);
+        }
+
+        if (orderImageBG != null && orderImageBG.TryGetComponent(out Animator bgAnimator))
+        {
+            bgAnimator.SetTrigger("Right");
+        }
 
         StartCoroutine(LeaveAfterDelay(food));
     }
 
     private void TriggerAnger()
     {
-        // Anger without eating food or patience is <= 0
-        //decrease health point or something with anger ghost
-        if (_animator != null)
+        currentState = CustomerState.Angry;
+
+        if (animator != null)
         {
-            _animator.SetBool("Anger", true);
+            animator.SetBool("Anger", true);
         }
 
         HPManager.Instance.TakeDamage(1);
         GameManager.Instance.DecreaseScore(15);
-        _currentPlate.SetIsOccupied(false);
-        onLeaveRestaurant?.Invoke(_currentSpot);
+
+        if (currentPlate != null)
+        {
+            currentPlate.SetIsOccupied(false);
+        }
+
+        onLeaveRestaurant?.Invoke(currentSpot);
     }
 
     private void TriggerAnger(Food food)
     {
-        // anger if didn't eat the right food
-        //Reduce score, anger the customer ,and whatever here
-        if (_animator != null)
+        if (animator != null)
         {
-            _animator.SetTrigger("Anger");
+            animator.SetTrigger("Anger");
         }
 
         SoundManager.instance.PlaySFX("Nah");
-        Instantiate(_unsatisfyFeedback, feedbackParent);
-        Instantiate(brokenHeart, heartLocation.transform.position, Quaternion.identity, heartLocation);
-        orderImageBG.GetComponent<Animator>().SetTrigger("Wrong");
-        var _decreaseValue = patienceSlider.value / 2;
-        patienceSlider.DOValue(_decreaseValue, 1f).SetEase(Ease.OutSine);
-        patienceSlider.gameObject.transform.DOShakePosition(1f, new Vector3(0.25f, 0.25f, 0));
+
+        if (unsatisfyFeedback != null && feedbackParent != null)
+        {
+            Instantiate(unsatisfyFeedback, feedbackParent);
+        }
+
+        if (brokenHeart != null && heartLocation != null)
+        {
+            Instantiate(brokenHeart, heartLocation.position, Quaternion.identity, heartLocation);
+        }
+
+        if (orderImageBG != null && orderImageBG.TryGetComponent(out Animator bgAnimator))
+        {
+            bgAnimator.SetTrigger("Wrong");
+        }
+
+        float decreaseValue = patienceSlider.value / 2f;
+        patienceSlider.DOValue(decreaseValue, 1f).SetEase(Ease.OutSine);
+        patienceSlider.transform.DOShakePosition(1f, new Vector3(0.25f, 0.25f, 0f));
+
         GameManager.Instance.DecreaseScore(15);
         transform.DOShakePosition(1f, 0.5f);
 
@@ -260,7 +343,7 @@ public class Customer : MonoBehaviour
             FeedbackManager.Instance.ShakeCameraFeedback(0.5f, 1f);
         }
 
-        _isEating = false;
+        currentState = CustomerState.WaitingForFood;
     }
 
     private void Eat(Food food)
@@ -270,64 +353,75 @@ public class Customer : MonoBehaviour
 
     private IEnumerator LeaveAfterDelay(Food food)
     {
-        yield return new WaitForSeconds(1.0f); // Adjust the delay time as needed (2 seconds in this case)
+        yield return new WaitForSeconds(1f);
 
-        if (onEatRightFood != null)
+        int scoreWithPatience = food.Menu.Score + (int)patienceSlider.value;
+
+        if (scoreFeedback != null)
         {
-            var _scoreWithPatience = (food.Menu.Score + (int)patienceSlider.value); // if rotten 
+            GameObject scoreFeedbackObj = Instantiate(scoreFeedback.gameObject, transform.position, transform.rotation);
 
-            GameObject scoreFeedbackObj = Instantiate(_scoreFeedback.gameObject, transform.position, transform.rotation);
-
-            if (scoreFeedbackObj.GetComponent<ScoreFeedback>() is ScoreFeedback scoreFeedback)
+            if (scoreFeedbackObj.TryGetComponent(out ScoreFeedback feedback))
             {
-                // Set the score value
-                scoreFeedback.SetScore(_scoreWithPatience);  // Example score value
+                feedback.SetScore(scoreWithPatience);
             }
-
-            GameManager.Instance.IncreaseScore(_scoreWithPatience);
-            onEatRightFood.Invoke(null);
         }
 
-        if (onLeaveRestaurant != null)
-        {
-            onLeaveRestaurant.Invoke(_currentSpot);
-        }
+        GameManager.Instance.IncreaseScore(scoreWithPatience);
+        onEatRightFood?.Invoke(this);
+        onLeaveRestaurant?.Invoke(currentSpot);
     }
-
-    #endregion
-
-    #region Ordering Logic
 
     private IEnumerator OrderThePlate()
     {
-        yield return new WaitForSeconds(_orderTime);
-        orderImageBG.DOFade(1f, 0.25f);
-        var _active = orderImageBG.gameObject.transform.DOMoveY(orderImageBG.transform.position.y + 0.5f, 0.25f).SetEase(Ease.InBounce);
-        _active.OnComplete(() =>
+        yield return new WaitForSeconds(orderTime);
+
+        if (orderImageBG != null)
         {
-            foreach (var _request in _ghostType.FavoriteMenu)
+            orderImageBG.DOFade(1f, 0.25f);
+
+            Tween activeTween = orderImageBG.transform
+                .DOMoveY(orderImageBG.transform.position.y + 0.5f, 0.25f)
+                .SetEase(Ease.InBounce);
+
+            activeTween.OnComplete(() =>
             {
-                var _order = Instantiate(orderPrefab, content);
+                SpawnOrderImages();
+                currentState = CustomerState.WaitingForFood;
 
-
-                if (_desiredFoodState == FoodState.MediumRotten)
+                if (patienceSlider != null)
                 {
-                    _order.sprite = _request.Menu.MediumRottenSprite;
+                    patienceSlider.transform.DOScaleY(1f, 0.25f);
                 }
-                else if (_desiredFoodState == FoodState.SuperRotten)
-                {
-                    _order.sprite = _request.Menu.SuperRottenSprite;
-                }
-                else
-                {
-                    _order.sprite = _request.Menu.Sprite;
-                }
-
-                _isOrdering = true;
-                patienceSlider.gameObject.transform.DOScaleY(1f, 0.25f);
-            }
-        });
+            });
+        }
+        else
+        {
+            SpawnOrderImages();
+            currentState = CustomerState.WaitingForFood;
+        }
     }
 
-    #endregion
+    private void SpawnOrderImages()
+    {
+        foreach (var request in ghostType.FavoriteMenu)
+        {
+            Image order = Instantiate(orderPrefab, content);
+
+            switch (desiredFoodState)
+            {
+                case FoodState.MediumRotten:
+                    order.sprite = request.Menu.MediumRottenSprite;
+                    break;
+
+                case FoodState.SuperRotten:
+                    order.sprite = request.Menu.SuperRottenSprite;
+                    break;
+
+                default:
+                    order.sprite = request.Menu.Sprite;
+                    break;
+            }
+        }
+    }
 }

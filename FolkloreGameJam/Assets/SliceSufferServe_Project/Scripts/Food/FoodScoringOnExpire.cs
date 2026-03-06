@@ -7,35 +7,34 @@ public class FoodScoringOnExpire : MonoBehaviour
     [SerializeField] 
     private ScoreFeedback scoreFeedbackPrefab;
 
-    public void ApplyPenalty(Vector3 worldPos)
+    public void ApplyPenalty(Vector3 worldPosition, Quaternion worldRotation)
     {
-        // Only apply if game exists and isn't over
-        if (!GameUtility.GameManagerExists()) return;
-        if (GameManager.Instance.IsGameOver) return;
+        if (!GameUtility.GameManagerExists())
+            return;
 
-        // Floating score feedback (optional)
+        if (GameManager.Instance.IsGameOver)
+            return;
+
         if (scoreFeedbackPrefab != null)
         {
-            GameObject obj = Instantiate(scoreFeedbackPrefab.gameObject, worldPos, Quaternion.identity);
-            if (obj.GetComponent<ScoreFeedback>() is ScoreFeedback scoreFeedback)
+            GameObject scoreFeedbackObj = Instantiate(scoreFeedbackPrefab.gameObject, worldPosition, worldRotation);
+
+            if (scoreFeedbackObj.TryGetComponent(out ScoreFeedback scoreFeedback))
             {
-                scoreFeedback.SetScore(-1 * decreaseScoreOnBurnt);
+                scoreFeedback.SetScore(-decreaseScoreOnBurnt);
             }
         }
 
-        // Score subtract
         if (ScoreManager.Instance != null)
         {
             ScoreManager.Instance.SubtractScore(decreaseScoreOnBurnt);
         }
 
-        // Play feedback (optional)
         if (GameUtility.FeedbackManagerExists())
         {
             FeedbackManager.Instance.DecreaseScoreFeedback.PlayFeedbacks();
         }
 
-        // Tutorial hook (kept here so Food stays clean)
         if (GameUtility.SSSAdvancedTutorialManagerExists())
         {
             if (GameManager.Instance.IsTutorial &&
