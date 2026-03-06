@@ -52,6 +52,8 @@ public class CustomerOrderUI : MonoBehaviour
             orderImage.sprite = GetOrderSprite(order.Menu, desiredFoodState);
             spawnedOrderImages.Add(orderImage);
         }
+
+        patienceController.PatienceSlider.gameObject.SetActive(true);
     }
 
     public void RemoveOrderImage(CustomerOrder fulfilledOrder, FoodState desiredFoodState)

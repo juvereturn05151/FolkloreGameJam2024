@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class CustomerPatienceController : MonoBehaviour
 {
     [SerializeField] private Slider patienceSlider;
+    public Slider PatienceSlider => patienceSlider;
     [SerializeField] private float decreasePatienceSpeed = 0.2f;
 
     public UnityEvent onPatienceDepleted;
