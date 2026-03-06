@@ -619,7 +619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd65205c298112499e4e0e6fbbf9ff8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eatingTimeRightFood: 10
+  eatingTimeRightFood: 5
   eatingTimeWrongFood: 2
 --- !u!114 &4382946176104338061
 MonoBehaviour:

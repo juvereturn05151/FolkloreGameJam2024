@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using Random = UnityEngine.Random;
 
 public class Customer : MonoBehaviour
 {
@@ -27,13 +26,6 @@ public class Customer : MonoBehaviour
         SuperHungry
     }
 
-    private static readonly FoodState[] DesiredFoodStates =
-    {
-        FoodState.Normal,
-        FoodState.MediumRotten,
-        FoodState.SuperRotten
-    };
-
     public LeaveRestaurant onLeaveRestaurant;
     public EatRightFood onEatRightFood;
 
@@ -56,7 +48,6 @@ public class Customer : MonoBehaviour
 
     private CustomerFoodPlace currentPlate;
     private CustomerSpot currentSpot;
-    private FoodState desiredFoodState;
     private CustomerState currentState = CustomerState.Arriving;
     private bool isEatingRightFood;
 
@@ -100,7 +91,6 @@ public class Customer : MonoBehaviour
         SoundManager.instance.PlaySFX("DoorBell");
 
         ApplyGhostVisual();
-        GenerateDesiredFoodState();
         GenerateOrders();
         SetupPatience();
 
@@ -138,12 +128,6 @@ public class Customer : MonoBehaviour
         }
     }
 
-    private void GenerateDesiredFoodState()
-    {
-        desiredFoodState = DesiredFoodStates[Random.Range(0, DesiredFoodStates.Length)];
-        orderUI?.SetDesiredFoodState(desiredFoodState);
-    }
-
     private void GenerateOrders()
     {
         currentOrders.Clear();
@@ -157,7 +141,7 @@ public class Customer : MonoBehaviour
 
     private void SetupPatience()
     {
-        patienceController?.Setup(patience, desiredFoodState, currentOrders.Count);
+        patienceController?.Setup(patience, FoodState.Normal, currentOrders.Count);
     }
 
     public void SetPlate(CustomerFoodPlace plate)
@@ -189,7 +173,7 @@ public class Customer : MonoBehaviour
 
     private void CheckFood(Food food)
     {
-        if (food == null || food.Menu == null)
+        if (food == null || food.Menu == null || food.FoodRotting == null)
             return;
 
         isEatingRightFood = false;
@@ -200,7 +184,7 @@ public class Customer : MonoBehaviour
             isEatingRightFood = true;
             patienceController?.Reward(matchedOrder.RewardValue);
             currentOrders.Remove(matchedOrder);
-            orderUI?.RemoveOrderImage(matchedOrder, desiredFoodState);
+            orderUI?.RemoveOrderImage(matchedOrder);
         }
 
         currentState = CustomerState.Eating;
@@ -214,7 +198,7 @@ public class Customer : MonoBehaviour
                 continue;
 
             bool correctMenu = order.Menu == food.Menu;
-            bool correctState = food.FoodRotting.State == desiredFoodState;
+            bool correctState = food.FoodRotting.State == order.DesiredFoodState;
 
             if (correctMenu && correctState)
             {
@@ -280,7 +264,7 @@ public class Customer : MonoBehaviour
         orderUI?.TriggerRight();
     }
 
-    private void HandleLeaving(Food food) 
+    private void HandleLeaving(Food food)
     {
         currentState = CustomerState.Leaving;
         StartCoroutine(LeaveAfterDelay(food));
@@ -346,10 +330,7 @@ public class Customer : MonoBehaviour
     {
         yield return new WaitForSeconds(orderTime);
 
-        orderUI?.AnimateOrderPopup(() =>
-        {
-            orderUI.ShowOrders(currentOrders, desiredFoodState);
-            currentState = CustomerState.WaitingForFood;
-        });
+        orderUI.ShowOrders(currentOrders);
+        currentState = CustomerState.WaitingForFood;
     }
 }

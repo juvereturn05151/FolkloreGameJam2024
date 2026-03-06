@@ -1,27 +1,24 @@
+using System;
 using System.Collections.Generic;
-using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CustomerOrderUI : MonoBehaviour
 {
+    [Header("Order UI")]
     [SerializeField] private Image orderPrefab;
     [SerializeField] private Image orderImageBG;
     [SerializeField] private Transform content;
-    [SerializeField] private TextMeshProUGUI desiredDonenessText;
     [SerializeField] private GameObject eatingIcon;
+
+    [Header("Optional Global Doneness Text")]
+    [SerializeField] private TextMeshProUGUI desiredDonenessText;
+
+    [Header("Optional Patience Reference")]
     [SerializeField] private CustomerPatienceController patienceController;
 
     private readonly List<Image> spawnedOrderImages = new();
-
-    public void SetDesiredFoodState(FoodState desiredFoodState)
-    {
-        if (desiredDonenessText != null)
-        {
-            desiredDonenessText.text = desiredFoodState.ToString();
-        }
-    }
 
     public void SetEatingState(bool isEating)
     {
@@ -36,12 +33,21 @@ public class CustomerOrderUI : MonoBehaviour
         }
     }
 
-    public void ShowOrders(List<CustomerOrder> orders, FoodState desiredFoodState)
+    public void ShowOrders(List<CustomerOrder> orders)
     {
         ClearOrderImages();
 
-        if (orderPrefab == null || content == null)
+        orderImageBG.gameObject.SetActive(true);
+        patienceController.PatienceSlider.gameObject.SetActive(true);
+
+        Debug.Log($"Attempting to show orders for customer: {gameObject.name}. Orders count: {(orders != null ? orders.Count : 0)}");
+
+        if (orderPrefab == null || content == null || orders == null)
             return;
+
+        UpdateGlobalDonenessText(orders);
+
+        Debug.Log($"Showing {orders.Count} orders for customer: {gameObject.name}");
 
         foreach (CustomerOrder order in orders)
         {
@@ -49,24 +55,22 @@ public class CustomerOrderUI : MonoBehaviour
                 continue;
 
             Image orderImage = Instantiate(orderPrefab, content);
-            orderImage.sprite = GetOrderSprite(order.Menu, desiredFoodState);
+            orderImage.sprite = GetOrderSprite(order.Menu, order.DesiredFoodState);
             spawnedOrderImages.Add(orderImage);
         }
-
-        patienceController.PatienceSlider.gameObject.SetActive(true);
     }
 
-    public void RemoveOrderImage(CustomerOrder fulfilledOrder, FoodState desiredFoodState)
+    public void RemoveOrderImage(CustomerOrder fulfilledOrder)
     {
         if (fulfilledOrder == null || fulfilledOrder.Menu == null || content == null)
             return;
 
-        Sprite expectedSprite = GetOrderSprite(fulfilledOrder.Menu, desiredFoodState);
+        Sprite expectedSprite = GetOrderSprite(fulfilledOrder.Menu, fulfilledOrder.DesiredFoodState);
 
         for (int i = 0; i < content.childCount; i++)
         {
-            Image image = content.GetChild(i).GetComponent<Image>();
-            if (image == null)
+            Transform child = content.GetChild(i);
+            if (!child.TryGetComponent(out Image image))
                 continue;
 
             if (image.sprite != expectedSprite)
@@ -76,31 +80,6 @@ public class CustomerOrderUI : MonoBehaviour
             Destroy(image.gameObject);
             return;
         }
-    }
-
-    public void AnimateOrderPopup(System.Action onComplete)
-    {
-        if (orderImageBG == null)
-        {
-            onComplete?.Invoke();
-            return;
-        }
-
-        orderImageBG.DOFade(1f, 0.25f);
-
-        Tween tween = orderImageBG.transform
-            .DOMoveY(orderImageBG.transform.position.y + 0.5f, 0.25f)
-            .SetEase(Ease.InBounce);
-
-        tween.OnComplete(() =>
-        {
-            onComplete?.Invoke();
-            if (patienceController != null)
-            {
-                Transform patienceTransform = patienceController.transform;
-                patienceTransform.DOScaleY(1f, 0.25f);
-            }
-        });
     }
 
     public void TriggerRight()
@@ -119,7 +98,7 @@ public class CustomerOrderUI : MonoBehaviour
         }
     }
 
-    private void ClearOrderImages()
+    public void ClearOrderImages()
     {
         foreach (Image image in spawnedOrderImages)
         {
@@ -130,6 +109,32 @@ public class CustomerOrderUI : MonoBehaviour
         }
 
         spawnedOrderImages.Clear();
+    }
+
+    private void UpdateGlobalDonenessText(List<CustomerOrder> orders)
+    {
+        if (desiredDonenessText == null)
+            return;
+
+        if (orders == null || orders.Count == 0)
+        {
+            desiredDonenessText.text = string.Empty;
+            return;
+        }
+
+        bool allSame = true;
+        FoodState firstState = orders[0].DesiredFoodState;
+
+        for (int i = 1; i < orders.Count; i++)
+        {
+            if (orders[i].DesiredFoodState != firstState)
+            {
+                allSame = false;
+                break;
+            }
+        }
+
+        desiredDonenessText.text = allSame ? firstState.ToString() : "Mixed";
     }
 
     private Sprite GetOrderSprite(Menu menu, FoodState desiredFoodState)

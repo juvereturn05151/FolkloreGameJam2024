@@ -4,6 +4,13 @@ using Random = UnityEngine.Random;
 
 public class CustomerOrderGenerator : MonoBehaviour
 {
+    private static readonly FoodState[] DesiredFoodStates =
+    {
+        FoodState.Normal,
+        FoodState.MediumRotten,
+        FoodState.SuperRotten
+    };
+
     public List<CustomerOrder> GenerateOrders(Ghost ghostType, Customer.HungryLevel hungryLevel)
     {
         List<CustomerOrder> orders = new();
@@ -23,7 +30,11 @@ public class CustomerOrderGenerator : MonoBehaviour
         if (favorite == null || favorite.Menu == null)
             return;
 
-        orders.Add(new CustomerOrder(favorite.Menu, favorite.Value));
+        orders.Add(new CustomerOrder(
+            favorite.Menu,
+            favorite.Value,
+            GetRandomDesiredFoodState()
+        ));
     }
 
     private void AddSubFavoriteOrders(Ghost ghostType, Customer.HungryLevel hungryLevel, List<CustomerOrder> orders)
@@ -42,8 +53,17 @@ public class CustomerOrderGenerator : MonoBehaviour
             if (rating == null || rating.Menu == null)
                 continue;
 
-            orders.Add(new CustomerOrder(rating.Menu, rating.Value));
+            orders.Add(new CustomerOrder(
+                rating.Menu,
+                rating.Value,
+                GetRandomDesiredFoodState()
+            ));
         }
+    }
+
+    private FoodState GetRandomDesiredFoodState()
+    {
+        return DesiredFoodStates[Random.Range(0, DesiredFoodStates.Length)];
     }
 
     private int GetSubFavoriteOrderCount(Customer.HungryLevel hungryLevel)
@@ -51,7 +71,7 @@ public class CustomerOrderGenerator : MonoBehaviour
         return hungryLevel switch
         {
             Customer.HungryLevel.Normal => 0,
-            Customer.HungryLevel.Hungry => Random.Range(1, 3), // 1 or 2
+            Customer.HungryLevel.Hungry => Random.Range(1, 3),
             Customer.HungryLevel.SuperHungry => 2,
             _ => 0
         };
