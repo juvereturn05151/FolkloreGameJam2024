@@ -1520,22 +1520,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Restaurant
       objectReference: {fileID: 0}
-    - target: {fileID: 2423487349354292440, guid: 4ad11961a0525e8488bd71248569bf07, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 3.3753316
-      objectReference: {fileID: 0}
-    - target: {fileID: 2423487349354292440, guid: 4ad11961a0525e8488bd71248569bf07, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 3.3753316
-      objectReference: {fileID: 0}
-    - target: {fileID: 2423487349354292440, guid: 4ad11961a0525e8488bd71248569bf07, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 3.3753316
-      objectReference: {fileID: 0}
-    - target: {fileID: 4116352241495858710, guid: 4ad11961a0525e8488bd71248569bf07, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 1ea7cf830d289b14fa1b6e83788fc516, type: 3}
     - target: {fileID: 5999417980789277082, guid: 4ad11961a0525e8488bd71248569bf07, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
