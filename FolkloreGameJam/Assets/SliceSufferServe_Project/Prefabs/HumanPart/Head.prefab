@@ -17,6 +17,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 766505142281876238, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1420651574619607902}
+    - target: {fileID: 766505142281876238, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: fruitSlicedPrefab
       value: 
       objectReference: {fileID: 2417688765679808340, guid: c55666ba8405ed84c87205ae976d770e, type: 3}
@@ -100,6 +104,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3152046748745776114}
   m_SourcePrefab: {fileID: 100100000, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
+--- !u!212 &1420651574619607902 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3754438026101494723, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
+  m_PrefabInstance: {fileID: 2859040752618602653}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2088345412941928811 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4275624120517581302, guid: cefa3e012526d764298fb2f2210fea91, type: 3}

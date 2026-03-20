@@ -104,6 +104,8 @@ MonoBehaviour:
   rb: {fileID: 3477854507094988185}
   startForce: 15
   atMainMenu: 0
+  spriteRenderer: {fileID: 3754438026101494723}
+  fadeDuration: 1
 --- !u!50 &3477854507094988185
 Rigidbody2D:
   serializedVersion: 5

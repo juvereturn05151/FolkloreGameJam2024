@@ -1,24 +1,44 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HumanBody : MonoBehaviour
 {
-    [SerializeField]
-    private HumanPart _head;
+    private List<HumanPart> _parts = new();
+    private bool _isBeingDestroyed;
 
-    [SerializeField]
-    private HumanPart _neck;
-
-    [SerializeField]
-    private HumanPart _body;
-
-    [SerializeField]
-    private HumanPart _leg;
-
-    private void Update()
+    private void Awake()
     {
-        if (_head == null && _neck == null && _body == null && _leg == null) 
+        _parts.Clear();
+        _parts.AddRange(GetComponentsInChildren<HumanPart>());
+
+        foreach (HumanPart part in _parts)
         {
-            Destroy(this.gameObject);
+            if (part != null)
+            {
+                part.SetOwner(this);
+            }
         }
+    }
+
+    public void NotifyPartSliced(HumanPart slicedPart)
+    {
+        if (_isBeingDestroyed) return;
+        _isBeingDestroyed = true;
+
+        foreach (HumanPart part in _parts)
+        {
+            if (part == null) continue;
+
+            if (part == slicedPart)
+            {
+                part.DestroyImmediately();
+            }
+            else
+            {
+                part.StartFadeAndDestroy();
+            }
+        }
+
+        Destroy(gameObject, 1f);
     }
 }

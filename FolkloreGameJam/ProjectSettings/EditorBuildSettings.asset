@@ -6,19 +6,22 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/SliceSufferServe_Project/Scenes/Actual/MainMenu.unity
     guid: 5d57f73e0b1f66e49a59fbaad9faddb1
   - enabled: 1
-    path: Assets/Scenes/TutorialScene.unity
+    path: Assets/SliceSufferServe_Project/Scenes/Actual/GameModeSelect.unity
+    guid: e51072fd6641f0847831ff2709a0fae4
+  - enabled: 1
+    path: Assets/SliceSufferServe_Project/Scenes/Actual/TutorialScene.unity
     guid: ff96f7c2be4c8934a9ff4c23bd850d78
   - enabled: 1
-    path: Assets/Scenes/GameplayScene.unity
+    path: Assets/SliceSufferServe_Project/Scenes/Actual/Gameplay/GameplayScene.unity
     guid: c48ea774c4219714eb473d5e97bb9109
   - enabled: 1
-    path: Assets/Scenes/Leaderboard.unity
+    path: Assets/SliceSufferServe_Project/Scenes/Actual/Leaderboard.unity
     guid: 13329a654fcfc5e40a3880d9a77e3665
   - enabled: 1
-    path: Assets/Scenes/Credits.unity
+    path: Assets/SliceSufferServe_Project/Scenes/Actual/Credits.unity
     guid: 8b78015749f8972449a5c8c0e5810442
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
