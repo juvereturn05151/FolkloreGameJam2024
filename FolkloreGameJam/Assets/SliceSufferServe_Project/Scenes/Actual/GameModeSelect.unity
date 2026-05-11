@@ -2568,7 +2568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72cf694b23bf77943a9d4a4ec5f8cc15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneName: TutorialScene
+  targetSceneName: StoryModeSelect
   humanPart: {fileID: 1797489623}
 --- !u!1001 &2082983310
 PrefabInstance:

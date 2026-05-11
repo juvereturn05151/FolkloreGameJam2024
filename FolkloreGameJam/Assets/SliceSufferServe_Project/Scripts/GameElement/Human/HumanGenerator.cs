@@ -12,9 +12,11 @@ public class HumanGenerator : MonoBehaviour
     private float spawnInterval = 5f; // Time in seconds before trying to spawn again
 
     private float spawnTimer; // Timer to track spawn interval
+    private StageLevelConfig levelConfig;
 
     void Start()
     {
+        levelConfig = StageSelection.SelectedLevel;
         // Initialize the timer
         spawnTimer = firstSpawnTime;
     }
@@ -39,6 +41,7 @@ public class HumanGenerator : MonoBehaviour
         HumanBody selectedPrefab = humanPrefabs[Random.Range(0, humanPrefabs.Length)];
 
         // Instantiate the selected human prefab at the specified spawn point
-        Instantiate(selectedPrefab, spawnPoint.position, selectedPrefab.transform.rotation);
+        HumanBody spawnedHuman = Instantiate(selectedPrefab, spawnPoint.position, selectedPrefab.transform.rotation);
+        spawnedHuman.ApplyLevelConfig(levelConfig);
     }
 }

@@ -35,7 +35,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private StageGoal stageGoal;
 
     public bool IsTutorial;
-    public StageGoal CurrentStageGoal => stageGoal;
+    public StageGoal CurrentStageGoal => StageSelection.SelectedLevel != null && StageSelection.SelectedLevel.StageGoal != null
+        ? StageSelection.SelectedLevel.StageGoal
+        : stageGoal;
     public StageGoalResult LastStageGoalResult { get; private set; }
 
     private void Awake()
@@ -106,13 +108,15 @@ public class GameManager : MonoBehaviour
 
     public StageGoalResult EvaluateAndSaveStageGoal(int score)
     {
-        if (stageGoal == null)
+        StageGoal activeStageGoal = CurrentStageGoal;
+
+        if (activeStageGoal == null)
         {
             LastStageGoalResult = null;
             return null;
         }
 
-        LastStageGoalResult = stageGoal.EvaluateAndSaveBest(score);
+        LastStageGoalResult = activeStageGoal.EvaluateAndSaveBest(score);
         return LastStageGoalResult;
     }
 }
