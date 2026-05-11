@@ -119,8 +119,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5918114440580550621, guid: 34b8b01a95c4aff4d8f0a142b6b2a1b9, type: 3}
+      propertyPath: spawnInterval
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5918114440580550621, guid: 34b8b01a95c4aff4d8f0a142b6b2a1b9, type: 3}
       propertyPath: firstSpawnTime
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -197,11 +201,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5918114440580550621, guid: 34b8b01a95c4aff4d8f0a142b6b2a1b9, type: 3}
       propertyPath: spawnInterval
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5918114440580550621, guid: 34b8b01a95c4aff4d8f0a142b6b2a1b9, type: 3}
       propertyPath: firstSpawnTime
-      value: 12
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -276,10 +280,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7626670837306284332, guid: 6c37ef66826518e47a48755dac6d9094, type: 3}
-      propertyPath: timeSpeed
-      value: 0.075
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -301,10 +301,6 @@ PrefabInstance:
     - target: {fileID: 1945392935422800160, guid: b578ac80c02ed7c4b853ee4f1f0a7a13, type: 3}
       propertyPath: m_Name
       value: CustomerList
-      objectReference: {fileID: 0}
-    - target: {fileID: 2425889638656552930, guid: b578ac80c02ed7c4b853ee4f1f0a7a13, type: 3}
-      propertyPath: _spawnInterval
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8149311379192421033, guid: b578ac80c02ed7c4b853ee4f1f0a7a13, type: 3}
       propertyPath: m_LocalPosition.x

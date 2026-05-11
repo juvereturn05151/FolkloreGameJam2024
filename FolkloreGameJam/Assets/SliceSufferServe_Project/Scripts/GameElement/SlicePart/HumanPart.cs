@@ -109,6 +109,8 @@ public class HumanPart : MonoBehaviour
         if (_sliced || _isFading) return;
         _isFading = true;
 
+        OnPartDestroyed?.Invoke();
+
         StartCoroutine(FadeAndDestroyCoroutine());
     }
 

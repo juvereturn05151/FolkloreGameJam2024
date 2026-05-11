@@ -1399,11 +1399,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3023791834958317905, guid: 00d233f69e7cb97409bc9217bb53efef, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.24
+      value: -11.72
       objectReference: {fileID: 0}
     - target: {fileID: 3023791834958317905, guid: 00d233f69e7cb97409bc9217bb53efef, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.52
+      value: -6.7
       objectReference: {fileID: 0}
     - target: {fileID: 3023791834958317905, guid: 00d233f69e7cb97409bc9217bb53efef, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1582,22 +1582,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameController
       objectReference: {fileID: 0}
-    - target: {fileID: 5602481403853361836, guid: 30799e89dc78a7d48836e12aa4a0d0b9, type: 3}
-      propertyPath: _possibleCustomers.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5602481403853361836, guid: 30799e89dc78a7d48836e12aa4a0d0b9, type: 3}
-      propertyPath: '_possibleCustomers.Array.data[0]'
-      value: 
-      objectReference: {fileID: 199433094773500403, guid: 81d494715e624304db1dff59e919d08d, type: 3}
-    - target: {fileID: 5602481403853361836, guid: 30799e89dc78a7d48836e12aa4a0d0b9, type: 3}
-      propertyPath: '_possibleCustomers.Array.data[1]'
-      value: 
-      objectReference: {fileID: 199433094773500403, guid: 81d494715e624304db1dff59e919d08d, type: 3}
-    - target: {fileID: 5602481403853361836, guid: 30799e89dc78a7d48836e12aa4a0d0b9, type: 3}
-      propertyPath: '_possibleCustomers.Array.data[2]'
-      value: 
-      objectReference: {fileID: 199433094773500403, guid: 81d494715e624304db1dff59e919d08d, type: 3}
     - target: {fileID: 6918805832758136076, guid: 30799e89dc78a7d48836e12aa4a0d0b9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

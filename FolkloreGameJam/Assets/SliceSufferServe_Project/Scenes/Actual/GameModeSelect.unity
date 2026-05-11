@@ -238,10 +238,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1199334281}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.7, y: -61.5}
-  m_SizeDelta: {x: 313.1094, y: 50}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 9.699951, y: -61.5}
+  m_SizeDelta: {x: 213.1094, y: -50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &37010844
 MonoBehaviour:
@@ -800,7 +800,7 @@ GameObject:
   m_Component:
   - component: {fileID: 605685639}
   m_Layer: 0
-  m_Name: ArcadeMode
+  m_Name: StoryMode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -948,7 +948,7 @@ Canvas:
   m_GameObject: {fileID: 992733842}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -1082,7 +1082,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4967561666900042100, guid: 866284a43087dce43a37a0fa26f38e50, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8371221690434577718, guid: 866284a43087dce43a37a0fa26f38e50, type: 3}
       propertyPath: m_Camera
@@ -1193,10 +1193,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1199334281}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 5.3, y: -62.499985}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 5.299999, y: -62.499985}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1022888408
 MonoBehaviour:
@@ -1293,7 +1293,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Arcade Mode
+  m_text: Story Mode
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e2820357450b2d44fb61f7cfc0b46bdf, type: 2}
   m_sharedMaterial: {fileID: 8027569774994263215, guid: e2820357450b2d44fb61f7cfc0b46bdf, type: 2}
@@ -1465,9 +1465,9 @@ RectTransform:
   - {fileID: 37010843}
   m_Father: {fileID: 992733846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -704.7, y: -213}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 713, y: -213.00006}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1199334282
@@ -2063,7 +2063,7 @@ GameObject:
   - component: {fileID: 1961298683}
   - component: {fileID: 1961298684}
   m_Layer: 5
-  m_Name: ArcadeMode
+  m_Name: StoryMode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
