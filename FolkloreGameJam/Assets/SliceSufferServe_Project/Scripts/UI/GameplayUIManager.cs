@@ -21,7 +21,11 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameOverHighScoreText;
     [SerializeField] private TextMeshProUGUI gameOverStarsText;
     [SerializeField] private TextMeshProUGUI gameOverNextGoalText;
+    [SerializeField] private TextMeshProUGUI gameOverCurrencyEarnedText;
     [SerializeField] private Button leaderboardUI;
+
+    [Header("Currency Reward")]
+    [SerializeField] private int scorePointsPerCurrency = 1;
     
     [Header("Gameplay UI Elements")]
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -140,6 +144,8 @@ public class GameplayUIManager : MonoBehaviour
         gameOverScoreText.text = $"Score: {_currentScore}";
         StageGoalResult stageGoalResult = GameManager.Instance.EvaluateAndSaveStageGoal(_currentScore);
         UpdateStageGoalUI(stageGoalResult);
+        int earnedCurrency = CurrencySystem.AwardCurrencyFromScore(_currentScore, scorePointsPerCurrency);
+        UpdateCurrencyRewardUI(earnedCurrency);
 
         if (_currentScore >= ScoreManager.Instance.GetHighScore())
         {
@@ -174,6 +180,16 @@ public class GameplayUIManager : MonoBehaviour
         gameOverNextGoalText.text = nextStarScore.HasValue
             ? $"Next star: {nextStarScore.Value}"
             : "All stars earned";
+    }
+
+    private void UpdateCurrencyRewardUI(int earnedCurrency)
+    {
+        if (gameOverCurrencyEarnedText == null)
+        {
+            return;
+        }
+
+        gameOverCurrencyEarnedText.text = $"+{earnedCurrency} Currency";
     }
 
     public void Restart()

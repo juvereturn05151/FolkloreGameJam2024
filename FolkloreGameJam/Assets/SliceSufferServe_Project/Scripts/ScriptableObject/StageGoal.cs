@@ -7,6 +7,7 @@ public class StageGoal : ScriptableObject
     [Header("Stage")]
     [SerializeField] private string stageId;
     [SerializeField] private string displayName;
+    [SerializeField] private int levelNumber = 1;
 
     [Header("Star Thresholds")]
     [SerializeField] private int oneStarScore = 100;
@@ -15,6 +16,7 @@ public class StageGoal : ScriptableObject
 
     public string StageId => string.IsNullOrWhiteSpace(stageId) ? name : stageId;
     public string DisplayName => string.IsNullOrWhiteSpace(displayName) ? name : displayName;
+    public int LevelNumber => Mathf.Max(0, levelNumber);
     public int OneStarScore => oneStarScore;
     public int TwoStarScore => twoStarScore;
     public int ThreeStarScore => threeStarScore;
@@ -47,29 +49,22 @@ public class StageGoal : ScriptableObject
 
         int previousBestScore = GetBestScore();
         int previousBestStars = GetBestStars();
-
-        if (score > previousBestScore)
-        {
-            PlayerPrefs.SetInt(GetBestScoreKey(), score);
-        }
-
-        if (result.Stars > previousBestStars)
-        {
-            PlayerPrefs.SetInt(GetBestStarsKey(), result.Stars);
-        }
-
-        PlayerPrefs.Save();
+        SaveSystem.SaveLevelProgress(StageId, LevelNumber, Mathf.Max(score, previousBestScore), Mathf.Max(result.Stars, previousBestStars));
         return result;
     }
 
     public int GetBestScore()
     {
-        return PlayerPrefs.GetInt(GetBestScoreKey(), 0);
+        LevelProgressSaveData progress = SaveSystem.GetLevelProgress(StageId);
+        int savedBestScore = progress == null ? 0 : progress.bestScore;
+        return Mathf.Max(savedBestScore, PlayerPrefs.GetInt(GetBestScoreKey(), 0));
     }
 
     public int GetBestStars()
     {
-        return PlayerPrefs.GetInt(GetBestStarsKey(), 0);
+        LevelProgressSaveData progress = SaveSystem.GetLevelProgress(StageId);
+        int savedBestStars = progress == null ? 0 : progress.bestStars;
+        return Mathf.Max(savedBestStars, PlayerPrefs.GetInt(GetBestStarsKey(), 0));
     }
 
     private string GetBestScoreKey()
@@ -87,6 +82,7 @@ public class StageGoal : ScriptableObject
         oneStarScore = Mathf.Max(0, oneStarScore);
         twoStarScore = Mathf.Max(oneStarScore, twoStarScore);
         threeStarScore = Mathf.Max(twoStarScore, threeStarScore);
+        levelNumber = Mathf.Max(0, levelNumber);
     }
 }
 
