@@ -19,11 +19,12 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private RectTransform receiptImage;
     [SerializeField] private TextMeshProUGUI gameOverScoreText;
     [SerializeField] private TextMeshProUGUI gameOverHighScoreText;
+    [SerializeField] private TextMeshProUGUI gameOverStarsText;
+    [SerializeField] private TextMeshProUGUI gameOverNextGoalText;
     [SerializeField] private Button leaderboardUI;
     
     [Header("Gameplay UI Elements")]
     [SerializeField] private TextMeshProUGUI scoreText;
-    [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private Image heartImage;
     [SerializeField] private Image clockTimerImage;
@@ -137,6 +138,9 @@ public class GameplayUIManager : MonoBehaviour
         var _currentScore = ScoreManager.Instance.GetCurrentScore();
         // var _maxScore = GameManager.Instance.MaxScore;
         gameOverScoreText.text = $"Score: {_currentScore}";
+        StageGoalResult stageGoalResult = GameManager.Instance.EvaluateAndSaveStageGoal(_currentScore);
+        UpdateStageGoalUI(stageGoalResult);
+
         if (_currentScore >= ScoreManager.Instance.GetHighScore())
         {
             PlayerPrefs.SetInt("HighScore", _currentScore);
@@ -146,6 +150,30 @@ public class GameplayUIManager : MonoBehaviour
         gameOverHighScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0);
         SteamLeaderboardManager.UpdateScore(_currentScore);
         GameManager.Instance.ApplyGameOver();
+    }
+
+    private void UpdateStageGoalUI(StageGoalResult result)
+    {
+        if (gameOverStarsText != null)
+        {
+            gameOverStarsText.text = result == null ? string.Empty : $"Stars: {result.Stars} / 3";
+        }
+
+        if (gameOverNextGoalText == null)
+        {
+            return;
+        }
+
+        if (result == null)
+        {
+            gameOverNextGoalText.text = string.Empty;
+            return;
+        }
+
+        int? nextStarScore = result.NextStarScore;
+        gameOverNextGoalText.text = nextStarScore.HasValue
+            ? $"Next star: {nextStarScore.Value}"
+            : "All stars earned";
     }
 
     public void Restart()

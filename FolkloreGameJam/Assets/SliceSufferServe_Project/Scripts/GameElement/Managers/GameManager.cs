@@ -31,7 +31,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private HumanGenerator humanGen2;
     [SerializeField] private CustomerGenerator customerGen;
 
+    [Header("Stage Goal")]
+    [SerializeField] private StageGoal stageGoal;
+
     public bool IsTutorial;
+    public StageGoal CurrentStageGoal => stageGoal;
+    public StageGoalResult LastStageGoalResult { get; private set; }
 
     private void Awake()
     {
@@ -97,5 +102,17 @@ public class GameManager : MonoBehaviour
         {
             customerGen.gameObject.SetActive(false);
         }
+    }
+
+    public StageGoalResult EvaluateAndSaveStageGoal(int score)
+    {
+        if (stageGoal == null)
+        {
+            LastStageGoalResult = null;
+            return null;
+        }
+
+        LastStageGoalResult = stageGoal.EvaluateAndSaveBest(score);
+        return LastStageGoalResult;
     }
 }

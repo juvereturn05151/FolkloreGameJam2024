@@ -1612,6 +1612,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 232721953073803165, guid: 30799e89dc78a7d48836e12aa4a0d0b9, type: 3}
+      propertyPath: stageGoal
+      value: 
+      objectReference: {fileID: 11400000, guid: 824bc3dc788f64a4ca9431333436696f, type: 2}
+    - target: {fileID: 232721953073803165, guid: 30799e89dc78a7d48836e12aa4a0d0b9, type: 3}
       propertyPath: customerGen
       value: 
       objectReference: {fileID: 0}
