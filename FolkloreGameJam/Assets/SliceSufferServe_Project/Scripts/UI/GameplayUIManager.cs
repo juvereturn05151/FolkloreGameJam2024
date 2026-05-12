@@ -45,6 +45,7 @@ public class GameplayUIManager : MonoBehaviour
     [Header("Combo UI")]
     [SerializeField] private GameObject comboRoot;
     [SerializeField] private TextMeshProUGUI comboText;
+    [SerializeField] private GameObject comboSpecialEffectRoot;
 
     private void Awake()
     {
@@ -168,7 +169,13 @@ public class GameplayUIManager : MonoBehaviour
 
         if (comboText != null)
         {
-            comboText.text = $"Combo x{combo}";
+            comboText.text = $"Combo {combo}  Score x{ComboSystem.GetScoreMultiplier(combo)}";
+        }
+
+        if (comboSpecialEffectRoot != null)
+        {
+            // TODO: Replace this placeholder object with the final combo 10+ special effect.
+            comboSpecialEffectRoot.SetActive(ComboSystem.IsSpecialEffectActive);
         }
     }
 

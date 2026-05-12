@@ -342,11 +342,12 @@ public class Customer : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         int patienceBonus = patienceController != null ? (int)patienceController.CurrentValue : 0;
-        int scoreWithPatience = food.Menu.Score + patienceBonus;
+        int baseScore = food.Menu.Score + patienceBonus;
+        int scoreWithCombo = ComboSystem.ApplyScoreMultiplier(baseScore);
 
-        feedbackController?.SpawnScoreFeedback(scoreWithPatience);
+        feedbackController?.SpawnScoreFeedback(scoreWithCombo);
 
-        GameManager.Instance.IncreaseScore(scoreWithPatience);
+        GameManager.Instance.IncreaseScore(scoreWithCombo);
         onEatRightFood?.Invoke(this);
         onLeaveRestaurant?.Invoke(currentSpot);
     }
