@@ -13,6 +13,9 @@ public class TimeManager : MonoBehaviour
     // Time variables
     [SerializeField]
     private float timeSpeed = 1.0f;  // Speed at which time progresses
+    [SerializeField] private float gameDurationSeconds = 60f;
+    [SerializeField] private float startTime = 18.0f;
+    [SerializeField] private float endTime = 30.0f;
     private float currentTime = 18.0f;  // Starting at 6:00 PM (18:00 in 24-hour format)
 
     private float rushTime = 27.0f;
@@ -28,6 +31,13 @@ public class TimeManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        currentTime = startTime;
+        gameDurationSeconds = Mathf.Max(1f, gameDurationSeconds);
+        timeSpeed = (endTime - startTime) / gameDurationSeconds;
     }
 
     private void Update()
@@ -52,17 +62,17 @@ public class TimeManager : MonoBehaviour
         }
 
         // If time reaches 6:00 AM (30.0), reset to 6:00 PM (18.0)
-        if (currentTime >= 30.0f)
+        if (currentTime >= endTime)
         {
             GameplayUIManager.Instance.OnGameOver();
-            currentTime = 30.0f;
+            currentTime = endTime;
 
             //currentTime = 18.0f;  // Reset back to 6:00 PM
         }
 
         // Notify UIManager about the updated time
         string formattedTime = FormatTime(currentTime);
-        OnClockChanged?.Invoke(currentTime, 30.0f);
+        OnClockChanged?.Invoke(currentTime, endTime);
         OnTimeChanged?.Invoke(formattedTime);
     }
 

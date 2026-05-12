@@ -40,6 +40,20 @@ public class HumanBody : MonoBehaviour
         SetPartActive(_leg, levelConfig.IsBodyPartEnabled(HumanBodyPartType.Leg));
     }
 
+    public void ApplyMovementSpeedMultiplier(float multiplier)
+    {
+        ResolvePartReferences();
+
+        HumanPart[] parts = GetComponentsInChildren<HumanPart>(true);
+        for (int i = 0; i < parts.Length; i++)
+        {
+            if (parts[i] != null)
+            {
+                parts[i].SetStartForceMultiplier(multiplier);
+            }
+        }
+    }
+
     public void NotifyPartSliced(HumanPart slicedPart)
     {
         if (_isBeingDestroyed) return;

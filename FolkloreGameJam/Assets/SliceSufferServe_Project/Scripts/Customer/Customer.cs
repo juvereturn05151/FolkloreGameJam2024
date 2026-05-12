@@ -50,7 +50,9 @@ public class Customer : MonoBehaviour
     private CustomerSpot currentSpot;
     private CustomerState currentState = CustomerState.Arriving;
     private bool isEatingRightFood;
+    private FoodState[] allowedDesiredFoodStates;
 
+    public Ghost GhostType => ghostType;
     public bool IsEatingRightFood => isEatingRightFood;
     public bool IsOrdering => currentState == CustomerState.Ordering || currentState == CustomerState.WaitingForFood;
 
@@ -135,8 +137,13 @@ public class Customer : MonoBehaviour
         if (orderGenerator == null)
             return;
 
-        List<CustomerOrder> generatedOrders = orderGenerator.GenerateOrders(ghostType, hungryLevel);
+        List<CustomerOrder> generatedOrders = orderGenerator.GenerateOrders(ghostType, hungryLevel, allowedDesiredFoodStates);
         currentOrders.AddRange(generatedOrders);
+    }
+
+    public void SetAllowedDesiredFoodStates(FoodState[] foodStates)
+    {
+        allowedDesiredFoodStates = foodStates;
     }
 
     private void SetupPatience()

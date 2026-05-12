@@ -35,6 +35,11 @@ public class HumanPart : MonoBehaviour
         _ownerBody = owner;
     }
 
+    public void SetStartForceMultiplier(float multiplier)
+    {
+        startForce *= Mathf.Max(0.01f, multiplier);
+    }
+
     private void Start()
     {
         if (rb == null)
