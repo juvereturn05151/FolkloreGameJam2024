@@ -947,10 +947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa3ab6f6f278400a924f676f94f1a35d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levels:
-  - {fileID: 11400000, guid: bc263a8e21c946afaf63fccfbe14995b, type: 2}
-  - {fileID: 11400000, guid: f312da21f57a404e9a2e002c4288c8d9, type: 2}
-  - {fileID: 11400000, guid: dcbc6917973c4a7d927a5f6ddb58e9da, type: 2}
+  levelDatabase: {fileID: 11400000, guid: 8dfbb37688d646b89e8dc6e0c1c41991, type: 2}
 --- !u!114 &3000000003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -964,10 +961,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageSelectManager: {fileID: 3000000002}
-  levels:
-  - {fileID: 11400000, guid: bc263a8e21c946afaf63fccfbe14995b, type: 2}
-  - {fileID: 11400000, guid: f312da21f57a404e9a2e002c4288c8d9, type: 2}
-  - {fileID: 11400000, guid: dcbc6917973c4a7d927a5f6ddb58e9da, type: 2}
+  levelDatabase: {fileID: 11400000, guid: 8dfbb37688d646b89e8dc6e0c1c41991, type: 2}
   levelListRoot: {fileID: 3100000501}
   stageNodePrefab: {fileID: 100005, guid: b30e0bfdecde41e4b8d2e3210a50e469, type: 3}
   backButton: {fileID: 3100000404}

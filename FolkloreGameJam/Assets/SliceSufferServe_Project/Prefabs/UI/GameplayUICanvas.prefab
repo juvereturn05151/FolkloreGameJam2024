@@ -682,6 +682,12 @@ MonoBehaviour:
   gameOverPanel: {fileID: 1026103185898441611}
   gameOverScoreText: {fileID: 4056408155794166483}
   gameOverHighScoreText: {fileID: 5386273141836896299}
+  levelDatabase: {fileID: 11400000, guid: 8dfbb37688d646b89e8dc6e0c1c41991, type: 2}
+  storyModeSelectSceneName: StoryModeSelect
+  gameOverActionsRoot: {fileID: 0}
+  nextStageButton: {fileID: 0}
+  nextStageButtonText: {fileID: 0}
+  storyModeSelectButton: {fileID: 0}
   scoreText: {fileID: 1206392465460054849}
   timeText: {fileID: 8973912829803620533}
   hpText: {fileID: 8951032466282533499}

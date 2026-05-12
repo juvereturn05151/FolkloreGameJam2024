@@ -3,22 +3,22 @@ using UnityEngine.SceneManagement;
 
 public class StageSelectManager : MonoBehaviour
 {
-    [SerializeField] private StageLevelConfig[] levels;
+    [SerializeField] private StageLevelDatabase levelDatabase;
 
-    public void SetLevels(StageLevelConfig[] levelConfigs)
+    public void SetLevelDatabase(StageLevelDatabase database)
     {
-        levels = levelConfigs;
+        levelDatabase = database;
     }
 
     public void SelectLevel(int levelIndex)
     {
-        if (levels == null || levelIndex < 0 || levelIndex >= levels.Length)
+        if (levelDatabase == null || levelIndex < 0 || levelIndex >= levelDatabase.Count)
         {
             Debug.LogWarning($"Cannot select level at index {levelIndex}.");
             return;
         }
 
-        StageLevelConfig selectedLevel = levels[levelIndex];
+        StageLevelConfig selectedLevel = levelDatabase.GetLevel(levelIndex);
 
         if (selectedLevel == null)
         {

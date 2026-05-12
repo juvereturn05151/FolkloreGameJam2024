@@ -24,6 +24,14 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameOverCurrencyEarnedText;
     [SerializeField] private Button leaderboardUI;
 
+    [Header("Stage Navigation")]
+    [SerializeField] private StageLevelDatabase levelDatabase;
+    [SerializeField] private string storyModeSelectSceneName = "StoryModeSelect";
+    [SerializeField] private RectTransform gameOverActionsRoot;
+    [SerializeField] private Button nextStageButton;
+    [SerializeField] private TextMeshProUGUI nextStageButtonText;
+    [SerializeField] private Button storyModeSelectButton;
+
     [Header("Currency Reward")]
     [SerializeField] private int scorePointsPerCurrency = 1;
     
@@ -72,6 +80,9 @@ public class GameplayUIManager : MonoBehaviour
             HPManager.Instance.OnHealthChanged += UpdateHP;
         }
 
+        SetupStageNavigationButtons();
+        SetNextStageButtonState(false, "Need 1 Star");
+
         // Initialize UI with the current score
         UpdateScoreUI(ScoreManager.Instance.GetCurrentScore());
         
@@ -95,6 +106,16 @@ public class GameplayUIManager : MonoBehaviour
         if (HPManager.Instance != null)
         {
             HPManager.Instance.OnHealthChanged -= UpdateHP;
+        }
+
+        if (nextStageButton != null)
+        {
+            nextStageButton.onClick.RemoveListener(GoToNextStage);
+        }
+
+        if (storyModeSelectButton != null)
+        {
+            storyModeSelectButton.onClick.RemoveListener(GoToStoryModeSelect);
         }
     }
 
@@ -144,6 +165,7 @@ public class GameplayUIManager : MonoBehaviour
         gameOverScoreText.text = $"Score: {_currentScore}";
         StageGoalResult stageGoalResult = GameManager.Instance.EvaluateAndSaveStageGoal(_currentScore);
         UpdateStageGoalUI(stageGoalResult);
+        UpdateStageNavigationUI(stageGoalResult);
         int earnedCurrency = CurrencySystem.AwardCurrencyFromScore(_currentScore, scorePointsPerCurrency);
         UpdateCurrencyRewardUI(earnedCurrency);
 
@@ -190,6 +212,114 @@ public class GameplayUIManager : MonoBehaviour
         }
 
         gameOverCurrencyEarnedText.text = $"+{earnedCurrency} Currency";
+    }
+
+    private void SetupStageNavigationButtons()
+    {
+        if (gameOverActionsRoot != null)
+        {
+            gameOverActionsRoot.gameObject.SetActive(false);
+        }
+
+        if (nextStageButton != null)
+        {
+            nextStageButton.gameObject.SetActive(false);
+        }
+
+        if (nextStageButton != null && nextStageButtonText == null)
+        {
+            nextStageButtonText = nextStageButton.GetComponentInChildren<TextMeshProUGUI>();
+        }
+
+        if (storyModeSelectButton != null)
+        {
+            storyModeSelectButton.gameObject.SetActive(false);
+        }
+
+        if (nextStageButton != null)
+        {
+            nextStageButton.onClick.RemoveListener(GoToNextStage);
+            nextStageButton.onClick.AddListener(GoToNextStage);
+        }
+
+        if (storyModeSelectButton != null)
+        {
+            storyModeSelectButton.onClick.RemoveListener(GoToStoryModeSelect);
+            storyModeSelectButton.onClick.AddListener(GoToStoryModeSelect);
+        }
+    }
+
+    private void UpdateStageNavigationUI(StageGoalResult result)
+    {
+        if (gameOverActionsRoot != null)
+        {
+            gameOverActionsRoot.gameObject.SetActive(true);
+        }
+
+        if (storyModeSelectButton != null)
+        {
+            storyModeSelectButton.gameObject.SetActive(true);
+        }
+
+        bool hasOneStar = result != null && result.Stars >= 1;
+        bool hasNextStage = GetNextStage() != null;
+        bool canGoNext = hasOneStar && hasNextStage;
+        string label = canGoNext ? "Next Stage" : hasOneStar ? "Last Stage" : "Need 1 Star";
+
+        SetNextStageButtonState(canGoNext, label);
+    }
+
+    private void SetNextStageButtonState(bool canGoNext, string label)
+    {
+        if (nextStageButton != null)
+        {
+            nextStageButton.gameObject.SetActive(true);
+            nextStageButton.interactable = canGoNext;
+        }
+
+        if (nextStageButtonText != null)
+        {
+            nextStageButtonText.text = label;
+        }
+    }
+
+    public void GoToNextStage()
+    {
+        StageLevelConfig nextStage = GetNextStage();
+        if (nextStage == null)
+        {
+            return;
+        }
+
+        if (GameUtility.SoundManagerExists())
+        {
+            SoundManager.instance.PlayGameplayBGM();
+        }
+
+        StageSelection.SelectLevel(nextStage);
+        SceneManager.LoadScene(nextStage.GameplaySceneName);
+    }
+
+    public void GoToStoryModeSelect()
+    {
+        if (GameUtility.SoundManagerExists())
+        {
+            SoundManager.instance.PlayMenuBGM();
+        }
+
+        StageSelection.Clear();
+        SceneManager.LoadScene(storyModeSelectSceneName);
+    }
+
+    private StageLevelConfig GetNextStage()
+    {
+        StageLevelConfig selectedLevel = StageSelection.SelectedLevel;
+        if (selectedLevel == null || levelDatabase == null)
+        {
+            return null;
+        }
+
+        return levelDatabase.GetNextLevel(selectedLevel);
     }
 
     public void Restart()

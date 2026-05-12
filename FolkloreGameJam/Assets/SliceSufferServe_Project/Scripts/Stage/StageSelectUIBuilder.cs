@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class StageSelectUIBuilder : MonoBehaviour
 {
     [SerializeField] private StageSelectManager stageSelectManager;
-    [SerializeField] private StageLevelConfig[] levels;
+    [SerializeField] private StageLevelDatabase levelDatabase;
     [SerializeField] private RectTransform levelListRoot;
     [SerializeField] private StageSelectButton stageNodePrefab;
     [SerializeField] private Button backButton;
@@ -21,7 +21,7 @@ public class StageSelectUIBuilder : MonoBehaviour
 
         if (stageSelectManager != null)
         {
-            stageSelectManager.SetLevels(levels);
+            stageSelectManager.SetLevelDatabase(levelDatabase);
         }
 
         BuildStageNodes();
@@ -59,12 +59,12 @@ public class StageSelectUIBuilder : MonoBehaviour
 
         ClearLevelList();
 
-        int levelCount = levels == null || levels.Length == 0 ? 0 : levels.Length;
+        int levelCount = levelDatabase == null ? 0 : levelDatabase.Count;
         float startX = -nodeSpacing * (levelCount - 1) * 0.5f;
 
         for (int i = 0; i < levelCount; i++)
         {
-            StageLevelConfig levelConfig = levels[i];
+            StageLevelConfig levelConfig = levelDatabase.GetLevel(i);
             StageSelectButton stageNode = Instantiate(stageNodePrefab, levelListRoot);
 
             RectTransform stageNodeRect = stageNode.GetComponent<RectTransform>();
