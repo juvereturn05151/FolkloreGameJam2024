@@ -10,6 +10,8 @@ public class StageLevelConfig : ScriptableObject
     [SerializeField] private string gameplaySceneName = "GameplayScene";
     [SerializeField] private StageGoal stageGoal;
     [SerializeField] private HumanBodyPartType[] enabledBodyParts = Array.Empty<HumanBodyPartType>();
+    [Tooltip("Zero-based indexes from CustomerGenerator customer spots. In the current 3-plate layout, 1 is the middle plate.")]
+    [SerializeField] private int[] activeCustomerSpotIndexes = { 0, 1, 2 };
     [SerializeField] private Ghost[] allowedGhosts = Array.Empty<Ghost>();
     [SerializeField] private StageSpawnPhase[] spawnPhases =
     {
@@ -25,6 +27,7 @@ public class StageLevelConfig : ScriptableObject
     public string GameplaySceneName => string.IsNullOrWhiteSpace(gameplaySceneName) ? "GameplayScene" : gameplaySceneName;
     public StageGoal StageGoal => stageGoal;
     public HumanBodyPartType[] EnabledBodyParts => enabledBodyParts;
+    public int[] ActiveCustomerSpotIndexes => activeCustomerSpotIndexes;
     public Ghost[] AllowedGhosts => allowedGhosts;
     public StageSpawnPhase[] SpawnPhases => spawnPhases;
     public float HumanSpawnDelayAfterGhost => Mathf.Max(0f, humanSpawnDelayAfterGhost);
@@ -47,10 +50,36 @@ public class StageLevelConfig : ScriptableObject
         return false;
     }
 
+    public bool IsCustomerSpotEnabled(int customerSpotIndex)
+    {
+        if (activeCustomerSpotIndexes == null || activeCustomerSpotIndexes.Length == 0)
+        {
+            return true;
+        }
+
+        for (int i = 0; i < activeCustomerSpotIndexes.Length; i++)
+        {
+            if (activeCustomerSpotIndexes[i] == customerSpotIndex)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private void OnValidate()
     {
         levelNumber = Mathf.Max(1, levelNumber);
         humanSpawnDelayAfterGhost = Mathf.Max(0f, humanSpawnDelayAfterGhost);
+
+        if (activeCustomerSpotIndexes != null)
+        {
+            for (int i = 0; i < activeCustomerSpotIndexes.Length; i++)
+            {
+                activeCustomerSpotIndexes[i] = Mathf.Clamp(activeCustomerSpotIndexes[i], 0, 2);
+            }
+        }
 
         if (spawnPhases == null || spawnPhases.Length == 0)
         {

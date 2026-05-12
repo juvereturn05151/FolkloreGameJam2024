@@ -20,6 +20,7 @@ public class CustomerGenerator : MonoBehaviour
     private float elapsedStageTime;
     private StageLevelConfig levelConfig;
     private readonly List<Customer> eligibleCustomers = new List<Customer>();
+    private readonly List<CustomerSpot> activeCustomerSpots = new List<CustomerSpot>();
     private HumanGenerator[] humanGenerators;
     private bool hasGhostFilter;
 
@@ -44,6 +45,7 @@ public class CustomerGenerator : MonoBehaviour
         }
 
         BuildEligibleCustomers();
+        ApplyActiveCustomerSpots();
         _spawnTimer = GetActivePhase().SpawnInterval;
 
         TimeManager.Instance.OnRushTime.AddListener(DoubleSpawnInterval);
@@ -136,6 +138,16 @@ public class CustomerGenerator : MonoBehaviour
         }
     }
 
+    public void RequestReplacementHuman()
+    {
+        if (GameManager.Instance.IsGameOver)
+        {
+            return;
+        }
+
+        StartCoroutine(SpawnHumanAfterDelay(GetActivePhase()));
+    }
+
     // Get a random customer from the list of possible customers
     Customer GetRandomCustomer()
     {
@@ -152,7 +164,7 @@ public class CustomerGenerator : MonoBehaviour
     // Find an empty customer spot
     CustomerSpot GetEmptySpot()
     {
-        foreach (CustomerSpot spot in _customerSpots)
+        foreach (CustomerSpot spot in activeCustomerSpots)
         {
             if (!spot.HasCustomer()) // If the spot is empty
             {
@@ -161,6 +173,33 @@ public class CustomerGenerator : MonoBehaviour
         }
 
         return null; // Return null if no empty spots are available
+    }
+
+    private void ApplyActiveCustomerSpots()
+    {
+        activeCustomerSpots.Clear();
+
+        for (int i = 0; i < _customerSpots.Count; i++)
+        {
+            CustomerSpot spot = _customerSpots[i];
+            if (spot == null)
+            {
+                continue;
+            }
+
+            bool isActive = levelConfig == null || levelConfig.IsCustomerSpotEnabled(i);
+            spot.SetGameplayActive(isActive);
+
+            if (isActive)
+            {
+                activeCustomerSpots.Add(spot);
+            }
+        }
+
+        if (activeCustomerSpots.Count == 0)
+        {
+            Debug.LogWarning("No active customer spots are configured for this level.");
+        }
     }
 
     // Clear a customer spot and start generating customers again

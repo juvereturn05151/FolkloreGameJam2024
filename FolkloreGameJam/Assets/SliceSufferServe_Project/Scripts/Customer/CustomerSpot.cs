@@ -8,6 +8,27 @@ public class CustomerSpot : MonoBehaviour
     private Customer _customer;
     public Customer Customer => _customer;
 
+    public void SetGameplayActive(bool isActive)
+    {
+        if (!isActive)
+        {
+            SetCustomer(null);
+            if (_plate != null)
+            {
+                _plate.CurrentCustomer = null;
+                _plate.SetIsOccupied(false);
+            }
+        }
+
+        GameObject root = GetGameplayRoot();
+        if (_plate != null && !_plate.transform.IsChildOf(root.transform))
+        {
+            _plate.gameObject.SetActive(isActive);
+        }
+
+        root.SetActive(isActive);
+    }
+
     // Set a customer in this spot
     public void SetCustomer(Customer customer)
     {
@@ -34,5 +55,15 @@ public class CustomerSpot : MonoBehaviour
     public bool HasCustomer()
     {
         return _customer != null;
+    }
+
+    private GameObject GetGameplayRoot()
+    {
+        if (_plate != null && transform.parent != null && _plate.transform.parent == transform.parent)
+        {
+            return transform.parent.gameObject;
+        }
+
+        return gameObject;
     }
 }

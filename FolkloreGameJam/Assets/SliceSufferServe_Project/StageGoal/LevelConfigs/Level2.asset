@@ -21,6 +21,8 @@ MonoBehaviour:
   - 0
   - 1
   - 2
+  activeCustomerSpotIndexes:
+  - 1
   allowedGhosts:
   - {fileID: 11400000, guid: d2952cb466b75414ebc175f0b6c76687, type: 2}
   - {fileID: 11400000, guid: 02006c8ba69015e418b4a73cbb3f9f9d, type: 2}

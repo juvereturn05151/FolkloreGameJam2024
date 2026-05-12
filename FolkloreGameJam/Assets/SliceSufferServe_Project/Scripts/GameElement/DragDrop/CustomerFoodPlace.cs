@@ -33,6 +33,11 @@ public class CustomerFoodPlace : MonoBehaviour
         _isOccupied = occupy;
     }
 
+    public void ClearFood()
+    {
+        _foodOnPlate = null;
+    }
+
     public bool canBeDropped() { return currentCustomer != null && currentCustomer.IsOrdering; }
 
     public void OnFoodInOnPlate() 

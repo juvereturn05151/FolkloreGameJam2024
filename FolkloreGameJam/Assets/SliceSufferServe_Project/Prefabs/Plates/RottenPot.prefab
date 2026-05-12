@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 4450052459722143649}
   - component: {fileID: 6794087149031223538}
   - component: {fileID: 3242616833381914228}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Acid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7126898149817296976}
   - component: {fileID: 1314462124699173186}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

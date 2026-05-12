@@ -32,7 +32,10 @@ public class FoodRotting : MonoBehaviour
         if (mod != null && !modifiers.Contains(mod)) 
         {
             modifiers.Add(mod);
-            rottenEffect.SetActive(true);
+            if (rottenEffect != null)
+            {
+                rottenEffect.SetActive(true);
+            }
         } 
     }
 
@@ -41,7 +44,10 @@ public class FoodRotting : MonoBehaviour
         if (mod != null) 
         {
             modifiers.Remove(mod);
-            rottenEffect.SetActive(false);
+            if (rottenEffect != null)
+            {
+                rottenEffect.SetActive(modifiers.Count > 0);
+            }
         }
     }
 

@@ -235,6 +235,7 @@ public class Customer : MonoBehaviour
         {
             currentState = CustomerState.WaitingForFood;
             feedbackController?.SetHappyAnimation(false);
+            RequestReplacementHuman();
             return;
         }
 
@@ -263,6 +264,7 @@ public class Customer : MonoBehaviour
 
         GameManager.Instance.DecreaseScore(15);
         currentState = CustomerState.WaitingForFood;
+        RequestReplacementHuman();
     }
 
     private void HandleSatisfied()
@@ -316,7 +318,20 @@ public class Customer : MonoBehaviour
     {
         if (food != null)
         {
+            if (currentPlate != null && currentPlate.FoodOnPlate == food)
+            {
+                currentPlate.ClearFood();
+            }
+
             Destroy(food.gameObject);
+        }
+    }
+
+    private void RequestReplacementHuman()
+    {
+        if (CustomerGenerator.Instance != null)
+        {
+            CustomerGenerator.Instance.RequestReplacementHuman();
         }
     }
 
