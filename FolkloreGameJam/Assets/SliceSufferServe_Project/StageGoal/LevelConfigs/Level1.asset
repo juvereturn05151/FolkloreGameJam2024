@@ -18,8 +18,7 @@ MonoBehaviour:
   gameplaySceneName: GameplayScene
   stageGoal: {fileID: 11400000, guid: 181a5f29b52641d19e8d32366b43d4cd, type: 2}
   enabledBodyParts: 00000000
-  activeCustomerSpotIndexes:
-  - 1
+  activeCustomerSpotIndexes: 01000000
   allowedGhosts:
   - {fileID: 11400000, guid: d2952cb466b75414ebc175f0b6c76687, type: 2}
   spawnPhases:
@@ -36,12 +35,12 @@ MonoBehaviour:
     humanSpeedMultiplier: 1
     doubleSpawnChance: 0.35
     doubleSpawnDelay: 0.25
-    allowedFoodStates: 0000000001000000
+    allowedFoodStates: 01000000
   - startTime: 40
     endTime: 60
     spawnInterval: 1.6
     humanSpeedMultiplier: 1.25
     doubleSpawnChance: 0
     doubleSpawnDelay: 0.25
-    allowedFoodStates: 000000000100000002000000
+    allowedFoodStates: 02000000
   humanSpawnDelayAfterGhost: 0.35

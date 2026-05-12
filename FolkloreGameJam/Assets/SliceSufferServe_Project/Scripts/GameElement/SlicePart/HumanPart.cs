@@ -30,6 +30,8 @@ public class HumanPart : MonoBehaviour
     private bool _isFading;
     private float _lastFadeSliceTime = -999f;
 
+    public HumanBody OwnerBody => _ownerBody;
+
     public void SetOwner(HumanBody owner)
     {
         _ownerBody = owner;
@@ -106,6 +108,12 @@ public class HumanPart : MonoBehaviour
         Sliced?.Invoke(transform.position, feedbackRequests);
         OnPartDestroyed?.Invoke();
 
+        Destroy(gameObject);
+    }
+
+    public void DestroyWithoutFood()
+    {
+        OnPartDestroyed?.Invoke();
         Destroy(gameObject);
     }
 

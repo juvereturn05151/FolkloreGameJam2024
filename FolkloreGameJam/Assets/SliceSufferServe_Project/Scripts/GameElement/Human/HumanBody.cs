@@ -10,6 +10,7 @@ public class HumanBody : MonoBehaviour
 
     private List<HumanPart> _parts = new List<HumanPart>();
     private bool _isBeingDestroyed;
+    public bool IsBeingDestroyed => _isBeingDestroyed;
 
     private void Awake()
     {
@@ -74,6 +75,25 @@ public class HumanBody : MonoBehaviour
         }
 
         Destroy(gameObject, 1f);
+    }
+
+    public void NotifyMissedDestroyer()
+    {
+        if (_isBeingDestroyed) return;
+        _isBeingDestroyed = true;
+
+        foreach (HumanPart part in _parts)
+        {
+            if (part == null) continue;
+            part.DestroyWithoutFood();
+        }
+
+        if (CustomerGenerator.Instance != null)
+        {
+            CustomerGenerator.Instance.RequestReplacementHuman();
+        }
+
+        Destroy(gameObject);
     }
 
     private void ResolvePartReferences()

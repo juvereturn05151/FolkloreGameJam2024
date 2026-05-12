@@ -7,11 +7,19 @@ public class HumanDestroyer : MonoBehaviour
     {
         if (other.GetComponent<HumanPart>() is HumanPart part)
         {
-            Destroy(part.gameObject);
-            if (part.OnPartDestroyed != null)
+            if (part.OwnerBody != null)
             {
-                part.OnPartDestroyed.Invoke();
+                part.OwnerBody.NotifyMissedDestroyer();
             }
+            else
+            {
+                part.DestroyWithoutFood();
+                if (CustomerGenerator.Instance != null)
+                {
+                    CustomerGenerator.Instance.RequestReplacementHuman();
+                }
+            }
+
             return;
         }
     }
