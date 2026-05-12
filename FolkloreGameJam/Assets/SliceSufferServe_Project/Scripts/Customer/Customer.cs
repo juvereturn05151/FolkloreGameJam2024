@@ -258,6 +258,7 @@ public class Customer : MonoBehaviour
 
     private void HandleWrongFood()
     {
+        ComboSystem.ResetCombo();
         feedbackController?.PlayWrongFoodFeedback();
         orderUI?.TriggerWrong();
         patienceController?.PenalizeHalf();
@@ -269,6 +270,7 @@ public class Customer : MonoBehaviour
 
     private void HandleSatisfied()
     {
+        ComboSystem.AddCombo();
         HandleTutorialServeProgress();
         feedbackController?.PlaySatisfiedFeedback();
         orderUI?.TriggerRight();

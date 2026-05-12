@@ -81,6 +81,7 @@ public class HumanBody : MonoBehaviour
     {
         if (_isBeingDestroyed) return;
         _isBeingDestroyed = true;
+        ComboSystem.ResetCombo();
 
         foreach (HumanPart part in _parts)
         {

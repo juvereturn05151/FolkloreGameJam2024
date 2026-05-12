@@ -42,6 +42,10 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private Image clockTimerImage;
     [SerializeField] private Image clockHand;
 
+    [Header("Combo UI")]
+    [SerializeField] private GameObject comboRoot;
+    [SerializeField] private TextMeshProUGUI comboText;
+
     private void Awake()
     {
         if(Instance == null)
@@ -75,10 +79,13 @@ public class GameplayUIManager : MonoBehaviour
             TimeManager.Instance.OnClockChanged += UpdateClockUI;
         }
 
-        if (HPManager.Instance != null) 
+        if (HPManager.Instance != null)
         {
             HPManager.Instance.OnHealthChanged += UpdateHP;
         }
+
+        ComboSystem.OnComboChanged += UpdateComboUI;
+        ComboSystem.ResetCombo();
 
         SetupStageNavigationButtons();
         SetNextStageButtonState(false, "Need 1 Star");
@@ -107,6 +114,8 @@ public class GameplayUIManager : MonoBehaviour
         {
             HPManager.Instance.OnHealthChanged -= UpdateHP;
         }
+
+        ComboSystem.OnComboChanged -= UpdateComboUI;
 
         if (nextStageButton != null)
         {
@@ -148,6 +157,19 @@ public class GameplayUIManager : MonoBehaviour
     private void UpdateHP(int hp)
     {
         hpText.text = "HP: " + hp;
+    }
+
+    private void UpdateComboUI(int combo)
+    {
+        if (comboRoot != null)
+        {
+            comboRoot.SetActive(combo > 0);
+        }
+
+        if (comboText != null)
+        {
+            comboText.text = $"Combo x{combo}";
+        }
     }
 
     public void OnGameOver()
