@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd1afc8fe6014223a07de15722f2e438, type: 3}
-  m_Name: Level3
+  m_Name: Level2_StageGoal
   m_EditorClassIdentifier: Assembly-CSharp::StageGoal
-  stageId: level_3
-  displayName: Level 3
-  levelNumber: 3
-  oneStarScore: 200
-  twoStarScore: 400
-  threeStarScore: 600
+  stageId: level_2
+  displayName: Level 2
+  levelNumber: 2
+  oneStarScore: 150
+  twoStarScore: 300
+  threeStarScore: 450

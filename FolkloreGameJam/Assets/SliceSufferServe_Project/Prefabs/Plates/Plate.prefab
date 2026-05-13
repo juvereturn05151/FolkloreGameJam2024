@@ -34,6 +34,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7756634274568793163
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -52,6 +53,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -73,9 +76,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 74
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 93811acd30109a04db4b58388627524d, type: 3}
   m_Color: {r: 0.35294116, g: 0.8625191, b: 1, a: 0.16862746}
   m_FlipX: 0
@@ -85,7 +90,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &4812665308420189380
 GameObject:
@@ -97,8 +101,8 @@ GameObject:
   m_Component:
   - component: {fileID: 349352637997570504}
   - component: {fileID: 271588967708860682}
-  - component: {fileID: 7211830554612525694}
   - component: {fileID: 6312082451104974211}
+  - component: {fileID: 3178692710425280337}
   m_Layer: 6
   m_Name: Plate
   m_TagString: Plate
@@ -124,6 +128,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &271588967708860682
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -142,6 +147,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -163,9 +170,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 74
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -175,10 +184,28 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &7211830554612525694
-BoxCollider2D:
+--- !u!114 &6312082451104974211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4812665308420189380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc14ee5adc729cf4d9ec4acdb5a8425a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnFoodPlaced:
+    m_PersistentCalls:
+      m_Calls: []
+  _foodOnPlate: {fileID: 0}
+  _isOccupied: 0
+  _spriteRenderer: {fileID: 7756634274568793163}
+  _defaultColor: {r: 0.3529412, g: 0.8627451, b: 1, a: 0.16862746}
+--- !u!60 &3178692710425280337
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -211,7 +238,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.09}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -221,24 +248,14 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.96, y: 0.84}
-  m_EdgeRadius: 0
---- !u!114 &6312082451104974211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4812665308420189380}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc14ee5adc729cf4d9ec4acdb5a8425a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnFoodPlaced:
-    m_PersistentCalls:
-      m_Calls: []
-  _foodOnPlate: {fileID: 0}
-  _isOccupied: 0
-  _spriteRenderer: {fileID: 7756634274568793163}
-  _defaultColor: {r: 0.3529412, g: 0.8627451, b: 1, a: 0.16862746}
+  m_Points:
+    m_Paths:
+    - - {x: -1.28, y: 0.37}
+      - {x: -1.76, y: 0.13}
+      - {x: -1.71, y: -0.18}
+      - {x: -1.12, y: -0.35}
+      - {x: 1.27, y: -0.35}
+      - {x: 1.87, y: -0.03}
+      - {x: 1.4, y: 0.26}
+      - {x: 1.12, y: 0.36}
+  m_UseDelaunayMesh: 1
