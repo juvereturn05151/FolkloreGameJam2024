@@ -135,6 +135,12 @@ public class HumanPart : MonoBehaviour
 
         OnPartDestroyed?.Invoke();
 
+        if (!isActiveAndEnabled || !gameObject.activeInHierarchy)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         StartCoroutine(FadeAndDestroyCoroutine());
     }
 
