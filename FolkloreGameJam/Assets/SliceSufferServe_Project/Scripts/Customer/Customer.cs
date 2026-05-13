@@ -55,6 +55,7 @@ public class Customer : MonoBehaviour
     public Ghost GhostType => ghostType;
     public bool IsEatingRightFood => isEatingRightFood;
     public bool IsOrdering => currentState == CustomerState.Ordering || currentState == CustomerState.WaitingForFood;
+    public IReadOnlyList<CustomerOrder> CurrentOrders => currentOrders;
 
     private void OnEnable()
     {
@@ -303,6 +304,7 @@ public class Customer : MonoBehaviour
 
         currentState = CustomerState.Angry;
 
+        ComboSystem.ResetCombo();
         feedbackController?.PlayTimeoutFeedback();
 
         HPManager.Instance.TakeDamage(1);
@@ -327,6 +329,8 @@ public class Customer : MonoBehaviour
 
             Destroy(food.gameObject);
         }
+
+        RequestReplacementHuman();
     }
 
     private void RequestReplacementHuman()

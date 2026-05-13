@@ -56,4 +56,57 @@ public class HumanGenerator : MonoBehaviour
         spawnedHuman.ApplyLevelConfig(levelConfig);
         spawnedHuman.ApplyMovementSpeedMultiplier(movementSpeedMultiplier);
     }
+
+    public bool CanSpawnMenu(Menu menu, StageLevelConfig config)
+    {
+        if (menu == null || humanPrefabs == null)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < humanPrefabs.Length; i++)
+        {
+            HumanBody prefab = humanPrefabs[i];
+            if (prefab == null)
+            {
+                continue;
+            }
+
+            HumanPart[] parts = prefab.GetComponentsInChildren<HumanPart>(true);
+            for (int j = 0; j < parts.Length; j++)
+            {
+                HumanPart part = parts[j];
+                if (part == null || !IsPartEnabledForLevel(part.name, config))
+                {
+                    continue;
+                }
+
+                if (part.GetProducedMenu() == menu)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private bool IsPartEnabledForLevel(string partName, StageLevelConfig config)
+    {
+        if (config == null || config.EnabledBodyParts == null || config.EnabledBodyParts.Length == 0)
+        {
+            return true;
+        }
+
+        for (int i = 0; i < config.EnabledBodyParts.Length; i++)
+        {
+            HumanBodyPartType bodyPart = config.EnabledBodyParts[i];
+            if (partName.Contains(bodyPart.ToString()))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

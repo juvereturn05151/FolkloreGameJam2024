@@ -23,6 +23,7 @@ public class CustomerGenerator : MonoBehaviour
     private readonly List<CustomerSpot> activeCustomerSpots = new List<CustomerSpot>();
     private HumanGenerator[] humanGenerators;
     private bool hasGhostFilter;
+    private int pendingDemandHumanSpawns;
 
     private void Awake()
     {
@@ -113,7 +114,7 @@ public class CustomerGenerator : MonoBehaviour
             newCustomer.SetAllowedDesiredFoodStates(activePhase.AllowedFoodStates);
             emptySpot.SetCustomer(newCustomer); // Set the new customer in the spot
             newCustomer.onLeaveRestaurant.AddListener(ClearCustomerSpot); // Listen for when the customer leaves
-            StartCoroutine(SpawnHumanAfterDelay(activePhase));
+            QueueHumanSpawn(activePhase);
         }
         else
         {
@@ -125,6 +126,7 @@ public class CustomerGenerator : MonoBehaviour
     {
         float delay = levelConfig == null ? 0.35f : levelConfig.HumanSpawnDelayAfterGhost;
         yield return new WaitForSeconds(delay);
+        pendingDemandHumanSpawns = Mathf.Max(0, pendingDemandHumanSpawns - 1);
 
         if (GameManager.Instance.IsGameOver || humanGenerators == null || humanGenerators.Length == 0)
         {
@@ -145,7 +147,10 @@ public class CustomerGenerator : MonoBehaviour
             return;
         }
 
-        StartCoroutine(SpawnHumanAfterDelay(GetActivePhase()));
+        if (NeedsAnotherHuman())
+        {
+            QueueHumanSpawn(GetActivePhase());
+        }
     }
 
     // Get a random customer from the list of possible customers
@@ -276,5 +281,122 @@ public class CustomerGenerator : MonoBehaviour
         }
 
         return fallback;
+    }
+
+    private void QueueHumanSpawn(StageSpawnPhase activePhase)
+    {
+        pendingDemandHumanSpawns++;
+        StartCoroutine(SpawnHumanAfterDelay(activePhase));
+    }
+
+    private bool NeedsAnotherHuman()
+    {
+        Dictionary<Menu, int> demand = GetOutstandingOrderCounts();
+        if (demand.Count == 0)
+        {
+            return false;
+        }
+
+        Dictionary<Menu, int> supply = GetAvailableSupplyCounts();
+
+        foreach (KeyValuePair<Menu, int> orderCount in demand)
+        {
+            supply.TryGetValue(orderCount.Key, out int availableCount);
+            if (CanPendingHumansProvide(orderCount.Key))
+            {
+                availableCount += pendingDemandHumanSpawns;
+            }
+
+            if (availableCount < orderCount.Value)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private Dictionary<Menu, int> GetOutstandingOrderCounts()
+    {
+        Dictionary<Menu, int> counts = new Dictionary<Menu, int>();
+
+        for (int i = 0; i < activeCustomerSpots.Count; i++)
+        {
+            Customer customer = activeCustomerSpots[i] != null ? activeCustomerSpots[i].Customer : null;
+            if (customer == null || !customer.IsOrdering)
+            {
+                continue;
+            }
+
+            IReadOnlyList<CustomerOrder> orders = customer.CurrentOrders;
+            for (int j = 0; j < orders.Count; j++)
+            {
+                CustomerOrder order = orders[j];
+                if (order == null || order.Menu == null)
+                {
+                    continue;
+                }
+
+                AddMenuCount(counts, order.Menu, 1);
+            }
+        }
+
+        return counts;
+    }
+
+    private Dictionary<Menu, int> GetAvailableSupplyCounts()
+    {
+        Dictionary<Menu, int> counts = new Dictionary<Menu, int>();
+
+        Food[] foods = FindObjectsByType<Food>(FindObjectsSortMode.None);
+        for (int i = 0; i < foods.Length; i++)
+        {
+            Food food = foods[i];
+            if (food == null || food.Menu == null || food.IsReadyToEat || food.IsFinished)
+            {
+                continue;
+            }
+
+            AddMenuCount(counts, food.Menu, 1);
+        }
+
+        HumanBody[] humans = FindObjectsByType<HumanBody>(FindObjectsSortMode.None);
+        for (int i = 0; i < humans.Length; i++)
+        {
+            if (humans[i] != null)
+            {
+                humans[i].AddAvailablePartMenus(counts);
+            }
+        }
+
+        return counts;
+    }
+
+    private bool CanPendingHumansProvide(Menu menu)
+    {
+        if (menu == null || humanGenerators == null)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < humanGenerators.Length; i++)
+        {
+            if (humanGenerators[i] != null && humanGenerators[i].CanSpawnMenu(menu, levelConfig))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static void AddMenuCount(Dictionary<Menu, int> counts, Menu menu, int amount)
+    {
+        if (!counts.ContainsKey(menu))
+        {
+            counts[menu] = 0;
+        }
+
+        counts[menu] += amount;
     }
 }

@@ -31,6 +31,7 @@ public class HumanPart : MonoBehaviour
     private float _lastFadeSliceTime = -999f;
 
     public HumanBody OwnerBody => _ownerBody;
+    public bool CanProduceFood => !_sliced && !_isFading && gameObject.activeInHierarchy && foodPrefab != null;
 
     public void SetOwner(HumanBody owner)
     {
@@ -40,6 +41,16 @@ public class HumanPart : MonoBehaviour
     public void SetStartForceMultiplier(float multiplier)
     {
         startForce *= Mathf.Max(0.01f, multiplier);
+    }
+
+    public Menu GetProducedMenu()
+    {
+        if (foodPrefab == null || !foodPrefab.TryGetComponent(out Food food))
+        {
+            return null;
+        }
+
+        return food.Menu;
     }
 
     private void Start()

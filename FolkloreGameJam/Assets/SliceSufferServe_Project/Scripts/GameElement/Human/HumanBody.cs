@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -74,7 +75,7 @@ public class HumanBody : MonoBehaviour
             }
         }
 
-        Destroy(gameObject, 1f);
+        StartCoroutine(DestroyAndRequestReplacementAfterDelay(1f));
     }
 
     public void NotifyMissedDestroyer()
@@ -89,12 +90,61 @@ public class HumanBody : MonoBehaviour
             part.DestroyWithoutFood();
         }
 
+        RequestReplacementHuman();
+
+        Destroy(gameObject);
+    }
+
+    private void RequestReplacementHuman()
+    {
         if (CustomerGenerator.Instance != null)
         {
             CustomerGenerator.Instance.RequestReplacementHuman();
         }
+    }
 
+    private IEnumerator DestroyAndRequestReplacementAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        RequestReplacementHuman();
         Destroy(gameObject);
+    }
+
+    public void AddAvailablePartMenus(Dictionary<Menu, int> menuCounts)
+    {
+        if (_isBeingDestroyed || menuCounts == null)
+        {
+            return;
+        }
+
+        HumanPart[] parts = GetComponentsInChildren<HumanPart>(false);
+        for (int i = 0; i < parts.Length; i++)
+        {
+            HumanPart part = parts[i];
+            if (part == null || !part.CanProduceFood)
+            {
+                continue;
+            }
+
+            Menu menu = part.GetProducedMenu();
+            if (menu == null)
+            {
+                continue;
+            }
+
+            AddMenuCount(menuCounts, menu, 1);
+        }
+    }
+
+    private static void AddMenuCount(Dictionary<Menu, int> menuCounts, Menu menu, int amount)
+    {
+        if (!menuCounts.ContainsKey(menu))
+        {
+            menuCounts[menu] = 0;
+        }
+
+        menuCounts[menu] += amount;
     }
 
     private void ResolvePartReferences()
