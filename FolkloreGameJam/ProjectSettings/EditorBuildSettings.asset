@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/SliceSufferServe_Project/Scenes/Actual/TutorialScene.unity
     guid: ff96f7c2be4c8934a9ff4c23bd850d78
   - enabled: 1
+    path: Assets/SliceSufferServe_Project/Scenes/Actual/Store.unity
+    guid: 921053a47b77f7a4cb75b734238f6b68
+  - enabled: 1
     path: Assets/SliceSufferServe_Project/Scenes/Actual/Gameplay/GameplayScene.unity
     guid: c48ea774c4219714eb473d5e97bb9109
   - enabled: 1

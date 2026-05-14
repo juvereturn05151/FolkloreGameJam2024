@@ -1,0 +1,18 @@
+﻿<Solution>
+  <Project Path="MoreMountains.Tools.csproj" />
+  <Project Path="MerryYellow.CodeAssist.Editor.csproj" />
+  <Project Path="MoreMountains.Tools.Editor.csproj" />
+  <Project Path="com.rlabrecque.steamworks.net.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="Lofelt.NiceVibrations.Demo.csproj" />
+  <Project Path="Assembly-CSharp-firstpass.csproj" />
+  <Project Path="Lofelt.NiceVibrations.csproj" />
+  <Project Path="CFXRRuntime.csproj" />
+  <Project Path="CFXREditor.csproj" />
+  <Project Path="Lofelt.NiceVibrations.Editor.csproj" />
+  <Project Path="CFXRDemo.csproj" />
+  <Project Path="ToonyColorsPro.Demo.Editor.csproj" />
+  <Project Path="KinoBloom.Runtime.csproj" />
+  <Project Path="com.rlabrecque.steamworks.net.editor.csproj" />
+  <Project Path="CFXR.WelcomeScreen.csproj" />
+</Solution>
