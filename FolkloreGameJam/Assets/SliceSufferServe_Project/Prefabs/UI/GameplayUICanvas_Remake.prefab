@@ -1825,6 +1825,11 @@ MonoBehaviour:
   clockHand: {fileID: 3213548895678128872}
   superMeterSlider: {fileID: 7791792739666934671}
   superMeterText: {fileID: 1904112235855338038}
+  superMeterGraphic: {fileID: 4363585687698047065}
+  superMeterRoot: {fileID: 9300000000001}
+  superChargingColor: {r: 0.94, g: 0.18, b: 0.14, a: 0.95}
+  superReadyColor: {r: 1, g: 0.75, b: 0.12, a: 1}
+  superActiveColor: {r: 0.1, g: 0.85, b: 1, a: 1}
   comboRoot: {fileID: 1251914659682337815}
   comboText: {fileID: 9200000000005}
   comboSpecialEffectRoot: {fileID: 9200000000010}

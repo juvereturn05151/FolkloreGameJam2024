@@ -46,7 +46,7 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private Slider superMeterSlider;
     [SerializeField] private TextMeshProUGUI superMeterText;
     [SerializeField] private Image superMeterGraphic;
-    private GameObject superMeterRoot;
+    [SerializeField] private GameObject superMeterRoot;
     [SerializeField] private Color superChargingColor = new Color(0.94f, 0.18f, 0.14f, 0.95f);
     [SerializeField] private Color superReadyColor = new Color(1f, 0.75f, 0.12f, 1f);
     [SerializeField] private Color superActiveColor = new Color(0.1f, 0.85f, 1f, 1f);
@@ -98,10 +98,7 @@ public class GameplayUIManager : MonoBehaviour
 
         if (GameManager.Instance != null)
         {
-            if (superMeterRoot != null)
-            {
-                superMeterRoot.SetActive(GameManager.Instance.IsSuperMeterAllowed);
-            }
+            ApplySuperMeterVisibility();
 
             GameManager.Instance.OnSuperMeterChanged += UpdateSuperMeterUI;
             GameManager.Instance.OnSuperActiveTimeChanged += UpdateSuperActiveUI;
@@ -219,8 +216,28 @@ public class GameplayUIManager : MonoBehaviour
         }
     }
 
+    private bool IsSuperMeterUIAllowed()
+    {
+        return GameManager.Instance == null || GameManager.Instance.IsSuperMeterAllowed;
+    }
+
+    private void ApplySuperMeterVisibility()
+    {
+        if (superMeterRoot != null)
+        {
+            superMeterRoot.SetActive(IsSuperMeterUIAllowed());
+        }
+    }
+
     private void UpdateSuperMeterUI(float currentValue, float threshold)
     {
+        ApplySuperMeterVisibility();
+
+        if (!IsSuperMeterUIAllowed())
+        {
+            return;
+        }
+
         if (GameManager.Instance != null && GameManager.Instance.IsSuperScoreMultiplierActive)
         {
             return;
@@ -245,6 +262,13 @@ public class GameplayUIManager : MonoBehaviour
 
     private void UpdateSuperActiveUI(float remainingTime, float duration)
     {
+        ApplySuperMeterVisibility();
+
+        if (!IsSuperMeterUIAllowed())
+        {
+            return;
+        }
+
         if (superMeterSlider != null)
         {
             superMeterSlider.minValue = 0f;
@@ -262,6 +286,11 @@ public class GameplayUIManager : MonoBehaviour
 
     private void HandleSuperActivated()
     {
+        if (!IsSuperMeterUIAllowed())
+        {
+            return;
+        }
+
         Transform target = superMeterText != null ? superMeterText.transform : superMeterSlider != null ? superMeterSlider.transform : null;
         if (target != null)
         {
