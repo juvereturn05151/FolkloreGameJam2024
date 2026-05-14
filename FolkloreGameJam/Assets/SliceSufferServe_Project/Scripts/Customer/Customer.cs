@@ -291,10 +291,7 @@ public class Customer : MonoBehaviour
         if (!GameManager.Instance.IsTutorial)
             return;
 
-        if (SSSAdvancedTutorialManager.Instance.CurrentTutorial.Type != TutorialType.ServeCustomer)
-            return;
-
-        SSSAdvancedTutorialManager.Instance.serveCount++;
+        SSSAdvancedTutorialManager.Instance.ReportProgress(TutorialType.ServeCustomer);
     }
 
     private void OnPatienceDepleted()

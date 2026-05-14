@@ -5,6 +5,8 @@ using UnityEngine;
 /// </summary>
 public abstract class TutorialAttribute : ScriptableObject
 {
+    [SerializeField] protected int requiredProgress = 3;
+
     /// <summary>
     /// Tracks whether the tutorial objective is completed.
     /// </summary>
@@ -27,5 +29,17 @@ public abstract class TutorialAttribute : ScriptableObject
     public virtual void SetBegin()
     {
         _isObjectiveComplete = false;
+
+        if (SSSAdvancedTutorialManager.Instance != null)
+        {
+            SSSAdvancedTutorialManager.Instance.ResetProgress(SSSAdvancedTutorialManager.Instance.CurrentTutorial.Type);
+        }
+    }
+
+    protected void CompleteWhenProgressReaches(TutorialType tutorialType)
+    {
+        int targetProgress = Mathf.Max(1, requiredProgress);
+        _isObjectiveComplete = SSSAdvancedTutorialManager.Instance != null
+            && SSSAdvancedTutorialManager.Instance.GetProgress(tutorialType) >= targetProgress;
     }
 }

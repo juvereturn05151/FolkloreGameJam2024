@@ -4,7 +4,7 @@ public class PutTrashAttribute : TutorialAttribute
 {
     public override void CheckingObjective()
     {
-        _isObjectiveComplete = SSSAdvancedTutorialManager.Instance.trashInBinCount >= 3;
+        CompleteWhenProgressReaches(TutorialType.PutTrashToBin);
     }
 
     public override void SetBegin()

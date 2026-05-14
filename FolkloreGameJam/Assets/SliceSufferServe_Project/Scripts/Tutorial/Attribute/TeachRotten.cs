@@ -5,7 +5,7 @@ public class TeachRotten : TutorialAttribute
 {
     public override void CheckingObjective()
     {
-        _isObjectiveComplete = SSSAdvancedTutorialManager.Instance.rottenCount >= 3;
+        CompleteWhenProgressReaches(TutorialType.WaitForRotten);
     }
 
     public override void SetBegin()

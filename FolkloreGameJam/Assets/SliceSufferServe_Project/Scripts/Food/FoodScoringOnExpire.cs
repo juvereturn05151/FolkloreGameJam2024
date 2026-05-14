@@ -37,12 +37,7 @@ public class FoodScoringOnExpire : MonoBehaviour
 
         if (GameUtility.SSSAdvancedTutorialManagerExists())
         {
-            if (GameManager.Instance.IsTutorial &&
-                SSSAdvancedTutorialManager.Instance.CurrentTutorial.Type == TutorialType.WaitForRotten &&
-                SSSAdvancedTutorialManager.Instance.IsOperating)
-            {
-                SSSAdvancedTutorialManager.Instance.rottenCount++;
-            }
+            SSSAdvancedTutorialManager.Instance.ReportProgress(TutorialType.WaitForRotten);
         }
     }
 }

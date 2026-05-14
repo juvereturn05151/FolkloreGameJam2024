@@ -5,7 +5,7 @@ public class CutHumanAttribute : TutorialAttribute
 {
     public override void CheckingObjective()
     {
-        _isObjectiveComplete = SSSAdvancedTutorialManager.Instance._humanKillCount >= 3;
+        CompleteWhenProgressReaches(TutorialType.CutHuman);
     }
 
     public override void SetBegin()

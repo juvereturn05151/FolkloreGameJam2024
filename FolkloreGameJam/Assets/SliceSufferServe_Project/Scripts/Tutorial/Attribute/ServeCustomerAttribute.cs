@@ -4,7 +4,7 @@ public class ServeCustomerAttribute : TutorialAttribute
 {
     public override void CheckingObjective()
     {
-        _isObjectiveComplete = SSSAdvancedTutorialManager.Instance.serveCount >= 3;
+        CompleteWhenProgressReaches(TutorialType.ServeCustomer);
     }
 
     public override void SetBegin()
