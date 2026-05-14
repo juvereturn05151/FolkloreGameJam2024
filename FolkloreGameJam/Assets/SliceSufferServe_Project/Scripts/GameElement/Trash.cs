@@ -24,6 +24,11 @@ public class Trash : MonoBehaviour
             SoundManager.instance.PlaySFX("Trash");
             Instantiate(trashFX, transform.position, Quaternion.identity);
             Destroy(food.gameObject);
+
+            if (CustomerGenerator.Instance != null)
+            {
+                CustomerGenerator.Instance.RequestReplacementHumanNextFrame();
+            }
         }
     }
 }

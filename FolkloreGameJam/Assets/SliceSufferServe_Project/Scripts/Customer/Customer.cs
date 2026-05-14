@@ -337,7 +337,7 @@ public class Customer : MonoBehaviour
     {
         if (CustomerGenerator.Instance != null)
         {
-            CustomerGenerator.Instance.RequestReplacementHuman();
+            CustomerGenerator.Instance.RequestReplacementHumanNextFrame();
         }
     }
 

@@ -153,6 +153,11 @@ public class CustomerGenerator : MonoBehaviour
         }
     }
 
+    public void RequestReplacementHumanNextFrame()
+    {
+        StartCoroutine(RequestReplacementHumanNextFrameCoroutine());
+    }
+
     // Get a random customer from the list of possible customers
     Customer GetRandomCustomer()
     {
@@ -287,6 +292,12 @@ public class CustomerGenerator : MonoBehaviour
     {
         pendingDemandHumanSpawns++;
         StartCoroutine(SpawnHumanAfterDelay(activePhase));
+    }
+
+    private IEnumerator RequestReplacementHumanNextFrameCoroutine()
+    {
+        yield return null;
+        RequestReplacementHuman();
     }
 
     private bool NeedsAnotherHuman()
