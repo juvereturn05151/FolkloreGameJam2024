@@ -9,6 +9,8 @@ using UnityEngine.Serialization;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public event Action<float, float> OnSuperMeterChanged;
+    public event Action OnSuperActivated;
 
     public enum GameState
     {
@@ -34,11 +36,26 @@ public class GameManager : MonoBehaviour
     [Header("Stage Goal")]
     [SerializeField] private StageGoal stageGoal;
 
+    [Header("Super Meter")]
+    [SerializeField] private float superMeterThreshold = 100f;
+    [SerializeField] private float superMeterGainPerTrash = 25f;
+    [SerializeField] private float shakeActivationThreshold = 2.5f;
+    [SerializeField] private float shakeActivationCooldown = 0.75f;
+    [SerializeField] private UnityEvent superActivated;
+
     public bool IsTutorial;
     public StageGoal CurrentStageGoal => StageSelection.SelectedLevel != null && StageSelection.SelectedLevel.StageGoal != null
         ? StageSelection.SelectedLevel.StageGoal
         : stageGoal;
     public StageGoalResult LastStageGoalResult { get; private set; }
+    public float CurrentSuperMeter => currentSuperMeter;
+    public float SuperMeterThreshold => Mathf.Max(1f, superMeterThreshold);
+    public bool IsSuperMeterFull => currentSuperMeter >= SuperMeterThreshold;
+
+    private float currentSuperMeter;
+    private Vector3 previousAcceleration;
+    private float lastShakeActivationTime = -999f;
+    private bool hasAccelerationSample;
 
     private void Awake()
     {
@@ -48,7 +65,22 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        NotifySuperMeterChanged();
+    }
 
+    private void Update()
+    {
+        if (isGameOver)
+        {
+            return;
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            TryActivateSuper();
+        }
+
+        UpdateShakeActivation();
     }
 
     #region -Score Fucntions-
@@ -118,5 +150,76 @@ public class GameManager : MonoBehaviour
 
         LastStageGoalResult = activeStageGoal.EvaluateAndSaveBest(score);
         return LastStageGoalResult;
+    }
+
+    public void AddSuperMeterFromTrash()
+    {
+        AddSuperMeter(superMeterGainPerTrash);
+    }
+
+    public void AddSuperMeter(float amount)
+    {
+        if (isGameOver || amount <= 0f)
+        {
+            return;
+        }
+
+        currentSuperMeter = Mathf.Clamp(currentSuperMeter + amount, 0f, SuperMeterThreshold);
+        NotifySuperMeterChanged();
+    }
+
+    public bool TryActivateSuper()
+    {
+        if (isGameOver || !IsSuperMeterFull)
+        {
+            return false;
+        }
+
+        currentSuperMeter = 0f;
+        NotifySuperMeterChanged();
+
+        superActivated?.Invoke();
+        OnSuperActivated?.Invoke();
+
+        if (GameUtility.FeedbackManagerExists())
+        {
+            FeedbackManager.Instance.ShakeCameraFeedback(0.35f, 0.75f);
+        }
+
+        return true;
+    }
+
+    private void UpdateShakeActivation()
+    {
+        Vector3 acceleration = Input.acceleration;
+        if (!hasAccelerationSample)
+        {
+            previousAcceleration = acceleration;
+            hasAccelerationSample = true;
+            return;
+        }
+
+        float shakeAmount = (acceleration - previousAcceleration).magnitude;
+        previousAcceleration = acceleration;
+
+        if (shakeAmount < shakeActivationThreshold)
+        {
+            return;
+        }
+
+        if (Time.unscaledTime - lastShakeActivationTime < shakeActivationCooldown)
+        {
+            return;
+        }
+
+        if (TryActivateSuper())
+        {
+            lastShakeActivationTime = Time.unscaledTime;
+        }
+    }
+
+    private void NotifySuperMeterChanged()
+    {
+        OnSuperMeterChanged?.Invoke(currentSuperMeter, SuperMeterThreshold);
     }
 }

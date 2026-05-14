@@ -25,6 +25,11 @@ public class Trash : MonoBehaviour
             Instantiate(trashFX, transform.position, Quaternion.identity);
             Destroy(food.gameObject);
 
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.AddSuperMeterFromTrash();
+            }
+
             if (CustomerGenerator.Instance != null)
             {
                 CustomerGenerator.Instance.RequestReplacementHumanNextFrame();

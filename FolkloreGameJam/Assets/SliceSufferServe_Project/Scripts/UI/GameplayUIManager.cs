@@ -42,6 +42,10 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private Image clockTimerImage;
     [SerializeField] private Image clockHand;
 
+    [Header("Super Meter UI")]
+    [SerializeField] private Image superMeterFillImage;
+    [SerializeField] private TextMeshProUGUI superMeterText;
+
     [Header("Combo UI")]
     [SerializeField] private GameObject comboRoot;
     [SerializeField] private TextMeshProUGUI comboText;
@@ -85,6 +89,15 @@ public class GameplayUIManager : MonoBehaviour
             HPManager.Instance.OnHealthChanged += UpdateHP;
         }
 
+        ResolveSuperMeterUI();
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnSuperMeterChanged += UpdateSuperMeterUI;
+            GameManager.Instance.OnSuperActivated += HandleSuperActivated;
+            UpdateSuperMeterUI(GameManager.Instance.CurrentSuperMeter, GameManager.Instance.SuperMeterThreshold);
+        }
+
         ComboSystem.OnComboChanged += UpdateComboUI;
         ComboSystem.ResetCombo();
 
@@ -114,6 +127,12 @@ public class GameplayUIManager : MonoBehaviour
         if (HPManager.Instance != null)
         {
             HPManager.Instance.OnHealthChanged -= UpdateHP;
+        }
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnSuperMeterChanged -= UpdateSuperMeterUI;
+            GameManager.Instance.OnSuperActivated -= HandleSuperActivated;
         }
 
         ComboSystem.OnComboChanged -= UpdateComboUI;
@@ -158,6 +177,48 @@ public class GameplayUIManager : MonoBehaviour
     private void UpdateHP(int hp)
     {
         hpText.text = "HP: " + hp;
+    }
+
+    private void ResolveSuperMeterUI()
+    {
+        Transform content = transform.Find("SuperMeter/Content");
+        if (content == null)
+        {
+            return;
+        }
+
+        if (superMeterFillImage == null)
+        {
+            superMeterFillImage = content.GetComponent<Image>();
+        }
+
+        if (superMeterText == null)
+        {
+            superMeterText = content.GetComponentInChildren<TextMeshProUGUI>(true);
+        }
+    }
+
+    private void UpdateSuperMeterUI(float currentValue, float threshold)
+    {
+        float normalizedValue = threshold <= 0f ? 0f : Mathf.Clamp01(currentValue / threshold);
+
+        if (superMeterFillImage != null)
+        {
+            superMeterFillImage.fillAmount = normalizedValue;
+        }
+
+        if (superMeterText != null)
+        {
+            superMeterText.text = normalizedValue >= 1f ? "SUPER READY" : $"SUPER {Mathf.RoundToInt(normalizedValue * 100f)}%";
+        }
+    }
+
+    private void HandleSuperActivated()
+    {
+        if (superMeterText != null)
+        {
+            superMeterText.transform.DOPunchScale(Vector3.one * 0.15f, 0.2f, 4, 0.5f);
+        }
     }
 
     private void UpdateComboUI(int combo)
