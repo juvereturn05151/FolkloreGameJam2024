@@ -43,7 +43,7 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private Image clockHand;
 
     [Header("Super Meter UI")]
-    [SerializeField] private Image superMeterFillImage;
+    [SerializeField] private Slider superMeterSlider;
     [SerializeField] private TextMeshProUGUI superMeterText;
 
     [Header("Combo UI")]
@@ -187,9 +187,9 @@ public class GameplayUIManager : MonoBehaviour
             return;
         }
 
-        if (superMeterFillImage == null)
+        if (superMeterSlider == null)
         {
-            superMeterFillImage = content.GetComponent<Image>();
+            superMeterSlider = content.GetComponent<Slider>();
         }
 
         if (superMeterText == null)
@@ -200,24 +200,26 @@ public class GameplayUIManager : MonoBehaviour
 
     private void UpdateSuperMeterUI(float currentValue, float threshold)
     {
-        float normalizedValue = threshold <= 0f ? 0f : Mathf.Clamp01(currentValue / threshold);
-
-        if (superMeterFillImage != null)
+        if (superMeterSlider != null)
         {
-            superMeterFillImage.fillAmount = normalizedValue;
+            superMeterSlider.minValue = 0f;
+            superMeterSlider.maxValue = Mathf.Max(1f, threshold);
+            superMeterSlider.value = Mathf.Clamp(currentValue, superMeterSlider.minValue, superMeterSlider.maxValue);
         }
 
         if (superMeterText != null)
         {
+            float normalizedValue = threshold <= 0f ? 0f : Mathf.Clamp01(currentValue / threshold);
             superMeterText.text = normalizedValue >= 1f ? "SUPER READY" : $"SUPER {Mathf.RoundToInt(normalizedValue * 100f)}%";
         }
     }
 
     private void HandleSuperActivated()
     {
-        if (superMeterText != null)
+        Transform target = superMeterText != null ? superMeterText.transform : superMeterSlider != null ? superMeterSlider.transform : null;
+        if (target != null)
         {
-            superMeterText.transform.DOPunchScale(Vector3.one * 0.15f, 0.2f, 4, 0.5f);
+            target.DOPunchScale(Vector3.one * 0.15f, 0.2f, 4, 0.5f);
         }
     }
 
