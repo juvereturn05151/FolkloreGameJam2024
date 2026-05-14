@@ -22,13 +22,9 @@ public class HumanPart : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private float fadeDuration = 0.5f;
 
-    [Header("Fade Interaction Settings")]
-    [SerializeField] private float fadeSliceCooldown = 0.08f;
-
     private HumanBody _ownerBody;
     private bool _sliced;
     private bool _isFading;
-    private float _lastFadeSliceTime = -999f;
 
     public HumanBody OwnerBody => _ownerBody;
     public bool CanProduceFood => !_sliced && !_isFading && gameObject.activeInHierarchy && foodPrefab != null;
@@ -89,11 +85,8 @@ public class HumanPart : MonoBehaviour
         if (!col.CompareTag(GameTagContainer.BladeTag)) return;
         if (_sliced) return;
 
-        // While fading, still allow interaction,
-        // but do not count as a real slice again.
         if (_isFading)
         {
-            HandleFadeSlice();
             return;
         }
 
@@ -142,21 +135,6 @@ public class HumanPart : MonoBehaviour
         }
 
         StartCoroutine(FadeAndDestroyCoroutine());
-    }
-
-    private void HandleFadeSlice()
-    {
-        if (Time.time - _lastFadeSliceTime < fadeSliceCooldown)
-            return;
-
-        _lastFadeSliceTime = Time.time;
-
-        if (foodPrefab != null)
-        {
-            Instantiate(foodPrefab, transform.position, Quaternion.identity);
-        }
-
-        Sliced?.Invoke(transform.position, feedbackRequests);
     }
 
     private IEnumerator FadeAndDestroyCoroutine()
