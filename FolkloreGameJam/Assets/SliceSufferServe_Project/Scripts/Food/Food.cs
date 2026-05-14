@@ -10,7 +10,7 @@ public class Food : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Rigidbody2D rigidBody2D;
-    [SerializeField] private BoxCollider2D boxCollider2D;
+    [SerializeField] private Collider2D collider2D;
     [SerializeField] private FoodRotting foodRotting;
     [SerializeField] private FoodEating foodEating;
     [SerializeField] private FoodVisuals foodVisuals;
@@ -34,7 +34,7 @@ public class Food : MonoBehaviour
         foodRotting = GetComponent<FoodRotting>();
         foodEating = GetComponent<FoodEating>();
         rigidBody2D = GetComponent<Rigidbody2D>();
-        boxCollider2D = GetComponent<BoxCollider2D>();
+        collider2D = GetComponent<Collider2D>();
     }
 
     private void OnEnable()
@@ -117,6 +117,8 @@ public class Food : MonoBehaviour
         {
             DragAndDropManager.Instance.isDragging = false;
         }
+
+        TryServeCurrentPlate();
     }
 
     private void HandleDragCancelled()
@@ -176,9 +178,9 @@ public class Food : MonoBehaviour
 
         SoundManager.instance.PlaySFX("Eating");
 
-        if (boxCollider2D != null)
+        if (collider2D != null)
         {
-            boxCollider2D.enabled = false;
+            collider2D.enabled = false;
         }
 
         if (foodVisuals != null)
@@ -216,12 +218,14 @@ public class Food : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void TryServeCurrentPlate()
     {
-        if (!other.TryGetComponent(out CustomerFoodPlace plate))
+        if (_isReadyToEat || _currentPlate == null)
+        {
             return;
+        }
 
-        if (_currentPlate == plate && _currentPlate.canBeDropped() && !IsDragging && !_isReadyToEat)
+        if (_currentPlate.canBeDropped())
         {
             _currentPlate.PrepareToEat(this);
         }

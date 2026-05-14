@@ -95,11 +95,38 @@ public class HumanBody : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void NotifyPartMissedDestroyer(HumanPart missedPart)
+    {
+        if (_isBeingDestroyed || missedPart == null || !_parts.Contains(missedPart))
+        {
+            return;
+        }
+
+        ComboSystem.ResetCombo();
+        _parts.Remove(missedPart);
+        missedPart.DestroyWithoutFood();
+
+        RequestReplacementHumanNextFrame();
+
+        if (!HasRemainingParts())
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void RequestReplacementHuman()
     {
         if (CustomerGenerator.Instance != null)
         {
             CustomerGenerator.Instance.RequestReplacementHuman();
+        }
+    }
+
+    private void RequestReplacementHumanNextFrame()
+    {
+        if (CustomerGenerator.Instance != null)
+        {
+            CustomerGenerator.Instance.RequestReplacementHumanNextFrame();
         }
     }
 
@@ -145,6 +172,19 @@ public class HumanBody : MonoBehaviour
         }
 
         menuCounts[menu] += amount;
+    }
+
+    private bool HasRemainingParts()
+    {
+        for (int i = 0; i < _parts.Count; i++)
+        {
+            if (_parts[i] != null && _parts[i].gameObject.activeInHierarchy)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void ResolvePartReferences()

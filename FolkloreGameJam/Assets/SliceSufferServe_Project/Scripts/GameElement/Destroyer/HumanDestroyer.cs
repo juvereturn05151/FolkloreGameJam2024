@@ -9,14 +9,14 @@ public class HumanDestroyer : MonoBehaviour
         {
             if (part.OwnerBody != null)
             {
-                part.OwnerBody.NotifyMissedDestroyer();
+                part.OwnerBody.NotifyPartMissedDestroyer(part);
             }
             else
             {
                 part.DestroyWithoutFood();
                 if (CustomerGenerator.Instance != null)
                 {
-                    CustomerGenerator.Instance.RequestReplacementHuman();
+                    CustomerGenerator.Instance.RequestReplacementHumanNextFrame();
                 }
             }
 
