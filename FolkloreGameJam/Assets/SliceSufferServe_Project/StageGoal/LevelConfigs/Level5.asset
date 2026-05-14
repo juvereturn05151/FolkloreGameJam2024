@@ -10,21 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4596a2037df74ddea37aacda22f3500a, type: 3}
-  m_Name: Level3
+  m_Name: Level5
   m_EditorClassIdentifier: Assembly-CSharp::StageLevelConfig
-  levelId: level_3
-  displayName: Level 3 - Full Body
-  levelNumber: 3
+  levelId: level_5
+  displayName: Level 5 - Full Body Two Customers Hard
+  levelNumber: 5
   gameplaySceneName: GameplayScene
-  stageGoal: {fileID: 11400000, guid: 17d0597a8fa446b5af4a5b01b52a97d1, type: 2}
-  allowSuperMeter: 0
-  enabledBodyParts:
-  - 0
-  - 1
-  - 2
-  - 3
-  activeCustomerSpotIndexes:
-  - 1
+  stageGoal: {fileID: 11400000, guid: 9ab5321d8fed47fba00ab04502a87479, type: 2}
+  allowSuperMeter: 1
+  enabledBodyParts: 00000000010000000200000003000000
+  activeCustomerSpotIndexes: 0000000001000000
   allowedGhosts:
   - {fileID: 11400000, guid: d2952cb466b75414ebc175f0b6c76687, type: 2}
   - {fileID: 11400000, guid: 02006c8ba69015e418b4a73cbb3f9f9d, type: 2}
@@ -37,25 +32,19 @@ MonoBehaviour:
     humanSpeedMultiplier: 0.8
     doubleSpawnChance: 0
     doubleSpawnDelay: 0.25
-    allowedFoodStates:
-    - 0
+    allowedFoodStates: 00000000
   - startTime: 20
     endTime: 40
     spawnInterval: 1.5
     humanSpeedMultiplier: 1
     doubleSpawnChance: 0.35
     doubleSpawnDelay: 0.25
-    allowedFoodStates:
-    - 0
-    - 1
+    allowedFoodStates: 0000000001000000
   - startTime: 40
     endTime: 60
     spawnInterval: 0.8
     humanSpeedMultiplier: 1.25
     doubleSpawnChance: 0
     doubleSpawnDelay: 0.25
-    allowedFoodStates:
-    - 0
-    - 1
-    - 2
-  humanSpawnDelayAfterGhost: 0.35
+    allowedFoodStates: 000000000100000002000000
+  humanSpawnDelayAfterGhost: 0.3

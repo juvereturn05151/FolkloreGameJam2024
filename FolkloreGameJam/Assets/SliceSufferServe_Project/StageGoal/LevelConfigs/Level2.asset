@@ -17,6 +17,7 @@ MonoBehaviour:
   levelNumber: 2
   gameplaySceneName: GameplayScene
   stageGoal: {fileID: 11400000, guid: f147658f6064435b936acb0880d0de7b, type: 2}
+  allowSuperMeter: 0
   enabledBodyParts:
   - 0
   - 1

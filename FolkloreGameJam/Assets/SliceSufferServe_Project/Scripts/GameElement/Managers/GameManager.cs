@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
     public float CurrentSuperMeter => currentSuperMeter;
     public float SuperMeterThreshold => Mathf.Max(1f, superMeterThreshold);
     public bool IsSuperMeterFull => currentSuperMeter >= SuperMeterThreshold;
+    public bool IsSuperMeterAllowed => StageSelection.SelectedLevel == null || StageSelection.SelectedLevel.AllowSuperMeter;
     public bool IsSuperScoreMultiplierActive => superScoreMultiplierCoroutine != null;
     public float SuperScoreMultiplierDuration => Mathf.Max(0f, superScoreMultiplierDuration);
 
@@ -170,7 +171,7 @@ public class GameManager : MonoBehaviour
 
     public void AddSuperMeter(float amount)
     {
-        if (isGameOver || amount <= 0f)
+        if (isGameOver || !IsSuperMeterAllowed || amount <= 0f)
         {
             return;
         }
@@ -181,7 +182,7 @@ public class GameManager : MonoBehaviour
 
     public bool TryActivateSuper()
     {
-        if (isGameOver || !IsSuperMeterFull)
+        if (isGameOver || !IsSuperMeterAllowed || !IsSuperMeterFull)
         {
             return false;
         }

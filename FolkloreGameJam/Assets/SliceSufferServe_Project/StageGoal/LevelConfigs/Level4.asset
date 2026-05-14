@@ -10,20 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4596a2037df74ddea37aacda22f3500a, type: 3}
-  m_Name: Level3
+  m_Name: Level4
   m_EditorClassIdentifier: Assembly-CSharp::StageLevelConfig
-  levelId: level_3
-  displayName: Level 3 - Full Body
-  levelNumber: 3
+  levelId: level_4
+  displayName: Level 4 - Full Body Two Customers
+  levelNumber: 4
   gameplaySceneName: GameplayScene
-  stageGoal: {fileID: 11400000, guid: 17d0597a8fa446b5af4a5b01b52a97d1, type: 2}
-  allowSuperMeter: 0
+  stageGoal: {fileID: 11400000, guid: f2a8407e8d90493391bafb8d44896f8a, type: 2}
+  allowSuperMeter: 1
   enabledBodyParts:
   - 0
   - 1
   - 2
   - 3
   activeCustomerSpotIndexes:
+  - 0
   - 1
   allowedGhosts:
   - {fileID: 11400000, guid: d2952cb466b75414ebc175f0b6c76687, type: 2}

@@ -9,6 +9,7 @@ public class StageLevelConfig : ScriptableObject
     [SerializeField] private int levelNumber = 1;
     [SerializeField] private string gameplaySceneName = "GameplayScene";
     [SerializeField] private StageGoal stageGoal;
+    [SerializeField] private bool allowSuperMeter;
     [SerializeField] private HumanBodyPartType[] enabledBodyParts = Array.Empty<HumanBodyPartType>();
     [Tooltip("Zero-based indexes from CustomerGenerator customer spots. In the current 3-plate layout, 1 is the middle plate.")]
     [SerializeField] private int[] activeCustomerSpotIndexes = { 0, 1, 2 };
@@ -26,6 +27,7 @@ public class StageLevelConfig : ScriptableObject
     public int LevelNumber => Mathf.Max(1, levelNumber);
     public string GameplaySceneName => string.IsNullOrWhiteSpace(gameplaySceneName) ? "GameplayScene" : gameplaySceneName;
     public StageGoal StageGoal => stageGoal;
+    public bool AllowSuperMeter => allowSuperMeter;
     public HumanBodyPartType[] EnabledBodyParts => enabledBodyParts;
     public int[] ActiveCustomerSpotIndexes => activeCustomerSpotIndexes;
     public Ghost[] AllowedGhosts => allowedGhosts;

@@ -224,7 +224,7 @@ MonoBehaviour:
       m_Calls: []
   ghostType: {fileID: 0}
   patience: 10
-  orderTime: 2
+  orderTime: 0.5
   visual: {fileID: 3426251491178899112}
   hungryLevel: 0
   orderGenerator: {fileID: 7205868725459965443}
