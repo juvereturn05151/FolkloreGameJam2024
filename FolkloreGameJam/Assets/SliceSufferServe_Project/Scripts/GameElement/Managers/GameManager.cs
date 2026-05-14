@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using MoreMountains.Feedbacks;
 using TMPro;
 using UnityEngine;
@@ -10,7 +11,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public event Action<float, float> OnSuperMeterChanged;
+    public event Action<float, float> OnSuperActiveTimeChanged;
     public event Action OnSuperActivated;
+    public event Action OnSuperEnded;
 
     public enum GameState
     {
@@ -41,6 +44,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float superMeterGainPerTrash = 25f;
     [SerializeField] private float shakeActivationThreshold = 2.5f;
     [SerializeField] private float shakeActivationCooldown = 0.75f;
+    [SerializeField] private float superScoreMultiplier = 2f;
+    [SerializeField] private float superScoreMultiplierDuration = 10f;
     [SerializeField] private UnityEvent superActivated;
 
     public bool IsTutorial;
@@ -51,11 +56,16 @@ public class GameManager : MonoBehaviour
     public float CurrentSuperMeter => currentSuperMeter;
     public float SuperMeterThreshold => Mathf.Max(1f, superMeterThreshold);
     public bool IsSuperMeterFull => currentSuperMeter >= SuperMeterThreshold;
+    public bool IsSuperScoreMultiplierActive => superScoreMultiplierCoroutine != null;
+    public float SuperScoreMultiplierDuration => Mathf.Max(0f, superScoreMultiplierDuration);
 
     private float currentSuperMeter;
     private Vector3 previousAcceleration;
     private float lastShakeActivationTime = -999f;
     private bool hasAccelerationSample;
+    private float activeScoreMultiplier = 1f;
+    private Coroutine superScoreMultiplierCoroutine;
+    private float superScoreMultiplierRemainingTime;
 
     private void Awake()
     {
@@ -93,7 +103,8 @@ public class GameManager : MonoBehaviour
             FeedbackManager.Instance.IncreaseScoreFeedback.PlayFeedbacks();
         }
 
-        ScoreManager.Instance.AddScore(_value);
+        int scoreValue = Mathf.RoundToInt(_value * activeScoreMultiplier);
+        ScoreManager.Instance.AddScore(scoreValue);
     }
 
     public void DecreaseScore(int _value)
@@ -180,6 +191,7 @@ public class GameManager : MonoBehaviour
 
         superActivated?.Invoke();
         OnSuperActivated?.Invoke();
+        StartSuperScoreMultiplier();
 
         if (GameUtility.FeedbackManagerExists())
         {
@@ -221,5 +233,35 @@ public class GameManager : MonoBehaviour
     private void NotifySuperMeterChanged()
     {
         OnSuperMeterChanged?.Invoke(currentSuperMeter, SuperMeterThreshold);
+    }
+
+    private void StartSuperScoreMultiplier()
+    {
+        if (superScoreMultiplierCoroutine != null)
+        {
+            StopCoroutine(superScoreMultiplierCoroutine);
+        }
+
+        superScoreMultiplierCoroutine = StartCoroutine(SuperScoreMultiplierCoroutine());
+    }
+
+    private IEnumerator SuperScoreMultiplierCoroutine()
+    {
+        activeScoreMultiplier = Mathf.Max(1f, superScoreMultiplier);
+        float duration = SuperScoreMultiplierDuration;
+        superScoreMultiplierRemainingTime = duration;
+        OnSuperActiveTimeChanged?.Invoke(superScoreMultiplierRemainingTime, duration);
+
+        while (superScoreMultiplierRemainingTime > 0f)
+        {
+            superScoreMultiplierRemainingTime = Mathf.Max(0f, superScoreMultiplierRemainingTime - Time.deltaTime);
+            OnSuperActiveTimeChanged?.Invoke(superScoreMultiplierRemainingTime, duration);
+            yield return null;
+        }
+
+        activeScoreMultiplier = 1f;
+        superScoreMultiplierCoroutine = null;
+        OnSuperEnded?.Invoke();
+        NotifySuperMeterChanged();
     }
 }

@@ -45,6 +45,10 @@ public class GameplayUIManager : MonoBehaviour
     [Header("Super Meter UI")]
     [SerializeField] private Slider superMeterSlider;
     [SerializeField] private TextMeshProUGUI superMeterText;
+    [SerializeField] private Image superMeterGraphic;
+    [SerializeField] private Color superChargingColor = new Color(0.94f, 0.18f, 0.14f, 0.95f);
+    [SerializeField] private Color superReadyColor = new Color(1f, 0.75f, 0.12f, 1f);
+    [SerializeField] private Color superActiveColor = new Color(0.1f, 0.85f, 1f, 1f);
 
     [Header("Combo UI")]
     [SerializeField] private GameObject comboRoot;
@@ -94,7 +98,9 @@ public class GameplayUIManager : MonoBehaviour
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnSuperMeterChanged += UpdateSuperMeterUI;
+            GameManager.Instance.OnSuperActiveTimeChanged += UpdateSuperActiveUI;
             GameManager.Instance.OnSuperActivated += HandleSuperActivated;
+            GameManager.Instance.OnSuperEnded += HandleSuperEnded;
             UpdateSuperMeterUI(GameManager.Instance.CurrentSuperMeter, GameManager.Instance.SuperMeterThreshold);
         }
 
@@ -132,7 +138,9 @@ public class GameplayUIManager : MonoBehaviour
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnSuperMeterChanged -= UpdateSuperMeterUI;
+            GameManager.Instance.OnSuperActiveTimeChanged -= UpdateSuperActiveUI;
             GameManager.Instance.OnSuperActivated -= HandleSuperActivated;
+            GameManager.Instance.OnSuperEnded -= HandleSuperEnded;
         }
 
         ComboSystem.OnComboChanged -= UpdateComboUI;
@@ -192,6 +200,11 @@ public class GameplayUIManager : MonoBehaviour
             superMeterSlider = content.GetComponent<Slider>();
         }
 
+        if (superMeterGraphic == null)
+        {
+            superMeterGraphic = content.GetComponent<Image>();
+        }
+
         if (superMeterText == null)
         {
             superMeterText = content.GetComponentInChildren<TextMeshProUGUI>(true);
@@ -200,6 +213,13 @@ public class GameplayUIManager : MonoBehaviour
 
     private void UpdateSuperMeterUI(float currentValue, float threshold)
     {
+        if (GameManager.Instance != null && GameManager.Instance.IsSuperScoreMultiplierActive)
+        {
+            return;
+        }
+
+        float normalizedValue = threshold <= 0f ? 0f : Mathf.Clamp01(currentValue / threshold);
+
         if (superMeterSlider != null)
         {
             superMeterSlider.minValue = 0f;
@@ -207,10 +227,28 @@ public class GameplayUIManager : MonoBehaviour
             superMeterSlider.value = Mathf.Clamp(currentValue, superMeterSlider.minValue, superMeterSlider.maxValue);
         }
 
+        SetSuperMeterColor(normalizedValue >= 1f ? superReadyColor : superChargingColor);
+
         if (superMeterText != null)
         {
-            float normalizedValue = threshold <= 0f ? 0f : Mathf.Clamp01(currentValue / threshold);
             superMeterText.text = normalizedValue >= 1f ? "SUPER READY" : $"SUPER {Mathf.RoundToInt(normalizedValue * 100f)}%";
+        }
+    }
+
+    private void UpdateSuperActiveUI(float remainingTime, float duration)
+    {
+        if (superMeterSlider != null)
+        {
+            superMeterSlider.minValue = 0f;
+            superMeterSlider.maxValue = Mathf.Max(0.01f, duration);
+            superMeterSlider.value = Mathf.Clamp(remainingTime, superMeterSlider.minValue, superMeterSlider.maxValue);
+        }
+
+        SetSuperMeterColor(superActiveColor);
+
+        if (superMeterText != null)
+        {
+            superMeterText.text = $"SUPER x2 {Mathf.CeilToInt(remainingTime)}s";
         }
     }
 
@@ -220,6 +258,22 @@ public class GameplayUIManager : MonoBehaviour
         if (target != null)
         {
             target.DOPunchScale(Vector3.one * 0.15f, 0.2f, 4, 0.5f);
+        }
+    }
+
+    private void HandleSuperEnded()
+    {
+        if (GameManager.Instance != null)
+        {
+            UpdateSuperMeterUI(GameManager.Instance.CurrentSuperMeter, GameManager.Instance.SuperMeterThreshold);
+        }
+    }
+
+    private void SetSuperMeterColor(Color color)
+    {
+        if (superMeterGraphic != null)
+        {
+            superMeterGraphic.color = color;
         }
     }
 
