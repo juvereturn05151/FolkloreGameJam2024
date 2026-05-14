@@ -11,11 +11,6 @@ public class CustomerOrderGenerator : MonoBehaviour
         FoodState.SuperRotten
     };
 
-    public List<CustomerOrder> GenerateOrders(Ghost ghostType, Customer.HungryLevel hungryLevel)
-    {
-        return GenerateOrders(ghostType, hungryLevel, DesiredFoodStates);
-    }
-
     public List<CustomerOrder> GenerateOrders(Ghost ghostType, Customer.HungryLevel hungryLevel, FoodState[] allowedDesiredFoodStates)
     {
         List<CustomerOrder> orders = new();
