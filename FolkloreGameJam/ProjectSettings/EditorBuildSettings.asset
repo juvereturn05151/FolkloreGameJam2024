@@ -15,6 +15,12 @@ EditorBuildSettings:
     path: Assets/SliceSufferServe_Project/Scenes/Actual/TutorialScene.unity
     guid: ff96f7c2be4c8934a9ff4c23bd850d78
   - enabled: 1
+    path: Assets/SliceSufferServe_Project/Scenes/Actual/FirstTutorial.unity
+    guid: d573c3686ce84be6bd82e8fae4e3a69a
+  - enabled: 1
+    path: Assets/SliceSufferServe_Project/Scenes/Actual/SecondTutorial.unity
+    guid: e55a6ca0f2ce423992c27a07a4b21d70
+  - enabled: 1
     path: Assets/SliceSufferServe_Project/Scenes/Actual/Store.unity
     guid: 921053a47b77f7a4cb75b734238f6b68
   - enabled: 1

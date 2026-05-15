@@ -142,7 +142,7 @@ public class CustomerGenerator : MonoBehaviour
 
     public void RequestReplacementHuman()
     {
-        if (GameManager.Instance.IsGameOver)
+        if (!CanProcessReplacementRequest())
         {
             return;
         }
@@ -155,6 +155,11 @@ public class CustomerGenerator : MonoBehaviour
 
     public void RequestReplacementHumanNextFrame()
     {
+        if (!CanProcessReplacementRequest())
+        {
+            return;
+        }
+
         StartCoroutine(RequestReplacementHumanNextFrameCoroutine());
     }
 
@@ -290,6 +295,11 @@ public class CustomerGenerator : MonoBehaviour
 
     private void QueueHumanSpawn(StageSpawnPhase activePhase)
     {
+        if (!CanProcessReplacementRequest())
+        {
+            return;
+        }
+
         pendingDemandHumanSpawns++;
         StartCoroutine(SpawnHumanAfterDelay(activePhase));
     }
@@ -298,6 +308,13 @@ public class CustomerGenerator : MonoBehaviour
     {
         yield return null;
         RequestReplacementHuman();
+    }
+
+    private bool CanProcessReplacementRequest()
+    {
+        return isActiveAndEnabled
+            && GameManager.Instance != null
+            && !GameManager.Instance.IsGameOver;
     }
 
     private bool NeedsAnotherHuman()

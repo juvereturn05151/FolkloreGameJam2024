@@ -24,7 +24,7 @@ public class HumanGenerator : MonoBehaviour
 
     void Update()
     {
-        if (isExternallyControlled)
+        if (isExternallyControlled && !IsTutorialActive())
         {
             return;
         }
@@ -44,6 +44,11 @@ public class HumanGenerator : MonoBehaviour
     public void SetExternallyControlled(bool controlled)
     {
         isExternallyControlled = controlled;
+    }
+
+    private bool IsTutorialActive()
+    {
+        return GameManager.Instance != null && GameManager.Instance.IsTutorial;
     }
 
     public void SpawnHuman(float movementSpeedMultiplier)

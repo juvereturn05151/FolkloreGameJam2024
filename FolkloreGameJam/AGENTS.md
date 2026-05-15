@@ -2,7 +2,7 @@
 - Project name: FolkloreGameJam
 - Unity version: Unity 6000.4.6f1
 - Active game object:
-  - Name: Head
+  - Name: CustomerWant
   - Tag: Untagged
-  - Layer: BodyPart
+  - Layer: UI
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
