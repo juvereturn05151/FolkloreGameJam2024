@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 6
   DialogueLines:
-  - Throw unused organs into the bin to fill the super meter.
-  - When the super meter is full, use it to boost your score for a short time.
+  - Now, I want to teach you how to use the evil energy.
+  - First, you put unused part to the trash bin to feed the apostles.
+  - When the evil energy meter is full, Right Click or Shake the Device to boost
+    your score for a short time.
   ShowTutorialGuideOnStart: 0
-  ShowTutorialGuideBackground: 0
   ShowOnSecondDialogue: 1
   ShowOnLastDialogue: 1
-  ObjectiveDialogue: Fill the super meter, then use it.
+  ObjectiveDialogue: Fill the evil energy, then activate it.
   WhatToDoDialogue: Throw organs into the bin to fill the meter, then activate Super.
   TutorialAttribute: {fileID: 11400000, guid: a8b1f73268574be9b3d2141fe0371f23, type: 2}

@@ -256,7 +256,7 @@ public class GameplayUIManager : MonoBehaviour
 
         if (superMeterText != null)
         {
-            superMeterText.text = normalizedValue >= 1f ? "SUPER READY" : $"SUPER {Mathf.RoundToInt(normalizedValue * 100f)}%";
+            superMeterText.text = normalizedValue >= 1f ? "EVIL ENERGY READY" : $"EVIL ENERGY {Mathf.RoundToInt(normalizedValue * 100f)}%";
         }
     }
 
