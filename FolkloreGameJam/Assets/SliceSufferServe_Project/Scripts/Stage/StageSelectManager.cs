@@ -12,17 +12,25 @@ public class StageSelectManager : MonoBehaviour
 
     public void SelectLevel(int levelIndex)
     {
-        if (levelDatabase == null || levelIndex < 0 || levelIndex >= levelDatabase.Count)
+        StageLevelConfig selectedLevel = GetLevel(levelIndex);
+
+        if (selectedLevel == null)
         {
             Debug.LogWarning($"Cannot select level at index {levelIndex}.");
             return;
         }
 
-        StageLevelConfig selectedLevel = levelDatabase.GetLevel(levelIndex);
+        StageSelection.SelectLevel(selectedLevel);
+        SceneManager.LoadScene(StageSelection.GetEntrySceneName(selectedLevel));
+    }
+
+    public void SelectTutorialForLevel(int levelIndex)
+    {
+        StageLevelConfig selectedLevel = GetLevel(levelIndex);
 
         if (selectedLevel == null)
         {
-            Debug.LogWarning($"Level config at index {levelIndex} is missing.");
+            Debug.LogWarning($"Cannot select tutorial for level at index {levelIndex}.");
             return;
         }
 
@@ -43,5 +51,15 @@ public class StageSelectManager : MonoBehaviour
     public void SelectLevelThree()
     {
         SelectLevel(2);
+    }
+
+    private StageLevelConfig GetLevel(int levelIndex)
+    {
+        if (levelDatabase == null || levelIndex < 0 || levelIndex >= levelDatabase.Count)
+        {
+            return null;
+        }
+
+        return levelDatabase.GetLevel(levelIndex);
     }
 }

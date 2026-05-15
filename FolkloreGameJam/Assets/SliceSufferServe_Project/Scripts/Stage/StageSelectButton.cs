@@ -3,11 +3,19 @@ using UnityEngine.UI;
 
 public class StageSelectButton : MonoBehaviour
 {
+    private enum SelectMode
+    {
+        Level,
+        Tutorial
+    }
+
     [SerializeField] private StageSelectManager stageSelectManager;
     [SerializeField] private int levelIndex;
     [SerializeField] private Button button;
     [SerializeField] private Text titleText;
     [SerializeField] private Text starsText;
+
+    private SelectMode selectMode;
 
     private void Awake()
     {
@@ -48,6 +56,7 @@ public class StageSelectButton : MonoBehaviour
     {
         stageSelectManager = manager;
         levelIndex = index;
+        selectMode = SelectMode.Level;
 
         if (titleText != null && levelConfig != null)
         {
@@ -62,11 +71,36 @@ public class StageSelectButton : MonoBehaviour
         }
     }
 
+    public void ConfigureTutorial(StageSelectManager manager, int targetLevelIndex, string tutorialName)
+    {
+        stageSelectManager = manager;
+        levelIndex = targetLevelIndex;
+        selectMode = SelectMode.Tutorial;
+
+        if (titleText != null)
+        {
+            titleText.text = tutorialName;
+        }
+
+        if (starsText != null)
+        {
+            starsText.text = string.Empty;
+        }
+    }
+
     private void SelectLevel()
     {
-        if (stageSelectManager != null)
+        if (stageSelectManager == null)
         {
-            stageSelectManager.SelectLevel(levelIndex);
+            return;
         }
+
+        if (selectMode == SelectMode.Tutorial)
+        {
+            stageSelectManager.SelectTutorialForLevel(levelIndex);
+            return;
+        }
+
+        stageSelectManager.SelectLevel(levelIndex);
     }
 }

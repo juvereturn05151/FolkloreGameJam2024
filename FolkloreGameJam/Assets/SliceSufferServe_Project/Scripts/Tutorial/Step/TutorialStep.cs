@@ -11,7 +11,8 @@ public enum TutorialType
     EndTutorial,        // Marks the end of the tutorial
     PutTrashToBin,      // Dispose of trash properly
     PutFoodInRottenPot, // Place food in the rotten pot
-    UseSuperMeter       // Activate the super meter
+    UseSuperMeter,      // Activate the super meter
+    ServeWithSuper      // Serve a customer while the super meter is active
 }
 
 [CreateAssetMenu(menuName = "Tutorial/Tutorial Step", fileName = "NewTutorialStep")]

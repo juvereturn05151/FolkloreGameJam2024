@@ -1589,23 +1589,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1864149512181198801, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.94294876
+      value: -0.9355475
       objectReference: {fileID: 0}
     - target: {fileID: 1864149512181198801, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.33293793
+      value: 0.35320094
       objectReference: {fileID: 0}
     - target: {fileID: 1864149512181198801, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -882
+      value: 1074
       objectReference: {fileID: 0}
     - target: {fileID: 1864149512181198801, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1006
+      value: 1070
       objectReference: {fileID: 0}
     - target: {fileID: 1864149512181198801, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -321.106
+      value: -401.366
       objectReference: {fileID: 0}
     - target: {fileID: 1914730689541641971, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
       propertyPath: m_Name
@@ -1689,10 +1689,14 @@ PrefabInstance:
       objectReference: {fileID: 1766198400}
     - target: {fileID: 6909440355888384740, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
       propertyPath: _tutorialList.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6909440355888384740, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
       propertyPath: '_tutorialList.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e548261a59843be967a37bfeb7c123d, type: 2}
+    - target: {fileID: 6909440355888384740, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
+      propertyPath: '_tutorialList.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 3334c00a2e2b0db43b26655905bfb30e, type: 2}
     - target: {fileID: 8127051672189172007, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}

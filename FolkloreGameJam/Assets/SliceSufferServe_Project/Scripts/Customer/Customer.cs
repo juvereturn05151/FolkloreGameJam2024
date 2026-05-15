@@ -292,6 +292,11 @@ public class Customer : MonoBehaviour
             return;
 
         SSSAdvancedTutorialManager.Instance.ReportProgress(TutorialType.ServeCustomer);
+
+        if (GameManager.Instance.IsSuperScoreMultiplierActive)
+        {
+            SSSAdvancedTutorialManager.Instance.ReportProgress(TutorialType.ServeWithSuper);
+        }
     }
 
     private void OnPatienceDepleted()
