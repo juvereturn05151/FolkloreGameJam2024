@@ -27,7 +27,7 @@ public class StageSelectManager : MonoBehaviour
         }
 
         StageSelection.SelectLevel(selectedLevel);
-        SceneManager.LoadScene(selectedLevel.GameplaySceneName);
+        SceneManager.LoadScene(StageSelection.GetEntrySceneName(selectedLevel));
     }
 
     public void SelectLevelOne()

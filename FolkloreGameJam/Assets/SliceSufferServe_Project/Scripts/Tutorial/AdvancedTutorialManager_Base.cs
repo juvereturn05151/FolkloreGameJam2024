@@ -29,8 +29,6 @@ public class AdvancedTutorialManager_Base : MonoBehaviour
     [SerializeField]
     protected AdvancedTutorialUIController _advancedTutorialUIController;
 
-    private const string _firstGameplayScene = "GameplayScene";
-
     protected int _currentTutorialIndex;
     protected bool _isOperating;
 
@@ -163,7 +161,7 @@ public class AdvancedTutorialManager_Base : MonoBehaviour
 
     private void LoadScene()
     {
-        SceneManager.LoadScene(_firstGameplayScene);
+        SceneManager.LoadScene(StageSelection.GetSelectedGameplaySceneName());
     }
 
     private void SetGameState(GameManager.GameState state)

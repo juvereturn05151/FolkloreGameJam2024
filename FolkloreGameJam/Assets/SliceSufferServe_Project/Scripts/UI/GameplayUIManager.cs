@@ -256,7 +256,7 @@ public class GameplayUIManager : MonoBehaviour
 
         if (superMeterText != null)
         {
-            superMeterText.text = normalizedValue >= 1f ? "EVIL ENERGY READY" : $"EVIL ENERGY {Mathf.RoundToInt(normalizedValue * 100f)}%";
+            superMeterText.text = normalizedValue >= 1f ? "EVIL ENERGYEVIL ENERGY READY" : $"EVIL ENERGY {Mathf.RoundToInt(normalizedValue * 100f)}%";
         }
     }
 
@@ -280,7 +280,7 @@ public class GameplayUIManager : MonoBehaviour
 
         if (superMeterText != null)
         {
-            superMeterText.text = $"SUPER x2 {Mathf.CeilToInt(remainingTime)}s";
+            superMeterText.text = $"EVIL POWER x2 {Mathf.CeilToInt(remainingTime)}s";
         }
     }
 
@@ -480,7 +480,7 @@ public class GameplayUIManager : MonoBehaviour
         }
 
         StageSelection.SelectLevel(nextStage);
-        SceneManager.LoadScene(nextStage.GameplaySceneName);
+        SceneManager.LoadScene(StageSelection.GetEntrySceneName(nextStage));
     }
 
     public void GoToStoryModeSelect()
