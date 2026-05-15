@@ -47,6 +47,7 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI superMeterText;
     [SerializeField] private Image superMeterGraphic;
     [SerializeField] private GameObject superMeterRoot;
+    [SerializeField] private GameObject activatedIcon;
     [SerializeField] private Color superChargingColor = new Color(0.94f, 0.18f, 0.14f, 0.95f);
     [SerializeField] private Color superReadyColor = new Color(1f, 0.75f, 0.12f, 1f);
     [SerializeField] private Color superActiveColor = new Color(0.1f, 0.85f, 1f, 1f);
@@ -214,6 +215,12 @@ public class GameplayUIManager : MonoBehaviour
         {
             superMeterText = content.GetComponentInChildren<TextMeshProUGUI>(true);
         }
+
+        if (activatedIcon == null)
+        {
+            Transform icon = transform.Find("SuperMeter/ActivatedIcon");
+            activatedIcon = icon == null ? null : icon.gameObject;
+        }
     }
 
     private bool IsSuperMeterUIAllowed()
@@ -225,7 +232,13 @@ public class GameplayUIManager : MonoBehaviour
     {
         if (superMeterRoot != null)
         {
-            superMeterRoot.SetActive(IsSuperMeterUIAllowed());
+            bool isAllowed = IsSuperMeterUIAllowed();
+            superMeterRoot.SetActive(isAllowed);
+
+            if (!isAllowed)
+            {
+                SetActivatedIconActive(false);
+            }
         }
     }
 
@@ -244,6 +257,7 @@ public class GameplayUIManager : MonoBehaviour
         }
 
         float normalizedValue = threshold <= 0f ? 0f : Mathf.Clamp01(currentValue / threshold);
+        bool isReady = normalizedValue >= 1f;
 
         if (superMeterSlider != null)
         {
@@ -252,11 +266,12 @@ public class GameplayUIManager : MonoBehaviour
             superMeterSlider.value = Mathf.Clamp(currentValue, superMeterSlider.minValue, superMeterSlider.maxValue);
         }
 
-        SetSuperMeterColor(normalizedValue >= 1f ? superReadyColor : superChargingColor);
+        SetSuperMeterColor(isReady ? superReadyColor : superChargingColor);
+        SetActivatedIconActive(isReady);
 
         if (superMeterText != null)
         {
-            superMeterText.text = normalizedValue >= 1f ? "EVIL ENERGYEVIL ENERGY READY" : $"EVIL ENERGY {Mathf.RoundToInt(normalizedValue * 100f)}%";
+            superMeterText.text = isReady ? "EVIL ENERGYEVIL ENERGY READY" : $"EVIL ENERGY {Mathf.RoundToInt(normalizedValue * 100f)}%";
         }
     }
 
@@ -277,6 +292,7 @@ public class GameplayUIManager : MonoBehaviour
         }
 
         SetSuperMeterColor(superActiveColor);
+        SetActivatedIconActive(false);
 
         if (superMeterText != null)
         {
@@ -311,6 +327,14 @@ public class GameplayUIManager : MonoBehaviour
         if (superMeterGraphic != null)
         {
             superMeterGraphic.color = color;
+        }
+    }
+
+    private void SetActivatedIconActive(bool isActive)
+    {
+        if (activatedIcon != null)
+        {
+            activatedIcon.SetActive(isActive);
         }
     }
 

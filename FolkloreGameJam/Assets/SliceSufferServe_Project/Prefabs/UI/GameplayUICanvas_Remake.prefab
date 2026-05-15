@@ -1828,6 +1828,7 @@ MonoBehaviour:
   superMeterText: {fileID: 1904112235855338038}
   superMeterGraphic: {fileID: 4363585687698047065}
   superMeterRoot: {fileID: 9300000000001}
+  activatedIcon: {fileID: 5818148026961706223}
   superChargingColor: {r: 0.94, g: 0.18, b: 0.14, a: 0.95}
   superReadyColor: {r: 1, g: 0.75, b: 0.12, a: 1}
   superActiveColor: {r: 0.1, g: 0.85, b: 1, a: 1}
@@ -3015,6 +3016,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7438154441809086148}
+  - component: {fileID: 6317116414000962888}
   m_Layer: 5
   m_Name: ActivatedIcon
   m_TagString: Untagged
@@ -3039,9 +3041,31 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 211.7, y: -32.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &6317116414000962888
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5818148026961706223}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 65eaa3a94778eeb4a98691e62663b796, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5975129937729756600
 GameObject:
   m_ObjectHideFlags: 0
