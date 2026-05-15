@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
-using UnityEngine.Events;
+using System;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -16,9 +16,9 @@ public class DialogueManager : MonoBehaviour
     private GameObject _objectiveBG;
 
     public float typingSpeed = 0.05f;
-    public UnityEvent _onSecondLineAppear = new UnityEvent();
-    public UnityEvent _onLastLineAppear = new UnityEvent();
-    public UnityEvent _onDialogueEnd = new UnityEvent();
+    public event Action SecondLineAppeared;
+    public event Action LastLineAppeared;
+    public event Action DialogueEnded;
 
     private string[] dialogueLines;
     private int currentLineIndex = 0;
@@ -33,6 +33,12 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(string[] lines, string objective, string howToPlay)
     {
+        if (lines == null || lines.Length == 0)
+        {
+            Debug.LogWarning($"{nameof(DialogueManager)} needs at least one dialogue line.");
+            return;
+        }
+
         _objectiveText.text = "";
         _objectiveBG.SetActive(false);
         dialogueLines = lines;
@@ -59,11 +65,11 @@ public class DialogueManager : MonoBehaviour
             {
                 if (currentLineIndex == 1)
                 {
-                    OnSecondDialogueAppear();
+                    SecondLineAppeared?.Invoke();
                 }
                 else if (currentLineIndex == dialogueLines.Length - 1)
                 {
-                    OnLastDialogueAppear();
+                    LastLineAppeared?.Invoke();
                 }
 
                 StartCoroutine(TypeLine(dialogueLines[currentLineIndex]));
@@ -87,16 +93,6 @@ public class DialogueManager : MonoBehaviour
         isTyping = false;
     }
 
-    private void OnSecondDialogueAppear()
-    {
-        _onSecondLineAppear?.Invoke();
-    }
-
-    private void OnLastDialogueAppear()
-    {
-        _onLastLineAppear?.Invoke();
-    }
-
     private void EndDialogue()
     {
         dialogueText.text = "";
@@ -104,6 +100,6 @@ public class DialogueManager : MonoBehaviour
         _objectiveText.text = objectiveDialogue;
         nextButton.gameObject.SetActive(false);
         _objectiveBG.SetActive(true);
-        _onDialogueEnd?.Invoke();
+        DialogueEnded?.Invoke();
     }
 }

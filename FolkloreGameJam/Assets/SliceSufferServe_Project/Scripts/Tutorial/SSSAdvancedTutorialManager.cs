@@ -14,11 +14,6 @@ public class SSSAdvancedTutorialManager : AdvancedTutorialManager_Base
     [SerializeField]
     private CustomerGenerator _customerGenerator;
 
-    [SerializeField, HideInInspector] private int _humanKillCount;
-    [SerializeField, HideInInspector] private int rottenCount;
-    [SerializeField, HideInInspector] private int serveCount;
-    [SerializeField, HideInInspector] private int trashInBinCount;
-
     private readonly Dictionary<TutorialType, int> progressCounts = new Dictionary<TutorialType, int>();
 
     private void Awake()
@@ -33,29 +28,32 @@ public class SSSAdvancedTutorialManager : AdvancedTutorialManager_Base
         }
     }
 
-    protected override void Start()
+    private void OnDestroy()
     {
-        base.Start();
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 
     public void ActivateHumanGenerator()
     {
         _textBox.SetActive(false);
         _tutorialDisplayBackGround.SetActive(false);
-        _humanGenerator.gameObject.SetActive(true);
-        _humanGenerator2.gameObject.SetActive(true);
+        SetGeneratorActive(_humanGenerator, true);
+        SetGeneratorActive(_humanGenerator2, true);
     }
 
     public void ActivateCustomerGenerator()
     {
-        _customerGenerator.gameObject.SetActive(true);
+        SetGeneratorActive(_customerGenerator, true);
     }
 
     public void DeactivateGenerator()
     {
-        _humanGenerator.gameObject.SetActive(false);
-        _humanGenerator2.gameObject.SetActive(false);
-        _customerGenerator.gameObject.SetActive(false);
+        SetGeneratorActive(_humanGenerator, false);
+        SetGeneratorActive(_humanGenerator2, false);
+        SetGeneratorActive(_customerGenerator, false);
     }
 
     protected override void OnTutorialEnd()
@@ -78,22 +76,6 @@ public class SSSAdvancedTutorialManager : AdvancedTutorialManager_Base
     public void ResetProgress(TutorialType tutorialType)
     {
         progressCounts[tutorialType] = 0;
-
-        switch (tutorialType)
-        {
-            case TutorialType.CutHuman:
-                _humanKillCount = 0;
-                break;
-            case TutorialType.WaitForRotten:
-                rottenCount = 0;
-                break;
-            case TutorialType.ServeCustomer:
-                serveCount = 0;
-                break;
-            case TutorialType.PutTrashToBin:
-                trashInBinCount = 0;
-                break;
-        }
     }
 
     public void ReportProgress(TutorialType tutorialType, int amount = 1)
@@ -105,17 +87,11 @@ public class SSSAdvancedTutorialManager : AdvancedTutorialManager_Base
 
         int newValue = GetProgress(tutorialType) + amount;
         progressCounts[tutorialType] = newValue;
-        SetLegacyProgressCounter(tutorialType, newValue);
     }
 
     public int GetProgress(TutorialType tutorialType)
     {
-        if (progressCounts.TryGetValue(tutorialType, out int progress))
-        {
-            return progress;
-        }
-
-        return GetLegacyProgressCounter(tutorialType);
+        return progressCounts.GetValueOrDefault(tutorialType);
     }
 
     private void OnHumanPartSliced(Vector3 pos, IReadOnlyList<FeedbackRequest> requests)
@@ -149,34 +125,11 @@ public class SSSAdvancedTutorialManager : AdvancedTutorialManager_Base
             && CurrentTutorial.Type == tutorialType;
     }
 
-    private int GetLegacyProgressCounter(TutorialType tutorialType)
+    private void SetGeneratorActive(MonoBehaviour generator, bool isActive)
     {
-        return tutorialType switch
+        if (generator != null)
         {
-            TutorialType.CutHuman => _humanKillCount,
-            TutorialType.WaitForRotten => rottenCount,
-            TutorialType.ServeCustomer => serveCount,
-            TutorialType.PutTrashToBin => trashInBinCount,
-            _ => 0
-        };
-    }
-
-    private void SetLegacyProgressCounter(TutorialType tutorialType, int value)
-    {
-        switch (tutorialType)
-        {
-            case TutorialType.CutHuman:
-                _humanKillCount = value;
-                break;
-            case TutorialType.WaitForRotten:
-                rottenCount = value;
-                break;
-            case TutorialType.ServeCustomer:
-                serveCount = value;
-                break;
-            case TutorialType.PutTrashToBin:
-                trashInBinCount = value;
-                break;
+            generator.gameObject.SetActive(isActive);
         }
     }
 }

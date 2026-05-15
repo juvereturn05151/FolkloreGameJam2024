@@ -192,6 +192,12 @@ public class GameManager : MonoBehaviour
 
         superActivated?.Invoke();
         OnSuperActivated?.Invoke();
+
+        if (GameUtility.SSSAdvancedTutorialManagerExists())
+        {
+            SSSAdvancedTutorialManager.Instance.ReportProgress(TutorialType.UseSuperMeter);
+        }
+
         StartSuperScoreMultiplier();
 
         if (GameUtility.FeedbackManagerExists())

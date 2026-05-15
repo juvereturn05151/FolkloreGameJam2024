@@ -37,15 +37,38 @@ public class AdvancedTutorialManager_Base : MonoBehaviour
     public TutorialStep CurrentTutorial { get; protected set; }
     public bool IsOperating => _isOperating;
 
+    protected virtual void OnEnable()
+    {
+        if (_dialogueManager == null)
+        {
+            return;
+        }
+
+        _dialogueManager.SecondLineAppeared += OnSecondDialogue;
+        _dialogueManager.LastLineAppeared += OnLastDialogue;
+        _dialogueManager.DialogueEnded += OnDialogueEnd;
+    }
+
+    protected virtual void OnDisable()
+    {
+        if (_dialogueManager == null)
+        {
+            return;
+        }
+
+        _dialogueManager.SecondLineAppeared -= OnSecondDialogue;
+        _dialogueManager.LastLineAppeared -= OnLastDialogue;
+        _dialogueManager.DialogueEnded -= OnDialogueEnd;
+    }
+
     protected virtual void Start()
     {
         _skipButton.onClick.AddListener(LoadGameScene);
 
-        GameManager.Instance.State = GameManager.GameState.Stop;
+        SetGameState(GameManager.GameState.Stop);
 
         if (_tutorialList != null && _tutorialList.Count > 0)
         {
-            InitializeDialogue();
             ActivateTutorial();
         }
     }
@@ -65,25 +88,19 @@ public class AdvancedTutorialManager_Base : MonoBehaviour
 
     public void OnSecondDialogue()
     {
-        if (CurrentTutorial.ShowOnSecondDialogue)
+        Debug.Log("Second dialogue appeared.");
+        if (CurrentTutorial != null && CurrentTutorial.ShowOnSecondDialogue)
         {
-            _advancedTutorialUIController.AppearOnSecondDialogue[_currentTutorialIndex].SetActive(true);
+            Debug.Log("Showing second dialogue guide.");
+            _advancedTutorialUIController.ShowSecondDialogueGuide(_currentTutorialIndex);
         }
     }
 
     public void OnLastDialogue()
     {
-        if (CurrentTutorial.ShowOnLastDialogue)
+        if (CurrentTutorial != null && CurrentTutorial.ShowOnLastDialogue)
         {
-            if (_advancedTutorialUIController.AppearOnLastDialogue[_currentTutorialIndex])
-            {
-                _advancedTutorialUIController.AppearOnLastDialogue[_currentTutorialIndex].SetActive(true);
-            }
-
-            if (_advancedTutorialUIController.AppearOnSecondDialogue[_currentTutorialIndex])
-            {
-                _advancedTutorialUIController.AppearOnSecondDialogue[_currentTutorialIndex].SetActive(false);
-            }
+            _advancedTutorialUIController.ShowLastDialogueGuide(_currentTutorialIndex);
         }
     }
 
@@ -93,13 +110,14 @@ public class AdvancedTutorialManager_Base : MonoBehaviour
         _backGround.SetActive(false);
         _nextButton.SetActive(false);
         _advancedTutorialUIController.OnDialogueEnd(_currentTutorialIndex);
-        GameManager.Instance.State = GameManager.GameState.StartGame;
+        SetGameState(GameManager.GameState.StartGame);
+        CurrentTutorial?.StartOperating();
     }
 
     protected virtual void OnTutorialEnd()
     {
         _isOperating = false;
-        GameManager.Instance.State = GameManager.GameState.Stop;
+        SetGameState(GameManager.GameState.Stop);
         _backGround.SetActive(true);
         _nextButton.SetActive(true);
         _advancedTutorialUIController.OnTutorialEnd(_currentTutorialIndex);
@@ -116,7 +134,6 @@ public class AdvancedTutorialManager_Base : MonoBehaviour
             ActivateTutorial();
             _textBox.SetActive(true);
             _tutorialDisplayBackGround.SetActive(true);
-            ResetEndDialogue();
         }
     }
 
@@ -124,46 +141,36 @@ public class AdvancedTutorialManager_Base : MonoBehaviour
     {
         CurrentTutorial = _tutorialList[_currentTutorialIndex];
 
-        if (CurrentTutorial.ShowTutorialGuideOnStart)
-        {
-            _advancedTutorialUIController.AdvancedTutorialUI[_currentTutorialIndex].SetActive(true);
-        }
-
-        _dialogueManager._onDialogueEnd.AddListener(CurrentTutorial.StartOperating);
-        _dialogueManager._onDialogueEnd.AddListener(OnDialogueEnd);
         _dialogueManager.StartDialogue(CurrentTutorial.DialogueLines, CurrentTutorial.ObjectiveDialogue, CurrentTutorial.WhatToDoDialogue);
-    }
-
-    protected virtual void InitializeDialogue()
-    {
-        ResetDialogueListener();
-        _dialogueManager._onSecondLineAppear.AddListener(OnSecondDialogue);
-        _dialogueManager._onLastLineAppear.AddListener(OnLastDialogue);
-    }
-
-    private void ResetEndDialogue()
-    {
-        _dialogueManager._onDialogueEnd.RemoveAllListeners();
-        _dialogueManager._onDialogueEnd.AddListener(CurrentTutorial.StartOperating);
-        _dialogueManager._onDialogueEnd.AddListener(OnDialogueEnd);
-    }
-
-    private void ResetDialogueListener()
-    {
-        _dialogueManager._onDialogueEnd.RemoveAllListeners();
-        _dialogueManager._onSecondLineAppear.RemoveAllListeners();
-        _dialogueManager._onLastLineAppear.RemoveAllListeners();
     }
 
     private void LoadGameScene()
     {
-        SoundManager.instance.PlayGameplayBGM();
-        FadingUI.Instance.StartFadeIn();
-        FadingUI.Instance.OnStopFading.AddListener(LoadScene);
+        if (SoundManager.instance != null)
+        {
+            SoundManager.instance.PlayGameplayBGM();
+        }
+
+        if (FadingUI.Instance != null)
+        {
+            FadingUI.Instance.StartFadeIn();
+            FadingUI.Instance.OnStopFading.AddListener(LoadScene);
+            return;
+        }
+
+        LoadScene();
     }
 
     private void LoadScene()
     {
         SceneManager.LoadScene(_firstGameplayScene);
+    }
+
+    private void SetGameState(GameManager.GameState state)
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.State = state;
+        }
     }
 }

@@ -14,6 +14,11 @@ public class RottenPot : MonoBehaviour, IRotModifier
         if (other.TryGetComponent(out FoodRotting rotting) && affectedFoods.Add(rotting))
         {
             rotting.AddModifier(this);
+
+            if (GameUtility.SSSAdvancedTutorialManagerExists())
+            {
+                SSSAdvancedTutorialManager.Instance.ReportProgress(TutorialType.PutFoodInRottenPot);
+            }
         }
     }
 

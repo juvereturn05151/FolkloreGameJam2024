@@ -9,7 +9,9 @@ public enum TutorialType
     WaitForRotten,      // Wait for an object to rot
     ServeCustomer,      // Serve a customer in-game
     EndTutorial,        // Marks the end of the tutorial
-    PutTrashToBin       // Dispose of trash properly
+    PutTrashToBin,      // Dispose of trash properly
+    PutFoodInRottenPot, // Place food in the rotten pot
+    UseSuperMeter       // Activate the super meter
 }
 
 [CreateAssetMenu(menuName = "Tutorial/Tutorial Step", fileName = "NewTutorialStep")]
