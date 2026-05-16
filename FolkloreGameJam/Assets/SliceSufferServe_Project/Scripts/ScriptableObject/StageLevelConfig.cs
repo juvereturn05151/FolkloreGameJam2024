@@ -14,6 +14,8 @@ public class StageLevelConfig : ScriptableObject
     [Tooltip("Zero-based indexes from CustomerGenerator customer spots. In the current 3-plate layout, 1 is the middle plate.")]
     [SerializeField] private int[] activeCustomerSpotIndexes = { 0, 1, 2 };
     [SerializeField] private Ghost[] allowedGhosts = Array.Empty<Ghost>();
+    [Tooltip("Optional level-specific human prefab list. Empty means use the HumanGenerator's default list.")]
+    [SerializeField] private GameObject[] humanPrefabOverrides = Array.Empty<GameObject>();
     [SerializeField] private StageSpawnPhase[] spawnPhases =
     {
         new StageSpawnPhase(0f, 20f, 1.5f, 0.8f, 0f, new[] { FoodState.Normal }),
@@ -31,6 +33,7 @@ public class StageLevelConfig : ScriptableObject
     public HumanBodyPartType[] EnabledBodyParts => enabledBodyParts;
     public int[] ActiveCustomerSpotIndexes => activeCustomerSpotIndexes;
     public Ghost[] AllowedGhosts => allowedGhosts;
+    public GameObject[] HumanPrefabOverrides => humanPrefabOverrides;
     public StageSpawnPhase[] SpawnPhases => spawnPhases;
     public float HumanSpawnDelayAfterGhost => Mathf.Max(0f, humanSpawnDelayAfterGhost);
 
