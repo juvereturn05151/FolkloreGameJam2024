@@ -10,6 +10,11 @@ public static class GameUtility
         return ScoreManager.Instance != null;
     }
 
+    public static bool HPManagerExists()
+    {
+        return HPManager.Instance != null;
+    }
+
     public static bool SSSAdvancedTutorialManagerExists()
     {
         return SSSAdvancedTutorialManager.Instance != null;
