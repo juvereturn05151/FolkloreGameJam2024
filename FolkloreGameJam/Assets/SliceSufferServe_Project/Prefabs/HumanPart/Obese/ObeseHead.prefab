@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 766505142281876238, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: foodPrefab
       value: 
-      objectReference: {fileID: 2417688765679808340, guid: c55666ba8405ed84c87205ae976d770e, type: 3}
+      objectReference: {fileID: 2417688765679808340, guid: f7f918b99a8b4db9b58ee02a902ac111, type: 3}
     - target: {fileID: 766505142281876238, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: startForce
       value: 2
@@ -23,7 +23,7 @@ PrefabInstance:
     - target: {fileID: 766505142281876238, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: fruitSlicedPrefab
       value: 
-      objectReference: {fileID: 2417688765679808340, guid: c55666ba8405ed84c87205ae976d770e, type: 3}
+      objectReference: {fileID: 2417688765679808340, guid: f7f918b99a8b4db9b58ee02a902ac111, type: 3}
     - target: {fileID: 3477854507094988185, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: m_Mass
       value: 1
@@ -103,7 +103,8 @@ PrefabInstance:
     - target: {fileID: 766505142281876238, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: shakeOnDurabilityHit
       value: 1
-      objectReference: {fileID: 0}    m_RemovedComponents:
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
     - {fileID: 7151428326088628948, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

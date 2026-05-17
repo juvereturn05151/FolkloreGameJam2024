@@ -21,6 +21,45 @@ public class FoodVisuals : MonoBehaviour
     [SerializeField] private float almostDisappearThreshold = 3f;
 
     private FoodState _state = FoodState.Normal;
+    private SpriteRenderer _innerGlowRenderer;
+    private SpriteRenderer _outerGlowRenderer;
+    private Transform _innerGlowTransform;
+    private Transform _outerGlowTransform;
+    private float _glowPulseOffset;
+
+    private const float InnerGlowScale = 1.13f;
+    private const float OuterGlowScale = 1.28f;
+    private static readonly Color InnerGlowColor = new Color(1f, 0.86f, 0.25f, 0.42f);
+    private static readonly Color OuterGlowColor = new Color(1f, 0.58f, 0.05f, 0.22f);
+
+    private void Awake()
+    {
+        if (ShouldUseObeseGlow())
+        {
+            CreateGlowRenderers();
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (_innerGlowRenderer == null || _outerGlowRenderer == null)
+            return;
+
+        float pulse = Mathf.Sin((Time.time + _glowPulseOffset) * 3.25f) * 0.5f + 0.5f;
+        float innerScale = InnerGlowScale + pulse * 0.035f;
+        float outerScale = OuterGlowScale + pulse * 0.06f;
+
+        _innerGlowTransform.localScale = new Vector3(innerScale, innerScale, 1f);
+        _outerGlowTransform.localScale = new Vector3(outerScale, outerScale, 1f);
+
+        Color innerColor = InnerGlowColor;
+        innerColor.a = Mathf.Lerp(0.32f, 0.48f, pulse);
+        _innerGlowRenderer.color = innerColor;
+
+        Color outerColor = OuterGlowColor;
+        outerColor.a = Mathf.Lerp(0.14f, 0.26f, pulse);
+        _outerGlowRenderer.color = outerColor;
+    }
 
     public void UpdateRotSlider(float remaining, float baseRottenTime)
     {
@@ -53,6 +92,8 @@ public class FoodVisuals : MonoBehaviour
                 renderer2D.sprite = menu.MediumRottenSprite;
             else if (newState == FoodState.SuperRotten)
                 renderer2D.sprite = menu.SuperRottenSprite;
+
+            UpdateGlowSprite();
         }
 
         // Smoothly refill slider for next stage (if not disappearing)
@@ -74,5 +115,50 @@ public class FoodVisuals : MonoBehaviour
         {
             Instantiate(dustPrefab, position, rotation);
         }
+    }
+
+    private bool ShouldUseObeseGlow()
+    {
+        return renderer2D != null && menu != null && menu.name.StartsWith("Obese ");
+    }
+
+    private void CreateGlowRenderers()
+    {
+        _glowPulseOffset = Random.Range(0f, 1f);
+        _outerGlowRenderer = CreateGlowRenderer("Obese Outer Glow", OuterGlowColor, OuterGlowScale);
+        _outerGlowTransform = _outerGlowRenderer.transform;
+
+        _innerGlowRenderer = CreateGlowRenderer("Obese Inner Glow", InnerGlowColor, InnerGlowScale);
+        _innerGlowTransform = _innerGlowRenderer.transform;
+
+        UpdateGlowSprite();
+    }
+
+    private SpriteRenderer CreateGlowRenderer(string objectName, Color color, float scale)
+    {
+        GameObject glow = new GameObject(objectName);
+        glow.transform.SetParent(renderer2D.transform, false);
+        glow.transform.localPosition = Vector3.zero;
+        glow.transform.localRotation = Quaternion.identity;
+        glow.transform.localScale = new Vector3(scale, scale, 1f);
+
+        SpriteRenderer glowRenderer = glow.AddComponent<SpriteRenderer>();
+        glowRenderer.sprite = renderer2D.sprite;
+        glowRenderer.color = color;
+        glowRenderer.flipX = renderer2D.flipX;
+        glowRenderer.flipY = renderer2D.flipY;
+        glowRenderer.sortingLayerID = renderer2D.sortingLayerID;
+        glowRenderer.sortingOrder = renderer2D.sortingOrder - 1;
+        glowRenderer.maskInteraction = renderer2D.maskInteraction;
+        return glowRenderer;
+    }
+
+    private void UpdateGlowSprite()
+    {
+        if (_innerGlowRenderer != null)
+            _innerGlowRenderer.sprite = renderer2D.sprite;
+
+        if (_outerGlowRenderer != null)
+            _outerGlowRenderer.sprite = renderer2D.sprite;
     }
 }
