@@ -49,6 +49,7 @@ MonoBehaviour:
   - {fileID: 6643490498467574925, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
   - {fileID: 9146783203289523913, guid: 11459b7c95d94fd4a975ddf32b4b0759, type: 3}
   - {fileID: 8911860076978081529, guid: c2e6239c092ba42469de1925b1e3988d, type: 3}
+  - {fileID: 6643490498467574925, guid: a4f53d1498984805b723d7217d2f1d01, type: 3}
   spawnPoint: {fileID: 7530986704672447851}
   firstSpawnTime: 4
   spawnInterval: 5

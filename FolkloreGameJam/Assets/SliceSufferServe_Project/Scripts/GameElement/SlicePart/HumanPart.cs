@@ -47,6 +47,17 @@ public class HumanPart : MonoBehaviour
         startForce *= Mathf.Max(0.01f, multiplier);
     }
 
+    public void SetFoodPrefab(GameObject prefab)
+    {
+        foodPrefab = prefab;
+    }
+
+    public void SetCutsRequiredToDestroy(int cutsRequired)
+    {
+        cutsRequiredToDestroy = Mathf.Max(1, cutsRequired);
+        cutCount = 0;
+    }
+
     public Menu GetProducedMenu()
     {
         if (foodPrefab == null || !foodPrefab.TryGetComponent(out Food food))
