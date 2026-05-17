@@ -18,6 +18,12 @@ public class HumanPart : MonoBehaviour
     [SerializeField] private float startForce = 15f;
     [SerializeField] private bool atMainMenu;
 
+    [Header("Durability")]
+    [SerializeField] private int cutsRequiredToDestroy = 1;
+    [SerializeField] private GameObject durabilityHitEffectPrefab;
+    [SerializeField] private float durabilityHitEffectScale = 1f;
+    [SerializeField] private bool shakeOnDurabilityHit = true;
+
     [Header("Fade Settings")]
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private float fadeDuration = 0.5f;
@@ -25,6 +31,8 @@ public class HumanPart : MonoBehaviour
     private HumanBody _ownerBody;
     private bool _sliced;
     private bool _isFading;
+    private int cutCount;
+    private bool feedbackManagerHooked;
 
     public HumanBody OwnerBody => _ownerBody;
     public bool CanProduceFood => !_sliced && !_isFading && gameObject.activeInHierarchy && foodPrefab != null;
@@ -72,6 +80,7 @@ public class HumanPart : MonoBehaviour
         if (GameUtility.FeedbackManagerExists())
         {
             FeedbackManager.Instance.Hook(this);
+            feedbackManagerHooked = true;
         }
 
         if (!atMainMenu && GameUtility.SSSAdvancedTutorialManagerExists())
@@ -87,6 +96,13 @@ public class HumanPart : MonoBehaviour
 
         if (_isFading)
         {
+            return;
+        }
+
+        cutCount++;
+        if (cutCount < Mathf.Max(1, cutsRequiredToDestroy))
+        {
+            PlayDurabilityHitFeedback();
             return;
         }
 
@@ -109,6 +125,7 @@ public class HumanPart : MonoBehaviour
             Instantiate(foodPrefab, transform.position, Quaternion.identity);
         }
 
+        SpawnSliceFeedbackFallback();
         Sliced?.Invoke(transform.position, feedbackRequests);
         OnPartDestroyed?.Invoke();
 
@@ -161,5 +178,37 @@ public class HumanPart : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    private void PlayDurabilityHitFeedback()
+    {
+        if (durabilityHitEffectPrefab != null)
+        {
+            GameObject hitEffect = Instantiate(durabilityHitEffectPrefab, transform.position, Quaternion.identity);
+            hitEffect.transform.localScale *= Mathf.Max(0.01f, durabilityHitEffectScale);
+        }
+
+        if (shakeOnDurabilityHit && GameUtility.FeedbackManagerExists())
+        {
+            FeedbackManager.Instance.ShakeCameraFeedback(0.18f, 0.12f);
+        }
+    }
+
+    private void SpawnSliceFeedbackFallback()
+    {
+        bool shouldUseDurabilityFallback = cutsRequiredToDestroy > 1;
+        if ((!shouldUseDurabilityFallback && feedbackManagerHooked) || !GameUtility.FeedbackManagerExists() || feedbackRequests == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < feedbackRequests.Count; i++)
+        {
+            FeedbackRequest request = feedbackRequests[i];
+            if (request.feedbackID == "Blood")
+            {
+                FeedbackManager.Instance.SpawnBlood(transform.position);
+            }
+        }
     }
 }
