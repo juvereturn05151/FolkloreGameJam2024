@@ -70,7 +70,7 @@ MonoBehaviour:
   focusPosition: {x: 0, y: 1, z: 0}
   focusedScale: 1.2
   eventDuration: 5
-  slowMotionScale: 0.18
+  slowMotionScale: 0.5
   slashRegisterInterval: 0.055
   flashColor: {r: 1, g: 0.26, b: 0.18, a: 1}
   blobColor: {r: 1, g: 0.62, b: 0.38, a: 1}
