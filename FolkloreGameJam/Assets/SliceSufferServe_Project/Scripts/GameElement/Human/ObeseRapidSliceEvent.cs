@@ -284,17 +284,17 @@ public class ObeseRapidSliceEvent : MonoBehaviour
 
     private int GetRewardCount(int totalSlices)
     {
-        if (totalSlices <= 10)
+        if (totalSlices <= 15)
         {
             return 1;
         }
 
-        if (totalSlices <= 20)
+        if (totalSlices <= 30)
         {
             return 2;
         }
 
-        if (totalSlices <= 35)
+        if (totalSlices <= 45)
         {
             return 3;
         }
