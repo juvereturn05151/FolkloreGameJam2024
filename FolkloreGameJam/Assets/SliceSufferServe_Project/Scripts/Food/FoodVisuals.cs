@@ -27,6 +27,7 @@ public class FoodVisuals : MonoBehaviour
     private Transform _outerGlowTransform;
     private float _glowPulseOffset;
     private bool forceGoldenGlow;
+    private bool lockUniversalSprite;
 
     private const float InnerGlowScale = 1.13f;
     private const float OuterGlowScale = 1.28f;
@@ -87,7 +88,7 @@ public class FoodVisuals : MonoBehaviour
             Instantiate(foodStateEffectPrefab, transform.position, Quaternion.identity, transform);
 
         // Swap sprite based on state
-        if (renderer2D != null && menu != null)
+        if (!lockUniversalSprite && renderer2D != null && menu != null)
         {
             if (newState == FoodState.MediumRotten)
                 renderer2D.sprite = menu.MediumRottenSprite;
@@ -120,23 +121,30 @@ public class FoodVisuals : MonoBehaviour
 
     public void ApplyGoldenOrganVisuals(Sprite goldenSprite = null)
     {
+        ApplyUniversalFoodVisuals(goldenSprite, true);
+    }
+
+    public void ApplyUniversalFoodVisuals(Sprite universalSprite = null, bool useGlow = false)
+    {
         forceGoldenGlow = true;
+        lockUniversalSprite = universalSprite != null;
 
         if (renderer2D != null)
         {
-            if (goldenSprite != null)
+            if (universalSprite != null)
             {
-                renderer2D.sprite = goldenSprite;
+                renderer2D.sprite = universalSprite;
             }
 
             renderer2D.color = Color.white;
         }
 
-        if (renderer2D != null && (_innerGlowRenderer == null || _outerGlowRenderer == null))
+        if (useGlow && renderer2D != null && (_innerGlowRenderer == null || _outerGlowRenderer == null))
         {
             CreateGlowRenderers();
         }
 
+        SetGlowActive(useGlow);
         HideRotUI();
     }
 
@@ -183,5 +191,14 @@ public class FoodVisuals : MonoBehaviour
 
         if (_outerGlowRenderer != null)
             _outerGlowRenderer.sprite = renderer2D.sprite;
+    }
+
+    private void SetGlowActive(bool active)
+    {
+        if (_innerGlowRenderer != null)
+            _innerGlowRenderer.gameObject.SetActive(active);
+
+        if (_outerGlowRenderer != null)
+            _outerGlowRenderer.gameObject.SetActive(active);
     }
 }

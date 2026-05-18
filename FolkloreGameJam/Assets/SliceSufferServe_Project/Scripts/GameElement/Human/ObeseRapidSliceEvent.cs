@@ -21,16 +21,11 @@ public class ObeseRapidSliceEvent : MonoBehaviour
     [SerializeField] private Color flashColor = new Color(1f, 0.26f, 0.18f, 1f);
     [SerializeField] private Color blobColor = new Color(1f, 0.62f, 0.38f, 1f);
 
-    [Header("Golden Organ Rewards")]
-    [SerializeField] private GameObject goldenBrainPrefab;
-    [SerializeField] private GameObject goldenBloodPrefab;
-    [SerializeField] private GameObject goldenIntestinePrefab;
-    [SerializeField] private GameObject goldenShitPrefab;
-    [SerializeField] private float goldenScoreMultiplier = 2f;
-    [SerializeField] private Sprite goldenBrainSprite;
-    [SerializeField] private Sprite goldenBloodSprite;
-    [SerializeField] private Sprite goldenIntestineSprite;
-    [SerializeField] private Sprite goldenShitSprite;
+    [Header("Biomass Reward")]
+    [SerializeField] private GameObject biomassPrefab;
+    [SerializeField] private Sprite biomassSprite;
+    [SerializeField] private int requiredSlicesForBiomass = 30;
+    [SerializeField] private float biomassScoreMultiplier = 1f;
 
     private BoxCollider2D wholeBodyHitbox;
     private Rigidbody2D wholeBodyRigidbody;
@@ -138,7 +133,7 @@ public class ObeseRapidSliceEvent : MonoBehaviour
         CustomerGenerator.Instance?.SetRapidSlicePaused(false);
         GameManager.Instance?.SetRapidSliceEventActive(false);
 
-        SpawnGoldenOrgans();
+        TrySpawnBiomass();
 
         if (CustomerGenerator.Instance != null)
         {
@@ -258,47 +253,17 @@ public class ObeseRapidSliceEvent : MonoBehaviour
         comboText.text = "0";
     }
 
-    private void SpawnGoldenOrgans()
+    private void TrySpawnBiomass()
     {
-        int rewardCount = GetRewardCount(sliceCount);
-        GameObject[] rewardPrefabs = { goldenBrainPrefab, goldenBloodPrefab, goldenIntestinePrefab, goldenShitPrefab };
-        Sprite[] rewardSprites = { goldenBrainSprite, goldenBloodSprite, goldenIntestineSprite, goldenShitSprite };
-
-        for (int i = 0; i < rewardCount; i++)
+        if (sliceCount < Mathf.Max(1, requiredSlicesForBiomass) || biomassPrefab == null)
         {
-            int rewardIndex = i % rewardPrefabs.Length;
-            GameObject prefab = rewardPrefabs[rewardIndex];
-            if (prefab == null)
-            {
-                continue;
-            }
-
-            Vector3 offset = new Vector3(Random.Range(-1.8f, 1.8f), Random.Range(-0.6f, 1.4f), 0f);
-            GameObject reward = Instantiate(prefab, transform.position + offset, Quaternion.identity);
-            if (reward.TryGetComponent(out Food food))
-            {
-                food.MakeGoldenOrgan(goldenScoreMultiplier, rewardSprites[rewardIndex]);
-            }
-        }
-    }
-
-    private int GetRewardCount(int totalSlices)
-    {
-        if (totalSlices <= 15)
-        {
-            return 1;
+            return;
         }
 
-        if (totalSlices <= 30)
+        GameObject reward = Instantiate(biomassPrefab, transform.position, Quaternion.identity);
+        if (reward.TryGetComponent(out Food food))
         {
-            return 2;
+            food.MakeUniversalFood(biomassScoreMultiplier, biomassSprite, false);
         }
-
-        if (totalSlices <= 45)
-        {
-            return 3;
-        }
-
-        return 4;
     }
 }

@@ -200,7 +200,7 @@ public class Customer : MonoBehaviour
 
     private CustomerOrder FindMatchingOrder(Food food)
     {
-        if (food.IsGoldenOrgan && currentOrders.Count > 0)
+        if (food.IsUniversalFood && currentOrders.Count > 0)
         {
             return currentOrders[0];
         }

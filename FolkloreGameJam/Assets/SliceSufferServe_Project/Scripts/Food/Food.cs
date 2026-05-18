@@ -18,8 +18,8 @@ public class Food : MonoBehaviour
     [SerializeField] private Draggable2D draggable2D;
 
     public FoodRotting FoodRotting => foodRotting;
-    public bool IsGoldenOrgan { get; private set; }
-    public float GoldenScoreMultiplier { get; private set; } = 1f;
+    public bool IsUniversalFood { get; private set; }
+    public float UniversalScoreMultiplier { get; private set; } = 1f;
 
     private bool _isReadyToEat;
     public bool IsReadyToEat => _isReadyToEat;
@@ -235,15 +235,20 @@ public class Food : MonoBehaviour
 
     public void MakeGoldenOrgan(float scoreMultiplier = 2f, Sprite goldenSprite = null)
     {
-        IsGoldenOrgan = true;
-        GoldenScoreMultiplier = Mathf.Max(1f, scoreMultiplier);
-        foodVisuals?.ApplyGoldenOrganVisuals(goldenSprite);
+        MakeUniversalFood(scoreMultiplier, goldenSprite, true);
+    }
+
+    public void MakeUniversalFood(float scoreMultiplier = 1f, Sprite universalSprite = null, bool useGlow = false)
+    {
+        IsUniversalFood = true;
+        UniversalScoreMultiplier = Mathf.Max(1f, scoreMultiplier);
+        foodVisuals?.ApplyUniversalFoodVisuals(universalSprite, useGlow);
     }
 
     public int GetServeScore(int patienceBonus)
     {
         int baseScore = menu != null ? menu.Score : 0;
         int score = baseScore + patienceBonus;
-        return IsGoldenOrgan ? Mathf.RoundToInt(score * GoldenScoreMultiplier) : score;
+        return IsUniversalFood ? Mathf.RoundToInt(score * UniversalScoreMultiplier) : score;
     }
 }
