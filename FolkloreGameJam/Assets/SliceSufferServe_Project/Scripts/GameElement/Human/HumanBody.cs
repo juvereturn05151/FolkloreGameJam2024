@@ -46,6 +46,12 @@ public class HumanBody : MonoBehaviour
     {
         ResolvePartReferences();
 
+        ObeseRapidSliceEvent obeseRapidSliceEvent = GetComponent<ObeseRapidSliceEvent>();
+        if (obeseRapidSliceEvent != null)
+        {
+            obeseRapidSliceEvent.ApplyMovementSpeedMultiplier(multiplier);
+        }
+
         HumanPart[] parts = GetComponentsInChildren<HumanPart>(true);
         for (int i = 0; i < parts.Length; i++)
         {

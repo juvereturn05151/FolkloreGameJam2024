@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private bool isGameOver;
     public bool IsGameOver => isGameOver;
+    public bool IsRapidSliceEventActive { get; private set; }
     [SerializeField] private HumanGenerator humanGen1;
     [SerializeField] private HumanGenerator humanGen2;
     [SerializeField] private CustomerGenerator customerGen;
@@ -240,6 +241,11 @@ public class GameManager : MonoBehaviour
     private void NotifySuperMeterChanged()
     {
         OnSuperMeterChanged?.Invoke(currentSuperMeter, SuperMeterThreshold);
+    }
+
+    public void SetRapidSliceEventActive(bool active)
+    {
+        IsRapidSliceEventActive = active;
     }
 
     private void StartSuperScoreMultiplier()

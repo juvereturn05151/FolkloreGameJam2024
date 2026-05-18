@@ -34,6 +34,9 @@ public class Draggable2D : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (GameManager.Instance != null && GameManager.Instance.IsRapidSliceEventActive)
+            return;
+
         if (!canDrag || _isSnapped)
             return;
 

@@ -200,6 +200,11 @@ public class Customer : MonoBehaviour
 
     private CustomerOrder FindMatchingOrder(Food food)
     {
+        if (food.IsGoldenOrgan && currentOrders.Count > 0)
+        {
+            return currentOrders[0];
+        }
+
         foreach (CustomerOrder order in currentOrders)
         {
             if (order == null || order.Menu == null)
@@ -348,7 +353,7 @@ public class Customer : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         int patienceBonus = patienceController != null ? (int)patienceController.CurrentValue : 0;
-        int baseScore = food.Menu.Score + patienceBonus;
+        int baseScore = food.GetServeScore(patienceBonus);
         int scoreWithCombo = ComboSystem.ApplyScoreMultiplier(baseScore);
 
         feedbackController?.SpawnScoreFeedback(scoreWithCombo);

@@ -35,7 +35,7 @@ public class HumanPart : MonoBehaviour
     private bool feedbackManagerHooked;
 
     public HumanBody OwnerBody => _ownerBody;
-    public bool CanProduceFood => !_sliced && !_isFading && gameObject.activeInHierarchy && foodPrefab != null;
+    public bool CanProduceFood => enabled && !_sliced && !_isFading && gameObject.activeInHierarchy && foodPrefab != null;
 
     public void SetOwner(HumanBody owner)
     {
@@ -103,6 +103,7 @@ public class HumanPart : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (!col.CompareTag(GameTagContainer.BladeTag)) return;
+        if (GameManager.Instance != null && GameManager.Instance.IsRapidSliceEventActive) return;
         if (_sliced) return;
 
         if (_isFading)

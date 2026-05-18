@@ -24,6 +24,7 @@ public class CustomerGenerator : MonoBehaviour
     private HumanGenerator[] humanGenerators;
     private bool hasGhostFilter;
     private int pendingDemandHumanSpawns;
+    private bool isRapidSlicePaused;
 
     private void Awake()
     {
@@ -55,6 +56,7 @@ public class CustomerGenerator : MonoBehaviour
     private void Update()
     {
         if(GameManager.Instance.IsGameOver) return;
+        if (isRapidSlicePaused) return;
         
         elapsedStageTime += Time.deltaTime;
 
@@ -126,6 +128,12 @@ public class CustomerGenerator : MonoBehaviour
     {
         float delay = levelConfig == null ? 0.35f : levelConfig.HumanSpawnDelayAfterGhost;
         yield return new WaitForSeconds(delay);
+
+        while (isRapidSlicePaused)
+        {
+            yield return null;
+        }
+
         pendingDemandHumanSpawns = Mathf.Max(0, pendingDemandHumanSpawns - 1);
 
         if (GameManager.Instance.IsGameOver || humanGenerators == null || humanGenerators.Length == 0)
@@ -151,6 +159,11 @@ public class CustomerGenerator : MonoBehaviour
         {
             QueueHumanSpawn(GetActivePhase());
         }
+    }
+
+    public void SetRapidSlicePaused(bool paused)
+    {
+        isRapidSlicePaused = paused;
     }
 
     public void RequestReplacementHumanNextFrame()

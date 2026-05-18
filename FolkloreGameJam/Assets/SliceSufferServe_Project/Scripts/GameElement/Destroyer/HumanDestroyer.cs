@@ -5,6 +5,12 @@ public class HumanDestroyer : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.GetComponent<HumanBody>() is HumanBody body)
+        {
+            body.NotifyMissedDestroyer();
+            return;
+        }
+
         if (other.GetComponent<HumanPart>() is HumanPart part)
         {
             if (part.OwnerBody != null)

@@ -26,6 +26,11 @@ public class HumanGenerator : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance != null && GameManager.Instance.IsRapidSliceEventActive)
+        {
+            return;
+        }
+
         if (isExternallyControlled && !IsTutorialActive())
         {
             return;
@@ -161,6 +166,11 @@ public class HumanGenerator : MonoBehaviour
         if (prefab == null)
         {
             return false;
+        }
+
+        if (prefab.GetComponent<ObeseRapidSliceEvent>() != null)
+        {
+            return true;
         }
 
         HumanPart[] parts = prefab.GetComponentsInChildren<HumanPart>(true);

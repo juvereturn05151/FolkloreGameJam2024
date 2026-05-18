@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6137906145378110690}
   - component: {fileID: 6643490498467574925}
+  - component: {fileID: 2670415562231792641}
   m_Layer: 0
   m_Name: ObeseHuman
   m_TagString: Untagged
@@ -49,6 +50,39 @@ MonoBehaviour:
   _neck: {fileID: 5983385280804613021}
   _body: {fileID: 83728175101965506}
   _leg: {fileID: 3592174121423691014}
+--- !u!114 &2670415562231792641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 752638607334200436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f0b995be8c14c0181e02c63ed5b351f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitboxSize: {x: 7.5, y: 8.5}
+  hitboxOffset: {x: 0, y: 1.5}
+  travelSpeed: 2
+  gravityScale: 3
+  linearDamping: 5
+  focusPosition: {x: 0, y: 1, z: 0}
+  focusedScale: 1.2
+  eventDuration: 5
+  slowMotionScale: 0.18
+  slashRegisterInterval: 0.055
+  flashColor: {r: 1, g: 0.26, b: 0.18, a: 1}
+  blobColor: {r: 1, g: 0.62, b: 0.38, a: 1}
+  goldenBrainPrefab: {fileID: 2417688765679808340, guid: f7f918b99a8b4db9b58ee02a902ac111, type: 3}
+  goldenBloodPrefab: {fileID: 3036385971898085685, guid: cc4e44ed9f1e4bf0a38d154b4f17a222, type: 3}
+  goldenIntestinePrefab: {fileID: 1380852210859090364, guid: a293c9a0c62744ef9b62e710c5f82333, type: 3}
+  goldenShitPrefab: {fileID: 8846248092394446896, guid: e3b1c8b7d9fd4d7e8b5419f2d0be7444, type: 3}
+  goldenScoreMultiplier: 2
+  goldenBrainSprite: {fileID: 21300000, guid: 48f815cd69e3efb42974b28a75f83918, type: 3}
+  goldenBloodSprite: {fileID: 21300000, guid: 1f99325c491c76c4299121b5ed31e39a, type: 3}
+  goldenIntestineSprite: {fileID: 21300000, guid: f4fe5b4b56d5c784795294e8ae500b6f, type: 3}
+  goldenShitSprite: {fileID: 21300000, guid: a58de8a9b941cba4a98049c678ce3375, type: 3}
 --- !u!1 &5245707710223056521
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,7 +134,7 @@ Rigidbody2D:
   m_Mass: 60
   m_LinearDamping: 5
   m_AngularDamping: 0.05
-  m_GravityScale: 0.5
+  m_GravityScale: 6
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

@@ -26,6 +26,7 @@ public class FoodVisuals : MonoBehaviour
     private Transform _innerGlowTransform;
     private Transform _outerGlowTransform;
     private float _glowPulseOffset;
+    private bool forceGoldenGlow;
 
     private const float InnerGlowScale = 1.13f;
     private const float OuterGlowScale = 1.28f;
@@ -117,9 +118,31 @@ public class FoodVisuals : MonoBehaviour
         }
     }
 
+    public void ApplyGoldenOrganVisuals(Sprite goldenSprite = null)
+    {
+        forceGoldenGlow = true;
+
+        if (renderer2D != null)
+        {
+            if (goldenSprite != null)
+            {
+                renderer2D.sprite = goldenSprite;
+            }
+
+            renderer2D.color = Color.white;
+        }
+
+        if (renderer2D != null && (_innerGlowRenderer == null || _outerGlowRenderer == null))
+        {
+            CreateGlowRenderers();
+        }
+
+        HideRotUI();
+    }
+
     private bool ShouldUseObeseGlow()
     {
-        return renderer2D != null && menu != null && menu.name.StartsWith("Obese ");
+        return renderer2D != null && (forceGoldenGlow || (menu != null && menu.name.StartsWith("Obese ")));
     }
 
     private void CreateGlowRenderers()

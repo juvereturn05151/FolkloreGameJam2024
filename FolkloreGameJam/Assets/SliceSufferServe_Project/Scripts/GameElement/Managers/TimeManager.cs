@@ -20,6 +20,7 @@ public class TimeManager : MonoBehaviour
 
     private float rushTime = 27.0f;
     private bool activateRushTime;
+    private int pauseRequests;
 
     private void Awake()
     {
@@ -44,6 +45,13 @@ public class TimeManager : MonoBehaviour
     {
         if (GameManager.Instance.IsTutorial) 
         {
+            return;
+        }
+
+        if (pauseRequests > 0)
+        {
+            OnClockChanged?.Invoke(currentTime, endTime);
+            OnTimeChanged?.Invoke(FormatTime(currentTime));
             return;
         }
 
@@ -74,6 +82,11 @@ public class TimeManager : MonoBehaviour
         string formattedTime = FormatTime(currentTime);
         OnClockChanged?.Invoke(currentTime, endTime);
         OnTimeChanged?.Invoke(formattedTime);
+    }
+
+    public void SetStageTimerPaused(bool paused)
+    {
+        pauseRequests = Mathf.Max(0, pauseRequests + (paused ? 1 : -1));
     }
 
     private string FormatTime(float time)
