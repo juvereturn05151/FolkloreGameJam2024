@@ -5,6 +5,9 @@ public class StageSelectManager : MonoBehaviour
 {
     [SerializeField] private StageLevelDatabase levelDatabase;
 
+    private bool loadingSelectedStage;
+    private string pendingSceneName;
+
     public void SetLevelDatabase(StageLevelDatabase database)
     {
         levelDatabase = database;
@@ -12,6 +15,11 @@ public class StageSelectManager : MonoBehaviour
 
     public void SelectLevel(int levelIndex)
     {
+        if (loadingSelectedStage)
+        {
+            return;
+        }
+
         StageLevelConfig selectedLevel = GetLevel(levelIndex);
 
         if (selectedLevel == null)
@@ -21,11 +29,16 @@ public class StageSelectManager : MonoBehaviour
         }
 
         StageSelection.SelectLevel(selectedLevel);
-        SceneManager.LoadScene(StageSelection.GetEntrySceneName(selectedLevel));
+        LoadSelectedStageWithFade(StageSelection.GetEntrySceneName(selectedLevel));
     }
 
     public void SelectTutorialForLevel(int levelIndex)
     {
+        if (loadingSelectedStage)
+        {
+            return;
+        }
+
         StageLevelConfig selectedLevel = GetLevel(levelIndex);
 
         if (selectedLevel == null)
@@ -35,7 +48,7 @@ public class StageSelectManager : MonoBehaviour
         }
 
         StageSelection.SelectLevel(selectedLevel);
-        SceneManager.LoadScene(StageSelection.GetEntrySceneName(selectedLevel));
+        LoadSelectedStageWithFade(StageSelection.GetEntrySceneName(selectedLevel));
     }
 
     public void SelectLevelOne()
@@ -61,5 +74,19 @@ public class StageSelectManager : MonoBehaviour
         }
 
         return levelDatabase.GetLevel(levelIndex);
+    }
+
+    private void LoadSelectedStageWithFade(string sceneName)
+    {
+        loadingSelectedStage = true;
+        pendingSceneName = sceneName;
+
+        FadingUI.Instance.StartFadeIn();
+        FadingUI.Instance.OnStopFading.AddListener(LoadPendingScene);
+    }
+
+    private void LoadPendingScene()
+    {
+        SceneManager.LoadScene(pendingSceneName);
     }
 }
