@@ -965,10 +965,12 @@ MonoBehaviour:
   levelListRoot: {fileID: 3100000501}
   stageNodePrefab: {fileID: 100005, guid: b30e0bfdecde41e4b8d2e3210a50e469, type: 3}
   backButton: {fileID: 3100000404}
+  storeButton: {fileID: 3100000604}
   previousPageButton: {fileID: 3100000601}
   nextPageButton: {fileID: 3100000602}
   pageText: {fileID: 3100000603}
   backSceneName: GameModeSelect
+  storeSceneName: Store
   nodeSize: {x: 320, y: 300}
   nodeSpacing: 360
   rowSpacing: 320
@@ -1023,6 +1025,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3100000604 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 883000000000000005, guid: dd165efa476c11e47ae9b19cd63257f3, type: 3}
+  m_PrefabInstance: {fileID: 7080536080686661506}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &7080536080686661506

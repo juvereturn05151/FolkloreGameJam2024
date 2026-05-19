@@ -8,10 +8,12 @@ public class StageSelectUIBuilder : MonoBehaviour
     [SerializeField] private RectTransform levelListRoot;
     [SerializeField] private StageSelectButton stageNodePrefab;
     [SerializeField] private Button backButton;
+    [SerializeField] private Button storeButton;
     [SerializeField] private Button previousPageButton;
     [SerializeField] private Button nextPageButton;
     [SerializeField] private Text pageText;
     [SerializeField] private string backSceneName = "GameModeSelect";
+    [SerializeField] private string storeSceneName = "Store";
     [SerializeField] private Vector2 nodeSize = new Vector2(320, 300);
     [SerializeField] private float nodeSpacing = 360f;
     [SerializeField] private float rowSpacing = 320f;
@@ -21,6 +23,7 @@ public class StageSelectUIBuilder : MonoBehaviour
     [SerializeField] private string secondTutorialName = "Second Tutorial";
 
     private int currentPageIndex;
+    private bool loadingStore;
 
     private void Awake()
     {
@@ -44,6 +47,11 @@ public class StageSelectUIBuilder : MonoBehaviour
             backButton.onClick.AddListener(GoBack);
         }
 
+        if (storeButton != null)
+        {
+            storeButton.onClick.AddListener(GoToStore);
+        }
+
         if (previousPageButton != null)
         {
             previousPageButton.onClick.AddListener(GoToPreviousPage);
@@ -60,6 +68,11 @@ public class StageSelectUIBuilder : MonoBehaviour
         if (backButton != null)
         {
             backButton.onClick.RemoveListener(GoBack);
+        }
+
+        if (storeButton != null)
+        {
+            storeButton.onClick.RemoveListener(GoToStore);
         }
 
         if (previousPageButton != null)
@@ -177,6 +190,23 @@ public class StageSelectUIBuilder : MonoBehaviour
     private void GoBack()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(backSceneName);
+    }
+
+    private void GoToStore()
+    {
+        if (loadingStore || string.IsNullOrWhiteSpace(storeSceneName))
+        {
+            return;
+        }
+
+        loadingStore = true;
+        FadingUI.Instance.StartFadeIn();
+        FadingUI.Instance.OnStopFading.AddListener(LoadStoreScene);
+    }
+
+    private void LoadStoreScene()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(storeSceneName);
     }
 
     private void GoToPreviousPage()
