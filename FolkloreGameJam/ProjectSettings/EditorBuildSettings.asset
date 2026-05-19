@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/SliceSufferServe_Project/Scenes/Actual/MainMenu.unity
     guid: 5d57f73e0b1f66e49a59fbaad9faddb1
   - enabled: 1
+    path: Assets/SliceSufferServe_Project/Scenes/Actual/StoryModeSelect.unity
+    guid: 85022c576ec77734a91496a7f633db1c
+  - enabled: 1
     path: Assets/SliceSufferServe_Project/Scenes/Actual/GameModeSelect.unity
     guid: e51072fd6641f0847831ff2709a0fae4
   - enabled: 1

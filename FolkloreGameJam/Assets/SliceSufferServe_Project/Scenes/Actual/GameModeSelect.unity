@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 25058154}
   - component: {fileID: 25058153}
   m_Layer: 0
-  m_Name: Square
+  m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -435,7 +435,7 @@ GameObject:
   - component: {fileID: 97009530}
   - component: {fileID: 97009531}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: ObjectPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1343,7 +1343,7 @@ GameObject:
   - component: {fileID: 1006663702}
   - component: {fileID: 1006663703}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: ObjectPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1403,7 +1403,7 @@ GameObject:
   - component: {fileID: 1015618772}
   - component: {fileID: 1015618773}
   m_Layer: 0
-  m_Name: Square
+  m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1706,7 +1706,7 @@ GameObject:
   - component: {fileID: 1140570282}
   - component: {fileID: 1140570281}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: ObjectPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1818,7 +1818,7 @@ GameObject:
   - component: {fileID: 1207962347}
   - component: {fileID: 1207962348}
   m_Layer: 0
-  m_Name: Square
+  m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
