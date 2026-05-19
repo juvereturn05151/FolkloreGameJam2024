@@ -34,7 +34,6 @@ public class StageSelectUIBuilder : MonoBehaviour
             stageSelectManager.SetLevelDatabase(levelDatabase);
         }
 
-        EnsurePageControls();
         BuildStageNodes();
     }
 
@@ -226,94 +225,5 @@ public class StageSelectUIBuilder : MonoBehaviour
             pageText.gameObject.SetActive(showPageControls);
             pageText.text = $"Page {currentPageIndex + 1} / {pageCount}";
         }
-    }
-
-    private void EnsurePageControls()
-    {
-        if (previousPageButton != null && nextPageButton != null && pageText != null)
-        {
-            return;
-        }
-
-        RectTransform parent = levelListRoot == null ? transform as RectTransform : levelListRoot.parent as RectTransform;
-        if (parent == null)
-        {
-            return;
-        }
-
-        Font defaultFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-
-        if (previousPageButton == null)
-        {
-            previousPageButton = CreatePageButton(parent, "PreviousPageButton", "Previous", new Vector2(-260f, 72f), defaultFont);
-        }
-
-        if (nextPageButton == null)
-        {
-            nextPageButton = CreatePageButton(parent, "NextPageButton", "Next", new Vector2(260f, 72f), defaultFont);
-        }
-
-        if (pageText == null)
-        {
-            pageText = CreatePageText(parent, defaultFont);
-        }
-    }
-
-    private Button CreatePageButton(RectTransform parent, string buttonName, string buttonText, Vector2 anchoredPosition, Font font)
-    {
-        GameObject buttonObject = new GameObject(buttonName, typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button));
-        buttonObject.transform.SetParent(parent, false);
-
-        RectTransform buttonRect = buttonObject.GetComponent<RectTransform>();
-        buttonRect.anchorMin = new Vector2(0.5f, 0f);
-        buttonRect.anchorMax = new Vector2(0.5f, 0f);
-        buttonRect.pivot = new Vector2(0.5f, 0.5f);
-        buttonRect.anchoredPosition = anchoredPosition;
-        buttonRect.sizeDelta = new Vector2(190f, 64f);
-
-        Image image = buttonObject.GetComponent<Image>();
-        image.color = new Color(0.24f, 0.22f, 0.19f, 1f);
-
-        Button button = buttonObject.GetComponent<Button>();
-        button.targetGraphic = image;
-
-        GameObject textObject = new GameObject($"{buttonName}Text", typeof(RectTransform), typeof(CanvasRenderer), typeof(Text));
-        textObject.transform.SetParent(buttonObject.transform, false);
-
-        RectTransform textRect = textObject.GetComponent<RectTransform>();
-        textRect.anchorMin = Vector2.zero;
-        textRect.anchorMax = Vector2.one;
-        textRect.offsetMin = new Vector2(10f, 8f);
-        textRect.offsetMax = new Vector2(-10f, -8f);
-
-        Text text = textObject.GetComponent<Text>();
-        text.font = font;
-        text.text = buttonText;
-        text.alignment = TextAnchor.MiddleCenter;
-        text.color = new Color(0.95f, 0.9f, 0.82f, 1f);
-        text.fontSize = 28;
-
-        return button;
-    }
-
-    private Text CreatePageText(RectTransform parent, Font font)
-    {
-        GameObject textObject = new GameObject("PageText", typeof(RectTransform), typeof(CanvasRenderer), typeof(Text));
-        textObject.transform.SetParent(parent, false);
-
-        RectTransform textRect = textObject.GetComponent<RectTransform>();
-        textRect.anchorMin = new Vector2(0.5f, 0f);
-        textRect.anchorMax = new Vector2(0.5f, 0f);
-        textRect.pivot = new Vector2(0.5f, 0.5f);
-        textRect.anchoredPosition = new Vector2(0f, 72f);
-        textRect.sizeDelta = new Vector2(220f, 64f);
-
-        Text text = textObject.GetComponent<Text>();
-        text.font = font;
-        text.alignment = TextAnchor.MiddleCenter;
-        text.color = new Color(1f, 0.9f, 0.72f, 1f);
-        text.fontSize = 28;
-
-        return text;
     }
 }
