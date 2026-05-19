@@ -11,17 +11,48 @@ public class CustomerOrderGenerator : MonoBehaviour
         FoodState.SuperRotten
     };
 
-    public List<CustomerOrder> GenerateOrders(Ghost ghostType, Customer.HungryLevel hungryLevel, FoodState[] allowedDesiredFoodStates)
+    public List<CustomerOrder> GenerateOrders(Ghost ghostType, Customer.HungryLevel hungryLevel, FoodState[] allowedDesiredFoodStates, int minOrderCount = 0, int maxOrderCount = 0)
     {
         List<CustomerOrder> orders = new();
 
         if (ghostType == null)
             return orders;
 
+        if (maxOrderCount > 0)
+        {
+            AddConfiguredOrders(ghostType, orders, allowedDesiredFoodStates, minOrderCount, maxOrderCount);
+            return orders;
+        }
+
         AddFavoriteOrder(ghostType, orders, allowedDesiredFoodStates);
         AddSubFavoriteOrders(ghostType, hungryLevel, orders, allowedDesiredFoodStates);
 
         return orders;
+    }
+
+    private void AddConfiguredOrders(Ghost ghostType, List<CustomerOrder> orders, FoodState[] allowedDesiredFoodStates, int minOrderCount, int maxOrderCount)
+    {
+        List<MenuRating> availableRatings = GetAvailableMenuRatings(ghostType);
+        if (availableRatings.Count == 0)
+            return;
+
+        int safeMin = Mathf.Max(1, minOrderCount);
+        int safeMax = Mathf.Max(safeMin, maxOrderCount);
+        int orderCount = Random.Range(safeMin, safeMax + 1);
+        Shuffle(availableRatings);
+
+        for (int i = 0; i < orderCount; i++)
+        {
+            MenuRating rating = availableRatings[i % availableRatings.Count];
+            if (rating == null || rating.Menu == null)
+                continue;
+
+            orders.Add(new CustomerOrder(
+                rating.Menu,
+                rating.Value,
+                GetRandomDesiredFoodState(allowedDesiredFoodStates)
+            ));
+        }
     }
 
     private void AddFavoriteOrder(Ghost ghostType, List<CustomerOrder> orders, FoodState[] allowedDesiredFoodStates)
@@ -106,6 +137,28 @@ public class CustomerOrderGenerator : MonoBehaviour
             return null;
 
         return menuRatings[Random.Range(0, menuRatings.Count)];
+    }
+
+    private List<MenuRating> GetAvailableMenuRatings(Ghost ghostType)
+    {
+        List<MenuRating> ratings = new();
+        AddMenuRatings(ratings, ghostType.FavoriteMenu);
+        AddMenuRatings(ratings, ghostType.SubFavoriteMenu);
+        return ratings;
+    }
+
+    private void AddMenuRatings(List<MenuRating> target, List<MenuRating> source)
+    {
+        if (source == null)
+            return;
+
+        for (int i = 0; i < source.Count; i++)
+        {
+            if (source[i] != null && source[i].Menu != null)
+            {
+                target.Add(source[i]);
+            }
+        }
     }
 
     private void Shuffle<T>(List<T> list)

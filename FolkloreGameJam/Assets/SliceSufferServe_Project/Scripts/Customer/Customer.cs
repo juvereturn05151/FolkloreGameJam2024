@@ -51,6 +51,9 @@ public class Customer : MonoBehaviour
     private CustomerState currentState = CustomerState.Arriving;
     private bool isEatingRightFood;
     private FoodState[] allowedDesiredFoodStates;
+    private float patienceMultiplier = 1f;
+    private int minOrderCount;
+    private int maxOrderCount;
 
     public Ghost GhostType => ghostType;
     public bool IsEatingRightFood => isEatingRightFood;
@@ -138,7 +141,7 @@ public class Customer : MonoBehaviour
         if (orderGenerator == null)
             return;
 
-        List<CustomerOrder> generatedOrders = orderGenerator.GenerateOrders(ghostType, hungryLevel, allowedDesiredFoodStates);
+        List<CustomerOrder> generatedOrders = orderGenerator.GenerateOrders(ghostType, hungryLevel, allowedDesiredFoodStates, minOrderCount, maxOrderCount);
         currentOrders.AddRange(generatedOrders);
     }
 
@@ -147,9 +150,21 @@ public class Customer : MonoBehaviour
         allowedDesiredFoodStates = foodStates;
     }
 
+    public void SetPatienceMultiplier(float multiplier)
+    {
+        patienceMultiplier = Mathf.Max(0.01f, multiplier);
+    }
+
+    public void SetOrderCountRange(int minCount, int maxCount)
+    {
+        minOrderCount = Mathf.Max(0, minCount);
+        maxOrderCount = Mathf.Max(minOrderCount, maxCount);
+    }
+
     private void SetupPatience()
     {
-        patienceController?.Setup(patience, FoodState.Normal, currentOrders.Count);
+        int scaledPatience = Mathf.Max(1, Mathf.RoundToInt(patience * patienceMultiplier));
+        patienceController?.Setup(scaledPatience, FoodState.Normal, currentOrders.Count);
     }
 
     public void SetPlate(CustomerFoodPlace plate)

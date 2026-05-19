@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4596a2037df74ddea37aacda22f3500a, type: 3}
+  m_Name: Level13
+  m_EditorClassIdentifier: Assembly-CSharp::StageLevelConfig
+  levelId: level_13
+  displayName: Level 13 - Hardest Service
+  levelNumber: 13
+  gameplaySceneName: GameplayScene
+  stageGoal: {fileID: 11400000, guid: 2e82baec2b8741ea81c989edf0d3a502, type: 2}
+  allowSuperMeter: 1
+  enabledBodyParts:
+  - 0
+  - 1
+  - 2
+  - 3
+  activeCustomerSpotIndexes:
+  - 0
+  - 1
+  - 2
+  allowedGhosts:
+  - {fileID: 11400000, guid: d2952cb466b75414ebc175f0b6c76687, type: 2}
+  - {fileID: 11400000, guid: 02006c8ba69015e418b4a73cbb3f9f9d, type: 2}
+  - {fileID: 11400000, guid: 3773c85fcdaf6f841839a87456861e97, type: 2}
+  - {fileID: 11400000, guid: aadd87bc3fa161f4399ab252ca555a53, type: 2}
+  humanPrefabOverrides:
+  - {fileID: 100100000, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+  - {fileID: 100100000, guid: 11459b7c95d94fd4a975ddf32b4b0759, type: 3}
+  - {fileID: 100100000, guid: c2e6239c092ba42469de1925b1e3988d, type: 3}
+  - {fileID: 100100000, guid: 0ba028d8705148efa7355b4a378fdcdf, type: 3}
+  - {fileID: 100100000, guid: 0dbec903a46148b69cdb6fbbdf40c245, type: 3}
+  - {fileID: 100100000, guid: 6132527dfd73478db7feb50ab8ffbe99, type: 3}
+  - {fileID: 100100000, guid: f20d67bdb74341bdaf8c3999482e2401, type: 3}
+  spawnPhases:
+  - startTime: 0
+    endTime: 20
+    spawnInterval: 0.9
+    humanSpeedMultiplier: 1.1
+    doubleSpawnChance: 0.3
+    doubleSpawnDelay: 0.2
+    allowedFoodStates:
+    - 0
+    - 1
+  - startTime: 20
+    endTime: 40
+    spawnInterval: 0.75
+    humanSpeedMultiplier: 1.35
+    doubleSpawnChance: 0.55
+    doubleSpawnDelay: 0.18
+    allowedFoodStates:
+    - 0
+    - 1
+    - 2
+  - startTime: 40
+    endTime: 60
+    spawnInterval: 0.55
+    humanSpeedMultiplier: 1.6
+    doubleSpawnChance: 0.75
+    doubleSpawnDelay: 0.15
+    allowedFoodStates:
+    - 0
+    - 1
+    - 2
+  customerPatienceMultiplier: 0.3
+  customerMinOrderCount: 2
+  customerMaxOrderCount: 2
+  humanSpawnDelayAfterGhost: 0.18

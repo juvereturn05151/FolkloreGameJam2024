@@ -22,6 +22,12 @@ public class StageLevelConfig : ScriptableObject
         new StageSpawnPhase(20f, 40f, 1.5f, 1f, 0.35f, new[] { FoodState.Normal, FoodState.MediumRotten }),
         new StageSpawnPhase(40f, 60f, 0.8f, 1.25f, 0f, new[] { FoodState.Normal, FoodState.MediumRotten, FoodState.SuperRotten })
     };
+    [Tooltip("Multiplies spawned customers' patience. Values below 1 create faster, hotter-headed customers.")]
+    [SerializeField] private float customerPatienceMultiplier = 1f;
+    [Tooltip("Optional minimum number of foods a customer can order. Set both min and max to 0 to use customer prefab appetite.")]
+    [SerializeField] private int customerMinOrderCount;
+    [Tooltip("Optional maximum number of foods a customer can order. Set both min and max to 0 to use customer prefab appetite.")]
+    [SerializeField] private int customerMaxOrderCount;
     [SerializeField] private float humanSpawnDelayAfterGhost = 0.35f;
 
     public string LevelId => string.IsNullOrWhiteSpace(levelId) ? name : levelId;
@@ -35,7 +41,11 @@ public class StageLevelConfig : ScriptableObject
     public Ghost[] AllowedGhosts => allowedGhosts;
     public GameObject[] HumanPrefabOverrides => humanPrefabOverrides;
     public StageSpawnPhase[] SpawnPhases => spawnPhases;
+    public float CustomerPatienceMultiplier => Mathf.Max(0.01f, customerPatienceMultiplier);
+    public int CustomerMinOrderCount => Mathf.Max(0, customerMinOrderCount);
+    public int CustomerMaxOrderCount => Mathf.Max(0, customerMaxOrderCount);
     public float HumanSpawnDelayAfterGhost => Mathf.Max(0f, humanSpawnDelayAfterGhost);
+    public bool HasCustomerOrderCountOverride => CustomerMaxOrderCount > 0;
 
     public bool IsBodyPartEnabled(HumanBodyPartType bodyPartType)
     {
@@ -76,6 +86,9 @@ public class StageLevelConfig : ScriptableObject
     private void OnValidate()
     {
         levelNumber = Mathf.Max(1, levelNumber);
+        customerPatienceMultiplier = Mathf.Max(0.01f, customerPatienceMultiplier);
+        customerMinOrderCount = Mathf.Max(0, customerMinOrderCount);
+        customerMaxOrderCount = Mathf.Max(customerMinOrderCount, customerMaxOrderCount);
         humanSpawnDelayAfterGhost = Mathf.Max(0f, humanSpawnDelayAfterGhost);
 
         if (activeCustomerSpotIndexes != null)

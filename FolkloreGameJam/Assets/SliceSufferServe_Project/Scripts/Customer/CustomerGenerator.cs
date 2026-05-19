@@ -113,6 +113,15 @@ public class CustomerGenerator : MonoBehaviour
             }
 
             Customer newCustomer = Instantiate(randomCustomer); // Instantiate the customer
+            if (levelConfig != null)
+            {
+                newCustomer.SetPatienceMultiplier(levelConfig.CustomerPatienceMultiplier);
+                if (levelConfig.HasCustomerOrderCountOverride)
+                {
+                    newCustomer.SetOrderCountRange(levelConfig.CustomerMinOrderCount, levelConfig.CustomerMaxOrderCount);
+                }
+            }
+
             newCustomer.SetAllowedDesiredFoodStates(activePhase.AllowedFoodStates);
             emptySpot.SetCustomer(newCustomer); // Set the new customer in the spot
             newCustomer.onLeaveRestaurant.AddListener(ClearCustomerSpot); // Listen for when the customer leaves
