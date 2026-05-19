@@ -12,6 +12,8 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private GameplaySuperComboUI superComboUI;
     [SerializeField] private GameplayStageNavigationUI stageNavigationUI;
 
+    private bool gameOverSequenceStarted;
+
     private void Awake()
     {
         if(Instance == null)
@@ -54,14 +56,16 @@ public class GameplayUIManager : MonoBehaviour
 
     public void OnGameOver()
     {
-        if (gameOverUI == null || gameOverUI.IsShowing)
+        if (gameOverUI == null || gameOverSequenceStarted || gameOverUI.IsShowing)
         {
             return;
         }
 
-        StageGoalResult stageGoalResult = gameOverUI.ShowGameOver();
+        gameOverSequenceStarted = true;
+        StageGoalResult stageGoalResult = gameOverUI.PrepareGameOver();
         stageNavigationUI?.UpdateAfterGameOver(stageGoalResult);
         GameManager.Instance.ApplyGameOver();
+        StartCoroutine(gameOverUI.CloseCurtainThenShow());
     }
 
     public void GoToNextStage()

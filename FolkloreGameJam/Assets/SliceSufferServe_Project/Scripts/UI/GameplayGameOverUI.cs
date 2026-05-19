@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,12 @@ public class GameplayGameOverUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameOverCurrencyEarnedText;
     [SerializeField] private Button leaderboardUI;
 
+    [Header("Curtain")]
+    [SerializeField] private Animator curtainAnimator;
+    [SerializeField] private string curtainCloseParameterName = "Close";
+    [SerializeField] private string curtainCloseStateName = "curtain_close";
+    [SerializeField] private float curtainCloseFallbackDelay = 1.5f;
+
     [Header("Currency Reward")]
     [SerializeField] private int scorePointsPerCurrency = 1;
 
@@ -27,13 +34,8 @@ public class GameplayGameOverUI : MonoBehaviour
         }
     }
 
-    public StageGoalResult ShowGameOver()
+    public StageGoalResult PrepareGameOver()
     {
-        if (gameOverPanel != null)
-        {
-            gameOverPanel.SetActive(true);
-        }
-
         int currentScore = ScoreManager.Instance.GetCurrentScore();
 
         if (gameOverScoreText != null)
@@ -59,6 +61,47 @@ public class GameplayGameOverUI : MonoBehaviour
 
         SteamLeaderboardManager.UpdateScore(currentScore);
         return stageGoalResult;
+    }
+
+    public IEnumerator CloseCurtainThenShow()
+    {
+        if (curtainAnimator == null)
+        {
+            ShowGameOverPanel();
+            yield break;
+        }
+
+        curtainAnimator.gameObject.SetActive(true);
+        curtainAnimator.SetBool(curtainCloseParameterName, true);
+        yield return null;
+
+        int closeStateHash = Animator.StringToHash(curtainCloseStateName);
+        float elapsedTime = 0f;
+
+        while (elapsedTime < curtainCloseFallbackDelay)
+        {
+            AnimatorStateInfo stateInfo = curtainAnimator.GetCurrentAnimatorStateInfo(0);
+            bool isCloseState = stateInfo.IsName(curtainCloseStateName) || stateInfo.shortNameHash == closeStateHash;
+            bool isFinished = isCloseState && !curtainAnimator.IsInTransition(0) && stateInfo.normalizedTime >= 1f;
+
+            if (isFinished)
+            {
+                break;
+            }
+
+            elapsedTime += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        ShowGameOverPanel();
+    }
+
+    private void ShowGameOverPanel()
+    {
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+        }
     }
 
     private void UpdateStageGoalUI(StageGoalResult result)
