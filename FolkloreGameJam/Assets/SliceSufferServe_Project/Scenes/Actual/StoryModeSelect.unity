@@ -677,7 +677,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4967561666900042100, guid: 866284a43087dce43a37a0fa26f38e50, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8371221690434577718, guid: 866284a43087dce43a37a0fa26f38e50, type: 3}
       propertyPath: m_Camera
@@ -965,9 +965,17 @@ MonoBehaviour:
   levelListRoot: {fileID: 3100000501}
   stageNodePrefab: {fileID: 100005, guid: b30e0bfdecde41e4b8d2e3210a50e469, type: 3}
   backButton: {fileID: 3100000404}
+  previousPageButton: {fileID: 0}
+  nextPageButton: {fileID: 0}
+  pageText: {fileID: 0}
   backSceneName: GameModeSelect
   nodeSize: {x: 320, y: 300}
   nodeSpacing: 360
+  rowSpacing: 320
+  maxNodesPerRow: 4
+  levelsPerPage: 6
+  firstTutorialName: First Tutorial
+  secondTutorialName: Second Tutorial
 --- !u!114 &3100000404 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5374088883595294297, guid: dd165efa476c11e47ae9b19cd63257f3, type: 3}
