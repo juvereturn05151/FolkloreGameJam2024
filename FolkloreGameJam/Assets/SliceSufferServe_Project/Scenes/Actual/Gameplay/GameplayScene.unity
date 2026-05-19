@@ -957,6 +957,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 9900000001001, guid: 9b5fe3015cbc3234c99a932e3d5916a5, type: 3}
+      propertyPath: objectsToDisableDuringCurtain.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9900000001001, guid: 9b5fe3015cbc3234c99a932e3d5916a5, type: 3}
+      propertyPath: 'objectsToDisableDuringCurtain.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1971858344}
     - target: {fileID: 3289484873757203815, guid: 9b5fe3015cbc3234c99a932e3d5916a5, type: 3}
       propertyPath: m_Name
       value: GameplayUICanvas_Remake
@@ -1208,6 +1216,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14172b02ea39e764e92430a1890e9240, type: 3}
+--- !u!1 &1971858344 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8544756140274863214, guid: 30799e89dc78a7d48836e12aa4a0d0b9, type: 3}
+  m_PrefabInstance: {fileID: 8812747770448276583}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5374633473173027204
 PrefabInstance:
   m_ObjectHideFlags: 0

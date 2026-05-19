@@ -1987,6 +1987,8 @@ MonoBehaviour:
   curtainCloseParameterName: Close
   curtainCloseStateName: curtain_close
   curtainCloseFallbackDelay: 1.5
+  objectsToDisableDuringCurtain:
+  - {fileID: 9300000000001}
   scorePointsPerCurrency: 1
 --- !u!114 &9900000001002
 MonoBehaviour:

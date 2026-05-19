@@ -20,6 +20,7 @@ public class GameplayGameOverUI : MonoBehaviour
     [SerializeField] private string curtainCloseParameterName = "Close";
     [SerializeField] private string curtainCloseStateName = "curtain_close";
     [SerializeField] private float curtainCloseFallbackDelay = 1.5f;
+    [SerializeField] private GameObject[] objectsToDisableDuringCurtain;
 
     [Header("Currency Reward")]
     [SerializeField] private int scorePointsPerCurrency = 1;
@@ -91,6 +92,22 @@ public class GameplayGameOverUI : MonoBehaviour
 
             elapsedTime += Time.unscaledDeltaTime;
             yield return null;
+        }
+
+        foreach(GameObject obj in objectsToDisableDuringCurtain)
+        {
+            if (obj != null)
+            {
+                obj.SetActive(false);
+            }
+        }
+
+        foreach (Food food in FindObjectsOfType<Food>())    
+        {
+            if (food != null)
+            {
+                Destroy(food.gameObject);
+            }
         }
 
         ShowGameOverPanel();
