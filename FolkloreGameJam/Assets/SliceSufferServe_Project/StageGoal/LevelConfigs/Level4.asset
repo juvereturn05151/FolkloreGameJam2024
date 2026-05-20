@@ -35,19 +35,26 @@ MonoBehaviour:
     doubleSpawnDelay: 0.25
     allowedFoodStates: 00000000
   - startTime: 20
-    endTime: 40
+    endTime: 50
     spawnInterval: 1.5
     humanSpeedMultiplier: 1
     doubleSpawnChance: 0.35
     doubleSpawnDelay: 0.25
     allowedFoodStates: 0000000001000000
-  - startTime: 40
-    endTime: 60
+  - startTime: 50
+    endTime: 70
     spawnInterval: 0.8
     humanSpeedMultiplier: 1.25
     doubleSpawnChance: 0
     doubleSpawnDelay: 0.25
     allowedFoodStates: 000000000100000002000000
+  - startTime: 70
+    endTime: 90
+    spawnInterval: 0.75
+    humanSpeedMultiplier: 1.25
+    doubleSpawnChance: 0
+    doubleSpawnDelay: 0.25
+    allowedFoodStates: 00000000
   customerPatienceMultiplier: 1
   customerMinOrderCount: 0
   customerMaxOrderCount: 0

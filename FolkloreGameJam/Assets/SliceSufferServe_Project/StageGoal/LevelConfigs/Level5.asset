@@ -25,6 +25,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 02006c8ba69015e418b4a73cbb3f9f9d, type: 2}
   - {fileID: 11400000, guid: 3773c85fcdaf6f841839a87456861e97, type: 2}
   - {fileID: 11400000, guid: aadd87bc3fa161f4399ab252ca555a53, type: 2}
+  humanPrefabOverrides: []
   spawnPhases:
   - startTime: 0
     endTime: 20
@@ -47,4 +48,22 @@ MonoBehaviour:
     doubleSpawnChance: 0
     doubleSpawnDelay: 0.25
     allowedFoodStates: 000000000100000002000000
-  humanSpawnDelayAfterGhost: 0.3
+  - startTime: 60
+    endTime: 75
+    spawnInterval: 0.8
+    humanSpeedMultiplier: 1.25
+    doubleSpawnChance: 0
+    doubleSpawnDelay: 0.25
+    allowedFoodStates: 01000000
+  - startTime: 75
+    endTime: 90
+    spawnInterval: 0.8
+    humanSpeedMultiplier: 1.5
+    doubleSpawnChance: 0.4
+    doubleSpawnDelay: 0.25
+    allowedFoodStates: 00000000
+  customerPatienceMultiplier: 1
+  customerMinOrderCount: 0
+  customerMaxOrderCount: 0
+  humanSpawnDelayAfterGhost: 0.2
+  duration: 90
