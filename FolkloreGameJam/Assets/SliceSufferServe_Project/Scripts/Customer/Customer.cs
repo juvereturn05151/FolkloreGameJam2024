@@ -216,6 +216,11 @@ public class Customer : MonoBehaviour
         }
 
         currentState = CustomerState.Eating;
+
+        if (GameUtility.GameManagerExists() && GameManager.Instance.IsSuperScoreMultiplierActive) 
+        {
+            currentSpot.ActivateDarkFire();
+        }
     }
 
     private CustomerOrder FindMatchingOrder(Food food)

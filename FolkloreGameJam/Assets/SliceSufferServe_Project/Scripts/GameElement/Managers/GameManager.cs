@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float superScoreMultiplierDuration = 10f;
     [SerializeField] private UnityEvent superActivated;
 
+    [SerializeField] private GameObject evilPower;
+
     public bool IsTutorial;
     public StageGoal CurrentStageGoal => StageSelection.SelectedLevel != null && StageSelection.SelectedLevel.StageGoal != null
         ? StageSelection.SelectedLevel.StageGoal
@@ -199,6 +201,11 @@ public class GameManager : MonoBehaviour
             SSSAdvancedTutorialManager.Instance.ReportProgress(TutorialType.UseSuperMeter);
         }
 
+        if (!evilPower.activeSelf) 
+        {
+            evilPower.SetActive(true);
+        }
+
         StartSuperScoreMultiplier();
 
         if (GameUtility.FeedbackManagerExists())
@@ -275,6 +282,10 @@ public class GameManager : MonoBehaviour
         activeScoreMultiplier = 1f;
         superScoreMultiplierCoroutine = null;
         OnSuperEnded?.Invoke();
+        if (evilPower.activeSelf)
+        {
+            evilPower.SetActive(false);
+        }
         NotifySuperMeterChanged();
     }
 }

@@ -37,7 +37,15 @@ public class TimeManager : MonoBehaviour
     private void Start()
     {
         currentTime = startTime;
-        gameDurationSeconds = Mathf.Max(1f, StageSelection.SelectedLevel.Duration);
+        if (StageSelection.SelectedLevel != null)
+        {
+            gameDurationSeconds = Mathf.Max(1f, StageSelection.SelectedLevel.Duration);
+        }
+        else 
+        {
+            gameDurationSeconds = Mathf.Max(1f, gameDurationSeconds);
+        }
+        
         timeSpeed = (endTime - startTime) / gameDurationSeconds;
     }
 

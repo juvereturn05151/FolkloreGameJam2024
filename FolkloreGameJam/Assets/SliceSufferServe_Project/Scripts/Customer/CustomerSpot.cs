@@ -4,6 +4,7 @@ using static Customer;
 public class CustomerSpot : MonoBehaviour
 {
     [SerializeField] private CustomerFoodPlace _plate;
+    [SerializeField] private GameObject _darkFire;
 
     private Customer _customer;
     public Customer Customer => _customer;
@@ -32,6 +33,8 @@ public class CustomerSpot : MonoBehaviour
     // Set a customer in this spot
     public void SetCustomer(Customer customer)
     {
+        _darkFire.SetActive(false);
+
         if (customer != null)
         {
             _customer = customer;
@@ -49,6 +52,11 @@ public class CustomerSpot : MonoBehaviour
                 _customer = null;
             }
         }
+    }
+
+    public void ActivateDarkFire() 
+    {
+        _darkFire.SetActive(true);
     }
 
     // Check if this spot has a customer
