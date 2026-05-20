@@ -48,6 +48,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   timeSpeed: 1
-  gameDurationSeconds: 180
+  gameDurationSeconds: 90
   startTime: 18
   endTime: 30

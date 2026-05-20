@@ -337,7 +337,16 @@ public class CustomerGenerator : MonoBehaviour
             return false;
         }
 
+        Food[] stuff = FindObjectsByType<Food>(FindObjectsSortMode.None);
+        Debug.Log("Current outstanding demand:" + stuff.Length);
+        if (stuff.Length >= 5)
+        {
+            Debug.Log("Supply is sufficient with " + stuff.Length + " available items. No need to spawn more humans for demand.");
+            return false; // If there are already 5 or more available items, we likely don't need more humans to meet demand
+        }
+
         Dictionary<Menu, int> supply = GetAvailableSupplyCounts();
+
 
         foreach (KeyValuePair<Menu, int> orderCount in demand)
         {
