@@ -171,6 +171,11 @@ public class GameplaySuperComboUI : MonoBehaviour
         {
             superMeterText.text = $"EVIL POWER x2 {Mathf.CeilToInt(remainingTime)}s";
         }
+
+        if (comboSpecialEffectRoot != null) 
+        {
+            comboSpecialEffectRoot.SetActive(true);
+        }
     }
 
     private void HandleSuperActivated()
