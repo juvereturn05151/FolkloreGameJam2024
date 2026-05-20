@@ -80,4 +80,4 @@ MonoBehaviour:
   customerMinOrderCount: 0
   customerMaxOrderCount: 0
   humanSpawnDelayAfterGhost: 0.35
-  duration: 180
+  duration: 90

@@ -126,7 +126,7 @@ public class ObeseRapidSliceEvent : MonoBehaviour
         eventFinished = true;
         eventActive = false;
 
-        Time.timeScale = previousTimeScale;
+        Time.timeScale = 1.0f;
         Time.fixedDeltaTime = previousFixedDeltaTime;
 
         TimeManager.Instance?.SetStageTimerPaused(false);
