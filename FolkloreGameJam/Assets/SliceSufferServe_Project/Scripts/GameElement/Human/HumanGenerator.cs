@@ -4,23 +4,25 @@ public class HumanGenerator : MonoBehaviour
 {
     [SerializeField]
     private HumanBody[] humanPrefabs; // Array of human prefabs
-    [SerializeField] 
+    [SerializeField]
     private Transform spawnPoint; // Where the human will be spawned
     [SerializeField]
     private float firstSpawnTime = 2.0f;
-    [SerializeField] 
+    [SerializeField]
     private float spawnInterval = 5f; // Time in seconds before trying to spawn again
+
+    [SerializeField]
+    private GameObject[] defaultHumanPrefabs; // Default prefabs to use if no overrides are specified
 
     private float spawnTimer; // Timer to track spawn interval
     private StageLevelConfig levelConfig;
     private bool isExternallyControlled;
-    private GameObject[] activeHumanPrefabOverrides;
+    private GameObject[] levelHumanPrefabOverrides; // Level-config overrides, resolved once at Start
 
     void Start()
     {
         levelConfig = StageSelection.SelectedLevel;
-        activeHumanPrefabOverrides = GetActiveHumanPrefabOverrides();
-        // Initialize the timer
+        levelHumanPrefabOverrides = ResolveHumanPrefabOverrides(levelConfig, null);
         spawnTimer = firstSpawnTime;
     }
 
@@ -36,14 +38,11 @@ public class HumanGenerator : MonoBehaviour
             return;
         }
 
-        // Countdown the spawn timer
         spawnTimer -= Time.deltaTime;
 
-        // If the timer hits zero, try to spawn a human
         if (spawnTimer <= 0f)
         {
             SpawnHuman(1f);
-            // Reset the timer for the next potential spawn
             spawnTimer = spawnInterval;
         }
     }
@@ -58,9 +57,13 @@ public class HumanGenerator : MonoBehaviour
         return GameManager.Instance != null && GameManager.Instance.IsTutorial;
     }
 
-    public void SpawnHuman(float movementSpeedMultiplier)
+    /// <summary>
+    /// Spawns a human using the three-tier prefab priority:
+    /// phase overrides > level config overrides > humanPrefabs serialized list.
+    /// </summary>
+    public void SpawnHuman(float movementSpeedMultiplier, GameObject[] phaseOverrides = null)
     {
-        HumanBody spawnedHuman = SpawnConfiguredHuman();
+        HumanBody spawnedHuman = SpawnConfiguredHuman(phaseOverrides);
 
         if (spawnedHuman == null)
         {
@@ -71,27 +74,34 @@ public class HumanGenerator : MonoBehaviour
         spawnedHuman.ApplyMovementSpeedMultiplier(movementSpeedMultiplier);
     }
 
-    public bool CanSpawnMenu(Menu menu, StageLevelConfig config)
+    /// <summary>
+    /// Checks whether any prefab in the resolved pool can produce the given menu,
+    /// respecting the same three-tier priority as SpawnHuman.
+    /// </summary>
+    public bool CanSpawnMenu(Menu menu, StageLevelConfig config, GameObject[] phaseOverrides = null)
     {
         if (menu == null)
         {
             return false;
         }
 
-        GameObject[] overridePrefabs = GetActiveHumanPrefabOverrides(config);
-        if (overridePrefabs != null && overridePrefabs.Length > 0)
+        GameObject[] pool = ResolveHumanPrefabOverrides(config, phaseOverrides);
+
+        if (pool != null && pool.Length > 0)
         {
-            for (int i = 0; i < overridePrefabs.Length; i++)
+            for (int i = 0; i < pool.Length; i++)
             {
-                if (CanPrefabSpawnMenu(overridePrefabs[i], menu, config))
+                if (CanPrefabSpawnMenu(pool[i], menu, config))
                 {
                     return true;
                 }
             }
 
+            // A pool was resolved — don't fall through to humanPrefabs
             return false;
         }
 
+        // No overrides at any tier; check the serialized humanPrefabs list
         if (humanPrefabs == null)
         {
             return false;
@@ -108,20 +118,25 @@ public class HumanGenerator : MonoBehaviour
         return false;
     }
 
-    private HumanBody SpawnConfiguredHuman()
+    /// <summary>
+    /// Instantiates a human from the resolved prefab pool.
+    /// Priority: phaseOverrides > levelHumanPrefabOverrides > humanPrefabs.
+    /// </summary>
+    private HumanBody SpawnConfiguredHuman(GameObject[] phaseOverrides = null)
     {
-        if (activeHumanPrefabOverrides != null && activeHumanPrefabOverrides.Length > 0)
+        // Tier 1: phase overrides
+        if (phaseOverrides != null && phaseOverrides.Length > 0)
         {
-            GameObject selectedOverridePrefab = activeHumanPrefabOverrides[Random.Range(0, activeHumanPrefabOverrides.Length)];
-            if (selectedOverridePrefab == null)
-            {
-                return null;
-            }
-
-            GameObject spawnedObject = Instantiate(selectedOverridePrefab, spawnPoint.position, selectedOverridePrefab.transform.rotation);
-            return spawnedObject.GetComponent<HumanBody>();
+            return InstantiateFromGameObjectPool(phaseOverrides);
         }
 
+        // Tier 2: level config overrides (resolved at Start)
+        if (levelHumanPrefabOverrides != null && levelHumanPrefabOverrides.Length > 0)
+        {
+            return InstantiateFromGameObjectPool(levelHumanPrefabOverrides);
+        }
+
+        // Tier 3: serialized HumanBody prefab list
         if (humanPrefabs == null || humanPrefabs.Length == 0)
         {
             return null;
@@ -136,13 +151,31 @@ public class HumanGenerator : MonoBehaviour
         return Instantiate(selectedPrefab, spawnPoint.position, selectedPrefab.transform.rotation);
     }
 
-    private GameObject[] GetActiveHumanPrefabOverrides()
+    private HumanBody InstantiateFromGameObjectPool(GameObject[] pool)
     {
-        return GetActiveHumanPrefabOverrides(levelConfig);
+        GameObject selectedPrefab = pool[Random.Range(0, pool.Length)];
+        if (selectedPrefab == null)
+        {
+            return null;
+        }
+
+        GameObject spawnedObject = Instantiate(selectedPrefab, spawnPoint.position, selectedPrefab.transform.rotation);
+        return spawnedObject.GetComponent<HumanBody>();
     }
 
-    private GameObject[] GetActiveHumanPrefabOverrides(StageLevelConfig config)
+    /// <summary>
+    /// Resolves the active prefab pool following three-tier priority.
+    /// Returns null if no overrides are set at any tier (caller should fall back to humanPrefabs).
+    /// </summary>
+    private static GameObject[] ResolveHumanPrefabOverrides(StageLevelConfig config, GameObject[] phaseOverrides)
     {
+        // Tier 1: phase overrides
+        if (phaseOverrides != null && phaseOverrides.Length > 0)
+        {
+            return phaseOverrides;
+        }
+
+        // Tier 2: level config overrides
         if (config != null && config.HumanPrefabOverrides != null && config.HumanPrefabOverrides.Length > 0)
         {
             return config.HumanPrefabOverrides;

@@ -92,7 +92,7 @@ public class CustomerGenerator : MonoBehaviour
         QueueHumanSpawn(GetActivePhase());
     }
 
-    private void DoubleSpawnInterval() 
+    private void DoubleSpawnInterval()
     {
         _spawnTimer = GetActivePhase().SpawnInterval;
     }
@@ -172,7 +172,9 @@ public class CustomerGenerator : MonoBehaviour
         HumanGenerator generator = humanGenerators[Random.Range(0, humanGenerators.Length)];
         if (generator != null)
         {
-            generator.SpawnHuman(activePhase.HumanSpeedMultiplier);
+            // Resolve the prefab override pool using priority: phase > level config > generator defaults
+            GameObject[] phaseOverrides = activePhase.HasHumanPrefabOverrides ? activePhase.HumanPrefabOverrides : null;
+            generator.SpawnHuman(activePhase.HumanSpeedMultiplier, phaseOverrides);
         }
     }
 
@@ -347,11 +349,12 @@ public class CustomerGenerator : MonoBehaviour
 
         Dictionary<Menu, int> supply = GetAvailableSupplyCounts();
 
+        StageSpawnPhase activePhase = GetActivePhase();
 
         foreach (KeyValuePair<Menu, int> orderCount in demand)
         {
             supply.TryGetValue(orderCount.Key, out int availableCount);
-            if (CanPendingHumansProvide(orderCount.Key))
+            if (CanPendingHumansProvide(orderCount.Key, activePhase))
             {
                 availableCount += pendingDemandHumanSpawns;
             }
@@ -421,16 +424,19 @@ public class CustomerGenerator : MonoBehaviour
         return counts;
     }
 
-    private bool CanPendingHumansProvide(Menu menu)
+    private bool CanPendingHumansProvide(Menu menu, StageSpawnPhase activePhase)
     {
         if (menu == null || humanGenerators == null)
         {
             return false;
         }
 
+        // Resolve phase-level overrides for the demand check, mirroring spawn logic
+        GameObject[] phaseOverrides = activePhase.HasHumanPrefabOverrides ? activePhase.HumanPrefabOverrides : null;
+
         for (int i = 0; i < humanGenerators.Length; i++)
         {
-            if (humanGenerators[i] != null && humanGenerators[i].CanSpawnMenu(menu, levelConfig))
+            if (humanGenerators[i] != null && humanGenerators[i].CanSpawnMenu(menu, levelConfig, phaseOverrides))
             {
                 return true;
             }

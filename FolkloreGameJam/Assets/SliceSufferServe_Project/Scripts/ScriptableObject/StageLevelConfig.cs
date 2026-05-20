@@ -16,7 +16,8 @@ public class StageLevelConfig : ScriptableObject
     [SerializeField] private Ghost[] allowedGhosts = Array.Empty<Ghost>();
     [Tooltip("Optional level-specific human prefab list. Empty means use the HumanGenerator's default list.")]
     [SerializeField] private GameObject[] humanPrefabOverrides = Array.Empty<GameObject>();
-    [SerializeField] private StageSpawnPhase[] spawnPhases =
+    [SerializeField]
+    private StageSpawnPhase[] spawnPhases =
     {
         new StageSpawnPhase(0f, 20f, 1.5f, 0.8f, 0f, new[] { FoodState.Normal }),
         new StageSpawnPhase(20f, 40f, 1.5f, 1f, 0.35f, new[] { FoodState.Normal, FoodState.MediumRotten }),
@@ -126,19 +127,27 @@ public class StageSpawnPhase
     [Range(0f, 1f)]
     [SerializeField] private float doubleSpawnChance;
     [SerializeField] private float doubleSpawnDelay = 0.25f;
-    [SerializeField] private FoodState[] allowedFoodStates =
+    [SerializeField]
+    private FoodState[] allowedFoodStates =
     {
         FoodState.Normal,
         FoodState.MediumRotten,
         FoodState.SuperRotten
     };
+    [Tooltip("Optional human prefab list for this phase. Falls back to level config overrides, then HumanGenerator defaults.")]
+    [SerializeField] private GameObject[] humanPrefabOverrides = Array.Empty<GameObject>();
 
     public StageSpawnPhase(float startTime, float endTime, float spawnInterval, float humanSpeedMultiplier, float doubleSpawnChance)
-        : this(startTime, endTime, spawnInterval, humanSpeedMultiplier, doubleSpawnChance, null)
+        : this(startTime, endTime, spawnInterval, humanSpeedMultiplier, doubleSpawnChance, null, null)
     {
     }
 
     public StageSpawnPhase(float startTime, float endTime, float spawnInterval, float humanSpeedMultiplier, float doubleSpawnChance, FoodState[] allowedFoodStates)
+        : this(startTime, endTime, spawnInterval, humanSpeedMultiplier, doubleSpawnChance, allowedFoodStates, null)
+    {
+    }
+
+    public StageSpawnPhase(float startTime, float endTime, float spawnInterval, float humanSpeedMultiplier, float doubleSpawnChance, FoodState[] allowedFoodStates, GameObject[] humanPrefabOverrides)
     {
         this.startTime = startTime;
         this.endTime = endTime;
@@ -146,6 +155,7 @@ public class StageSpawnPhase
         this.humanSpeedMultiplier = humanSpeedMultiplier;
         this.doubleSpawnChance = doubleSpawnChance;
         this.allowedFoodStates = allowedFoodStates;
+        this.humanPrefabOverrides = humanPrefabOverrides ?? Array.Empty<GameObject>();
     }
 
     public float StartTime => startTime;
@@ -155,6 +165,8 @@ public class StageSpawnPhase
     public float DoubleSpawnChance => Mathf.Clamp01(doubleSpawnChance);
     public float DoubleSpawnDelay => Mathf.Max(0f, doubleSpawnDelay);
     public FoodState[] AllowedFoodStates => allowedFoodStates;
+    public GameObject[] HumanPrefabOverrides => humanPrefabOverrides;
+    public bool HasHumanPrefabOverrides => humanPrefabOverrides != null && humanPrefabOverrides.Length > 0;
 
     public bool Contains(float elapsedTime)
     {
@@ -169,6 +181,11 @@ public class StageSpawnPhase
         humanSpeedMultiplier = Mathf.Max(0.01f, humanSpeedMultiplier);
         doubleSpawnChance = Mathf.Clamp01(doubleSpawnChance);
         doubleSpawnDelay = Mathf.Max(0f, doubleSpawnDelay);
+
+        if (humanPrefabOverrides == null)
+        {
+            humanPrefabOverrides = Array.Empty<GameObject>();
+        }
 
         if (allowedFoodStates == null || allowedFoodStates.Length == 0)
         {
