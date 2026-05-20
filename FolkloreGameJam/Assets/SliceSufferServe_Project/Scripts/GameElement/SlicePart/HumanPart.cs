@@ -120,6 +120,11 @@ public class HumanPart : MonoBehaviour
 
         _sliced = true;
 
+        if (GameUtility.GameManagerExists()) 
+        {
+            GameManager.Instance.AddSuperMeter(5);
+        }
+
         if (_ownerBody != null)
         {
             _ownerBody.NotifyPartSliced(this);

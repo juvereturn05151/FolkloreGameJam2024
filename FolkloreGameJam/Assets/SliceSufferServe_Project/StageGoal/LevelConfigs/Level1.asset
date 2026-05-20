@@ -22,6 +22,7 @@ MonoBehaviour:
   activeCustomerSpotIndexes: 01000000
   allowedGhosts:
   - {fileID: 11400000, guid: d2952cb466b75414ebc175f0b6c76687, type: 2}
+  humanPrefabOverrides: []
   spawnPhases:
   - startTime: 0
     endTime: 20
@@ -44,4 +45,8 @@ MonoBehaviour:
     doubleSpawnChance: 0
     doubleSpawnDelay: 0.25
     allowedFoodStates: 02000000
+  customerPatienceMultiplier: 1
+  customerMinOrderCount: 0
+  customerMaxOrderCount: 0
   humanSpawnDelayAfterGhost: 0.35
+  duration: 60

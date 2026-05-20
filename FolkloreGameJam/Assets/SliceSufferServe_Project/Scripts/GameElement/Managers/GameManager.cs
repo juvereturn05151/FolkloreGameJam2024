@@ -172,7 +172,7 @@ public class GameManager : MonoBehaviour
 
     public void AddSuperMeter(float amount)
     {
-        if (isGameOver || !IsSuperMeterAllowed || amount <= 0f)
+        if (isGameOver || !IsSuperMeterAllowed || amount <= 0f || IsSuperScoreMultiplierActive)
         {
             return;
         }

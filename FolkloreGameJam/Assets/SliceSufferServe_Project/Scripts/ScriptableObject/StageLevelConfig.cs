@@ -29,6 +29,7 @@ public class StageLevelConfig : ScriptableObject
     [Tooltip("Optional maximum number of foods a customer can order. Set both min and max to 0 to use customer prefab appetite.")]
     [SerializeField] private int customerMaxOrderCount;
     [SerializeField] private float humanSpawnDelayAfterGhost = 0.35f;
+    [SerializeField] private float duration = 180f;
 
     public string LevelId => string.IsNullOrWhiteSpace(levelId) ? name : levelId;
     public string DisplayName => string.IsNullOrWhiteSpace(displayName) ? name : displayName;
@@ -46,6 +47,7 @@ public class StageLevelConfig : ScriptableObject
     public int CustomerMaxOrderCount => Mathf.Max(0, customerMaxOrderCount);
     public float HumanSpawnDelayAfterGhost => Mathf.Max(0f, humanSpawnDelayAfterGhost);
     public bool HasCustomerOrderCountOverride => CustomerMaxOrderCount > 0;
+    public float Duration => Mathf.Max(0f, duration);
 
     public bool IsBodyPartEnabled(HumanBodyPartType bodyPartType)
     {

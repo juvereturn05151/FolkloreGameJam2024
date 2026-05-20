@@ -67,11 +67,11 @@ MonoBehaviour:
   customerGen: {fileID: 0}
   stageGoal: {fileID: 11400000, guid: 824bc3dc788f64a4ca9431333436696f, type: 2}
   superMeterThreshold: 100
-  superMeterGainPerTrash: 25
+  superMeterGainPerTrash: 1
   shakeActivationThreshold: 2.5
   shakeActivationCooldown: 0.75
   superScoreMultiplier: 2
-  superScoreMultiplierDuration: 10
+  superScoreMultiplierDuration: 20
   superActivated:
     m_PersistentCalls:
       m_Calls: []

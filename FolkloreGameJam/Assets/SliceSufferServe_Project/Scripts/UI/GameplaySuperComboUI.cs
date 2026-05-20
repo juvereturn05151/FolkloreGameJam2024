@@ -144,7 +144,7 @@ public class GameplaySuperComboUI : MonoBehaviour
 
         if (superMeterText != null)
         {
-            superMeterText.text = isReady ? "EVIL ENERGYEVIL ENERGY READY" : $"EVIL ENERGY {Mathf.RoundToInt(normalizedValue * 100f)}%";
+            superMeterText.text = isReady ? "EVIL ENERGY READY" : $"EVIL ENERGY {Mathf.RoundToInt(normalizedValue * 100f)}%";
         }
     }
 

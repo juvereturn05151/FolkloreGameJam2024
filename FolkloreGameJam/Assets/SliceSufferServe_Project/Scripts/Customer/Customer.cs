@@ -210,6 +210,11 @@ public class Customer : MonoBehaviour
             orderUI?.RemoveOrderImage(matchedOrder);
         }
 
+        if (GameUtility.GameManagerExists())
+        {
+            GameManager.Instance.AddSuperMeter(10);
+        }
+
         currentState = CustomerState.Eating;
     }
 

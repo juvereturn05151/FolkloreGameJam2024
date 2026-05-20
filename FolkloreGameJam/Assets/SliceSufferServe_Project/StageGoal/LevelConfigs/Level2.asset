@@ -18,16 +18,13 @@ MonoBehaviour:
   gameplaySceneName: GameplayScene
   stageGoal: {fileID: 11400000, guid: f147658f6064435b936acb0880d0de7b, type: 2}
   allowSuperMeter: 0
-  enabledBodyParts:
-  - 0
-  - 1
-  - 2
-  activeCustomerSpotIndexes:
-  - 1
+  enabledBodyParts: 000000000100000002000000
+  activeCustomerSpotIndexes: 01000000
   allowedGhosts:
   - {fileID: 11400000, guid: d2952cb466b75414ebc175f0b6c76687, type: 2}
   - {fileID: 11400000, guid: 02006c8ba69015e418b4a73cbb3f9f9d, type: 2}
   - {fileID: 11400000, guid: 3773c85fcdaf6f841839a87456861e97, type: 2}
+  humanPrefabOverrides: []
   spawnPhases:
   - startTime: 0
     endTime: 20
@@ -35,25 +32,23 @@ MonoBehaviour:
     humanSpeedMultiplier: 0.8
     doubleSpawnChance: 0
     doubleSpawnDelay: 0.25
-    allowedFoodStates:
-    - 0
+    allowedFoodStates: 00000000
   - startTime: 20
     endTime: 40
     spawnInterval: 1.5
     humanSpeedMultiplier: 1
     doubleSpawnChance: 0.35
     doubleSpawnDelay: 0.25
-    allowedFoodStates:
-    - 0
-    - 1
+    allowedFoodStates: 0000000001000000
   - startTime: 40
     endTime: 60
     spawnInterval: 0.8
     humanSpeedMultiplier: 1.25
     doubleSpawnChance: 0
     doubleSpawnDelay: 0.25
-    allowedFoodStates:
-    - 0
-    - 1
-    - 2
+    allowedFoodStates: 000000000100000002000000
+  customerPatienceMultiplier: 1
+  customerMinOrderCount: 0
+  customerMaxOrderCount: 0
   humanSpawnDelayAfterGhost: 0.35
+  duration: 60

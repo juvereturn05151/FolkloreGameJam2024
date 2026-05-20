@@ -16,7 +16,7 @@ public class CustomerGenerator : MonoBehaviour
     private float _spawnInterval = 5f; // Interval between spawning customers
 
     private float _demandCheckTimer;
-    private const float DemandCheckInterval = 4f;
+    private const float DemandCheckInterval = 2f;
 
     private float _spawnTimer; // Timer to track the spawn interval
     private bool _isGenerating = true; // Flag to control customer generation
