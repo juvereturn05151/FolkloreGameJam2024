@@ -135,10 +135,10 @@ public class ObeseRapidSliceEvent : MonoBehaviour
 
         TrySpawnBiomass();
 
-        if (CustomerGenerator.Instance != null)
-        {
-            CustomerGenerator.Instance.RequestReplacementHuman();
-        }
+        //if (CustomerGenerator.Instance != null)
+        //{
+        //    CustomerGenerator.Instance.RequestReplacementHuman();
+        //}
 
         Destroy(gameObject);
     }

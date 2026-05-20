@@ -47,7 +47,7 @@ MonoBehaviour:
   OnRushTime:
     m_PersistentCalls:
       m_Calls: []
-  timeSpeed: 0.2
+  timeSpeed: 1
   gameDurationSeconds: 60
   startTime: 18
   endTime: 30

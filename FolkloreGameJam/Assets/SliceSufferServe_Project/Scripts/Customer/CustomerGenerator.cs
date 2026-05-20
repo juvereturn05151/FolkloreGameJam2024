@@ -15,6 +15,9 @@ public class CustomerGenerator : MonoBehaviour
     [SerializeField]
     private float _spawnInterval = 5f; // Interval between spawning customers
 
+    private float _demandCheckTimer;
+    private const float DemandCheckInterval = 4f;
+
     private float _spawnTimer; // Timer to track the spawn interval
     private bool _isGenerating = true; // Flag to control customer generation
     private float elapsedStageTime;
@@ -55,22 +58,38 @@ public class CustomerGenerator : MonoBehaviour
 
     private void Update()
     {
-        if(GameManager.Instance.IsGameOver) return;
+        if (GameManager.Instance.IsGameOver) return;
         if (isRapidSlicePaused) return;
-        
+
         elapsedStageTime += Time.deltaTime;
 
         if (_isGenerating)
         {
-            _spawnTimer -= Time.deltaTime; // Countdown the spawn timer
+            _spawnTimer -= Time.deltaTime;
 
-            if (_spawnTimer <= 0f) // If the timer reaches zero
+            if (_spawnTimer <= 0f)
             {
                 StageSpawnPhase activePhase = GetActivePhase();
                 GenerateSpawnPair(activePhase);
                 _spawnTimer = activePhase.SpawnInterval;
             }
         }
+
+        // Demand check
+        _demandCheckTimer -= Time.deltaTime;
+        if (_demandCheckTimer <= 0f)
+        {
+            _demandCheckTimer = DemandCheckInterval;
+            CheckAndFulfillOutstandingDemand();
+        }
+    }
+
+    private void CheckAndFulfillOutstandingDemand()
+    {
+        if (!CanProcessReplacementRequest()) return;
+        if (!NeedsAnotherHuman()) return;
+
+        QueueHumanSpawn(GetActivePhase());
     }
 
     private void DoubleSpawnInterval() 
@@ -157,32 +176,9 @@ public class CustomerGenerator : MonoBehaviour
         }
     }
 
-    public void RequestReplacementHuman()
-    {
-        if (!CanProcessReplacementRequest())
-        {
-            return;
-        }
-
-        if (NeedsAnotherHuman())
-        {
-            QueueHumanSpawn(GetActivePhase());
-        }
-    }
-
     public void SetRapidSlicePaused(bool paused)
     {
         isRapidSlicePaused = paused;
-    }
-
-    public void RequestReplacementHumanNextFrame()
-    {
-        if (!CanProcessReplacementRequest())
-        {
-            return;
-        }
-
-        StartCoroutine(RequestReplacementHumanNextFrameCoroutine());
     }
 
     // Get a random customer from the list of possible customers
@@ -324,12 +320,6 @@ public class CustomerGenerator : MonoBehaviour
 
         pendingDemandHumanSpawns++;
         StartCoroutine(SpawnHumanAfterDelay(activePhase));
-    }
-
-    private IEnumerator RequestReplacementHumanNextFrameCoroutine()
-    {
-        yield return null;
-        RequestReplacementHuman();
     }
 
     private bool CanProcessReplacementRequest()

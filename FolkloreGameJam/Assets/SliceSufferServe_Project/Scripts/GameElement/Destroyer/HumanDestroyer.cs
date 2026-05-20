@@ -20,10 +20,6 @@ public class HumanDestroyer : MonoBehaviour
             else
             {
                 part.DestroyWithoutFood();
-                if (CustomerGenerator.Instance != null)
-                {
-                    CustomerGenerator.Instance.RequestReplacementHumanNextFrame();
-                }
             }
 
             return;

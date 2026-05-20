@@ -81,7 +81,7 @@ public class HumanBody : MonoBehaviour
             }
         }
 
-        StartCoroutine(DestroyAndRequestReplacementAfterDelay(1f));
+        StartCoroutine(DestroyAfterDelay(1f));
     }
 
     public void NotifyMissedDestroyer()
@@ -95,8 +95,6 @@ public class HumanBody : MonoBehaviour
             if (part == null) continue;
             part.DestroyWithoutFood();
         }
-
-        RequestReplacementHuman();
 
         Destroy(gameObject);
     }
@@ -112,35 +110,15 @@ public class HumanBody : MonoBehaviour
         _parts.Remove(missedPart);
         missedPart.DestroyWithoutFood();
 
-        RequestReplacementHumanNextFrame();
-
         if (!HasRemainingParts())
         {
             Destroy(gameObject);
         }
     }
 
-    private void RequestReplacementHuman()
-    {
-        if (CustomerGenerator.Instance != null)
-        {
-            CustomerGenerator.Instance.RequestReplacementHuman();
-        }
-    }
-
-    private void RequestReplacementHumanNextFrame()
-    {
-        if (CustomerGenerator.Instance != null)
-        {
-            CustomerGenerator.Instance.RequestReplacementHumanNextFrame();
-        }
-    }
-
-    private IEnumerator DestroyAndRequestReplacementAfterDelay(float delay)
+    private IEnumerator DestroyAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-
-        RequestReplacementHuman();
         Destroy(gameObject);
     }
 

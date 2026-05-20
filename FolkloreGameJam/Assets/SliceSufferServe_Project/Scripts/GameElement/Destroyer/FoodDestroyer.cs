@@ -7,11 +7,6 @@ public class FoodDestroyer : MonoBehaviour
         if (other.gameObject.CompareTag("Food"))
         {
             Destroy(other.gameObject);
-
-            if (CustomerGenerator.Instance != null)
-            {
-                CustomerGenerator.Instance.RequestReplacementHumanNextFrame();
-            }
         }
     }
 }

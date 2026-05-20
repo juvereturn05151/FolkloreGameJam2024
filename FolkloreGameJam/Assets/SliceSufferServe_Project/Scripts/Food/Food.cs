@@ -148,11 +148,6 @@ public class Food : MonoBehaviour
             foodVisuals.SpawnDust(transform.position, transform.rotation);
         }
 
-        if (CustomerGenerator.Instance != null)
-        {
-            CustomerGenerator.Instance.RequestReplacementHumanNextFrame();
-        }
-
         Destroy(gameObject);
     }
 

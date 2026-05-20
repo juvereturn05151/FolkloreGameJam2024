@@ -26,11 +26,6 @@ public class Trash : MonoBehaviour
             {
                 GameManager.Instance.AddSuperMeterFromTrash();
             }
-
-            if (CustomerGenerator.Instance != null)
-            {
-                CustomerGenerator.Instance.RequestReplacementHumanNextFrame();
-            }
         }
     }
 }
