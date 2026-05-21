@@ -1,0 +1,28 @@
+{
+  "buildFiles": [
+    "E:\\FolkloreJam\\FolkloreGameJam2024\\FolkloreGameJam\\Library\\Bee\\Android\\Prj\\IL2CPP\\Gradle\\unityLibrary\\src\\main\\cpp\\CMakeLists.txt",
+    "E:\\FolkloreJam\\FolkloreGameJam2024\\FolkloreGameJam\\Library\\Bee\\Android\\Prj\\IL2CPP\\Gradle\\unityLibrary\\src\\main\\cpp\\FramePacing\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "E:\\Unity\\Editor\\6000.4.6f1\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\SDK\\cmake\\3.22.1\\bin\\ninja.exe",
+      "-C",
+      "E:\\FolkloreJam\\FolkloreGameJam2024\\FolkloreGameJam\\.utmp\\RelWithDebInfo\\672n622h\\armeabi-v7a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "E:\\Unity\\Editor\\6000.4.6f1\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\SDK\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-C",
+    "E:\\FolkloreJam\\FolkloreGameJam2024\\FolkloreGameJam\\.utmp\\RelWithDebInfo\\672n622h\\armeabi-v7a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "swappywrapper::@7e25bd1f32ce224db4e9": {
+      "artifactName": "swappywrapper",
+      "abi": "armeabi-v7a",
+      "output": "E:\\FolkloreJam\\FolkloreGameJam2024\\FolkloreGameJam\\Library\\Bee\\Android\\Prj\\IL2CPP\\Gradle\\unityLibrary\\build\\intermediates\\cxx\\RelWithDebInfo\\672n622h\\obj\\armeabi-v7a\\libswappywrapper.so",
+      "runtimeFiles": []
+    }
+  }
+}
