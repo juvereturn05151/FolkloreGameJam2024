@@ -34,7 +34,7 @@ MonoBehaviour:
   spawnPhases:
   - startTime: 0
     endTime: 10
-    spawnInterval: 4
+    spawnInterval: 5
     humanSpeedMultiplier: 0.3
     doubleSpawnChance: 0
     doubleSpawnDelay: 0.5
@@ -43,15 +43,17 @@ MonoBehaviour:
     - {fileID: 1355700126600169132, guid: a4f53d1498984805b723d7217d2f1d01, type: 3}
   - startTime: 10
     endTime: 40
-    spawnInterval: 0.8
+    spawnInterval: 4
     humanSpeedMultiplier: 1.25
     doubleSpawnChance: 0.3
     doubleSpawnDelay: 0.25
     allowedFoodStates: 000000000100000002000000
-    humanPrefabOverrides: []
+    humanPrefabOverrides:
+    - {fileID: 3309805145410399744, guid: c2e6239c092ba42469de1925b1e3988d, type: 3}
+    - {fileID: 752638607334200436, guid: 0dbec903a46148b69cdb6fbbdf40c245, type: 3}
   - startTime: 40
     endTime: 70
-    spawnInterval: 0.8
+    spawnInterval: 4
     humanSpeedMultiplier: 1.25
     doubleSpawnChance: 0
     doubleSpawnDelay: 0.25
@@ -59,7 +61,7 @@ MonoBehaviour:
     humanPrefabOverrides: []
   - startTime: 70
     endTime: 71
-    spawnInterval: 0.605
+    spawnInterval: 0.6
     humanSpeedMultiplier: 1.25
     doubleSpawnChance: 0.3
     doubleSpawnDelay: 0.25
@@ -69,17 +71,15 @@ MonoBehaviour:
   - startTime: 71
     endTime: 90
     spawnInterval: 0.605
-    humanSpeedMultiplier: 1.25
+    humanSpeedMultiplier: 2
     doubleSpawnChance: 0.3
     doubleSpawnDelay: 0.25
     allowedFoodStates: 00000000
     humanPrefabOverrides:
-    - {fileID: 9028663880306604470, guid: 0ba028d8705148efa7355b4a378fdcdf, type: 3}
     - {fileID: 752638607334200436, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
-    - {fileID: 2930828951274456624, guid: 11459b7c95d94fd4a975ddf32b4b0759, type: 3}
     - {fileID: 752638607334200436, guid: 0dbec903a46148b69cdb6fbbdf40c245, type: 3}
-    - {fileID: 752638607334200436, guid: 6132527dfd73478db7feb50ab8ffbe99, type: 3}
     - {fileID: 1355700126600169132, guid: a4f53d1498984805b723d7217d2f1d01, type: 3}
+    - {fileID: 752638607334200436, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
   customerPatienceMultiplier: 1
   customerMinOrderCount: 0
   customerMaxOrderCount: 0

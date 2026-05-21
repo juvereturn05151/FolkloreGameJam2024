@@ -74,7 +74,7 @@ MonoBehaviour:
   slashRegisterInterval: 0.055
   flashColor: {r: 1, g: 0.26, b: 0.18, a: 1}
   blobColor: {r: 1, g: 0.62, b: 0.38, a: 1}
-  biomassPrefab: {fileID: 1380852210859090364, guid: a293c9a0c62744ef9b62e710c5f82333, type: 3}
+  biomassPrefab: {fileID: 1380852210859090364, guid: cb93c21b67fe86a48941693b35a27af8, type: 3}
   biomassSprite: {fileID: 21300000, guid: 2d381d5553cf693499df45fc6fddfe47, type: 3}
   requiredSlicesForBiomass: 30
   biomassScoreMultiplier: 1
