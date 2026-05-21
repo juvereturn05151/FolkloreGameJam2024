@@ -107,7 +107,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8739431860142147529
 Transform:
   m_ObjectHideFlags: 0
@@ -406,7 +406,7 @@ PrefabInstance:
       objectReference: {fileID: 3036385971898085685, guid: 92662209ef884ef4bd19ddc736322202, type: 3}
     - target: {fileID: 5983385280804613021, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: cutsRequiredToDestroy
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6360245018159625436, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: m_Size.x
@@ -463,9 +463,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5814622958074002437, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1081164437374220341}
-    - targetCorrespondingSourceObject: {fileID: 7132712350424662373, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8855669583960664752}
     - targetCorrespondingSourceObject: {fileID: 3520771975688920634, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8527299104994861109}
@@ -551,27 +548,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6161190803744957860, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
   m_PrefabInstance: {fileID: 1774843516981269208}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8817483823316489149 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7132712350424662373, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
-  m_PrefabInstance: {fileID: 1774843516981269208}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8855669583960664752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8817483823316489149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bb811b027844dbd9f80f626bd2fd2ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KnightArmorLayer
-  armorVisual: {fileID: 6726677171863991195}
-  armorBreakEffectPrefab: {fileID: 2520216811110479237, guid: c81f2e8dc2f84ee3a97c6f64f7a9b5a1, type: 3}
-  armorBreakEffectScale: 1
-  shakeOnArmorBreak: 1
 --- !u!4 &9066293206641434296 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7309469071424392288, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}

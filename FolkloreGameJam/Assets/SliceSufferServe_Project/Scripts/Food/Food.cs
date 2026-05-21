@@ -93,7 +93,7 @@ public class Food : MonoBehaviour
             return;
         }
 
-        if (!IsPremiumFood) 
+        if (!IsPremiumFood)
         {
             foodRotting.Tick(Time.deltaTime);
 
@@ -101,6 +101,10 @@ public class Food : MonoBehaviour
             {
                 foodVisuals.UpdateRotSlider(foodRotting.Remaining, foodRotting.BaseRottenTime);
             }
+        }
+        else 
+        {
+            foodVisuals.HideRotUI();
         }
 
 
