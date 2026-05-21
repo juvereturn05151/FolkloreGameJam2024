@@ -235,8 +235,13 @@ public class Customer : MonoBehaviour
             if (order == null || order.Menu == null)
                 continue;
 
-            bool correctMenu = order.Menu == food.Menu;
+            bool correctMenu = order.Menu.FoodType == food.Menu.FoodType;
             bool correctState = food.FoodRotting.State == order.DesiredFoodState;
+
+            if (food.IsPremiumFood) 
+            {
+                correctState = true;
+            }
 
             if (correctMenu && correctState)
             {

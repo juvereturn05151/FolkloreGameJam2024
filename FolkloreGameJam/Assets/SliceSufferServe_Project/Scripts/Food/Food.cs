@@ -19,6 +19,7 @@ public class Food : MonoBehaviour
 
     public FoodRotting FoodRotting => foodRotting;
     public bool IsUniversalFood { get; private set; }
+    public bool IsPremiumFood;
     public float UniversalScoreMultiplier { get; private set; } = 1f;
 
     private bool _isReadyToEat;
@@ -92,12 +93,17 @@ public class Food : MonoBehaviour
             return;
         }
 
-        foodRotting.Tick(Time.deltaTime);
-
-        if (foodVisuals != null)
+        if (!IsPremiumFood) 
         {
-            foodVisuals.UpdateRotSlider(foodRotting.Remaining, foodRotting.BaseRottenTime);
+            foodRotting.Tick(Time.deltaTime);
+
+            if (foodVisuals != null)
+            {
+                foodVisuals.UpdateRotSlider(foodRotting.Remaining, foodRotting.BaseRottenTime);
+            }
         }
+
+
     }
 
     private void HandleDragStarted()

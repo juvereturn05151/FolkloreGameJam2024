@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Premium Intestine
   m_EditorClassIdentifier: 
   FoodType: 2
-  Sprite: {fileID: 21300000, guid: d3b2de2044d2f6545a5c7cff67cf1081, type: 3}
+  Sprite: {fileID: 21300000, guid: f4fe5b4b56d5c784795294e8ae500b6f, type: 3}
   MediumRottenSprite: {fileID: 21300000, guid: 08f41becfc96f8e4bb2768e29c100269, type: 3}
   SuperRottenSprite: {fileID: 21300000, guid: d1e39f7d8c0de9743abf0ce0600e237a, type: 3}
   Score: 10

@@ -16,7 +16,7 @@ public class CustomerGenerator : MonoBehaviour
     private float _spawnInterval = 5f; // Interval between spawning customers
 
     private float _demandCheckTimer;
-    private const float DemandCheckInterval = 2f;
+    private const float DemandCheckInterval = 2.0f;
 
     private float _spawnTimer; // Timer to track the spawn interval
     private bool _isGenerating = true; // Flag to control customer generation
@@ -88,7 +88,9 @@ public class CustomerGenerator : MonoBehaviour
     {
         if (!CanProcessReplacementRequest()) return;
         if (!NeedsAnotherHuman()) return;
+        if (pendingDemandHumanSpawns > 0) return;
 
+        Debug.Log("Outstanding demand detected. Spawning human to help meet demand.");
         QueueHumanSpawn(GetActivePhase());
     }
 
@@ -144,6 +146,7 @@ public class CustomerGenerator : MonoBehaviour
             newCustomer.SetAllowedDesiredFoodStates(activePhase.AllowedFoodStates);
             emptySpot.SetCustomer(newCustomer); // Set the new customer in the spot
             newCustomer.onLeaveRestaurant.AddListener(ClearCustomerSpot); // Listen for when the customer leaves
+            Debug.Log($"Spawned new customer: {newCustomer.name} at spot {emptySpot.name}. Active phase: {activePhase.StartTime}-{activePhase.EndTime}s.");
             QueueHumanSpawn(activePhase);
         }
         else
@@ -174,6 +177,7 @@ public class CustomerGenerator : MonoBehaviour
         {
             // Resolve the prefab override pool using priority: phase > level config > generator defaults
             GameObject[] phaseOverrides = activePhase.HasHumanPrefabOverrides ? activePhase.HumanPrefabOverrides : null;
+            Debug.Log($"Spawning human to meet demand. Pending demand spawns remaining: {pendingDemandHumanSpawns}. Active phase: {activePhase.StartTime}-{activePhase.EndTime}s. Using {(phaseOverrides != null ? "phase overrides" : "generator defaults")}.");
             generator.SpawnHuman(activePhase.HumanSpeedMultiplier, phaseOverrides);
         }
     }
@@ -340,10 +344,9 @@ public class CustomerGenerator : MonoBehaviour
         }
 
         Food[] stuff = FindObjectsByType<Food>(FindObjectsSortMode.None);
-        Debug.Log("Current outstanding demand:" + stuff.Length);
+
         if (stuff.Length >= 5)
         {
-            Debug.Log("Supply is sufficient with " + stuff.Length + " available items. No need to spawn more humans for demand.");
             return false; // If there are already 5 or more available items, we likely don't need more humans to meet demand
         }
 

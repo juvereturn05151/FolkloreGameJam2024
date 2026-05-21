@@ -10,14 +10,6 @@ public class KnightArmorLayer : MonoBehaviour
 
     private bool armorBroken;
 
-    public void Configure(GameObject visual, GameObject breakEffectPrefab, float breakEffectScale)
-    {
-        armorVisual = visual;
-        armorBreakEffectPrefab = breakEffectPrefab;
-        armorBreakEffectScale = breakEffectScale;
-        ResetArmor();
-    }
-
     private void Awake()
     {
         if (armorVisual == null)

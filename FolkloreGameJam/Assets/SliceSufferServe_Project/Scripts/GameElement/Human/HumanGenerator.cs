@@ -43,6 +43,7 @@ public class HumanGenerator : MonoBehaviour
         if (spawnTimer <= 0f)
         {
             SpawnHuman(1f);
+            Debug.Log("das");
             spawnTimer = spawnInterval;
         }
     }
@@ -124,6 +125,7 @@ public class HumanGenerator : MonoBehaviour
     /// </summary>
     private HumanBody SpawnConfiguredHuman(GameObject[] phaseOverrides = null)
     {
+        Debug.Log("Spawn");
         // Tier 1: phase overrides
         if (phaseOverrides != null && phaseOverrides.Length > 0)
         {

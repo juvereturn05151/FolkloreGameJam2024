@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Premium Shit
   m_EditorClassIdentifier: 
   FoodType: 3
-  Sprite: {fileID: 21300000, guid: 2b77110638041104b9d9d3c2ce6c73dc, type: 3}
+  Sprite: {fileID: 21300000, guid: a58de8a9b941cba4a98049c678ce3375, type: 3}
   MediumRottenSprite: {fileID: 21300000, guid: 965ff731f03216f4890c639fa04c9bac, type: 3}
   SuperRottenSprite: {fileID: 21300000, guid: ca1d0c5cbb4e2b440b8a53306c171b81, type: 3}
   Score: 10
