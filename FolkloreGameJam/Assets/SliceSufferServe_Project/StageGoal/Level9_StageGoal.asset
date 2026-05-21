@@ -16,5 +16,5 @@ MonoBehaviour:
   displayName: Level 9
   levelNumber: 9
   oneStarScore: 60
-  twoStarScore: 80
-  threeStarScore: 120
+  twoStarScore: 100
+  threeStarScore: 200
