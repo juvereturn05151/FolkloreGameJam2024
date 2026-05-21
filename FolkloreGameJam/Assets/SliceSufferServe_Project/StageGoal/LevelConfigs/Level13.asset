@@ -16,61 +16,105 @@ MonoBehaviour:
   displayName: Level 13 - Hardest Service
   levelNumber: 13
   gameplaySceneName: GameplayScene
-  stageGoal: {fileID: 11400000, guid: 2e82baec2b8741ea81c989edf0d3a502, type: 2}
+  stageGoal: {fileID: 11400000, guid: b50bed11cf31227418fa16cebaee8496, type: 2}
   allowSuperMeter: 1
-  enabledBodyParts:
-  - 0
-  - 1
-  - 2
-  - 3
-  activeCustomerSpotIndexes:
-  - 0
-  - 1
-  - 2
+  enabledBodyParts: 00000000010000000200000003000000
+  activeCustomerSpotIndexes: 000000000100000002000000
   allowedGhosts:
   - {fileID: 11400000, guid: d2952cb466b75414ebc175f0b6c76687, type: 2}
   - {fileID: 11400000, guid: 02006c8ba69015e418b4a73cbb3f9f9d, type: 2}
   - {fileID: 11400000, guid: 3773c85fcdaf6f841839a87456861e97, type: 2}
   - {fileID: 11400000, guid: aadd87bc3fa161f4399ab252ca555a53, type: 2}
   humanPrefabOverrides:
-  - {fileID: 100100000, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
-  - {fileID: 100100000, guid: 11459b7c95d94fd4a975ddf32b4b0759, type: 3}
-  - {fileID: 100100000, guid: c2e6239c092ba42469de1925b1e3988d, type: 3}
-  - {fileID: 100100000, guid: 0ba028d8705148efa7355b4a378fdcdf, type: 3}
-  - {fileID: 100100000, guid: 0dbec903a46148b69cdb6fbbdf40c245, type: 3}
-  - {fileID: 100100000, guid: 6132527dfd73478db7feb50ab8ffbe99, type: 3}
-  - {fileID: 100100000, guid: f20d67bdb74341bdaf8c3999482e2401, type: 3}
+  - {fileID: 752638607334200436, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+  - {fileID: 2930828951274456624, guid: 11459b7c95d94fd4a975ddf32b4b0759, type: 3}
+  - {fileID: 3309805145410399744, guid: c2e6239c092ba42469de1925b1e3988d, type: 3}
   spawnPhases:
   - startTime: 0
+    endTime: 2
+    spawnInterval: 1.5
+    humanSpeedMultiplier: 0.8
+    doubleSpawnChance: 0
+    doubleSpawnDelay: 0.25
+    allowedFoodStates: 00000000
+    humanPrefabOverrides:
+    - {fileID: 752638607334200436, guid: 6132527dfd73478db7feb50ab8ffbe99, type: 3}
+  - startTime: 2
     endTime: 20
-    spawnInterval: 0.9
-    humanSpeedMultiplier: 1.1
-    doubleSpawnChance: 0.3
-    doubleSpawnDelay: 0.2
-    allowedFoodStates:
-    - 0
-    - 1
+    spawnInterval: 1.5
+    humanSpeedMultiplier: 1
+    doubleSpawnChance: 0.35
+    doubleSpawnDelay: 0.25
+    allowedFoodStates: 00000000
+    humanPrefabOverrides:
+    - {fileID: 752638607334200436, guid: 0dbec903a46148b69cdb6fbbdf40c245, type: 3}
+    - {fileID: 752638607334200436, guid: f20d67bdb74341bdaf8c3999482e2401, type: 3}
+    - {fileID: 3309805145410399744, guid: c2e6239c092ba42469de1925b1e3988d, type: 3}
   - startTime: 20
     endTime: 40
-    spawnInterval: 0.75
-    humanSpeedMultiplier: 1.35
-    doubleSpawnChance: 0.55
-    doubleSpawnDelay: 0.18
-    allowedFoodStates:
-    - 0
-    - 1
-    - 2
+    spawnInterval: 0.8
+    humanSpeedMultiplier: 1.25
+    doubleSpawnChance: 0.3
+    doubleSpawnDelay: 0.25
+    allowedFoodStates: 000000000100000002000000
+    humanPrefabOverrides: []
   - startTime: 40
-    endTime: 60
-    spawnInterval: 0.55
-    humanSpeedMultiplier: 1.6
-    doubleSpawnChance: 0.75
-    doubleSpawnDelay: 0.15
-    allowedFoodStates:
-    - 0
-    - 1
-    - 2
-  customerPatienceMultiplier: 0.3
-  customerMinOrderCount: 2
-  customerMaxOrderCount: 2
-  humanSpawnDelayAfterGhost: 0.18
+    endTime: 70
+    spawnInterval: 0.8
+    humanSpeedMultiplier: 1.25
+    doubleSpawnChance: 0
+    doubleSpawnDelay: 0.25
+    allowedFoodStates: 000000000100000002000000
+    humanPrefabOverrides: []
+  - startTime: 70
+    endTime: 90
+    spawnInterval: 0.605
+    humanSpeedMultiplier: 1.25
+    doubleSpawnChance: 0.3
+    doubleSpawnDelay: 0.25
+    allowedFoodStates: 00000000
+    humanPrefabOverrides:
+    - {fileID: 9028663880306604470, guid: 0ba028d8705148efa7355b4a378fdcdf, type: 3}
+    - {fileID: 752638607334200436, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+    - {fileID: 2930828951274456624, guid: 11459b7c95d94fd4a975ddf32b4b0759, type: 3}
+    - {fileID: 752638607334200436, guid: 0dbec903a46148b69cdb6fbbdf40c245, type: 3}
+    - {fileID: 752638607334200436, guid: 6132527dfd73478db7feb50ab8ffbe99, type: 3}
+  - startTime: 90
+    endTime: 100
+    spawnInterval: 0.605
+    humanSpeedMultiplier: 1.25
+    doubleSpawnChance: 0.3
+    doubleSpawnDelay: 0.25
+    allowedFoodStates: 02000000
+    humanPrefabOverrides:
+    - {fileID: 1355700126600169132, guid: a4f53d1498984805b723d7217d2f1d01, type: 3}
+  - startTime: 100
+    endTime: 120
+    spawnInterval: 0.605
+    humanSpeedMultiplier: 1.25
+    doubleSpawnChance: 0.3
+    doubleSpawnDelay: 0.25
+    allowedFoodStates: 00000000
+    humanPrefabOverrides:
+    - {fileID: 1355700126600169132, guid: a4f53d1498984805b723d7217d2f1d01, type: 3}
+    - {fileID: 752638607334200436, guid: 0dbec903a46148b69cdb6fbbdf40c245, type: 3}
+    - {fileID: 9028663880306604470, guid: 0ba028d8705148efa7355b4a378fdcdf, type: 3}
+    - {fileID: 4600864714072794137, guid: b082c31df7df6844bb358fb43f0e8c86, type: 3}
+    - {fileID: 4600864714072794137, guid: b082c31df7df6844bb358fb43f0e8c86, type: 3}
+  - startTime: 100
+    endTime: 120
+    spawnInterval: 0.605
+    humanSpeedMultiplier: 1.25
+    doubleSpawnChance: 0.3
+    doubleSpawnDelay: 0.25
+    allowedFoodStates: 00000000
+    humanPrefabOverrides:
+    - {fileID: 1355700126600169132, guid: a4f53d1498984805b723d7217d2f1d01, type: 3}
+    - {fileID: 752638607334200436, guid: 0dbec903a46148b69cdb6fbbdf40c245, type: 3}
+    - {fileID: 9028663880306604470, guid: 0ba028d8705148efa7355b4a378fdcdf, type: 3}
+    - {fileID: 4600864714072794137, guid: b082c31df7df6844bb358fb43f0e8c86, type: 3}
+  customerPatienceMultiplier: 0.5
+  customerMinOrderCount: 1
+  customerMaxOrderCount: 1
+  humanSpawnDelayAfterGhost: 0.35
+  duration: 150

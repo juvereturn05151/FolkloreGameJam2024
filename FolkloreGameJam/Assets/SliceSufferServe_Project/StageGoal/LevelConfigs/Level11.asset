@@ -38,7 +38,7 @@ MonoBehaviour:
     doubleSpawnDelay: 0.5
     allowedFoodStates: 00000000
     humanPrefabOverrides:
-    - {fileID: 752638607334200436, guid: f20d67bdb74341bdaf8c3999482e2401, type: 3}
+    - {fileID: 4600864714072794137, guid: b082c31df7df6844bb358fb43f0e8c86, type: 3}
   - startTime: 10
     endTime: 20
     spawnInterval: 4

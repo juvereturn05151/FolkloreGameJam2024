@@ -965,10 +965,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameplayUICanvas_Remake
       objectReference: {fileID: 0}
-    - target: {fileID: 5250506503467075993, guid: 9b5fe3015cbc3234c99a932e3d5916a5, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5412440935316901115, guid: 9b5fe3015cbc3234c99a932e3d5916a5, type: 3}
       propertyPath: m_Camera
       value: 
