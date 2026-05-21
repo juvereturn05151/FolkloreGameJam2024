@@ -106,8 +106,6 @@ public class Food : MonoBehaviour
         {
             foodVisuals.HideRotUI();
         }
-
-
     }
 
     private void HandleDragStarted()

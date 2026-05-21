@@ -9,22 +9,22 @@ public class Draggable2D : MonoBehaviour
     public event Action DragCancelled;
     public event Action<Transform> Snapped;
 
-    [SerializeField] private bool canDrag = true;
-    [SerializeField] private float zOffset = 0f;
+    [SerializeField] 
+    private bool canDrag = true;
+    [SerializeField] 
+    private float zOffset = 0f;
 
-    private Camera _mainCamera;
-    private bool _isDragging;
-    private bool _isSnapped;
+    private Camera mainCamera;
+    private Transform snapTarget;
+    private bool isDragging;
+    private bool isSnapped;
 
-    private Transform _snapTarget;
+    public bool IsDragging => isDragging;
+    public bool IsSnapped => isSnapped;
 
-    public bool IsDragging => _isDragging;
-    public bool IsSnapped => _isSnapped;
-    public bool CanDrag => canDrag;
-
-    private void Awake()
+    private void Start()
     {
-        _mainCamera = Camera.main;
+        mainCamera = Camera.main;
     }
 
     public void SetCanDrag(bool value)
@@ -34,21 +34,31 @@ public class Draggable2D : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (GameManager.Instance != null && GameManager.Instance.IsRapidSliceEventActive)
+        if (GameManager.Instance != null && GameManager.Instance.IsRapidSliceEventActive) 
+        {
             return;
+        }
+            
+        if (!canDrag || isSnapped) 
+        {
+            return;
+        }
 
-        if (!canDrag || _isSnapped)
-            return;
+        // Block the blade immediately, before Blade.cs reads this flag
+        if (GameUtility.DragAndDropManagerExists())
+        {
+            DragAndDropManager.Instance.isDragging = true;
+        }
 
         BeginDrag();
     }
 
     private void OnMouseDrag()
     {
-        if (!_isDragging || _isSnapped)
+        if (!isDragging || isSnapped)
             return;
 
-        Vector3 mousePos = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         transform.position = new Vector3(mousePos.x, mousePos.y, transform.position.z + zOffset);
     }
 
@@ -57,7 +67,7 @@ public class Draggable2D : MonoBehaviour
         // Important:
         // OnMouseUp may still happen even after we were force-snapped.
         // So only end drag if we're actually still dragging.
-        if (_isDragging)
+        if (isDragging)
         {
             EndDrag();
         }
@@ -65,41 +75,41 @@ public class Draggable2D : MonoBehaviour
 
     public void BeginDrag()
     {
-        if (!canDrag || _isDragging || _isSnapped)
+        if (!canDrag || isDragging || isSnapped)
             return;
 
-        _isDragging = true;
+        isDragging = true;
         DragStarted?.Invoke();
     }
 
     public void EndDrag()
     {
-        if (!_isDragging)
+        if (!isDragging)
             return;
 
-        _isDragging = false;
+        isDragging = false;
         DragEnded?.Invoke();
     }
 
     public void CancelDrag()
     {
-        if (!_isDragging)
+        if (!isDragging)
             return;
 
-        _isDragging = false;
+        isDragging = false;
         DragCancelled?.Invoke();
     }
 
     public void SnapTo(Transform target, Vector3 localPosition)
     {
         // If the object was being dragged, stop dragging immediately.
-        if (_isDragging)
+        if (isDragging)
         {
             CancelDrag();
         }
 
-        _isSnapped = true;
-        _snapTarget = target;
+        isSnapped = true;
+        snapTarget = target;
 
         transform.SetParent(target);
         transform.localPosition = localPosition;
@@ -109,11 +119,11 @@ public class Draggable2D : MonoBehaviour
 
     public void ReleaseFromSnap()
     {
-        if (!_isSnapped)
+        if (!isSnapped)
             return;
 
-        _isSnapped = false;
-        _snapTarget = null;
+        isSnapped = false;
+        snapTarget = null;
         transform.SetParent(null);
     }
 }

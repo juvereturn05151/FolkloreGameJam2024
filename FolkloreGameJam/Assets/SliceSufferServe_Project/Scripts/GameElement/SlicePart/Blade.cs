@@ -1,7 +1,16 @@
+/*
+ * Auther: Ju-ve Chankasemporn
+ * E-mail: juvereturn@gmail.com
+ * @Copyright (c) 2026 by Ju-ve Chankasemporn. All rights reserved.
+ */
+
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(CircleCollider2D))]
 public class Blade : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField]
     private GameObject bladeTrailPrefab;
     [SerializeField]
@@ -53,22 +62,30 @@ public class Blade : MonoBehaviour
         Vector2 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
         rb.position = newPosition;
 
-        float velocity = (newPosition - previousPosition).magnitude * Time.deltaTime;
-        if (velocity > minCuttingVelocity)
+        float velocity = (newPosition - previousPosition).magnitude / Time.deltaTime;
+
+        if (velocity > minCuttingVelocity && !DragAndDropManager.Instance.isDragging)
         {
-            circleCollider.enabled = !DragAndDropManager.Instance.isDragging;
+            circleCollider.enabled = true;
         }
         else
         {
             circleCollider.enabled = false;
         }
 
-
         previousPosition = newPosition;
     }
 
     private void StartCutting()
     {
+        // Check if the click landed on a Draggable2D — if so, don't cut
+        Vector2 worldPoint = cam.ScreenToWorldPoint(Input.mousePosition);
+        Collider2D hit = Physics2D.OverlapPoint(worldPoint);
+        if (hit != null && hit.GetComponent<Draggable2D>() != null)
+        {
+            return; // finger is on food, abort entirely
+        }
+
         isCutting = true;
         currentBladeTrail = Instantiate(bladeTrailPrefab, transform);
         previousPosition = cam.ScreenToWorldPoint(Input.mousePosition);
@@ -79,8 +96,13 @@ public class Blade : MonoBehaviour
     private void StopCutting()
     {
         isCutting = false;
-        currentBladeTrail.transform.SetParent(null);
-        Destroy(currentBladeTrail, 2f);
+
+        if (currentBladeTrail != null) 
+        {
+            currentBladeTrail.transform.SetParent(null);
+            Destroy(currentBladeTrail, 2f);
+        }
+        
         circleCollider.enabled = false;
     }
 }

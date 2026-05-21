@@ -48,6 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bladeTrailPrefab: {fileID: 1945049117440188, guid: 2b0b5703536e41ef94cb1bc34f03bfa7, type: 3}
   minCuttingVelocity: 1e-20
+  rb: {fileID: 4148937759417104274}
+  circleCollider: {fileID: 4803802644840929784}
 --- !u!58 &4803802644840929784
 CircleCollider2D:
   m_ObjectHideFlags: 0
