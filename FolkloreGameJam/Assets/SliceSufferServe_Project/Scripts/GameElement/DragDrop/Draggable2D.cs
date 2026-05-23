@@ -9,6 +9,8 @@ public class Draggable2D : MonoBehaviour
     public event Action DragCancelled;
     public event Action<Transform> Snapped;
 
+    [SerializeField]
+    private Collider2D pickupCollider;
     [SerializeField] 
     private bool canDrag = true;
     [SerializeField] 
@@ -25,6 +27,12 @@ public class Draggable2D : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
+    }
+
+    private void OnEnable()
+    {
+        // Big collider active at start — waiting for pick-up
+        SetPickupColliderActive(true);
     }
 
     public void SetCanDrag(bool value)
@@ -79,6 +87,7 @@ public class Draggable2D : MonoBehaviour
             return;
 
         isDragging = true;
+        SetPickupColliderActive(false);
         DragStarted?.Invoke();
     }
 
@@ -88,6 +97,7 @@ public class Draggable2D : MonoBehaviour
             return;
 
         isDragging = false;
+        SetPickupColliderActive(true);
         DragEnded?.Invoke();
     }
 
@@ -97,6 +107,7 @@ public class Draggable2D : MonoBehaviour
             return;
 
         isDragging = false;
+        SetPickupColliderActive(true);
         DragCancelled?.Invoke();
     }
 
@@ -114,6 +125,7 @@ public class Draggable2D : MonoBehaviour
         transform.SetParent(target);
         transform.localPosition = localPosition;
 
+        SetPickupColliderActive(false);
         Snapped?.Invoke(target);
     }
 
@@ -125,5 +137,11 @@ public class Draggable2D : MonoBehaviour
         isSnapped = false;
         snapTarget = null;
         transform.SetParent(null);
+    }
+
+    private void SetPickupColliderActive(bool active)
+    {
+        if (pickupCollider != null)
+            pickupCollider.enabled = active;
     }
 }

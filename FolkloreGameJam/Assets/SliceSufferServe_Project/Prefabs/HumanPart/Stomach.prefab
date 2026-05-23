@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 06b8eaa3ad766f14589aeb7cbd8af90e, type: 3}
+    - target: {fileID: 3754438026101494723, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3966768144347963001, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.17976
@@ -34,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4275624120517581302, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: m_Name
-      value: Body
+      value: Stomach
       objectReference: {fileID: 0}
     - target: {fileID: 7151428326088628948, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: m_EdgeRadius

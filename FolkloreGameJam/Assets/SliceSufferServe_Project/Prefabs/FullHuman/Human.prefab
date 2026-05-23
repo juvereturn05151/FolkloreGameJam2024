@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 2355307500108752585}
   - component: {fileID: 6891517490676250439}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -391,7 +391,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 763701444543731240, guid: 563a9e405dd83294a868dab867db5c54, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.30333382
+      value: -1.19
       objectReference: {fileID: 0}
     - target: {fileID: 763701444543731240, guid: 563a9e405dd83294a868dab867db5c54, type: 3}
       propertyPath: m_LocalPosition.z
@@ -471,7 +471,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6860405529023956082, guid: 563a9e405dd83294a868dab867db5c54, type: 3}
       propertyPath: m_Name
-      value: Body
+      value: Stomach
       objectReference: {fileID: 0}
     - target: {fileID: 7980435004161994378, guid: 563a9e405dd83294a868dab867db5c54, type: 3}
       propertyPath: startForce
@@ -555,7 +555,7 @@ PrefabInstance:
       objectReference: {fileID: 6603529975238586474}
     - target: {fileID: 5179602713102401309, guid: 28d503274d0ac854196274ba40adab03, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.3035939
+      value: 2.0205705
       objectReference: {fileID: 0}
     - target: {fileID: 5179602713102401309, guid: 28d503274d0ac854196274ba40adab03, type: 3}
       propertyPath: m_LocalPosition.x
@@ -563,7 +563,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5179602713102401309, guid: 28d503274d0ac854196274ba40adab03, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.9166667
+      value: 3.14
       objectReference: {fileID: 0}
     - target: {fileID: 5179602713102401309, guid: 28d503274d0ac854196274ba40adab03, type: 3}
       propertyPath: m_LocalPosition.z

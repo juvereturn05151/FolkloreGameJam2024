@@ -449,6 +449,95 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &6734192281764573907
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4249937411556479265}
+  - component: {fileID: 2168628029282488584}
+  m_Layer: 7
+  m_Name: PickUpCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4249937411556479265
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6734192281764573907}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6158232796702074637}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &2168628029282488584
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6734192281764573907}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 4.26}
+      - {x: -3.78, y: 2.74}
+      - {x: -4.97, y: -0.80901706}
+      - {x: -4.96, y: -2.2}
+      - {x: -4.11, y: -3.72}
+      - {x: -2.99, y: -4.4}
+      - {x: 0.46, y: -3.72}
+      - {x: 2.59, y: -3.01}
+      - {x: 5.67, y: -1.4}
+      - {x: 5.05, y: 1.7}
+  m_UseDelaunayMesh: 1
 --- !u!1 &7145729521898110643
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,6 +577,7 @@ Transform:
   - {fileID: 6984934733405998544}
   - {fileID: 8531737642570752593}
   - {fileID: 7935243562616975552}
+  - {fileID: 4249937411556479265}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &7337258793320886352
@@ -531,12 +621,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menu: {fileID: 0}
   rigidBody2D: {fileID: 7337258793320886352}
-  collider2D: {fileID: 367464225916817697}
+  servingCollision: {fileID: 367464225916817697}
   foodRotting: {fileID: 3820388303736004562}
   foodEating: {fileID: 7558950114203630038}
   foodVisuals: {fileID: 2610020155637249405}
   foodScoring: {fileID: 14430919584825911}
   draggable2D: {fileID: 4382946176104338061}
+  IsPremiumFood: 0
 --- !u!114 &3820388303736004562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,6 +682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c6dda61e742234abce8b5d78959f31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickupCollider: {fileID: 2168628029282488584}
   canDrag: 1
   zOffset: 0
 --- !u!60 &367464225916817697

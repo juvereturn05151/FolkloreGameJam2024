@@ -9,13 +9,20 @@ public class Food : MonoBehaviour
     public Menu Menu => menu;
 
     [Header("References")]
-    [SerializeField] private Rigidbody2D rigidBody2D;
-    [SerializeField] private Collider2D collider2D;
-    [SerializeField] private FoodRotting foodRotting;
-    [SerializeField] private FoodEating foodEating;
-    [SerializeField] private FoodVisuals foodVisuals;
-    [SerializeField] private FoodScoringOnExpire foodScoring;
-    [SerializeField] private Draggable2D draggable2D;
+    [SerializeField] 
+    private Rigidbody2D rigidBody2D;
+    [SerializeField] 
+    private Collider2D servingCollision;
+    [SerializeField] 
+    private FoodRotting foodRotting;
+    [SerializeField] 
+    private FoodEating foodEating;
+    [SerializeField] 
+    private FoodVisuals foodVisuals;
+    [SerializeField] 
+    private FoodScoringOnExpire foodScoring;
+    [SerializeField] 
+    private Draggable2D draggable2D;
 
     public FoodRotting FoodRotting => foodRotting;
     public bool IsUniversalFood { get; private set; }
@@ -37,7 +44,7 @@ public class Food : MonoBehaviour
         foodRotting = GetComponent<FoodRotting>();
         foodEating = GetComponent<FoodEating>();
         rigidBody2D = GetComponent<Rigidbody2D>();
-        collider2D = GetComponent<Collider2D>();
+        servingCollision = GetComponent<Collider2D>();
     }
 
     private void OnEnable()
@@ -183,9 +190,9 @@ public class Food : MonoBehaviour
 
         SoundManager.instance.PlaySFX("Eating");
 
-        if (collider2D != null)
+        if (servingCollision != null)
         {
-            collider2D.enabled = false;
+            servingCollision.enabled = false;
         }
 
         if (foodVisuals != null)
