@@ -66,6 +66,7 @@ public class GameplayUIManager : MonoBehaviour
         stageNavigationUI?.UpdateAfterGameOver(stageGoalResult);
         GameManager.Instance.ApplyGameOver();
         StartCoroutine(gameOverUI.CloseCurtainThenShow());
+
     }
 
     public void GoToNextStage()

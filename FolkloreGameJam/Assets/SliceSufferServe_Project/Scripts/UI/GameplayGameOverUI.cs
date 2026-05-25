@@ -6,24 +6,41 @@ using UnityEngine.UI;
 public class GameplayGameOverUI : MonoBehaviour
 {
     [Header("Game Over Elements")]
-    [SerializeField] private GameObject gameOverPanel;
-    [SerializeField] private RectTransform receiptImage;
-    [SerializeField] private TextMeshProUGUI gameOverScoreText;
-    [SerializeField] private TextMeshProUGUI gameOverHighScoreText;
-    [SerializeField] private TextMeshProUGUI gameOverStarsText;
-    [SerializeField] private TextMeshProUGUI gameOverNextGoalText;
-    [SerializeField] private TextMeshProUGUI gameOverCurrencyEarnedText;
-    [SerializeField] private Button leaderboardUI;
+    [SerializeField] 
+    private GameObject gameOverPanel;
+    [SerializeField] 
+    private RectTransform receiptImage;
+    [SerializeField] 
+    private TextMeshProUGUI gameOverScoreText;
+    [SerializeField] 
+    private TextMeshProUGUI gameOverHighScoreText;
+    [SerializeField] 
+    private TextMeshProUGUI gameOverStarsText;
+    [SerializeField] 
+    private TextMeshProUGUI gameOverNextGoalText;
+    [SerializeField] 
+    private TextMeshProUGUI gameOverCurrencyEarnedText;
+    [SerializeField] 
+    private Button leaderboardUI;
+    [SerializeField]
+    private Animator starAnimator;
 
     [Header("Curtain")]
-    [SerializeField] private Animator curtainAnimator;
-    [SerializeField] private string curtainCloseParameterName = "Close";
-    [SerializeField] private string curtainCloseStateName = "curtain_close";
-    [SerializeField] private float curtainCloseFallbackDelay = 1.5f;
-    [SerializeField] private GameObject[] objectsToDisableDuringCurtain;
+    [SerializeField] 
+    private Animator curtainAnimator;
+    [SerializeField] 
+    private string curtainCloseParameterName = "Close";
+    [SerializeField] 
+    private string curtainCloseStateName = "curtain_close";
+    [SerializeField] 
+    private float curtainCloseFallbackDelay = 1.5f;
+    [SerializeField] 
+    private GameObject[] objectsToDisableDuringCurtain;
 
     [Header("Currency Reward")]
     [SerializeField] private int scorePointsPerCurrency = 1;
+
+    private StageGoalResult preparedStageGoalResult;
 
     public bool IsShowing => gameOverPanel != null && gameOverPanel.activeSelf;
 
@@ -45,6 +62,7 @@ public class GameplayGameOverUI : MonoBehaviour
         }
 
         StageGoalResult stageGoalResult = GameManager.Instance.EvaluateAndSaveStageGoal(currentScore);
+        preparedStageGoalResult = stageGoalResult;
         UpdateStageGoalUI(stageGoalResult);
 
         int earnedCurrency = CurrencySystem.AwardCurrencyFromScore(currentScore, scorePointsPerCurrency);
@@ -118,6 +136,28 @@ public class GameplayGameOverUI : MonoBehaviour
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
+            TriggerStarAnimation();
+        }
+    }
+
+    private void TriggerStarAnimation()
+    {
+        if (starAnimator == null || preparedStageGoalResult == null)
+        {
+            return;
+        }
+
+        switch (Mathf.Clamp(preparedStageGoalResult.Stars, 0, 3))
+        {
+            case 1:
+                starAnimator.SetTrigger("1Star");
+                break;
+            case 2:
+                starAnimator.SetTrigger("2Stars");
+                break;
+            case 3:
+                starAnimator.SetTrigger("3Stars");
+                break;
         }
     }
 
