@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(FoodRotting))]
 [RequireComponent(typeof(FoodEating))]
@@ -15,6 +16,7 @@ public class Food : MonoBehaviour
     private Collider2D servingCollision;
     [SerializeField] 
     private FoodRotting foodRotting;
+    public FoodRotting FoodRotting => foodRotting;
     [SerializeField] 
     private FoodEating foodEating;
     [SerializeField] 
@@ -23,34 +25,27 @@ public class Food : MonoBehaviour
     private FoodScoringOnExpire foodScoring;
     [SerializeField] 
     private Draggable2D draggable2D;
+    [SerializeField, FormerlySerializedAs("IsPremiumFood")]
+    private bool isPremiumFood = false;
+    public bool IsPremiumFood => isPremiumFood;
 
-    public FoodRotting FoodRotting => foodRotting;
-    public bool IsUniversalFood { get; private set; }
-    public bool IsPremiumFood;
-    public float UniversalScoreMultiplier { get; private set; } = 1f;
+    [Header("Universal Food")]
+    [SerializeField] private bool isUniversalFood;
+    [SerializeField] private float universalScoreMultiplier = 1f;
+    [SerializeField] private Sprite universalSprite;
+    [SerializeField] private bool useUniversalGlow = true;
 
-    private bool _isReadyToEat;
-    public bool IsReadyToEat => _isReadyToEat;
+    private CustomerFoodPlace currentPlate;
 
-    private bool _isFinished;
-    public bool IsFinished => _isFinished;
-
-    public bool IsDragging => draggable2D != null && draggable2D.IsDragging;
-    public bool IsSnapped => draggable2D != null && draggable2D.IsSnapped;
-    private CustomerFoodPlace _currentPlate;
-
-    private void Reset()
-    {
-        foodRotting = GetComponent<FoodRotting>();
-        foodEating = GetComponent<FoodEating>();
-        rigidBody2D = GetComponent<Rigidbody2D>();
-        servingCollision = GetComponent<Collider2D>();
-    }
+    public float UniversalScoreMultiplier => universalScoreMultiplier;
+    public bool IsUniversalFood => isUniversalFood;
+    public bool IsReadyToEat { get; private set; } 
+    public bool IsFinished { get; private set; }
 
     private void OnEnable()
     {
-        _isFinished = false;
-        _isReadyToEat = false;
+        IsFinished = false;
+        IsReadyToEat = false;
 
         if (foodRotting != null && foodVisuals != null)
         {
@@ -68,6 +63,12 @@ public class Food : MonoBehaviour
             draggable2D.DragStarted += HandleDragStarted;
             draggable2D.DragEnded += HandleDragEnded;
             draggable2D.DragCancelled += HandleDragCancelled;
+        }
+
+        if (isUniversalFood)
+        {
+            universalScoreMultiplier = Mathf.Max(1f, universalScoreMultiplier);
+            foodVisuals?.ApplyUniversalFoodVisuals(universalSprite, useUniversalGlow);
         }
     }
 
@@ -94,7 +95,7 @@ public class Food : MonoBehaviour
 
     private void Update()
     {
-        if (_isReadyToEat)
+        if (IsReadyToEat)
         {
             foodEating.Tick(Time.deltaTime);
             return;
@@ -117,9 +118,11 @@ public class Food : MonoBehaviour
 
     private void HandleDragStarted()
     {
-        if (_isReadyToEat)
+        if (IsReadyToEat) 
+        {
             return;
-
+        }
+            
         SoundManager.instance.PlaySFX("SFX_WhenPickUpItem");
 
         if (GameUtility.DragAndDropManagerExists())
@@ -148,7 +151,7 @@ public class Food : MonoBehaviour
 
     private void HandleFinishedEating()
     {
-        _isFinished = true;
+        IsFinished = true;
     }
 
     private void HandleExpired()
@@ -186,7 +189,7 @@ public class Food : MonoBehaviour
             rigidBody2D.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
         }
 
-        _isReadyToEat = true;
+        IsReadyToEat = true;
 
         SoundManager.instance.PlaySFX("Eating");
 
@@ -208,13 +211,15 @@ public class Food : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.TryGetComponent(out CustomerFoodPlace plate))
-            return;
-
-        if (_currentPlate == null)
+        if (!other.TryGetComponent(out CustomerFoodPlace plate)) 
         {
-            _currentPlate = plate;
-            _currentPlate.OnFoodInOnPlate();
+            return;
+        }
+
+        if (currentPlate == null)
+        {
+            currentPlate = plate;
+            currentPlate.OnFoodInOnPlate();
         }
     }
 
@@ -223,36 +228,38 @@ public class Food : MonoBehaviour
         if (!other.TryGetComponent(out CustomerFoodPlace plate))
             return;
 
-        if (_currentPlate == plate)
+        if (currentPlate == plate)
         {
-            _currentPlate.OnFoodIsOffPlate();
-            _currentPlate = null;
+            currentPlate.OnFoodIsOffPlate();
+            currentPlate = null;
         }
     }
 
     private void TryServeCurrentPlate()
     {
-        if (_isReadyToEat || _currentPlate == null)
+        if (IsReadyToEat || currentPlate == null)
         {
             return;
         }
 
-        if (_currentPlate.canBeDropped())
+        if (currentPlate.canBeDropped())
         {
-            _currentPlate.PrepareToEat(this);
+            currentPlate.PrepareToEat(this);
         }
-    }
-
-    public void MakeGoldenOrgan(float scoreMultiplier = 2f, Sprite goldenSprite = null)
-    {
-        MakeUniversalFood(scoreMultiplier, goldenSprite, true);
     }
 
     public void MakeUniversalFood(float scoreMultiplier = 1f, Sprite universalSprite = null, bool useGlow = false)
     {
-        IsUniversalFood = true;
-        UniversalScoreMultiplier = Mathf.Max(1f, scoreMultiplier);
-        foodVisuals?.ApplyUniversalFoodVisuals(universalSprite, useGlow);
+        isUniversalFood = true;
+        universalScoreMultiplier = Mathf.Max(1f, scoreMultiplier);
+
+        if (universalSprite != null)
+        {
+            this.universalSprite = universalSprite;
+        }
+
+        useUniversalGlow = useGlow;
+        foodVisuals?.ApplyUniversalFoodVisuals(this.universalSprite, useUniversalGlow);
     }
 
     public int GetServeScore(int patienceBonus)

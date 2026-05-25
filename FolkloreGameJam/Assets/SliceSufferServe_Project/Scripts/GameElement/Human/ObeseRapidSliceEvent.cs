@@ -23,9 +23,7 @@ public class ObeseRapidSliceEvent : MonoBehaviour
 
     [Header("Biomass Reward")]
     [SerializeField] private GameObject biomassPrefab;
-    [SerializeField] private Sprite biomassSprite;
     [SerializeField] private int requiredSlicesForBiomass = 30;
-    [SerializeField] private float biomassScoreMultiplier = 1f;
 
     private BoxCollider2D wholeBodyHitbox;
     private Rigidbody2D wholeBodyRigidbody;
@@ -35,7 +33,6 @@ public class ObeseRapidSliceEvent : MonoBehaviour
     private bool eventFinished;
     private float lastSlashTime;
     private int sliceCount;
-    private float previousTimeScale = 1f;
     private float previousFixedDeltaTime;
     private TextMeshPro comboText;
 
@@ -94,7 +91,6 @@ public class ObeseRapidSliceEvent : MonoBehaviour
     private IEnumerator RapidSliceRoutine()
     {
         eventActive = true;
-        previousTimeScale = Time.timeScale;
         previousFixedDeltaTime = Time.fixedDeltaTime;
 
         GameManager.Instance?.SetRapidSliceEventActive(true);
@@ -134,11 +130,6 @@ public class ObeseRapidSliceEvent : MonoBehaviour
         GameManager.Instance?.SetRapidSliceEventActive(false);
 
         TrySpawnBiomass();
-
-        //if (CustomerGenerator.Instance != null)
-        //{
-        //    CustomerGenerator.Instance.RequestReplacementHuman();
-        //}
 
         Destroy(gameObject);
     }
@@ -260,10 +251,6 @@ public class ObeseRapidSliceEvent : MonoBehaviour
             return;
         }
 
-        GameObject reward = Instantiate(biomassPrefab, transform.position, Quaternion.identity);
-        if (reward.TryGetComponent(out Food food))
-        {
-            food.MakeUniversalFood(biomassScoreMultiplier, biomassSprite, false);
-        }
+        Instantiate(biomassPrefab, transform.position, Quaternion.identity);
     }
 }

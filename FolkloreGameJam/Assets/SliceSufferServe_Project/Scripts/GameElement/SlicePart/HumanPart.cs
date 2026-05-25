@@ -79,11 +79,6 @@ public class HumanPart : MonoBehaviour
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
-
-        if (rb != null)
-        {
-            rb.linearVelocity = new Vector2(startForce, 0);
-        }
     }
 
     private void OnEnable()

@@ -16,10 +16,30 @@ PrefabInstance:
       propertyPath: fruitSlicedPrefab
       value: 
       objectReference: {fileID: 1380852210859090364, guid: a293c9a0c62744ef9b62e710c5f82333, type: 3}
+    - target: {fileID: 766505142281876238, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
+      propertyPath: shakeOnDurabilityHit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 766505142281876238, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
+      propertyPath: cutsRequiredToDestroy
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 766505142281876238, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
+      propertyPath: durabilityHitEffectScale
+      value: 1.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 766505142281876238, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
+      propertyPath: durabilityHitEffectPrefab
+      value: 
+      objectReference: {fileID: 7301832336517603027, guid: e54321adab721284990009db5ec04175, type: 3}
     - target: {fileID: 3754438026101494723, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 06b8eaa3ad766f14589aeb7cbd8af90e, type: 3}
+    - target: {fileID: 3754438026101494723, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3966768144347963001, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.17976
@@ -34,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4275624120517581302, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: m_Name
-      value: ObeseBody
+      value: ObeseStomach
       objectReference: {fileID: 0}
     - target: {fileID: 7151428326088628948, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: m_EdgeRadius
@@ -79,22 +99,6 @@ PrefabInstance:
     - target: {fileID: 7996749640377093036, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 766505142281876238, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
-      propertyPath: cutsRequiredToDestroy
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 766505142281876238, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
-      propertyPath: durabilityHitEffectPrefab
-      value: 
-      objectReference: {fileID: 7301832336517603027, guid: e54321adab721284990009db5ec04175, type: 3}
-    - target: {fileID: 766505142281876238, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
-      propertyPath: durabilityHitEffectScale
-      value: 1.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 766505142281876238, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
-      propertyPath: shakeOnDurabilityHit
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

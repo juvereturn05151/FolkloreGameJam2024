@@ -83,7 +83,8 @@ public class Blade : MonoBehaviour
         Collider2D hit = Physics2D.OverlapPoint(worldPoint);
         if (hit != null && hit.GetComponent<Draggable2D>() != null)
         {
-            return; // finger is on food, abort entirely
+            // finger is on food, abort entirely
+            return; 
         }
 
         isCutting = true;
