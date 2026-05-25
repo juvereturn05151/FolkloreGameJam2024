@@ -5,6 +5,7 @@
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="com.rlabrecque.steamworks.net.csproj" />
   <Project Path="Lofelt.NiceVibrations.Demo.csproj" />
+  <Project Path="GoogleMobileAds.Editor.csproj" />
   <Project Path="Assembly-CSharp-firstpass.csproj" />
   <Project Path="Lofelt.NiceVibrations.csproj" />
   <Project Path="CFXRRuntime.csproj" />
