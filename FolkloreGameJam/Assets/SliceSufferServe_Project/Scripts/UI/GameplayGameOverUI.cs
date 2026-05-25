@@ -128,6 +128,8 @@ public class GameplayGameOverUI : MonoBehaviour
             }
         }
 
+        yield return InterstitialAdManager.ShowGameplayToGameOverAd();
+
         ShowGameOverPanel();
     }
 
