@@ -2,7 +2,7 @@
 - Project name: FolkloreGameJam
 - Unity version: Unity 6000.4.6f1
 - Active game object:
-  - Name: Visual
-  - Tag: Untagged
+  - Name: Intestine
+  - Tag: Food
   - Layer: Draggable
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

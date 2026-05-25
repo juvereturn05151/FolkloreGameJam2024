@@ -11,7 +11,12 @@ public class RottenPot : MonoBehaviour, IRotModifier
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent(out FoodRotting rotting) && affectedFoods.Add(rotting))
+        if (other.TryGetComponent(out Food food) && food.IsPremiumFood)
+        {
+            return;
+        }
+
+        if (other.TryGetComponent(out FoodRotting rotting) && rotting.CanRot && affectedFoods.Add(rotting))
         {
             rotting.AddModifier(this);
 

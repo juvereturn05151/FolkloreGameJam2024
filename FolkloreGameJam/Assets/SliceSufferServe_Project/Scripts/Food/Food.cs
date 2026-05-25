@@ -47,6 +47,16 @@ public class Food : MonoBehaviour
         IsFinished = false;
         IsReadyToEat = false;
 
+        if (foodRotting != null)
+        {
+            foodRotting.SetCanRot(!IsPremiumFood);
+        }
+
+        if (IsPremiumFood)
+        {
+            foodVisuals?.HideRotUI();
+        }
+
         if (foodRotting != null && foodVisuals != null)
         {
             foodRotting.OnStateChanged += foodVisuals.ApplyState;
@@ -112,7 +122,7 @@ public class Food : MonoBehaviour
         }
         else 
         {
-            foodVisuals.HideRotUI();
+            foodVisuals?.HideRotUI();
         }
     }
 
@@ -246,20 +256,6 @@ public class Food : MonoBehaviour
         {
             currentPlate.PrepareToEat(this);
         }
-    }
-
-    public void MakeUniversalFood(float scoreMultiplier = 1f, Sprite universalSprite = null, bool useGlow = false)
-    {
-        isUniversalFood = true;
-        universalScoreMultiplier = Mathf.Max(1f, scoreMultiplier);
-
-        if (universalSprite != null)
-        {
-            this.universalSprite = universalSprite;
-        }
-
-        useUniversalGlow = useGlow;
-        foodVisuals?.ApplyUniversalFoodVisuals(this.universalSprite, useUniversalGlow);
     }
 
     public int GetServeScore(int patienceBonus)

@@ -15,28 +15,50 @@ public class FoodRotting : MonoBehaviour
 
     private float remaining;
     private FoodState state = FoodState.Normal;
+    private bool canRot = true;
 
     private readonly List<IRotModifier> modifiers = new();
 
     public FoodState State => state;
     public float Remaining => remaining;
     public float BaseRottenTime => baseRottenTime;
+    public bool CanRot => canRot;
 
     private void OnEnable()
     {
         remaining = baseRottenTime;
     }
 
+    public void SetCanRot(bool value)
+    {
+        canRot = value;
+
+        if (canRot)
+        {
+            return;
+        }
+
+        modifiers.Clear();
+        remaining = baseRottenTime;
+
+        if (rottenEffect != null)
+        {
+            rottenEffect.SetActive(false);
+        }
+    }
+
     public void AddModifier(IRotModifier mod)
     {
-        if (mod != null && !modifiers.Contains(mod)) 
+        if (!canRot || mod == null || modifiers.Contains(mod))
         {
-            modifiers.Add(mod);
-            if (rottenEffect != null)
-            {
-                rottenEffect.SetActive(true);
-            }
-        } 
+            return;
+        }
+
+        modifiers.Add(mod);
+        if (rottenEffect != null)
+        {
+            rottenEffect.SetActive(true);
+        }
     }
 
     public void RemoveModifier(IRotModifier mod)
@@ -64,6 +86,7 @@ public class FoodRotting : MonoBehaviour
 
     public void Tick(float dt)
     {
+        if (!canRot) return;
         if (state == FoodState.Disappear) return;
 
         remaining -= dt * EffectiveMultiplier;

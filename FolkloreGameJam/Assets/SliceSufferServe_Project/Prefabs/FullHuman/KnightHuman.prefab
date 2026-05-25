@@ -107,7 +107,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8739431860142147529
 Transform:
   m_ObjectHideFlags: 0
@@ -375,7 +375,7 @@ PrefabInstance:
     - target: {fileID: 83728175101965506, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: foodPrefab
       value: 
-      objectReference: {fileID: 1380852210859090364, guid: 647d7f343ea342a9b27587f6d5517703, type: 3}
+      objectReference: {fileID: 7145729521898110643, guid: 647d7f343ea342a9b27587f6d5517703, type: 3}
     - target: {fileID: 83728175101965506, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: cutsRequiredToDestroy
       value: 2
@@ -387,7 +387,7 @@ PrefabInstance:
     - target: {fileID: 3592174121423691014, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: foodPrefab
       value: 
-      objectReference: {fileID: 8846248092394446896, guid: c4394441173343a499699a11b0074404, type: 3}
+      objectReference: {fileID: 7145729521898110643, guid: c4394441173343a499699a11b0074404, type: 3}
     - target: {fileID: 3592174121423691014, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: cutsRequiredToDestroy
       value: 2
@@ -403,7 +403,7 @@ PrefabInstance:
     - target: {fileID: 5983385280804613021, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: foodPrefab
       value: 
-      objectReference: {fileID: 3036385971898085685, guid: 92662209ef884ef4bd19ddc736322202, type: 3}
+      objectReference: {fileID: 7145729521898110643, guid: 92662209ef884ef4bd19ddc736322202, type: 3}
     - target: {fileID: 5983385280804613021, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: cutsRequiredToDestroy
       value: 1
@@ -423,7 +423,7 @@ PrefabInstance:
     - target: {fileID: 7008882931735631613, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: foodPrefab
       value: 
-      objectReference: {fileID: 2417688765679808340, guid: 2f72cf155f974d51a5d2031999e44101, type: 3}
+      objectReference: {fileID: 7145729521898110643, guid: 2f72cf155f974d51a5d2031999e44101, type: 3}
     - target: {fileID: 7008882931735631613, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: cutsRequiredToDestroy
       value: 2
