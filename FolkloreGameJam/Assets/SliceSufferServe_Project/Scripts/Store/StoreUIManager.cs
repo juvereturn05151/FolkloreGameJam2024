@@ -126,7 +126,7 @@ public class StoreUIManager : MonoBehaviour
 
         if (purchasePromptText != null)
         {
-            purchasePromptText.text = $"Remove all ads for {StoreManager.DisableAdsDisplayPrice}?";
+            purchasePromptText.text = $"Remove all ads for {GetDisableAdsPrice()}?";
         }
 
         if (purchasePromptPanel != null)
@@ -152,7 +152,7 @@ public class StoreUIManager : MonoBehaviour
         }
 
         storeManager.RequestBuyDisableAds();
-        SetStatus($"Purchase requested: {StoreManager.DisableAdsDisplayPrice}");
+        SetStatus($"Purchase requested: {GetDisableAdsPrice()}");
     }
 
     public void CancelPurchasePrompt()
@@ -253,7 +253,7 @@ public class StoreUIManager : MonoBehaviour
 
         if (disableAdsPriceText != null)
         {
-            disableAdsPriceText.text = adsDisabled ? "Owned" : StoreManager.DisableAdsDisplayPrice;
+            disableAdsPriceText.text = adsDisabled ? "Owned" : GetDisableAdsPrice();
         }
 
         if (disableAdsPurchaseButtonText != null)
@@ -299,6 +299,11 @@ public class StoreUIManager : MonoBehaviour
         {
             statusText.text = message;
         }
+    }
+
+    private string GetDisableAdsPrice()
+    {
+        return storeManager != null ? storeManager.DisableAdsPrice : StoreManager.DisableAdsDisplayPrice;
     }
 
     public void GoBack()

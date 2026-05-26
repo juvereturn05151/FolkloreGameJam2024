@@ -144,6 +144,12 @@ public sealed class InterstitialAdManager : MonoBehaviour
 
     private void ShowAd(Action onComplete)
     {
+        if (SaveSystem.AreAdsDisabled())
+        {
+            onComplete?.Invoke();
+            return;
+        }
+
         InitializeAds();
 
         if (isShowing || !CanShowInterstitial)
