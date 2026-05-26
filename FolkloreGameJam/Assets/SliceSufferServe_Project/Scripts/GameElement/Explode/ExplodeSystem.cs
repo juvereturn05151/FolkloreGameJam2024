@@ -171,6 +171,8 @@ public class NuclearExplosionFeedback : MonoBehaviour
                 continue;
             }
 
+            particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
             ParticleSystem.MainModule main = particleSystem.main;
             main.duration = Mathf.Max(main.duration, duration);
             main.startLifetime = MultiplyMinMaxCurve(main.startLifetime, Mathf.Max(1f, lifetimeMultiplier));
@@ -180,7 +182,6 @@ public class NuclearExplosionFeedback : MonoBehaviour
             ParticleSystem.EmissionModule emission = particleSystem.emission;
             emission.enabled = true;
 
-            particleSystem.Clear(true);
             particleSystem.Play(true);
         }
     }
