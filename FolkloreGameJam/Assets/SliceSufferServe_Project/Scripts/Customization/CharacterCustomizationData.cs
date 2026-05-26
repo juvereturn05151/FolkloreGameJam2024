@@ -256,6 +256,11 @@ public class CharacterSpriteSet
     public Sprite stomach;
     public Sprite leg;
 
+    public bool HasAnySprite()
+    {
+        return head != null || neck != null || stomach != null || leg != null;
+    }
+
     public Sprite GetSprite(BodyPartType part)
     {
         switch (part)

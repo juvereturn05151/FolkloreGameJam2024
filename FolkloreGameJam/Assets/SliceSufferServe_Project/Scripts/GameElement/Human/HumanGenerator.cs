@@ -18,6 +18,7 @@ public class HumanGenerator : MonoBehaviour
     private StageLevelConfig levelConfig;
     private bool isExternallyControlled;
     private GameObject[] levelHumanPrefabOverrides; // Level-config overrides, resolved once at Start
+    private CharacterCustomizationManager customizationManager;
 
     void Start()
     {
@@ -72,6 +73,7 @@ public class HumanGenerator : MonoBehaviour
         }
 
         spawnedHuman.ApplyLevelConfig(levelConfig);
+        ApplyNormalHumanCustomization(spawnedHuman);
         spawnedHuman.ApplyMovementSpeedMultiplier(movementSpeedMultiplier);
     }
 
@@ -243,5 +245,30 @@ public class HumanGenerator : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void ApplyNormalHumanCustomization(HumanBody spawnedHuman)
+    {
+        if (spawnedHuman == null || !IsNormalHuman(spawnedHuman))
+        {
+            return;
+        }
+
+        if (customizationManager == null)
+        {
+            customizationManager = CharacterCustomizationManager.GetOrCreateRuntimeInstance();
+        }
+
+        if (customizationManager != null
+            && customizationManager.TryGetGeneratedSpriteSetForSpawn(HumanType.NormalHuman, out CharacterSpriteSet spriteSet))
+        {
+            spawnedHuman.ApplyCustomizationSpriteSet(spriteSet);
+        }
+    }
+
+    private static bool IsNormalHuman(HumanBody humanBody)
+    {
+        string humanName = humanBody.gameObject.name;
+        return humanName == "Human" || humanName.StartsWith("Human(");
     }
 }

@@ -1805,7 +1805,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Generated Slot 1 - Use in Gameplay
+  m_Text: Generated Slot 1
 --- !u!1 &2041694367087750553
 GameObject:
   m_ObjectHideFlags: 0
@@ -1884,7 +1884,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Generated Slot 4 - Use in Gameplay
+  m_Text: Generated Slot 4
 --- !u!1 &2103987007617164612
 GameObject:
   m_ObjectHideFlags: 0
@@ -2042,7 +2042,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Generated Slot 8 - Use in Gameplay
+  m_Text: Generated Slot 8
 --- !u!1 &2219581793465412354
 GameObject:
   m_ObjectHideFlags: 0
@@ -2798,7 +2798,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Generated Slot 9 - Use in Gameplay
+  m_Text: Generated Slot 9
 --- !u!1 &3504951979760900937
 GameObject:
   m_ObjectHideFlags: 0
@@ -2877,7 +2877,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Generated Slot 6 - Use in Gameplay
+  m_Text: Generated Slot 6
 --- !u!1 &3661333416912578070
 GameObject:
   m_ObjectHideFlags: 0
@@ -3313,7 +3313,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Generated Slot 3 - Use in Gameplay
+  m_Text: Generated Slot 3
 --- !u!1 &3896914307460923437
 GameObject:
   m_ObjectHideFlags: 0
@@ -3951,7 +3951,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Generated Slot 7 - Use in Gameplay
+  m_Text: Generated Slot 7
 --- !u!1 &4902940989151134894
 GameObject:
   m_ObjectHideFlags: 0
@@ -4657,7 +4657,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Generated Slot 5 - Use in Gameplay
+  m_Text: Generated Slot 5
 --- !u!1 &5753590590319818048
 GameObject:
   m_ObjectHideFlags: 0
@@ -6870,7 +6870,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Generated Slot 2 - Use in Gameplay
+  m_Text: Generated Slot 2
 --- !u!1 &8090383092950132128
 GameObject:
   m_ObjectHideFlags: 0
@@ -8008,7 +8008,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Generated Slot 10 - Use in Gameplay
+  m_Text: Generated Slot 10
 --- !u!1 &9153782209401535302
 GameObject:
   m_ObjectHideFlags: 0

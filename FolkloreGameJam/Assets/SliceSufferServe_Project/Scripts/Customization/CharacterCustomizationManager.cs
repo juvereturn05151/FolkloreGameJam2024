@@ -16,6 +16,24 @@ public class CharacterCustomizationManager : MonoBehaviour
 
     public CharacterCustomizationSaveData CustomizationData { get; private set; }
 
+    public static CharacterCustomizationManager GetOrCreateRuntimeInstance()
+    {
+        if (Instance != null)
+        {
+            return Instance;
+        }
+
+        CharacterCustomizationManager existingManager = FindAnyObjectByType<CharacterCustomizationManager>();
+        if (existingManager != null)
+        {
+            return existingManager;
+        }
+
+        GameObject managerObject = new GameObject("CharacterCustomizationManager");
+        DontDestroyOnLoad(managerObject);
+        return managerObject.AddComponent<CharacterCustomizationManager>();
+    }
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -136,6 +154,27 @@ public class CharacterCustomizationManager : MonoBehaviour
             stomach = ResolveSprite(type, BodyPartType.Stomach, resolvedSlot),
             leg = ResolveSprite(type, BodyPartType.Leg, resolvedSlot)
         };
+    }
+
+    public bool TryGetGeneratedSpriteSetForSpawn(HumanType type, out CharacterSpriteSet spriteSet)
+    {
+        spriteSet = null;
+
+        CharacterSpriteSlot slot = GetRandomEnabledSlotForSpawn(type);
+        if (slot == null || slot.isDefaultSlot || !slot.HasAnyGeneratedSpriteId())
+        {
+            return false;
+        }
+
+        spriteSet = new CharacterSpriteSet
+        {
+            head = LoadGeneratedSprite(slot.headSpriteId),
+            neck = LoadGeneratedSprite(slot.neckSpriteId),
+            stomach = LoadGeneratedSprite(slot.stomachSpriteId),
+            leg = LoadGeneratedSprite(slot.legSpriteId)
+        };
+
+        return spriteSet.HasAnySprite();
     }
 
     public void SaveGeneratedWholeBody(HumanType type, int slotIndex, string headId, string neckId, string stomachId, string legId)

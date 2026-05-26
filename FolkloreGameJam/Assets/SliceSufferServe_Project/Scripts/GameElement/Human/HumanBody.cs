@@ -62,6 +62,20 @@ public class HumanBody : MonoBehaviour
         }
     }
 
+    public void ApplyCustomizationSpriteSet(CharacterSpriteSet spriteSet)
+    {
+        if (spriteSet == null)
+        {
+            return;
+        }
+
+        ResolvePartReferences();
+        ApplyPartSprite(_head, spriteSet.head);
+        ApplyPartSprite(_neck, spriteSet.neck);
+        ApplyPartSprite(_body, spriteSet.stomach);
+        ApplyPartSprite(_leg, spriteSet.leg);
+    }
+
     public void NotifyPartSliced(HumanPart slicedPart)
     {
         if (_isBeingDestroyed) return;
@@ -210,6 +224,14 @@ public class HumanBody : MonoBehaviour
         if (part != null)
         {
             part.gameObject.SetActive(isActive);
+        }
+    }
+
+    private static void ApplyPartSprite(HumanPart part, Sprite sprite)
+    {
+        if (part != null && sprite != null)
+        {
+            part.ApplyVisualSprite(sprite);
         }
     }
 }

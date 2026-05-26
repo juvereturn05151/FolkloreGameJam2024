@@ -58,6 +58,20 @@ public class HumanPart : MonoBehaviour
         cutCount = 0;
     }
 
+    public void ApplyVisualSprite(Sprite sprite)
+    {
+        if (sprite == null)
+        {
+            return;
+        }
+
+        SpriteRenderer visualRenderer = GetVisualRenderer();
+        if (visualRenderer != null)
+        {
+            visualRenderer.sprite = sprite;
+        }
+    }
+
     public Menu GetProducedMenu()
     {
         if (foodPrefab == null || !foodPrefab.TryGetComponent(out Food food))
@@ -79,6 +93,27 @@ public class HumanPart : MonoBehaviour
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
+    }
+
+    private SpriteRenderer GetVisualRenderer()
+    {
+        if (spriteRenderer != null)
+        {
+            return spriteRenderer;
+        }
+
+        Transform visual = transform.Find("Visual");
+        if (visual != null)
+        {
+            spriteRenderer = visual.GetComponent<SpriteRenderer>();
+        }
+
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
+        }
+
+        return spriteRenderer;
     }
 
     private void OnEnable()

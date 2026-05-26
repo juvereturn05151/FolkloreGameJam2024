@@ -55,11 +55,19 @@ public class CharacterCustomizationSceneUIBinder : MonoBehaviour
         {
             int capturedIndex = i;
             Bind($"GenerateSlot{capturedIndex + 1}Button", () => SelectGeneratedSlot(capturedIndex));
-            BindToggle($"GeneratedSlot{capturedIndex + 1}Toggle", enabled => controller?.ToggleSlotForGameplay(capturedIndex, enabled));
-            BindChildButton($"GeneratedSlot{capturedIndex + 1}Toggle", "PreviewButton", () => SelectGeneratedSlot(capturedIndex));
+            Bind($"GeneratedSlot{capturedIndex + 1}Toggle", () => SelectGeneratedSlot(capturedIndex));
+            BindChildToggle($"GeneratedSlot{capturedIndex + 1}Toggle", "GameplayToggleButton", enabled =>
+            {
+                controller?.ToggleSlotForGameplay(capturedIndex, enabled);
+                RefreshAll();
+            });
         }
 
-        BindToggle("DefaultSlotToggle", enabled => controller?.ToggleDefaultSlotForGameplay(enabled));
+        BindToggle("DefaultSlotToggle", enabled =>
+        {
+            controller?.ToggleDefaultSlotForGameplay(enabled);
+            RefreshAll();
+        });
         BindInputField("PromptInput", prompt => controller?.SetPromptText(prompt));
 
         // These names existed in the first temporary UI. They now operate on generated character slots.
@@ -135,6 +143,7 @@ public class CharacterCustomizationSceneUIBinder : MonoBehaviour
         }
 
         RefreshPreview();
+        RefreshEditGameplayToggles();
     }
 
     private void RefreshPreview()
@@ -163,6 +172,24 @@ public class CharacterCustomizationSceneUIBinder : MonoBehaviour
         image.sprite = sprite;
         image.enabled = sprite != null;
         image.preserveAspect = true;
+    }
+
+    private void RefreshEditGameplayToggles()
+    {
+        CharacterCustomizationManager manager = CharacterCustomizationManager.Instance;
+        if (manager == null || controller == null)
+        {
+            return;
+        }
+
+        HumanTypeCustomizationData humanData = manager.GetHumanData(controller.SelectedHumanType);
+        SetToggleWithoutNotify("DefaultSlotToggle", humanData.defaultSlot != null && humanData.defaultSlot.isEnabledForSpawn);
+
+        for (int i = 0; i < CharacterCustomizationManager.GeneratedSlotsPerHuman; i++)
+        {
+            CharacterSpriteSlot slot = manager.GetGeneratedSlot(controller.SelectedHumanType, i);
+            SetChildToggleWithoutNotify($"GeneratedSlot{i + 1}Toggle", "GameplayToggleButton", slot != null && slot.isEnabledForSpawn);
+        }
     }
 
     private void Bind(string objectName, UnityEngine.Events.UnityAction action)
@@ -223,6 +250,47 @@ public class CharacterCustomizationSceneUIBinder : MonoBehaviour
         return null;
     }
 
+    private void BindChildToggle(string parentName, string childName, UnityEngine.Events.UnityAction<bool> action)
+    {
+        Toggle toggle = FindNamedChildToggle(parentName, childName);
+        if (toggle == null)
+        {
+            return;
+        }
+
+        toggle.onValueChanged.RemoveListener(action);
+        toggle.onValueChanged.AddListener(action);
+    }
+
+    private void SetChildToggleWithoutNotify(string parentName, string childName, bool isOn)
+    {
+        Toggle toggle = FindNamedChildToggle(parentName, childName);
+        if (toggle != null)
+        {
+            toggle.SetIsOnWithoutNotify(isOn);
+        }
+    }
+
+    private Toggle FindNamedChildToggle(string parentName, string childName)
+    {
+        Transform parent = FindNamedTransform(parentName);
+        if (parent == null)
+        {
+            return null;
+        }
+
+        Transform[] children = parent.GetComponentsInChildren<Transform>(true);
+        for (int i = 0; i < children.Length; i++)
+        {
+            if (children[i] != null && children[i].name == childName)
+            {
+                return children[i].GetComponent<Toggle>();
+            }
+        }
+
+        return null;
+    }
+
     private Transform FindNamedTransform(string objectName)
     {
         Transform[] children = GetComponentsInChildren<Transform>(true);
@@ -247,6 +315,15 @@ public class CharacterCustomizationSceneUIBinder : MonoBehaviour
 
         toggle.onValueChanged.RemoveListener(action);
         toggle.onValueChanged.AddListener(action);
+    }
+
+    private void SetToggleWithoutNotify(string objectName, bool isOn)
+    {
+        Toggle toggle = FindNamedToggle(objectName);
+        if (toggle != null)
+        {
+            toggle.SetIsOnWithoutNotify(isOn);
+        }
     }
 
     private Toggle FindNamedToggle(string objectName)
