@@ -259,10 +259,10 @@ public class HumanGenerator : MonoBehaviour
             customizationManager = CharacterCustomizationManager.GetOrCreateRuntimeInstance();
         }
 
-        if (customizationManager != null
-            && customizationManager.TryGetGeneratedSpriteSetForSpawn(HumanType.NormalHuman, out CharacterSpriteSet spriteSet))
+        CharacterSpriteSet manualSpriteSet = CharacterCustomizationApplier.LoadSavedSpriteSet();
+        if (manualSpriteSet != null && manualSpriteSet.HasAnySprite())
         {
-            spawnedHuman.ApplyCustomizationSpriteSet(spriteSet);
+            spawnedHuman.ApplyCustomizationSpriteSet(manualSpriteSet);
         }
     }
 

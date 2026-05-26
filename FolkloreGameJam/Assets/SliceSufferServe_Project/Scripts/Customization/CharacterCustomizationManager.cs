@@ -178,23 +178,6 @@ public class CharacterCustomizationManager : MonoBehaviour
         return spriteSet.HasAnySprite();
     }
 
-    public void SaveGeneratedWholeBody(HumanType type, int slotIndex, string headId, string neckId, string stomachId, string legId)
-    {
-        CharacterSpriteSlot slot = GetGeneratedSlot(type, slotIndex);
-        if (slot == null)
-        {
-            return;
-        }
-
-        slot.headSpriteId = headId ?? string.Empty;
-        slot.neckSpriteId = neckId ?? string.Empty;
-        slot.stomachSpriteId = stomachId ?? string.Empty;
-        slot.legSpriteId = legId ?? string.Empty;
-        slot.isGenerated = slot.HasAnyGeneratedSpriteId();
-        slot.displayName = $"Generated Slot {slot.slotIndex + 1}";
-        SaveCustomizationData();
-    }
-
     public void SaveGeneratedPart(HumanType type, int slotIndex, BodyPartType part, string spriteId)
     {
         CharacterSpriteSlot slot = GetGeneratedSlot(type, slotIndex);

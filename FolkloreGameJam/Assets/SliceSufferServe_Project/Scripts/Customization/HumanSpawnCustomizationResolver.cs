@@ -6,6 +6,12 @@ public class HumanSpawnCustomizationResolver : MonoBehaviour
 
     public CharacterSpriteSet GetSpriteSetForSpawn(HumanType type)
     {
+        CharacterSpriteSet manualSpriteSet = CharacterCustomizationApplier.LoadSavedSpriteSet();
+        if (manualSpriteSet != null && manualSpriteSet.HasAnySprite())
+        {
+            return manualSpriteSet;
+        }
+
         ResolveManager();
 
         if (customizationManager == null)
@@ -13,8 +19,7 @@ public class HumanSpawnCustomizationResolver : MonoBehaviour
             return new CharacterSpriteSet();
         }
 
-        CharacterSpriteSlot slot = customizationManager.GetRandomEnabledSlotForSpawn(type);
-        return customizationManager.ResolveSpriteSet(type, slot);
+        return customizationManager.ResolveSpriteSet(type, customizationManager.GetHumanData(type).defaultSlot);
     }
 
     private void ResolveManager()

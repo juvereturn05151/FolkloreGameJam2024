@@ -13,7 +13,7 @@ public class CharacterCustomizationSceneUIBinder : MonoBehaviour
     [SerializeField] private Image legPreviewImage;
 
     private int selectedGeneratedSlotIndex;
-    private GenerationMode selectedGenerationMode = GenerationMode.WholeBody;
+    private GenerationMode selectedGenerationMode = GenerationMode.HeadOnly;
 
     private void Awake()
     {
@@ -44,12 +44,11 @@ public class CharacterCustomizationSceneUIBinder : MonoBehaviour
         Bind("GeneratedSlotPreviousButton", SelectPreviousGeneratedSlot);
         Bind("GeneratedSlotNextButton", SelectNextGeneratedSlot);
 
-        Bind("WholeBodyButton", () => SelectGenerationMode(GenerationMode.WholeBody));
         Bind("HeadOnlyButton", () => SelectGenerationMode(GenerationMode.HeadOnly));
         Bind("NeckOnlyButton", () => SelectGenerationMode(GenerationMode.NeckOnly));
         Bind("StomachOnlyButton", () => SelectGenerationMode(GenerationMode.StomachOnly));
         Bind("LegOnlyButton", () => SelectGenerationMode(GenerationMode.LegOnly));
-        Bind("GenerateButton", GenerateSelectedCharacter);
+        BindExclusive("GenerateButton", GenerateSelectedCharacter);
 
         for (int i = 0; i < CharacterCustomizationManager.GeneratedSlotsPerHuman; i++)
         {
@@ -139,7 +138,7 @@ public class CharacterCustomizationSceneUIBinder : MonoBehaviour
 
         if (selectedModeLabel != null)
         {
-            selectedModeLabel.text = selectedGenerationMode.ToString();
+            selectedModeLabel.text = GetGenerationModeDisplayName(selectedGenerationMode);
         }
 
         RefreshPreview();
@@ -174,6 +173,23 @@ public class CharacterCustomizationSceneUIBinder : MonoBehaviour
         image.preserveAspect = true;
     }
 
+    private static string GetGenerationModeDisplayName(GenerationMode mode)
+    {
+        switch (mode)
+        {
+            case GenerationMode.HeadOnly:
+                return "Head Only";
+            case GenerationMode.NeckOnly:
+                return "Neck Only";
+            case GenerationMode.StomachOnly:
+                return "Stomach Only";
+            case GenerationMode.LegOnly:
+                return "Leg Only";
+            default:
+                return mode.ToString();
+        }
+    }
+
     private void RefreshEditGameplayToggles()
     {
         CharacterCustomizationManager manager = CharacterCustomizationManager.Instance;
@@ -201,6 +217,18 @@ public class CharacterCustomizationSceneUIBinder : MonoBehaviour
         }
 
         button.onClick.RemoveListener(action);
+        button.onClick.AddListener(action);
+    }
+
+    private void BindExclusive(string objectName, UnityEngine.Events.UnityAction action)
+    {
+        Button button = FindNamedButton(objectName);
+        if (button == null)
+        {
+            return;
+        }
+
+        button.onClick = new Button.ButtonClickedEvent();
         button.onClick.AddListener(action);
     }
 

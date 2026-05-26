@@ -24,7 +24,11 @@ public class CharacterGenerationManager : MonoBehaviour
     [SerializeField] private CharacterCustomizationManager customizationManager;
     [SerializeField] private CharacterCustomizationUIController uiController;
     [SerializeField] private Text generationStatusText;
-    [SerializeField] private Image generatedWholeBodyPreviewImage;
+
+    [Header("Mode")]
+    public bool useAIGeneration = false;
+
+    private bool isGenerating;
 
     public int TokenBalance
     {
@@ -37,37 +41,51 @@ public class CharacterGenerationManager : MonoBehaviour
 #endif
         }
     }
-    public bool IsGenerating { get; private set; }
+    public bool IsGenerating => isGenerating;
 
     private void Awake()
     {
         ResolveReferences();
-        SetGenerationStatus("Ready to generate.");
+        SetGenerationStatus(useAIGeneration ? "Ready to generate." : "Manual customization is active.");
     }
 
     public void GenerateSelectedCharacter()
     {
-        if (IsGenerating)
+        if (!useAIGeneration)
+        {
+            Debug.Log("AI character generation is disabled. Manual customization is active.");
+            SetGenerationStatus("Manual customization is active.");
+            return;
+        }
+
+        if (isGenerating)
         {
             SetGenerationStatus("Generation is already running...");
             return;
         }
 
+        if (!HasGenerationTokens())
+        {
+            OnGenerationFailed("Not enough generation tokens.");
+            return;
+        }
+
+        isGenerating = true;
         StartCoroutine(GenerateSelectedCharacterCoroutine());
     }
 
     public bool CanGenerate()
     {
-#if UNITY_EDITOR
-        return !IsGenerating;
-#else
-        return !IsGenerating && TokenBalance >= GenerationTokenCost;
-#endif
+        return useAIGeneration && !isGenerating && HasGenerationTokens();
     }
 
-    public Task<CharacterGenerationResult> GenerateWholeBodyAsync(HumanType humanType, int slotIndex, string prompt)
+    private bool HasGenerationTokens()
     {
-        return Task.FromResult(CharacterGenerationResult.Failed("Use GenerateSelectedCharacter so UnityWebRequest can run on the main thread."));
+#if UNITY_EDITOR
+        return true;
+#else
+        return TokenBalance >= GenerationTokenCost;
+#endif
     }
 
     public Task<CharacterGenerationResult> GenerateSinglePartAsync(HumanType humanType, int slotIndex, BodyPartType part, string prompt)
@@ -84,14 +102,7 @@ public class CharacterGenerationManager : MonoBehaviour
             return;
         }
 
-        if (mode == GenerationMode.WholeBody)
-        {
-            customizationManager.SaveGeneratedWholeBody(humanType, slotIndex, result.headSpriteId, result.neckSpriteId, result.stomachSpriteId, result.legSpriteId);
-        }
-        else
-        {
-            customizationManager.SaveGeneratedPart(humanType, slotIndex, GetBodyPart(mode), result.singlePartSpriteId);
-        }
+        customizationManager.SaveGeneratedPart(humanType, slotIndex, GetBodyPart(mode), result.singlePartSpriteId);
 
         SpendTokenAfterSuccess();
         SetGenerationStatus("Generation complete.");
@@ -117,6 +128,18 @@ public class CharacterGenerationManager : MonoBehaviour
 
     private IEnumerator GenerateSelectedCharacterCoroutine()
     {
+        try
+        {
+            yield return GenerateSelectedCharacterCoroutineBody();
+        }
+        finally
+        {
+            isGenerating = false;
+        }
+    }
+
+    private IEnumerator GenerateSelectedCharacterCoroutineBody()
+    {
         ResolveReferences();
 
         if (uiController == null || customizationManager == null)
@@ -125,7 +148,7 @@ public class CharacterGenerationManager : MonoBehaviour
             yield break;
         }
 
-        if (!CanGenerate())
+        if (!HasGenerationTokens())
         {
             OnGenerationFailed("Not enough generation tokens.");
             yield break;
@@ -135,9 +158,8 @@ public class CharacterGenerationManager : MonoBehaviour
         int slotIndex = uiController.SelectedGeneratedSlotIndex;
         GenerationMode mode = uiController.SelectedGenerationMode;
         BodyPartType selectedPart = GetBodyPart(mode);
-        string prompt = uiController.PromptText;
+        string prompt = BuildStrictPartPrompt(uiController.PromptText);
 
-        IsGenerating = true;
         SetGenerationStatus($"Generating {GetGenerationStatusName(mode)}...");
 
         CharacterGenerationResult result = null;
@@ -150,8 +172,6 @@ public class CharacterGenerationManager : MonoBehaviour
         {
             failureReason = error;
         });
-
-        IsGenerating = false;
 
         if (result != null && result.success)
         {
@@ -172,40 +192,22 @@ public class CharacterGenerationManager : MonoBehaviour
         Action<CharacterGenerationResult> onSuccess,
         Action<string> onFailed)
     {
-        SourceImageData[] inputImages = BuildInputImages(humanType, mode, selectedPart);
+        SourceImageData[] inputImages = BuildInputImages(humanType, selectedPart);
         string[] inputImageDataUris = BuildInputImageDataUris(inputImages);
         PartImageDataUris partImageDataUris = BuildPartImageDataUris(inputImages);
 
         GenerateRequest requestData = new GenerateRequest
         {
             prompt = prompt ?? string.Empty,
+            image = inputImageDataUris.Length > 0 ? inputImageDataUris[0] : string.Empty,
             humanType = humanType.ToString(),
             generationMode = mode.ToString(),
-            selectedPart = selectedPart.ToString(),
-            image = inputImageDataUris.Length > 0 ? inputImageDataUris[0] : string.Empty,
-            images = inputImageDataUris,
-            head = partImageDataUris.head,
-            neck = partImageDataUris.neck,
-            stomach = partImageDataUris.stomach,
-            leg = partImageDataUris.leg,
-            inputImages = inputImages,
-            input = new GenerateInput
-            {
-                prompt = prompt ?? string.Empty,
-                humanType = humanType.ToString(),
-                generationMode = mode.ToString(),
-                selectedPart = selectedPart.ToString(),
-                image = inputImageDataUris.Length > 0 ? inputImageDataUris[0] : string.Empty,
-                images = inputImageDataUris,
-                head = partImageDataUris.head,
-                neck = partImageDataUris.neck,
-                stomach = partImageDataUris.stomach,
-                leg = partImageDataUris.leg
-            }
+            selectedPart = selectedPart.ToString()
         };
 
         string json = JsonUtility.ToJson(requestData);
         Debug.Log($"Character generation request JSON preview:\n{BuildRequestDebugPreview(json)}");
+        Debug.Log("Sending ONE generation request for part: " + selectedPart);
 
         using UnityWebRequest request = new UnityWebRequest(workerUrl, "POST");
         byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
@@ -223,11 +225,9 @@ public class CharacterGenerationManager : MonoBehaviour
 
         Debug.Log("Character generation raw response:\n" + SanitizeGenerationLog(request.downloadHandler.text));
 
-        GeneratedPartsResponse generatedPartsResponse;
         ReplicateResponse response;
         try
         {
-            generatedPartsResponse = JsonUtility.FromJson<GeneratedPartsResponse>(request.downloadHandler.text);
             response = JsonUtility.FromJson<ReplicateResponse>(request.downloadHandler.text);
         }
         catch (Exception exception)
@@ -236,7 +236,7 @@ public class CharacterGenerationManager : MonoBehaviour
             yield break;
         }
 
-        if (generatedPartsResponse == null && response == null)
+        if (response == null)
         {
             onFailed?.Invoke("Backend response was empty.");
             yield break;
@@ -265,7 +265,6 @@ public class CharacterGenerationManager : MonoBehaviour
 
         try
         {
-            generatedPartsResponse = JsonUtility.FromJson<GeneratedPartsResponse>(finalResponseJson);
             response = finalResponse ?? JsonUtility.FromJson<ReplicateResponse>(finalResponseJson);
         }
         catch (Exception exception)
@@ -276,67 +275,7 @@ public class CharacterGenerationManager : MonoBehaviour
 
         SetGenerationStatus("Downloading generated sprite...");
 
-        if (mode == GenerationMode.WholeBody)
-        {
-            yield return DownloadWholeBodyResult(generatedPartsResponse, response, finalResponseJson, partImageDataUris, humanType, slotIndex, onSuccess, onFailed);
-        }
-        else
-        {
-            yield return DownloadSinglePartResult(generatedPartsResponse, response, finalResponseJson, partImageDataUris, humanType, slotIndex, selectedPart, onSuccess, onFailed);
-        }
-    }
-
-    private IEnumerator DownloadWholeBodyResult(
-        GeneratedPartsResponse generatedPartsResponse,
-        ReplicateResponse response,
-        string responseJson,
-        PartImageDataUris sourcePartImageDataUris,
-        HumanType humanType,
-        int slotIndex,
-        Action<CharacterGenerationResult> onSuccess,
-        Action<string> onFailed)
-    {
-        string[] outputUrls = GetOutputUrls(response, responseJson);
-        if (!HasCompletePartUrls(generatedPartsResponse, response, responseJson))
-        {
-            if (outputUrls.Length == 1)
-            {
-                Debug.Log("Using single output image URL: " + outputUrls[0]);
-                yield return DownloadAndSplitWholeBodyImage(outputUrls[0], humanType, slotIndex, onSuccess, onFailed);
-                yield break;
-            }
-
-            if (IsSucceededStatus(GetPredictionStatus(response)) && outputUrls.Length == 0)
-            {
-                onFailed?.Invoke("Prediction succeeded but returned no images. Check backend/model output.");
-                yield break;
-            }
-        }
-
-        if (!TryGetValidatedPartUrl(generatedPartsResponse, response, responseJson, sourcePartImageDataUris, BodyPartType.Head, out string headUrl, out string error)) { onFailed?.Invoke(error); yield break; }
-        if (!TryGetValidatedPartUrl(generatedPartsResponse, response, responseJson, sourcePartImageDataUris, BodyPartType.Neck, out string neckUrl, out error)) { onFailed?.Invoke(error); yield break; }
-        if (!TryGetValidatedPartUrl(generatedPartsResponse, response, responseJson, sourcePartImageDataUris, BodyPartType.Stomach, out string stomachUrl, out error)) { onFailed?.Invoke(error); yield break; }
-        if (!TryGetValidatedPartUrl(generatedPartsResponse, response, responseJson, sourcePartImageDataUris, BodyPartType.Leg, out string legUrl, out error)) { onFailed?.Invoke(error); yield break; }
-
-        string headId = null;
-        string neckId = null;
-        string stomachId = null;
-        string legId = null;
-        string failure = null;
-
-        yield return DownloadAndSaveImage(headUrl, humanType, slotIndex, BodyPartType.Head, id => headId = id, error => failure = error);
-        if (!string.IsNullOrWhiteSpace(failure)) { onFailed?.Invoke(failure); yield break; }
-
-        yield return DownloadAndSaveImage(neckUrl, humanType, slotIndex, BodyPartType.Neck, id => neckId = id, error => failure = error);
-        if (!string.IsNullOrWhiteSpace(failure)) { onFailed?.Invoke(failure); yield break; }
-
-        yield return DownloadAndSaveImage(stomachUrl, humanType, slotIndex, BodyPartType.Stomach, id => stomachId = id, error => failure = error);
-        if (!string.IsNullOrWhiteSpace(failure)) { onFailed?.Invoke(failure); yield break; }
-
-        yield return DownloadAndSaveImage(legUrl, humanType, slotIndex, BodyPartType.Leg, id => legId = id, error => failure = error);
-        if (!string.IsNullOrWhiteSpace(failure)) { onFailed?.Invoke(failure); yield break; }
-
-        onSuccess?.Invoke(CharacterGenerationResult.WholeBody(headId, neckId, stomachId, legId));
+        yield return DownloadSinglePartResult(response, finalResponseJson, partImageDataUris, humanType, slotIndex, selectedPart, onSuccess, onFailed);
     }
 
     private IEnumerator PollPredictionUntilComplete(
@@ -424,79 +363,7 @@ public class CharacterGenerationManager : MonoBehaviour
         onFailed?.Invoke($"Generation timed out after {maxPredictionPollAttempts} polling attempt(s).");
     }
 
-    private IEnumerator DownloadAndSplitWholeBodyImage(
-        string imageUrl,
-        HumanType humanType,
-        int slotIndex,
-        Action<CharacterGenerationResult> onSuccess,
-        Action<string> onFailed)
-    {
-        if (!TryValidateImageUrl(imageUrl, BodyPartType.Head, out imageUrl, out string validationError))
-        {
-            onFailed?.Invoke($"Generated whole body image URL is invalid. {validationError}");
-            yield break;
-        }
-
-        Texture2D wholeBodyTexture;
-        if (imageUrl.StartsWith("data:image/", StringComparison.OrdinalIgnoreCase))
-        {
-            byte[] imageBytes = DecodeDataUri(imageUrl);
-            if (imageBytes == null || imageBytes.Length == 0)
-            {
-                onFailed?.Invoke("Generated whole body image data URL was invalid.");
-                yield break;
-            }
-
-            wholeBodyTexture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-            if (!wholeBodyTexture.LoadImage(imageBytes))
-            {
-                UnityEngine.Object.Destroy(wholeBodyTexture);
-                onFailed?.Invoke("Generated whole body image could not be decoded.");
-                yield break;
-            }
-        }
-        else
-        {
-            using UnityWebRequest request = UnityWebRequestTexture.GetTexture(imageUrl);
-            yield return request.SendWebRequest();
-
-            if (request.result != UnityWebRequest.Result.Success)
-            {
-                onFailed?.Invoke($"Whole body image download failed: {request.error}");
-                yield break;
-            }
-
-            wholeBodyTexture = DownloadHandlerTexture.GetContent(request);
-            if (wholeBodyTexture == null)
-            {
-                onFailed?.Invoke("Generated whole body image could not be decoded.");
-                yield break;
-            }
-        }
-
-        AssignWholeBodyPreviewSprite(wholeBodyTexture);
-
-        string failure = null;
-        string headId = SaveCroppedGeneratedImage(wholeBodyTexture, humanType, slotIndex, BodyPartType.Head, 0.74f, 1f, error => failure = error);
-        string neckId = SaveCroppedGeneratedImage(wholeBodyTexture, humanType, slotIndex, BodyPartType.Neck, 0.58f, 0.74f, error => failure = error);
-        string stomachId = SaveCroppedGeneratedImage(wholeBodyTexture, humanType, slotIndex, BodyPartType.Stomach, 0.30f, 0.58f, error => failure = error);
-        string legId = SaveCroppedGeneratedImage(wholeBodyTexture, humanType, slotIndex, BodyPartType.Leg, 0f, 0.30f, error => failure = error);
-        if (generatedWholeBodyPreviewImage == null)
-        {
-            UnityEngine.Object.Destroy(wholeBodyTexture);
-        }
-
-        if (!string.IsNullOrWhiteSpace(failure))
-        {
-            onFailed?.Invoke(failure);
-            yield break;
-        }
-
-        onSuccess?.Invoke(CharacterGenerationResult.WholeBody(headId, neckId, stomachId, legId));
-    }
-
     private IEnumerator DownloadSinglePartResult(
-        GeneratedPartsResponse generatedPartsResponse,
         ReplicateResponse response,
         string responseJson,
         PartImageDataUris sourcePartImageDataUris,
@@ -506,20 +373,10 @@ public class CharacterGenerationManager : MonoBehaviour
         Action<CharacterGenerationResult> onSuccess,
         Action<string> onFailed)
     {
-        if (!TryGetValidatedPartUrl(generatedPartsResponse, response, responseJson, sourcePartImageDataUris, part, out string imageUrl, out string error))
+        if (!TryGetValidatedPartUrl(response, responseJson, sourcePartImageDataUris, part, out string imageUrl, out string error))
         {
-            string[] outputUrls = GetOutputUrls(response, responseJson);
-            if (outputUrls.Length == 1
-                && TryValidateImageUrl(outputUrls[0], part, out imageUrl, out error)
-                && !string.Equals(imageUrl, GetSourcePartImageUrl(sourcePartImageDataUris, part), StringComparison.Ordinal))
-            {
-                // Single-part generation can return one Replicate output URL instead of a named part field.
-            }
-            else
-            {
-                onFailed?.Invoke(error);
-                yield break;
-            }
+            onFailed?.Invoke(error);
+            yield break;
         }
 
         string spriteId = null;
@@ -558,7 +415,7 @@ public class CharacterGenerationManager : MonoBehaviour
                 yield break;
             }
 
-            SaveGeneratedImageBytes(imageBytes, humanType, slotIndex, part, onSuccess);
+            SaveAlignedGeneratedImageBytes(imageBytes, humanType, slotIndex, part, onSuccess, onFailed);
             yield break;
         }
 
@@ -571,22 +428,11 @@ public class CharacterGenerationManager : MonoBehaviour
             yield break;
         }
 
-        SaveGeneratedImageBytes(request.downloadHandler.data, humanType, slotIndex, part, onSuccess);
+        SaveAlignedGeneratedImageBytes(request.downloadHandler.data, humanType, slotIndex, part, onSuccess, onFailed);
     }
 
-    private SourceImageData[] BuildInputImages(HumanType humanType, GenerationMode mode, BodyPartType selectedPart)
+    private SourceImageData[] BuildInputImages(HumanType humanType, BodyPartType selectedPart)
     {
-        if (mode == GenerationMode.WholeBody)
-        {
-            return new[]
-            {
-                BuildInputImage(humanType, BodyPartType.Head),
-                BuildInputImage(humanType, BodyPartType.Neck),
-                BuildInputImage(humanType, BodyPartType.Stomach),
-                BuildInputImage(humanType, BodyPartType.Leg)
-            };
-        }
-
         return new[]
         {
             BuildInputImage(humanType, selectedPart)
@@ -791,8 +637,6 @@ public class CharacterGenerationManager : MonoBehaviour
     {
         switch (mode)
         {
-            case GenerationMode.WholeBody:
-                return "whole body";
             case GenerationMode.HeadOnly:
                 return "head";
             case GenerationMode.NeckOnly:
@@ -804,6 +648,15 @@ public class CharacterGenerationManager : MonoBehaviour
             default:
                 return "character";
         }
+    }
+
+    private static string BuildStrictPartPrompt(string userPrompt)
+    {
+        return "Use the reference image as a strict template.\n"
+            + "Keep the exact same transparent background, canvas size, framing, pose, silhouette, object position, and scale.\n"
+            + "Do not zoom, crop, rotate, or redraw the composition.\n"
+            + "Only modify this part according to the request: "
+            + (string.IsNullOrWhiteSpace(userPrompt) ? "preserve the original part design with minimal changes." : userPrompt.Trim());
     }
 
     private static string GetPredictionStatus(ReplicateResponse response)
@@ -843,7 +696,6 @@ public class CharacterGenerationManager : MonoBehaviour
     }
 
     private static bool TryGetValidatedPartUrl(
-        GeneratedPartsResponse generatedPartsResponse,
         ReplicateResponse response,
         string responseJson,
         PartImageDataUris sourcePartImageDataUris,
@@ -851,7 +703,7 @@ public class CharacterGenerationManager : MonoBehaviour
         out string imageUrl,
         out string error)
     {
-        imageUrl = GetPartUrl(generatedPartsResponse, response, responseJson, part);
+        imageUrl = GetPartUrl(response, responseJson);
         if (!TryValidateImageUrl(imageUrl, part, out imageUrl, out error))
         {
             if (string.IsNullOrWhiteSpace(imageUrl))
@@ -874,112 +726,16 @@ public class CharacterGenerationManager : MonoBehaviour
         return true;
     }
 
-    private static string GetPartUrl(
-        GeneratedPartsResponse generatedPartsResponse,
-        ReplicateResponse response,
-        string responseJson,
-        BodyPartType part)
+    private static string GetPartUrl(ReplicateResponse response, string responseJson)
     {
-        string structuredUrl = GetStructuredPartUrl(generatedPartsResponse, part);
-        if (!string.IsNullOrWhiteSpace(structuredUrl))
+        string outputUrl = GetFirstOutputUrl(response, responseJson);
+        if (!string.IsNullOrWhiteSpace(outputUrl))
         {
-            return NormalizeJsonString(structuredUrl);
+            Debug.Log("Using single output image URL: " + outputUrl);
+            return outputUrl;
         }
 
-        structuredUrl = GetStructuredPartUrl(response, part);
-        if (!string.IsNullOrWhiteSpace(structuredUrl))
-        {
-            return NormalizeJsonString(structuredUrl);
-        }
-
-        structuredUrl = GetStructuredOutputPartUrl(response, responseJson, part);
-        if (!string.IsNullOrWhiteSpace(structuredUrl))
-        {
-            return NormalizeJsonString(structuredUrl);
-        }
-
-        return GetNamedImageUrlFromJson(responseJson, GetPartJsonName(part));
-    }
-
-    private static string GetStructuredPartUrl(GeneratedPartsResponse response, BodyPartType part)
-    {
-        if (response == null)
-        {
-            return string.Empty;
-        }
-
-        switch (part)
-        {
-            case BodyPartType.Head:
-                return response.head;
-            case BodyPartType.Neck:
-                return response.neck;
-            case BodyPartType.Stomach:
-                return response.stomach;
-            case BodyPartType.Leg:
-                return response.leg;
-            default:
-                return string.Empty;
-        }
-    }
-
-    private static string GetStructuredPartUrl(ReplicateResponse response, BodyPartType part)
-    {
-        if (response == null)
-        {
-            return string.Empty;
-        }
-
-        switch (part)
-        {
-            case BodyPartType.Head:
-                return response.head;
-            case BodyPartType.Neck:
-                return response.neck;
-            case BodyPartType.Stomach:
-                return response.stomach;
-            case BodyPartType.Leg:
-                return response.leg;
-            default:
-                return string.Empty;
-        }
-    }
-
-    private static string GetStructuredOutputPartUrl(ReplicateResponse response, string responseJson, BodyPartType part)
-    {
-        string[] outputUrls = GetOutputUrls(response, responseJson);
-        int outputIndex = GetPartOutputIndex(part);
-        if (outputIndex < 0 || outputUrls.Length < 4 || outputIndex >= outputUrls.Length)
-        {
-            return string.Empty;
-        }
-
-        return outputUrls[outputIndex];
-    }
-
-    private static int GetPartOutputIndex(BodyPartType part)
-    {
-        switch (part)
-        {
-            case BodyPartType.Head:
-                return 0;
-            case BodyPartType.Neck:
-                return 1;
-            case BodyPartType.Stomach:
-                return 2;
-            case BodyPartType.Leg:
-                return 3;
-            default:
-                return -1;
-        }
-    }
-
-    private static bool HasCompletePartUrls(GeneratedPartsResponse generatedPartsResponse, ReplicateResponse response, string responseJson)
-    {
-        return !string.IsNullOrWhiteSpace(GetPartUrl(generatedPartsResponse, response, responseJson, BodyPartType.Head))
-            && !string.IsNullOrWhiteSpace(GetPartUrl(generatedPartsResponse, response, responseJson, BodyPartType.Neck))
-            && !string.IsNullOrWhiteSpace(GetPartUrl(generatedPartsResponse, response, responseJson, BodyPartType.Stomach))
-            && !string.IsNullOrWhiteSpace(GetPartUrl(generatedPartsResponse, response, responseJson, BodyPartType.Leg));
+        return string.Empty;
     }
 
     private static string[] GetOutputUrls(ReplicateResponse response, string responseJson)
@@ -1011,6 +767,12 @@ public class CharacterGenerationManager : MonoBehaviour
         }
 
         return GetOutputUrlsFromJson(responseJson);
+    }
+
+    private static string GetFirstOutputUrl(ReplicateResponse response, string responseJson)
+    {
+        string[] outputUrls = GetOutputUrls(response, responseJson);
+        return outputUrls.Length > 0 ? outputUrls[0] : string.Empty;
     }
 
     private static string[] GetOutputUrlsFromJson(string json)
@@ -1045,7 +807,6 @@ public class CharacterGenerationManager : MonoBehaviour
     private static string GetMissingPartUrlError(ReplicateResponse response, string responseJson, BodyPartType part)
     {
         string partName = GetPartJsonName(part);
-        int outputIndex = GetPartOutputIndex(part);
         string[] outputUrls = GetOutputUrls(response, responseJson);
 
         if (response != null && !string.IsNullOrWhiteSpace(response.error))
@@ -1055,7 +816,7 @@ public class CharacterGenerationManager : MonoBehaviour
 
         if (response != null && !string.IsNullOrWhiteSpace(response.status) && !string.Equals(response.status, "succeeded", StringComparison.OrdinalIgnoreCase))
         {
-            return $"Generated {partName} image URL is missing because the backend response status is '{response.status}'. Expected backend field '{partName}' or output[{outputIndex}] after generation succeeds.";
+            return $"Generated {partName} image URL is missing because the backend response status is '{response.status}'. Expected output after generation succeeds.";
         }
 
         if (IsSucceededStatus(GetPredictionStatus(response)) && outputUrls.Length == 0)
@@ -1063,12 +824,7 @@ public class CharacterGenerationManager : MonoBehaviour
             return "Prediction succeeded but returned no images. Check backend/model output.";
         }
 
-        if (outputUrls.Length > 0)
-        {
-            return $"Generated {partName} image URL is missing. Expected backend field '{partName}' or output[{outputIndex}], but backend output had {outputUrls.Length} image item(s).";
-        }
-
-        return $"Generated {partName} image URL is missing. Expected backend field '{partName}' or output[{outputIndex}].";
+        return $"Generated {partName} image URL is missing. Expected backend output.";
     }
 
     private static string GetSourcePartImageUrl(PartImageDataUris sourcePartImageDataUris, BodyPartType part)
@@ -1093,19 +849,6 @@ public class CharacterGenerationManager : MonoBehaviour
         }
     }
 
-    private static string GetNamedImageUrlFromJson(string json, string name)
-    {
-        if (string.IsNullOrWhiteSpace(json) || string.IsNullOrWhiteSpace(name))
-        {
-            return string.Empty;
-        }
-
-        string escapedName = Regex.Escape(name);
-        string pattern = $"\"{escapedName}\"\\s*:\\s*(?:\\{{[^}}]*?\"(?:url|image|image_url)\"\\s*:\\s*)?\"(?<url>(?:https?:\\\\?/\\\\?/|data:image/)[^\"]+)\"";
-        Match match = Regex.Match(json, pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        return match.Success ? NormalizeJsonString(match.Groups["url"].Value) : string.Empty;
-    }
-
     private static bool TryValidateImageUrl(string imageUrl, BodyPartType part, out string normalizedUrl, out string error)
     {
         string partName = GetPartJsonName(part);
@@ -1114,7 +857,7 @@ public class CharacterGenerationManager : MonoBehaviour
 
         if (string.IsNullOrWhiteSpace(normalizedUrl))
         {
-            error = $"Generated {partName} image URL is missing. Expected backend field '{partName}'.";
+            error = $"Generated {partName} image URL is missing. Expected backend output.";
             return false;
         }
 
@@ -1177,24 +920,6 @@ public class CharacterGenerationManager : MonoBehaviour
         return part == BodyPartType.Stomach ? "stomach" : part.ToString().ToLowerInvariant();
     }
 
-    private void AssignWholeBodyPreviewSprite(Texture2D texture)
-    {
-        if (generatedWholeBodyPreviewImage == null || texture == null)
-        {
-            return;
-        }
-
-        Sprite sprite = Sprite.Create(
-            texture,
-            new Rect(0f, 0f, texture.width, texture.height),
-            new Vector2(0.5f, 0.5f),
-            100f);
-
-        generatedWholeBodyPreviewImage.sprite = sprite;
-        generatedWholeBodyPreviewImage.enabled = true;
-        generatedWholeBodyPreviewImage.preserveAspect = true;
-    }
-
     private static void SaveGeneratedImageBytes(
         byte[] imageBytes,
         HumanType humanType,
@@ -1214,38 +939,333 @@ public class CharacterGenerationManager : MonoBehaviour
         onSuccess?.Invoke(GeneratedSpriteIdPrefix + relativePath.Replace('\\', '/'));
     }
 
-    private static string SaveCroppedGeneratedImage(
-        Texture2D sourceTexture,
+    private static void SaveAlignedGeneratedImageBytes(
+        byte[] imageBytes,
         HumanType humanType,
         int slotIndex,
         BodyPartType part,
-        float normalizedBottom,
-        float normalizedTop,
+        Action<string> onSuccess,
         Action<string> onFailed)
     {
-        int y = Mathf.Clamp(Mathf.FloorToInt(sourceTexture.height * normalizedBottom), 0, sourceTexture.height - 1);
-        int top = Mathf.Clamp(Mathf.CeilToInt(sourceTexture.height * normalizedTop), y + 1, sourceTexture.height);
-        int height = Mathf.Max(1, top - y);
+        if (!TryAlignGeneratedImageToReference(imageBytes, humanType, part, out byte[] alignedBytes, out string error))
+        {
+            onFailed?.Invoke(error);
+            return;
+        }
+
+        SaveGeneratedImageBytes(alignedBytes, humanType, slotIndex, part, onSuccess);
+    }
+
+    private static bool TryAlignGeneratedImageToReference(
+        byte[] generatedImageBytes,
+        HumanType humanType,
+        BodyPartType part,
+        out byte[] alignedImageBytes,
+        out string error)
+    {
+        alignedImageBytes = null;
+        error = string.Empty;
+
+        if (generatedImageBytes == null || generatedImageBytes.Length == 0)
+        {
+            error = $"Generated {GetPartJsonName(part)} image was empty.";
+            return false;
+        }
+
+        Texture2D generatedTexture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+        Texture2D referenceReadableTexture = null;
+        Texture2D generatedReadableTexture = null;
+        Texture2D alignedTexture = null;
 
         try
         {
-            Color[] pixels = sourceTexture.GetPixels(0, y, sourceTexture.width, height);
-            Texture2D croppedTexture = new Texture2D(sourceTexture.width, height, TextureFormat.RGBA32, false);
-            croppedTexture.SetPixels(pixels);
-            croppedTexture.Apply();
+            if (!generatedTexture.LoadImage(generatedImageBytes))
+            {
+                error = $"Generated {GetPartJsonName(part)} image could not be decoded.";
+                return false;
+            }
 
-            byte[] pngBytes = croppedTexture.EncodeToPNG();
-            UnityEngine.Object.Destroy(croppedTexture);
+            Texture2D referenceTexture = LoadSourceTexture(GetSourceImageResourcePath(humanType, part));
+            if (referenceTexture == null)
+            {
+                error = $"Reference {GetPartJsonName(part)} image could not be loaded.";
+                return false;
+            }
 
-            string spriteId = null;
-            SaveGeneratedImageBytes(pngBytes, humanType, slotIndex, part, id => spriteId = id);
-            return spriteId;
+            referenceReadableTexture = CreateReadableCopy(referenceTexture);
+            generatedReadableTexture = CreateReadableCopy(generatedTexture);
+            RemoveNearBlackEdgeBackground(generatedReadableTexture);
+
+            const byte visibleAlphaThreshold = 10;
+            bool referenceHasVisiblePixels = TryAnalyzeAlpha(referenceReadableTexture, visibleAlphaThreshold, out int referenceVisiblePixelCount, out RectInt referenceBounds);
+            bool generatedHasVisiblePixels = TryAnalyzeAlpha(generatedReadableTexture, visibleAlphaThreshold, out int generatedVisiblePixelCount, out RectInt generatedBounds);
+            LogAlphaAnalysis($"Reference {part}", referenceReadableTexture, referenceVisiblePixelCount, referenceBounds);
+            LogAlphaAnalysis($"Generated {part}", generatedReadableTexture, generatedVisiblePixelCount, generatedBounds);
+
+            if (!referenceHasVisiblePixels)
+            {
+                error = $"Reference {GetPartJsonName(part)} image has no visible opaque pixels.";
+                return false;
+            }
+
+            if (!generatedHasVisiblePixels)
+            {
+                error = $"Generated {GetPartJsonName(part)} image has no visible opaque pixels.";
+                return false;
+            }
+
+            int minimumVisiblePixels = GetMinimumVisiblePixelCount(part);
+            if (generatedVisiblePixelCount < minimumVisiblePixels)
+            {
+                error = $"Generated {GetPartJsonName(part)} image is too small. Visible pixels: {generatedVisiblePixelCount}.";
+                return false;
+            }
+
+            alignedTexture = AlignVisibleBounds(generatedReadableTexture, generatedBounds, referenceReadableTexture.width, referenceReadableTexture.height, referenceBounds);
+            alignedImageBytes = alignedTexture.EncodeToPNG();
+            if (alignedImageBytes == null || alignedImageBytes.Length == 0)
+            {
+                error = $"Aligned {GetPartJsonName(part)} image could not be encoded.";
+                return false;
+            }
+
+            Debug.Log($"Aligned generated {part} alpha bounds from {FormatBounds(generatedBounds)} to reference {FormatBounds(referenceBounds)}.");
+            return true;
         }
-        catch (Exception exception)
+        finally
         {
-            onFailed?.Invoke($"Could not crop generated whole body image into {GetPartJsonName(part)}: {exception.Message}");
-            return string.Empty;
+            UnityEngine.Object.Destroy(generatedTexture);
+            if (referenceReadableTexture != null)
+            {
+                UnityEngine.Object.Destroy(referenceReadableTexture);
+            }
+
+            if (generatedReadableTexture != null)
+            {
+                UnityEngine.Object.Destroy(generatedReadableTexture);
+            }
+
+            if (alignedTexture != null)
+            {
+                UnityEngine.Object.Destroy(alignedTexture);
+            }
         }
+    }
+
+    private static Texture2D AlignVisibleBounds(
+        Texture2D generatedTexture,
+        RectInt generatedBounds,
+        int outputWidth,
+        int outputHeight,
+        RectInt targetBounds)
+    {
+        Texture2D outputTexture = new Texture2D(outputWidth, outputHeight, TextureFormat.RGBA32, false);
+        Color32[] outputPixels = new Color32[outputWidth * outputHeight];
+        Color32 transparent = new Color32(0, 0, 0, 0);
+        for (int i = 0; i < outputPixels.Length; i++)
+        {
+            outputPixels[i] = transparent;
+        }
+
+        Color32[] generatedPixels = generatedTexture.GetPixels32();
+        for (int y = targetBounds.yMin; y < targetBounds.yMax; y++)
+        {
+            float v = targetBounds.height <= 1 ? 0.5f : (y - targetBounds.yMin + 0.5f) / targetBounds.height;
+            int sourceY = Mathf.Clamp(generatedBounds.yMin + Mathf.FloorToInt(v * generatedBounds.height), generatedBounds.yMin, generatedBounds.yMax - 1);
+
+            for (int x = targetBounds.xMin; x < targetBounds.xMax; x++)
+            {
+                float u = targetBounds.width <= 1 ? 0.5f : (x - targetBounds.xMin + 0.5f) / targetBounds.width;
+                int sourceX = Mathf.Clamp(generatedBounds.xMin + Mathf.FloorToInt(u * generatedBounds.width), generatedBounds.xMin, generatedBounds.xMax - 1);
+                outputPixels[y * outputWidth + x] = generatedPixels[sourceY * generatedTexture.width + sourceX];
+            }
+        }
+
+        outputTexture.SetPixels32(outputPixels);
+        outputTexture.Apply();
+        return outputTexture;
+    }
+
+    private static void RemoveNearBlackEdgeBackground(Texture2D texture)
+    {
+        Color32[] pixels = texture.GetPixels32();
+        bool[] visited = new bool[pixels.Length];
+        int[] queue = new int[pixels.Length];
+        int readIndex = 0;
+        int writeIndex = 0;
+
+        EnqueueBlackEdgePixels(texture, pixels, visited, queue, ref writeIndex);
+
+        while (readIndex < writeIndex)
+        {
+            int pixelIndex = queue[readIndex++];
+            pixels[pixelIndex].a = 0;
+
+            int x = pixelIndex % texture.width;
+            int y = pixelIndex / texture.width;
+            TryQueueNearBlackPixel(texture, pixels, visited, queue, ref writeIndex, x - 1, y);
+            TryQueueNearBlackPixel(texture, pixels, visited, queue, ref writeIndex, x + 1, y);
+            TryQueueNearBlackPixel(texture, pixels, visited, queue, ref writeIndex, x, y - 1);
+            TryQueueNearBlackPixel(texture, pixels, visited, queue, ref writeIndex, x, y + 1);
+        }
+
+        if (writeIndex > 0)
+        {
+            texture.SetPixels32(pixels);
+            texture.Apply();
+            Debug.Log($"Removed near-black edge background pixels: {writeIndex}");
+        }
+    }
+
+    private static void EnqueueBlackEdgePixels(Texture2D texture, Color32[] pixels, bool[] visited, int[] queue, ref int writeIndex)
+    {
+        for (int x = 0; x < texture.width; x++)
+        {
+            TryQueueNearBlackPixel(texture, pixels, visited, queue, ref writeIndex, x, 0);
+            TryQueueNearBlackPixel(texture, pixels, visited, queue, ref writeIndex, x, texture.height - 1);
+        }
+
+        for (int y = 1; y < texture.height - 1; y++)
+        {
+            TryQueueNearBlackPixel(texture, pixels, visited, queue, ref writeIndex, 0, y);
+            TryQueueNearBlackPixel(texture, pixels, visited, queue, ref writeIndex, texture.width - 1, y);
+        }
+    }
+
+    private static void TryQueueNearBlackPixel(Texture2D texture, Color32[] pixels, bool[] visited, int[] queue, ref int writeIndex, int x, int y)
+    {
+        if (x < 0 || y < 0 || x >= texture.width || y >= texture.height)
+        {
+            return;
+        }
+
+        int pixelIndex = y * texture.width + x;
+        if (visited[pixelIndex] || !IsNearBlackBackgroundPixel(pixels[pixelIndex]))
+        {
+            return;
+        }
+
+        visited[pixelIndex] = true;
+        queue[writeIndex++] = pixelIndex;
+    }
+
+    private static bool IsNearBlackBackgroundPixel(Color32 pixel)
+    {
+        const byte blackThreshold = 24;
+        return pixel.a > 0
+            && pixel.r <= blackThreshold
+            && pixel.g <= blackThreshold
+            && pixel.b <= blackThreshold;
+    }
+
+    private static bool TryAnalyzeAlpha(
+        Texture2D tex,
+        byte alphaThreshold,
+        out int visiblePixelCount,
+        out RectInt visibleBounds)
+    {
+        visiblePixelCount = 0;
+        visibleBounds = default;
+
+        if (tex == null)
+        {
+            return false;
+        }
+
+        Color32[] pixels = tex.GetPixels32();
+        int minX = tex.width;
+        int minY = tex.height;
+        int maxX = -1;
+        int maxY = -1;
+
+        for (int y = 0; y < tex.height; y++)
+        {
+            int rowOffset = y * tex.width;
+            for (int x = 0; x < tex.width; x++)
+            {
+                if (pixels[rowOffset + x].a <= alphaThreshold)
+                {
+                    continue;
+                }
+
+                visiblePixelCount++;
+                minX = Mathf.Min(minX, x);
+                minY = Mathf.Min(minY, y);
+                maxX = Mathf.Max(maxX, x);
+                maxY = Mathf.Max(maxY, y);
+            }
+        }
+
+        if (maxX < minX || maxY < minY)
+        {
+            return false;
+        }
+
+        visibleBounds = new RectInt(minX, minY, maxX - minX + 1, maxY - minY + 1);
+        return true;
+    }
+
+    private static int GetMinimumVisiblePixelCount(BodyPartType part)
+    {
+        switch (part)
+        {
+            case BodyPartType.Neck:
+                return 20;
+            case BodyPartType.Head:
+                return 100;
+            case BodyPartType.Stomach:
+                return 100;
+            case BodyPartType.Leg:
+                return 100;
+            default:
+                return 50;
+        }
+    }
+
+    private static void LogAlphaAnalysis(string label, Texture2D texture, int visiblePixelCount, RectInt visibleBounds)
+    {
+        if (texture == null)
+        {
+            Debug.Log($"{label} alpha analysis: texture is null.");
+            return;
+        }
+
+        int totalPixels = texture.width * texture.height;
+        int transparentPixelCount = Mathf.Max(0, totalPixels - visiblePixelCount);
+        float visiblePercentage = totalPixels > 0 ? visiblePixelCount * 100f / totalPixels : 0f;
+        string boundsText = visiblePixelCount > 0 ? FormatBounds(visibleBounds) : "none";
+
+        Debug.Log(
+            $"{label} alpha analysis: size={texture.width}x{texture.height}, "
+            + $"visible pixels={visiblePixelCount}, transparent pixels={transparentPixelCount}, "
+            + $"visible={visiblePercentage:F4}%, bounds={boundsText}");
+    }
+
+    private static Texture2D CreateReadableCopy(Texture2D sourceTexture)
+    {
+        RenderTexture temporary = RenderTexture.GetTemporary(sourceTexture.width, sourceTexture.height, 0, RenderTextureFormat.ARGB32);
+        RenderTexture previous = RenderTexture.active;
+
+        try
+        {
+            Graphics.Blit(sourceTexture, temporary);
+            RenderTexture.active = temporary;
+
+            Texture2D readableTexture = new Texture2D(sourceTexture.width, sourceTexture.height, TextureFormat.RGBA32, false);
+            readableTexture.ReadPixels(new Rect(0, 0, sourceTexture.width, sourceTexture.height), 0, 0);
+            readableTexture.Apply();
+            return readableTexture;
+        }
+        finally
+        {
+            RenderTexture.active = previous;
+            RenderTexture.ReleaseTemporary(temporary);
+        }
+    }
+
+    private static string FormatBounds(RectInt bounds)
+    {
+        return $"x:{bounds.xMin}-{bounds.xMax - 1}, y:{bounds.yMin}-{bounds.yMax - 1}, size:{bounds.width}x{bounds.height}";
     }
 
     private static byte[] DecodeDataUri(string dataUri)
@@ -1380,32 +1400,10 @@ public class CharacterGenerationManager : MonoBehaviour
     private class GenerateRequest
     {
         public string prompt;
+        public string image;
         public string humanType;
         public string generationMode;
         public string selectedPart;
-        public string image;
-        public string[] images;
-        public string head;
-        public string neck;
-        public string stomach;
-        public string leg;
-        public GenerateInput input;
-        public SourceImageData[] inputImages;
-    }
-
-    [Serializable]
-    private class GenerateInput
-    {
-        public string prompt;
-        public string humanType;
-        public string generationMode;
-        public string selectedPart;
-        public string image;
-        public string[] images;
-        public string head;
-        public string neck;
-        public string stomach;
-        public string leg;
     }
 
     private class PartImageDataUris
@@ -1426,22 +1424,9 @@ public class CharacterGenerationManager : MonoBehaviour
     }
 
     [Serializable]
-    private class GeneratedPartsResponse
-    {
-        public string head;
-        public string neck;
-        public string stomach;
-        public string leg;
-    }
-
-    [Serializable]
     private class ReplicateResponse
     {
         public string[] output;
-        public string head;
-        public string neck;
-        public string stomach;
-        public string leg;
         public string status;
         public string error;
         public string pollUrl;
@@ -1459,10 +1444,6 @@ public class CharacterGenerationResult
 {
     public bool success;
     public string errorMessage;
-    public string headSpriteId;
-    public string neckSpriteId;
-    public string stomachSpriteId;
-    public string legSpriteId;
     public string singlePartSpriteId;
 
     public static CharacterGenerationResult Failed(string message)
@@ -1471,18 +1452,6 @@ public class CharacterGenerationResult
         {
             success = false,
             errorMessage = message
-        };
-    }
-
-    public static CharacterGenerationResult WholeBody(string headId, string neckId, string stomachId, string legId)
-    {
-        return new CharacterGenerationResult
-        {
-            success = true,
-            headSpriteId = headId,
-            neckSpriteId = neckId,
-            stomachSpriteId = stomachId,
-            legSpriteId = legId
         };
     }
 

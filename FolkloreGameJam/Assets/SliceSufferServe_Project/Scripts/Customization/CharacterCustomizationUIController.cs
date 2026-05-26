@@ -31,7 +31,7 @@ public class CharacterCustomizationUIController : MonoBehaviour
     [SerializeField] private HumanType selectedHumanType = HumanType.NormalHuman;
     [SerializeField, Range(0, CharacterCustomizationManager.GeneratedSlotsPerHuman - 1)]
     private int selectedGeneratedSlotIndex;
-    [SerializeField] private GenerationMode selectedGenerationMode = GenerationMode.WholeBody;
+    [SerializeField] private GenerationMode selectedGenerationMode = GenerationMode.HeadOnly;
 
     private string promptText = string.Empty;
 
@@ -55,7 +55,7 @@ public class CharacterCustomizationUIController : MonoBehaviour
     // - Page tab buttons: call ShowEditPage() and ShowGeneratePage().
     // - Human type buttons: call SelectNormalHuman(), SelectRockThrowerHuman(), SelectObeseHuman(), SelectRobotHuman().
     // - Generate slot buttons/dropdowns: call SelectGeneratedSlot(oneBasedIndex), where Slot 1 passes 1.
-    // - Generation mode buttons/dropdowns: call SelectWholeBody(), SelectHeadOnly(), SelectNeckOnly(), SelectStomachOnly(), SelectLegOnly().
+    // - Generation mode buttons/dropdowns: call SelectHeadOnly(), SelectNeckOnly(), SelectStomachOnly(), SelectLegOnly().
     // - Prompt input field: connect OnValueChanged(string) to SetPromptText(string).
     // - Edit page toggles: Default toggle calls ToggleDefaultSlotForGameplay(bool), generated slot toggles call ToggleSlotForGameplay(slotIndex, bool).
     // - Generate button: call CharacterGenerationManager.GenerateSelectedCharacter().
@@ -193,11 +193,6 @@ public class CharacterCustomizationUIController : MonoBehaviour
         SelectHumanType(HumanType.RobotHuman);
     }
 
-    public void SelectWholeBody()
-    {
-        SelectGenerationMode(GenerationMode.WholeBody);
-    }
-
     public void SelectHeadOnly()
     {
         SelectGenerationMode(GenerationMode.HeadOnly);
@@ -296,8 +291,6 @@ public class CharacterCustomizationUIController : MonoBehaviour
     {
         switch (mode)
         {
-            case GenerationMode.WholeBody:
-                return "Whole Body";
             case GenerationMode.HeadOnly:
                 return "Head Only";
             case GenerationMode.NeckOnly:

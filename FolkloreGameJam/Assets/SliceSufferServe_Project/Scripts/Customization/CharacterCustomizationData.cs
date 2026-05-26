@@ -20,11 +20,48 @@ public enum BodyPartType
 
 public enum GenerationMode
 {
-    WholeBody,
     HeadOnly,
     NeckOnly,
     StomachOnly,
     LegOnly
+}
+
+[Serializable]
+public class CharacterCustomizationData
+{
+    public const string HeadIndexKey = "CustomHeadIndex";
+    public const string NeckIndexKey = "CustomNeckIndex";
+    public const string BodyIndexKey = "CustomBodyIndex";
+    public const string LegsIndexKey = "CustomLegsIndex";
+
+    public int headIndex;
+    public int neckIndex;
+    public int bodyIndex;
+    public int legsIndex;
+
+    public static CharacterCustomizationData LoadFromPlayerPrefs()
+    {
+        CharacterCustomizationData data = new CharacterCustomizationData
+        {
+            headIndex = PlayerPrefs.GetInt(HeadIndexKey, 0),
+            neckIndex = PlayerPrefs.GetInt(NeckIndexKey, 0),
+            bodyIndex = PlayerPrefs.GetInt(BodyIndexKey, 0),
+            legsIndex = PlayerPrefs.GetInt(LegsIndexKey, 0)
+        };
+
+        Debug.Log($"Manual character customization loaded: head={data.headIndex}, neck={data.neckIndex}, body={data.bodyIndex}, legs={data.legsIndex}");
+        return data;
+    }
+
+    public void SaveToPlayerPrefs()
+    {
+        PlayerPrefs.SetInt(HeadIndexKey, headIndex);
+        PlayerPrefs.SetInt(NeckIndexKey, neckIndex);
+        PlayerPrefs.SetInt(BodyIndexKey, bodyIndex);
+        PlayerPrefs.SetInt(LegsIndexKey, legsIndex);
+        PlayerPrefs.Save();
+        Debug.Log($"Manual character customization saved: head={headIndex}, neck={neckIndex}, body={bodyIndex}, legs={legsIndex}");
+    }
 }
 
 [Serializable]
