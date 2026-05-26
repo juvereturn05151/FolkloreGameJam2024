@@ -56,6 +56,7 @@ public class CharacterCustomizationSceneUIBinder : MonoBehaviour
             int capturedIndex = i;
             Bind($"GenerateSlot{capturedIndex + 1}Button", () => SelectGeneratedSlot(capturedIndex));
             BindToggle($"GeneratedSlot{capturedIndex + 1}Toggle", enabled => controller?.ToggleSlotForGameplay(capturedIndex, enabled));
+            BindChildButton($"GeneratedSlot{capturedIndex + 1}Toggle", "PreviewButton", () => SelectGeneratedSlot(capturedIndex));
         }
 
         BindToggle("DefaultSlotToggle", enabled => controller?.ToggleDefaultSlotForGameplay(enabled));
@@ -184,6 +185,52 @@ public class CharacterCustomizationSceneUIBinder : MonoBehaviour
             if (children[i] != null && children[i].name == objectName)
             {
                 return children[i].GetComponent<Button>();
+            }
+        }
+
+        return null;
+    }
+
+    private void BindChildButton(string parentName, string childName, UnityEngine.Events.UnityAction action)
+    {
+        Button button = FindNamedChildButton(parentName, childName);
+        if (button == null)
+        {
+            return;
+        }
+
+        button.onClick.RemoveListener(action);
+        button.onClick.AddListener(action);
+    }
+
+    private Button FindNamedChildButton(string parentName, string childName)
+    {
+        Transform parent = FindNamedTransform(parentName);
+        if (parent == null)
+        {
+            return null;
+        }
+
+        Transform[] children = parent.GetComponentsInChildren<Transform>(true);
+        for (int i = 0; i < children.Length; i++)
+        {
+            if (children[i] != null && children[i].name == childName)
+            {
+                return children[i].GetComponent<Button>();
+            }
+        }
+
+        return null;
+    }
+
+    private Transform FindNamedTransform(string objectName)
+    {
+        Transform[] children = GetComponentsInChildren<Transform>(true);
+        for (int i = 0; i < children.Length; i++)
+        {
+            if (children[i] != null && children[i].name == objectName)
+            {
+                return children[i];
             }
         }
 
