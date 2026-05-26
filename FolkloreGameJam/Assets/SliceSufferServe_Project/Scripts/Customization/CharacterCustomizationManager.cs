@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class CharacterCustomizationManager : MonoBehaviour
@@ -228,9 +229,37 @@ public class CharacterCustomizationManager : MonoBehaviour
             return null;
         }
 
-        // Current convention: store a Resources path such as "GeneratedSprites/NormalHuman/Slot01/Head".
-        // If generated files later live elsewhere, replace this resolver without changing save data.
+        if (spriteId.StartsWith("persistent://", StringComparison.Ordinal))
+        {
+            return LoadPersistentSprite(spriteId.Substring("persistent://".Length));
+        }
+
         return Resources.Load<Sprite>(spriteId);
+    }
+
+    private Sprite LoadPersistentSprite(string relativePath)
+    {
+        string normalizedPath = relativePath.Replace('/', Path.DirectorySeparatorChar);
+        string fullPath = Path.Combine(Application.persistentDataPath, normalizedPath);
+        if (!File.Exists(fullPath))
+        {
+            return null;
+        }
+
+        byte[] imageBytes = File.ReadAllBytes(fullPath);
+        Texture2D texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+        if (!texture.LoadImage(imageBytes))
+        {
+            Destroy(texture);
+            return null;
+        }
+
+        texture.name = Path.GetFileNameWithoutExtension(fullPath);
+        return Sprite.Create(
+            texture,
+            new Rect(0f, 0f, texture.width, texture.height),
+            new Vector2(0.5f, 0.5f),
+            100f);
     }
 
     private Sprite ResolveSprite(HumanType type, BodyPartType part, CharacterSpriteSlot slot)
