@@ -33,7 +33,7 @@ public class CharacterSpriteSlot
     public int slotIndex;
     public bool isDefaultSlot;
     public bool isGenerated;
-    public bool isEnabledForSpawn = true;
+    public bool isEnabledForSpawn;
     public string displayName;
     public string headSpriteId;
     public string neckSpriteId;
@@ -49,7 +49,7 @@ public class CharacterSpriteSlot
         this.slotIndex = slotIndex;
         this.isDefaultSlot = isDefaultSlot;
         isGenerated = false;
-        isEnabledForSpawn = true;
+        isEnabledForSpawn = isDefaultSlot;
         displayName = isDefaultSlot ? "Default Slot" : $"Generated Slot {slotIndex + 1}";
     }
 
@@ -120,6 +120,11 @@ public class CharacterSpriteSlot
         else
         {
             isGenerated = HasAnyGeneratedSpriteId();
+
+            if (!isGenerated)
+            {
+                isEnabledForSpawn = false;
+            }
         }
     }
 }
