@@ -203,6 +203,6 @@ public enum HumanBodyPartType
 {
     Head,
     Neck,
-    Body,
+    Stomach,
     Leg
 }

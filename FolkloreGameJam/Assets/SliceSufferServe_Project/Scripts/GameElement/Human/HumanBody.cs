@@ -38,7 +38,7 @@ public class HumanBody : MonoBehaviour
         ResolvePartReferences();
         SetPartActive(_head, levelConfig.IsBodyPartEnabled(HumanBodyPartType.Head));
         SetPartActive(_neck, levelConfig.IsBodyPartEnabled(HumanBodyPartType.Neck));
-        SetPartActive(_body, levelConfig.IsBodyPartEnabled(HumanBodyPartType.Body));
+        SetPartActive(_body, levelConfig.IsBodyPartEnabled(HumanBodyPartType.Stomach));
         SetPartActive(_leg, levelConfig.IsBodyPartEnabled(HumanBodyPartType.Leg));
     }
 
@@ -194,7 +194,7 @@ public class HumanBody : MonoBehaviour
             {
                 _neck = part;
             }
-            else if (_body == null && partName.Contains("Body"))
+            else if (_body == null && (partName.Contains("Stomach") || partName.Contains("Body")))
             {
                 _body = part;
             }

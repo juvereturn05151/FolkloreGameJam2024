@@ -236,7 +236,7 @@ public class HumanGenerator : MonoBehaviour
         for (int i = 0; i < config.EnabledBodyParts.Length; i++)
         {
             HumanBodyPartType bodyPart = config.EnabledBodyParts[i];
-            if (partName.Contains(bodyPart.ToString()))
+            if (partName.Contains(bodyPart.ToString()) || (bodyPart == HumanBodyPartType.Stomach && partName.Contains("Body")))
             {
                 return true;
             }
