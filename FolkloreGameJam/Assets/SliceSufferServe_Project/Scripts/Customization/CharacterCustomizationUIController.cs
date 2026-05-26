@@ -7,136 +7,170 @@ public class CharacterCustomizationUIController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private CharacterCustomizationManager customizationManager;
+    [SerializeField] private CharacterGenerationManager generationManager;
 
-    [Header("Preview")]
-    [Tooltip("Assign Head, Neck, Stomach, and Leg preview targets. Each target can use either a SpriteRenderer or a UI Image.")]
-    [SerializeField] private List<BodyPartPreviewTarget> previewTargets = new List<BodyPartPreviewTarget>();
+    [Header("Pages")]
+    [SerializeField] private GameObject editPageRoot;
+    [SerializeField] private GameObject generatePageRoot;
+
+    [Header("Previews")]
+    [SerializeField] private CharacterPreviewView editPreview;
+    [SerializeField] private CharacterPreviewView generatePreview;
+
+    [Header("Edit Page Slots")]
+    [Tooltip("Optional. Assign Default Slot plus Generated Slot 1-10 rows if you want the controller to refresh labels/toggles automatically.")]
+    [SerializeField] private List<CharacterSlotToggleView> editSlotViews = new List<CharacterSlotToggleView>();
+
+    [Header("Generate Page")]
+    [SerializeField] private InputField promptInput;
+    [SerializeField] private Text selectedHumanLabel;
+    [SerializeField] private Text selectedGeneratedSlotLabel;
+    [SerializeField] private Text selectedGenerationModeLabel;
 
     [Header("Initial Selection")]
     [SerializeField] private HumanType selectedHumanType = HumanType.NormalHuman;
-    [SerializeField, Range(0, CharacterCustomizationManager.MaxPresetsPerHuman - 1)]
-    private int selectedPresetIndex;
-    [SerializeField] private BodyPartType selectedBodyPart = BodyPartType.Head;
+    [SerializeField, Range(0, CharacterCustomizationManager.GeneratedSlotsPerHuman - 1)]
+    private int selectedGeneratedSlotIndex;
+    [SerializeField] private GenerationMode selectedGenerationMode = GenerationMode.WholeBody;
 
-    private CharacterCustomizationPreset workingPreset;
+    private string promptText = string.Empty;
 
     public HumanType SelectedHumanType => selectedHumanType;
-    public int SelectedPresetIndex => selectedPresetIndex;
-    public BodyPartType SelectedBodyPart => selectedBodyPart;
-    public CharacterCustomizationPreset WorkingPreset => workingPreset;
+    public int SelectedGeneratedSlotIndex => selectedGeneratedSlotIndex;
+    public GenerationMode SelectedGenerationMode => selectedGenerationMode;
+    public string PromptText => promptText;
 
     private void Awake()
     {
-        if (customizationManager == null)
-        {
-            customizationManager = CharacterCustomizationManager.Instance;
-        }
+        ResolveReferences();
     }
 
     private void Start()
     {
         LoadCustomizationData();
-        SelectHumanType(selectedHumanType);
+        ShowEditPage();
     }
 
     // UI setup notes:
-    // - Human type buttons can call SelectNormalHuman, SelectRockThrowerHuman, SelectObeseHuman, or SelectRobotHuman.
-    // - Preset buttons should call SelectPresetButton with values 1 through 10.
-    // - Body part buttons can call SelectHead, SelectNeck, SelectStomach, or SelectLeg.
-    // - The Default button should call SelectDefaultSprite.
-    // - Generated sprite slot buttons should call SelectGeneratedSpriteButton with values 1 through 30.
-    // - The Save button should call SaveCurrentPreset.
+    // - Page tab buttons: call ShowEditPage() and ShowGeneratePage().
+    // - Human type buttons: call SelectNormalHuman(), SelectRockThrowerHuman(), SelectObeseHuman(), SelectRobotHuman().
+    // - Generate slot buttons/dropdowns: call SelectGeneratedSlot(oneBasedIndex), where Slot 1 passes 1.
+    // - Generation mode buttons/dropdowns: call SelectWholeBody(), SelectHeadOnly(), SelectNeckOnly(), SelectStomachOnly(), SelectLegOnly().
+    // - Prompt input field: connect OnValueChanged(string) to SetPromptText(string).
+    // - Edit page toggles: Default toggle calls ToggleDefaultSlotForGameplay(bool), generated slot toggles call ToggleSlotForGameplay(slotIndex, bool).
+    // - Generate button: call CharacterGenerationManager.GenerateSelectedCharacter().
+
+    public void ShowEditPage()
+    {
+        SetPageActive(editPageRoot, true);
+        SetPageActive(generatePageRoot, false);
+        RefreshEditPage();
+    }
+
+    public void ShowGeneratePage()
+    {
+        SetPageActive(editPageRoot, false);
+        SetPageActive(generatePageRoot, true);
+        RefreshGeneratePage();
+    }
 
     public void SelectHumanType(HumanType type)
     {
         selectedHumanType = type;
-        LoadWorkingPreset();
-        ApplyPresetToPreview();
+        RefreshEditPage();
+        RefreshGeneratePage();
     }
 
-    public void SelectPreset(int index)
+    public void SelectGeneratedSlot(int oneBasedIndex)
     {
-        selectedPresetIndex = Mathf.Clamp(index, 0, CharacterCustomizationManager.MaxPresetsPerHuman - 1);
-        LoadWorkingPreset();
-        ApplyPresetToPreview();
+        selectedGeneratedSlotIndex = Mathf.Clamp(oneBasedIndex - 1, 0, CharacterCustomizationManager.GeneratedSlotsPerHuman - 1);
+        RefreshGeneratePage();
     }
 
-    public void SelectBodyPart(BodyPartType part)
+    public void SelectGenerationMode(GenerationMode mode)
     {
-        selectedBodyPart = part;
-        ApplyPresetToPreview();
+        selectedGenerationMode = mode;
+        RefreshGeneratePage();
     }
 
-    public void SelectDefaultSprite()
+    public void SetPromptText(string prompt)
     {
-        BodyPartSpriteSelection selection = GetSelectedBodyPartSelection();
-        selection.SelectDefault();
-        ApplyPresetToPreview();
+        promptText = prompt ?? string.Empty;
     }
 
-    public void SelectGeneratedSprite(int slotIndex)
+    public void ToggleSlotForGameplay(int slotIndex, bool enabled)
     {
-        slotIndex = Mathf.Clamp(slotIndex, 0, CharacterCustomizationManager.MaxGeneratedSpriteSlotsPerPart - 1);
-        GeneratedSpriteSlot slot = customizationManager.GetGeneratedSpriteSlot(selectedHumanType, selectedBodyPart, slotIndex);
-
-        if (slot == null || !slot.HasSprite)
-        {
-            Debug.LogWarning($"Generated sprite slot {slotIndex + 1} is empty for {selectedHumanType} {selectedBodyPart}.");
-            return;
-        }
-
-        BodyPartSpriteSelection selection = GetSelectedBodyPartSelection();
-        selection.SelectGenerated(slotIndex);
-        ApplyPresetToPreview();
+        ResolveReferences();
+        customizationManager?.SetSlotEnabledForSpawn(selectedHumanType, false, slotIndex, enabled);
+        RefreshEditPage();
     }
 
-    public void SaveCurrentPreset()
+    public void ToggleDefaultSlotForGameplay(bool enabled)
     {
-        EnsureWorkingPreset();
-        customizationManager.SavePreset(selectedHumanType, selectedPresetIndex, workingPreset);
+        ResolveReferences();
+        customizationManager?.SetSlotEnabledForSpawn(selectedHumanType, true, 0, enabled);
+        RefreshEditPage();
     }
 
-    public void LoadCustomizationData()
+    public void RefreshEditPage()
     {
-        ResolveManager();
+        ResolveReferences();
         if (customizationManager == null)
         {
-            Debug.LogError("CharacterCustomizationUIController needs a CharacterCustomizationManager in the scene.");
             return;
         }
 
-        customizationManager.LoadCustomizationData();
-        LoadWorkingPreset();
-    }
+        HumanTypeCustomizationData humanData = customizationManager.GetHumanData(selectedHumanType);
+        CharacterSpriteSlot previewSlot = customizationManager.GetRandomEnabledSlotForSpawn(selectedHumanType) ?? humanData.defaultSlot;
+        ApplyPreview(editPreview, previewSlot);
 
-    public void SaveCustomizationData()
-    {
-        ResolveManager();
-        if (customizationManager == null)
+        for (int i = 0; i < editSlotViews.Count; i++)
         {
-            Debug.LogError("CharacterCustomizationUIController needs a CharacterCustomizationManager in the scene.");
-            return;
-        }
-
-        customizationManager.SaveCustomizationData();
-    }
-
-    public void ApplyPresetToPreview()
-    {
-        EnsureWorkingPreset();
-
-        for (int i = 0; i < previewTargets.Count; i++)
-        {
-            BodyPartPreviewTarget target = previewTargets[i];
-            if (target == null)
+            CharacterSlotToggleView view = editSlotViews[i];
+            if (view == null)
             {
                 continue;
             }
 
-            BodyPartSpriteSelection selection = workingPreset.GetSelection(target.BodyPartType);
-            Sprite sprite = customizationManager.ResolveSprite(selectedHumanType, target.BodyPartType, selection);
-            target.SetSprite(sprite);
+            if (view.IsDefaultSlot)
+            {
+                view.Refresh(humanData.defaultSlot, customizationManager.ResolveSpriteSet(selectedHumanType, humanData.defaultSlot));
+            }
+            else
+            {
+                CharacterSpriteSlot slot = customizationManager.GetGeneratedSlot(selectedHumanType, view.SlotIndex);
+                view.Refresh(slot, customizationManager.ResolveSpriteSet(selectedHumanType, slot));
+            }
         }
+
+        RefreshLabels();
+    }
+
+    public void RefreshGeneratePage()
+    {
+        ResolveReferences();
+        if (customizationManager == null)
+        {
+            return;
+        }
+
+        CharacterSpriteSlot slot = customizationManager.GetGeneratedSlot(selectedHumanType, selectedGeneratedSlotIndex);
+        ApplyPreview(generatePreview, slot);
+        RefreshLabels();
+    }
+
+    public void LoadCustomizationData()
+    {
+        ResolveReferences();
+        customizationManager?.LoadCustomizationData();
+        RefreshEditPage();
+        RefreshGeneratePage();
+    }
+
+    public void SaveCustomizationData()
+    {
+        ResolveReferences();
+        customizationManager?.SaveCustomizationData();
     }
 
     public void SelectNormalHuman()
@@ -159,116 +193,164 @@ public class CharacterCustomizationUIController : MonoBehaviour
         SelectHumanType(HumanType.RobotHuman);
     }
 
-    public void SelectHead()
+    public void SelectWholeBody()
     {
-        SelectBodyPart(BodyPartType.Head);
+        SelectGenerationMode(GenerationMode.WholeBody);
     }
 
-    public void SelectNeck()
+    public void SelectHeadOnly()
     {
-        SelectBodyPart(BodyPartType.Neck);
+        SelectGenerationMode(GenerationMode.HeadOnly);
     }
 
-    public void SelectStomach()
+    public void SelectNeckOnly()
     {
-        SelectBodyPart(BodyPartType.Stomach);
+        SelectGenerationMode(GenerationMode.NeckOnly);
     }
 
-    public void SelectLeg()
+    public void SelectStomachOnly()
     {
-        SelectBodyPart(BodyPartType.Leg);
+        SelectGenerationMode(GenerationMode.StomachOnly);
     }
 
-    public void SelectPresetButton(int oneBasedIndex)
+    public void SelectLegOnly()
     {
-        SelectPreset(oneBasedIndex - 1);
+        SelectGenerationMode(GenerationMode.LegOnly);
     }
 
-    public void SelectGeneratedSpriteButton(int oneBasedSlotIndex)
+    public void OnGenerationDataChanged()
     {
-        SelectGeneratedSprite(oneBasedSlotIndex - 1);
+        RefreshEditPage();
+        RefreshGeneratePage();
     }
 
-    public void AssignGeneratedSpriteToSlot(int zeroBasedSlotIndex, string spriteId, string displayName = null)
+    private void ApplyPreview(CharacterPreviewView preview, CharacterSpriteSlot slot)
     {
-        customizationManager.SetGeneratedSpriteSlot(selectedHumanType, selectedBodyPart, zeroBasedSlotIndex, spriteId, displayName);
-    }
-
-    private void LoadWorkingPreset()
-    {
-        ResolveManager();
-        if (customizationManager == null)
+        if (preview == null || customizationManager == null)
         {
             return;
         }
 
-        CharacterCustomizationPreset savedPreset = customizationManager.GetPreset(selectedHumanType, selectedPresetIndex);
-        workingPreset = ClonePreset(savedPreset);
+        preview.ApplySpriteSet(customizationManager.ResolveSpriteSet(selectedHumanType, slot));
     }
 
-    private void EnsureWorkingPreset()
+    private void RefreshLabels()
     {
-        if (workingPreset == null)
+        SetText(selectedHumanLabel, GetHumanDisplayName(selectedHumanType));
+        SetText(selectedGeneratedSlotLabel, $"Generated Slot {selectedGeneratedSlotIndex + 1}");
+        SetText(selectedGenerationModeLabel, GetGenerationModeDisplayName(selectedGenerationMode));
+
+        if (promptInput != null && promptInput.text != promptText)
         {
-            LoadWorkingPreset();
+            promptInput.text = promptText;
         }
-
-        workingPreset.EnsureBodyPartSelections();
     }
 
-    private BodyPartSpriteSelection GetSelectedBodyPartSelection()
-    {
-        EnsureWorkingPreset();
-        return workingPreset.GetSelection(selectedBodyPart);
-    }
-
-    private void ResolveManager()
+    private void ResolveReferences()
     {
         if (customizationManager == null)
         {
-            customizationManager = CharacterCustomizationManager.Instance;
+            customizationManager = CharacterCustomizationManager.Instance ?? FindAnyObjectByType<CharacterCustomizationManager>();
         }
 
-        if (customizationManager == null)
+        if (generationManager == null)
         {
-            customizationManager = FindFirstObjectByType<CharacterCustomizationManager>();
+            generationManager = FindAnyObjectByType<CharacterGenerationManager>();
         }
     }
 
-    private static CharacterCustomizationPreset ClonePreset(CharacterCustomizationPreset source)
+    private static void SetPageActive(GameObject pageRoot, bool active)
     {
-        if (source == null)
+        if (pageRoot != null)
         {
-            return new CharacterCustomizationPreset(0);
+            pageRoot.SetActive(active);
         }
+    }
 
-        string json = JsonUtility.ToJson(source);
-        CharacterCustomizationPreset clone = JsonUtility.FromJson<CharacterCustomizationPreset>(json);
-        clone.EnsureBodyPartSelections();
-        return clone;
+    private static void SetText(Text text, string value)
+    {
+        if (text != null)
+        {
+            text.text = value;
+        }
+    }
+
+    private static string GetHumanDisplayName(HumanType type)
+    {
+        switch (type)
+        {
+            case HumanType.NormalHuman:
+                return "Normal Human";
+            case HumanType.RockThrowerHuman:
+                return "Rock Thrower Human";
+            case HumanType.ObeseHuman:
+                return "Obese Human";
+            case HumanType.RobotHuman:
+                return "Robot Human";
+            default:
+                return type.ToString();
+        }
+    }
+
+    private static string GetGenerationModeDisplayName(GenerationMode mode)
+    {
+        switch (mode)
+        {
+            case GenerationMode.WholeBody:
+                return "Whole Body";
+            case GenerationMode.HeadOnly:
+                return "Head Only";
+            case GenerationMode.NeckOnly:
+                return "Neck Only";
+            case GenerationMode.StomachOnly:
+                return "Stomach Only";
+            case GenerationMode.LegOnly:
+                return "Leg Only";
+            default:
+                return mode.ToString();
+        }
     }
 }
 
 [Serializable]
-public class BodyPartPreviewTarget
+public class CharacterSlotToggleView
 {
-    [SerializeField] private BodyPartType bodyPartType;
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Image image;
+    [SerializeField] private bool isDefaultSlot;
+    [SerializeField, Range(0, CharacterCustomizationManager.GeneratedSlotsPerHuman - 1)]
+    private int slotIndex;
+    [SerializeField] private Text displayNameText;
+    [SerializeField] private Text slotTypeText;
+    [SerializeField] private Toggle useInGameplayToggle;
+    [SerializeField] private CharacterPreviewView preview;
 
-    public BodyPartType BodyPartType => bodyPartType;
+    public bool IsDefaultSlot => isDefaultSlot;
+    public int SlotIndex => slotIndex;
 
-    public void SetSprite(Sprite sprite)
+    public void Refresh(CharacterSpriteSlot slot, CharacterSpriteSet spriteSet)
     {
-        if (spriteRenderer != null)
+        if (slot == null)
         {
-            spriteRenderer.sprite = sprite;
+            return;
         }
 
-        if (image != null)
+        if (displayNameText != null)
         {
-            image.sprite = sprite;
-            image.enabled = sprite != null;
+            displayNameText.text = slot.displayName;
+        }
+
+        if (slotTypeText != null)
+        {
+            slotTypeText.text = slot.isDefaultSlot ? "Default" : (slot.isGenerated ? "Generated" : "Generated Empty");
+        }
+
+        if (useInGameplayToggle != null)
+        {
+            useInGameplayToggle.SetIsOnWithoutNotify(slot.isEnabledForSpawn);
+        }
+
+        if (preview != null)
+        {
+            preview.ApplySpriteSet(spriteSet);
         }
     }
 }

@@ -4,20 +4,27 @@ using UnityEngine.UI;
 public class CharacterCustomizationSceneUIBinder : MonoBehaviour
 {
     [SerializeField] private CharacterCustomizationUIController controller;
-    [SerializeField] private Text presetLabel;
-    [SerializeField] private Text generatedSlotLabel;
+    [SerializeField] private CharacterGenerationManager generationManager;
+    [SerializeField] private Text selectedSlotLabel;
+    [SerializeField] private Text selectedModeLabel;
     [SerializeField] private Image headPreviewImage;
     [SerializeField] private Image neckPreviewImage;
     [SerializeField] private Image stomachPreviewImage;
     [SerializeField] private Image legPreviewImage;
 
     private int selectedGeneratedSlotIndex;
+    private GenerationMode selectedGenerationMode = GenerationMode.WholeBody;
 
     private void Awake()
     {
         if (controller == null)
         {
-            controller = FindFirstObjectByType<CharacterCustomizationUIController>();
+            controller = FindAnyObjectByType<CharacterCustomizationUIController>();
+        }
+
+        if (generationManager == null)
+        {
+            generationManager = FindAnyObjectByType<CharacterGenerationManager>();
         }
 
         BindButtons();
@@ -26,124 +33,134 @@ public class CharacterCustomizationSceneUIBinder : MonoBehaviour
 
     private void BindButtons()
     {
+        Bind("EditPageButton", ShowEditPage);
+        Bind("GeneratePageButton", ShowGeneratePage);
+
         Bind("NormalHumanButton", () => SelectHuman(HumanType.NormalHuman));
         Bind("RockThrowerHumanButton", () => SelectHuman(HumanType.RockThrowerHuman));
         Bind("ObeseHumanButton", () => SelectHuman(HumanType.ObeseHuman));
         Bind("RobotHumanButton", () => SelectHuman(HumanType.RobotHuman));
 
-        Bind("PresetPreviousButton", SelectPreviousPreset);
-        Bind("PresetNextButton", SelectNextPreset);
-
-        Bind("HeadButton", () => SelectBodyPart(BodyPartType.Head));
-        Bind("NeckButton", () => SelectBodyPart(BodyPartType.Neck));
-        Bind("StomachButton", () => SelectBodyPart(BodyPartType.Stomach));
-        Bind("LegButton", () => SelectBodyPart(BodyPartType.Leg));
-
-        Bind("DefaultSpriteButton", SelectDefaultSprite);
         Bind("GeneratedSlotPreviousButton", SelectPreviousGeneratedSlot);
         Bind("GeneratedSlotNextButton", SelectNextGeneratedSlot);
-        Bind("SelectGeneratedSlotButton", SelectGeneratedSprite);
-        Bind("SavePresetButton", SaveCurrentPreset);
+
+        Bind("WholeBodyButton", () => SelectGenerationMode(GenerationMode.WholeBody));
+        Bind("HeadOnlyButton", () => SelectGenerationMode(GenerationMode.HeadOnly));
+        Bind("NeckOnlyButton", () => SelectGenerationMode(GenerationMode.NeckOnly));
+        Bind("StomachOnlyButton", () => SelectGenerationMode(GenerationMode.StomachOnly));
+        Bind("LegOnlyButton", () => SelectGenerationMode(GenerationMode.LegOnly));
+        Bind("GenerateButton", GenerateSelectedCharacter);
+
+        for (int i = 0; i < CharacterCustomizationManager.GeneratedSlotsPerHuman; i++)
+        {
+            int capturedIndex = i;
+            Bind($"GenerateSlot{capturedIndex + 1}Button", () => SelectGeneratedSlot(capturedIndex));
+            BindToggle($"GeneratedSlot{capturedIndex + 1}Toggle", enabled => controller?.ToggleSlotForGameplay(capturedIndex, enabled));
+        }
+
+        BindToggle("DefaultSlotToggle", enabled => controller?.ToggleDefaultSlotForGameplay(enabled));
+        BindInputField("PromptInput", prompt => controller?.SetPromptText(prompt));
+
+        // These names existed in the first temporary UI. They now operate on generated character slots.
+        Bind("PresetPreviousButton", SelectPreviousGeneratedSlot);
+        Bind("PresetNextButton", SelectNextGeneratedSlot);
+        Bind("DefaultSpriteButton", () => controller?.ToggleDefaultSlotForGameplay(true));
+        Bind("SelectGeneratedSlotButton", () => controller?.SelectGeneratedSlot(selectedGeneratedSlotIndex + 1));
+        Bind("SavePresetButton", () => controller?.RefreshEditPage());
+    }
+
+    private void ShowEditPage()
+    {
+        controller?.ShowEditPage();
+        RefreshAll();
+    }
+
+    private void ShowGeneratePage()
+    {
+        controller?.ShowGeneratePage();
+        RefreshAll();
     }
 
     private void SelectHuman(HumanType humanType)
     {
-        controller.SelectHumanType(humanType);
-        RefreshAll();
-    }
-
-    private void SelectPreviousPreset()
-    {
-        controller.SelectPreset(Mathf.Max(0, controller.SelectedPresetIndex - 1));
-        RefreshAll();
-    }
-
-    private void SelectNextPreset()
-    {
-        controller.SelectPreset(Mathf.Min(CharacterCustomizationManager.MaxPresetsPerHuman - 1, controller.SelectedPresetIndex + 1));
-        RefreshAll();
-    }
-
-    private void SelectBodyPart(BodyPartType bodyPartType)
-    {
-        controller.SelectBodyPart(bodyPartType);
-        RefreshAll();
-    }
-
-    private void SelectDefaultSprite()
-    {
-        controller.SelectDefaultSprite();
+        controller?.SelectHumanType(humanType);
         RefreshAll();
     }
 
     private void SelectPreviousGeneratedSlot()
     {
-        selectedGeneratedSlotIndex = Mathf.Max(0, selectedGeneratedSlotIndex - 1);
-        RefreshLabels();
+        SelectGeneratedSlot(Mathf.Max(0, selectedGeneratedSlotIndex - 1));
     }
 
     private void SelectNextGeneratedSlot()
     {
-        selectedGeneratedSlotIndex = Mathf.Min(CharacterCustomizationManager.MaxGeneratedSpriteSlotsPerPart - 1, selectedGeneratedSlotIndex + 1);
-        RefreshLabels();
+        SelectGeneratedSlot(Mathf.Min(CharacterCustomizationManager.GeneratedSlotsPerHuman - 1, selectedGeneratedSlotIndex + 1));
     }
 
-    private void SelectGeneratedSprite()
+    private void SelectGeneratedSlot(int zeroBasedIndex)
     {
-        controller.SelectGeneratedSprite(selectedGeneratedSlotIndex);
+        selectedGeneratedSlotIndex = Mathf.Clamp(zeroBasedIndex, 0, CharacterCustomizationManager.GeneratedSlotsPerHuman - 1);
+        controller?.SelectGeneratedSlot(selectedGeneratedSlotIndex + 1);
         RefreshAll();
     }
 
-    private void SaveCurrentPreset()
+    private void SelectGenerationMode(GenerationMode mode)
     {
-        controller.SaveCurrentPreset();
+        selectedGenerationMode = mode;
+        controller?.SelectGenerationMode(mode);
         RefreshAll();
+    }
+
+    private void GenerateSelectedCharacter()
+    {
+        generationManager?.GenerateSelectedCharacter();
     }
 
     private void RefreshAll()
     {
-        RefreshLabels();
+        if (controller == null)
+        {
+            return;
+        }
+
+        if (selectedSlotLabel != null)
+        {
+            selectedSlotLabel.text = $"Generated Slot {selectedGeneratedSlotIndex + 1}";
+        }
+
+        if (selectedModeLabel != null)
+        {
+            selectedModeLabel.text = selectedGenerationMode.ToString();
+        }
+
         RefreshPreview();
-    }
-
-    private void RefreshLabels()
-    {
-        if (presetLabel != null)
-        {
-            presetLabel.text = $"Preset {controller.SelectedPresetIndex + 1}";
-        }
-
-        if (generatedSlotLabel != null)
-        {
-            generatedSlotLabel.text = $"Generated Slot {selectedGeneratedSlotIndex + 1}";
-        }
     }
 
     private void RefreshPreview()
     {
         CharacterCustomizationManager manager = CharacterCustomizationManager.Instance;
-        CharacterCustomizationPreset preset = controller.WorkingPreset;
-
-        if (manager == null || preset == null)
+        if (manager == null || controller == null)
         {
             return;
         }
 
-        SetPreview(headPreviewImage, manager, preset, BodyPartType.Head);
-        SetPreview(neckPreviewImage, manager, preset, BodyPartType.Neck);
-        SetPreview(stomachPreviewImage, manager, preset, BodyPartType.Stomach);
-        SetPreview(legPreviewImage, manager, preset, BodyPartType.Leg);
+        CharacterSpriteSlot slot = manager.GetGeneratedSlot(controller.SelectedHumanType, selectedGeneratedSlotIndex);
+        CharacterSpriteSet spriteSet = manager.ResolveSpriteSet(controller.SelectedHumanType, slot);
+        SetPreview(headPreviewImage, spriteSet.head);
+        SetPreview(neckPreviewImage, spriteSet.neck);
+        SetPreview(stomachPreviewImage, spriteSet.stomach);
+        SetPreview(legPreviewImage, spriteSet.leg);
     }
 
-    private void SetPreview(Image image, CharacterCustomizationManager manager, CharacterCustomizationPreset preset, BodyPartType bodyPartType)
+    private static void SetPreview(Image image, Sprite sprite)
     {
         if (image == null)
         {
             return;
         }
 
-        image.sprite = manager.ResolveSprite(controller.SelectedHumanType, bodyPartType, preset.GetSelection(bodyPartType));
-        image.enabled = image.sprite != null;
+        image.sprite = sprite;
+        image.enabled = sprite != null;
         image.preserveAspect = true;
     }
 
@@ -167,6 +184,58 @@ public class CharacterCustomizationSceneUIBinder : MonoBehaviour
             if (children[i] != null && children[i].name == objectName)
             {
                 return children[i].GetComponent<Button>();
+            }
+        }
+
+        return null;
+    }
+
+    private void BindToggle(string objectName, UnityEngine.Events.UnityAction<bool> action)
+    {
+        Toggle toggle = FindNamedToggle(objectName);
+        if (toggle == null)
+        {
+            return;
+        }
+
+        toggle.onValueChanged.RemoveListener(action);
+        toggle.onValueChanged.AddListener(action);
+    }
+
+    private Toggle FindNamedToggle(string objectName)
+    {
+        Transform[] children = GetComponentsInChildren<Transform>(true);
+        for (int i = 0; i < children.Length; i++)
+        {
+            if (children[i] != null && children[i].name == objectName)
+            {
+                return children[i].GetComponent<Toggle>();
+            }
+        }
+
+        return null;
+    }
+
+    private void BindInputField(string objectName, UnityEngine.Events.UnityAction<string> action)
+    {
+        InputField inputField = FindNamedInputField(objectName);
+        if (inputField == null)
+        {
+            return;
+        }
+
+        inputField.onValueChanged.RemoveListener(action);
+        inputField.onValueChanged.AddListener(action);
+    }
+
+    private InputField FindNamedInputField(string objectName)
+    {
+        Transform[] children = GetComponentsInChildren<Transform>(true);
+        for (int i = 0; i < children.Length; i++)
+        {
+            if (children[i] != null && children[i].name == objectName)
+            {
+                return children[i].GetComponent<InputField>();
             }
         }
 

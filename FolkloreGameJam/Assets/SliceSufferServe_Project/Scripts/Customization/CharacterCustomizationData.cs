@@ -18,263 +18,173 @@ public enum BodyPartType
     Leg
 }
 
+public enum GenerationMode
+{
+    WholeBody,
+    HeadOnly,
+    NeckOnly,
+    StomachOnly,
+    LegOnly
+}
+
 [Serializable]
-public class GeneratedSpriteSlot
+public class CharacterSpriteSlot
 {
     public int slotIndex;
-    public string spriteId;
+    public bool isDefaultSlot;
+    public bool isGenerated;
+    public bool isEnabledForSpawn = true;
     public string displayName;
+    public string headSpriteId;
+    public string neckSpriteId;
+    public string stomachSpriteId;
+    public string legSpriteId;
 
-    public bool HasSprite => !string.IsNullOrWhiteSpace(spriteId);
-
-    public GeneratedSpriteSlot()
+    public CharacterSpriteSlot()
     {
     }
 
-    public GeneratedSpriteSlot(int slotIndex)
+    public CharacterSpriteSlot(int slotIndex, bool isDefaultSlot)
     {
         this.slotIndex = slotIndex;
-        spriteId = string.Empty;
-        displayName = $"Generated {slotIndex + 1}";
-    }
-}
-
-[Serializable]
-public class BodyPartSpriteSelection
-{
-    public BodyPartType bodyPartType;
-    public bool useDefaultSprite = true;
-    public int generatedSlotIndex = -1;
-
-    public BodyPartSpriteSelection()
-    {
+        this.isDefaultSlot = isDefaultSlot;
+        isGenerated = false;
+        isEnabledForSpawn = true;
+        displayName = isDefaultSlot ? "Default Slot" : $"Generated Slot {slotIndex + 1}";
     }
 
-    public BodyPartSpriteSelection(BodyPartType bodyPartType)
+    public string GetSpriteId(BodyPartType part)
     {
-        this.bodyPartType = bodyPartType;
-    }
-
-    public void SelectDefault()
-    {
-        useDefaultSprite = true;
-        generatedSlotIndex = -1;
-    }
-
-    public void SelectGenerated(int slotIndex)
-    {
-        useDefaultSprite = false;
-        generatedSlotIndex = slotIndex;
-    }
-}
-
-[Serializable]
-public class CharacterCustomizationPreset
-{
-    public int presetIndex;
-    public string presetName;
-    public List<BodyPartSpriteSelection> bodyPartSelections = new List<BodyPartSpriteSelection>();
-
-    public CharacterCustomizationPreset()
-    {
-    }
-
-    public CharacterCustomizationPreset(int presetIndex)
-    {
-        this.presetIndex = presetIndex;
-        presetName = $"Preset {presetIndex + 1}";
-        EnsureBodyPartSelections();
-    }
-
-    public BodyPartSpriteSelection GetSelection(BodyPartType bodyPartType)
-    {
-        EnsureBodyPartSelections();
-
-        for (int i = 0; i < bodyPartSelections.Count; i++)
+        switch (part)
         {
-            if (bodyPartSelections[i] != null && bodyPartSelections[i].bodyPartType == bodyPartType)
-            {
-                return bodyPartSelections[i];
-            }
+            case BodyPartType.Head:
+                return headSpriteId;
+            case BodyPartType.Neck:
+                return neckSpriteId;
+            case BodyPartType.Stomach:
+                return stomachSpriteId;
+            case BodyPartType.Leg:
+                return legSpriteId;
+            default:
+                return string.Empty;
+        }
+    }
+
+    public void SetSpriteId(BodyPartType part, string spriteId)
+    {
+        switch (part)
+        {
+            case BodyPartType.Head:
+                headSpriteId = spriteId;
+                break;
+            case BodyPartType.Neck:
+                neckSpriteId = spriteId;
+                break;
+            case BodyPartType.Stomach:
+                stomachSpriteId = spriteId;
+                break;
+            case BodyPartType.Leg:
+                legSpriteId = spriteId;
+                break;
         }
 
-        BodyPartSpriteSelection selection = new BodyPartSpriteSelection(bodyPartType);
-        bodyPartSelections.Add(selection);
-        return selection;
+        if (!isDefaultSlot)
+        {
+            isGenerated = HasAnyGeneratedSpriteId();
+        }
     }
 
-    public void EnsureBodyPartSelections()
+    public bool HasAnyGeneratedSpriteId()
     {
-        foreach (BodyPartType bodyPartType in Enum.GetValues(typeof(BodyPartType)))
-        {
-            bool exists = false;
-            for (int i = 0; i < bodyPartSelections.Count; i++)
-            {
-                if (bodyPartSelections[i] != null && bodyPartSelections[i].bodyPartType == bodyPartType)
-                {
-                    exists = true;
-                    break;
-                }
-            }
+        return !string.IsNullOrWhiteSpace(headSpriteId)
+            || !string.IsNullOrWhiteSpace(neckSpriteId)
+            || !string.IsNullOrWhiteSpace(stomachSpriteId)
+            || !string.IsNullOrWhiteSpace(legSpriteId);
+    }
 
-            if (!exists)
-            {
-                bodyPartSelections.Add(new BodyPartSpriteSelection(bodyPartType));
-            }
+    public void EnsureSlotState(int index, bool defaultSlot)
+    {
+        slotIndex = index;
+        isDefaultSlot = defaultSlot;
+
+        if (string.IsNullOrWhiteSpace(displayName))
+        {
+            displayName = defaultSlot ? "Default Slot" : $"Generated Slot {index + 1}";
+        }
+
+        if (defaultSlot)
+        {
+            isGenerated = false;
+            isEnabledForSpawn = true;
+        }
+        else
+        {
+            isGenerated = HasAnyGeneratedSpriteId();
         }
     }
 }
 
 [Serializable]
-public class BodyPartGeneratedSpriteSlots
-{
-    public BodyPartType bodyPartType;
-    public List<GeneratedSpriteSlot> generatedSpriteSlots = new List<GeneratedSpriteSlot>();
-
-    public BodyPartGeneratedSpriteSlots()
-    {
-    }
-
-    public BodyPartGeneratedSpriteSlots(BodyPartType bodyPartType, int maxSlots)
-    {
-        this.bodyPartType = bodyPartType;
-        EnsureSlots(maxSlots);
-    }
-
-    public GeneratedSpriteSlot GetSlot(int slotIndex, int maxSlots)
-    {
-        EnsureSlots(maxSlots);
-
-        if (slotIndex < 0 || slotIndex >= generatedSpriteSlots.Count)
-        {
-            return null;
-        }
-
-        return generatedSpriteSlots[slotIndex];
-    }
-
-    public void EnsureSlots(int maxSlots)
-    {
-        if (generatedSpriteSlots.Count > maxSlots)
-        {
-            generatedSpriteSlots.RemoveRange(maxSlots, generatedSpriteSlots.Count - maxSlots);
-        }
-
-        for (int i = generatedSpriteSlots.Count; i < maxSlots; i++)
-        {
-            generatedSpriteSlots.Add(new GeneratedSpriteSlot(i));
-        }
-
-        for (int i = 0; i < generatedSpriteSlots.Count; i++)
-        {
-            if (generatedSpriteSlots[i] == null)
-            {
-                generatedSpriteSlots[i] = new GeneratedSpriteSlot(i);
-            }
-
-            generatedSpriteSlots[i].slotIndex = i;
-        }
-    }
-}
-
-[Serializable]
-public class HumanCustomizationData
+public class HumanTypeCustomizationData
 {
     public HumanType humanType;
-    public List<CharacterCustomizationPreset> presets = new List<CharacterCustomizationPreset>();
-    public List<BodyPartGeneratedSpriteSlots> generatedSpriteSlotsByPart = new List<BodyPartGeneratedSpriteSlots>();
+    public CharacterSpriteSlot defaultSlot = new CharacterSpriteSlot(0, true);
+    public List<CharacterSpriteSlot> generatedSlots = new List<CharacterSpriteSlot>();
 
-    public HumanCustomizationData()
+    public HumanTypeCustomizationData()
     {
     }
 
-    public HumanCustomizationData(HumanType humanType, int maxPresets, int maxGeneratedSlots)
+    public HumanTypeCustomizationData(HumanType humanType, int generatedSlotCount)
     {
         this.humanType = humanType;
-        EnsureData(maxPresets, maxGeneratedSlots);
+        EnsureData(generatedSlotCount);
     }
 
-    public CharacterCustomizationPreset GetPreset(int presetIndex, int maxPresets)
+    public CharacterSpriteSlot GetGeneratedSlot(int slotIndex, int generatedSlotCount)
     {
-        EnsurePresets(maxPresets);
+        EnsureData(generatedSlotCount);
 
-        if (presetIndex < 0 || presetIndex >= presets.Count)
+        if (slotIndex < 0 || slotIndex >= generatedSlots.Count)
         {
             return null;
         }
 
-        return presets[presetIndex];
+        return generatedSlots[slotIndex];
     }
 
-    public BodyPartGeneratedSpriteSlots GetSlotsForPart(BodyPartType bodyPartType, int maxGeneratedSlots)
+    public void EnsureData(int generatedSlotCount)
     {
-        EnsureGeneratedSlots(maxGeneratedSlots);
-
-        for (int i = 0; i < generatedSpriteSlotsByPart.Count; i++)
+        if (defaultSlot == null)
         {
-            BodyPartGeneratedSpriteSlots slots = generatedSpriteSlotsByPart[i];
-            if (slots != null && slots.bodyPartType == bodyPartType)
-            {
-                return slots;
-            }
+            defaultSlot = new CharacterSpriteSlot(0, true);
         }
 
-        BodyPartGeneratedSpriteSlots createdSlots = new BodyPartGeneratedSpriteSlots(bodyPartType, maxGeneratedSlots);
-        generatedSpriteSlotsByPart.Add(createdSlots);
-        return createdSlots;
-    }
+        defaultSlot.EnsureSlotState(0, true);
 
-    public void EnsureData(int maxPresets, int maxGeneratedSlots)
-    {
-        EnsurePresets(maxPresets);
-        EnsureGeneratedSlots(maxGeneratedSlots);
-    }
-
-    private void EnsurePresets(int maxPresets)
-    {
-        if (presets.Count > maxPresets)
+        if (generatedSlots == null)
         {
-            presets.RemoveRange(maxPresets, presets.Count - maxPresets);
+            generatedSlots = new List<CharacterSpriteSlot>();
         }
 
-        for (int i = presets.Count; i < maxPresets; i++)
+        if (generatedSlots.Count > generatedSlotCount)
         {
-            presets.Add(new CharacterCustomizationPreset(i));
+            generatedSlots.RemoveRange(generatedSlotCount, generatedSlots.Count - generatedSlotCount);
         }
 
-        for (int i = 0; i < presets.Count; i++)
+        for (int i = generatedSlots.Count; i < generatedSlotCount; i++)
         {
-            if (presets[i] == null)
-            {
-                presets[i] = new CharacterCustomizationPreset(i);
-            }
-
-            presets[i].presetIndex = i;
-            presets[i].EnsureBodyPartSelections();
+            generatedSlots.Add(new CharacterSpriteSlot(i, false));
         }
-    }
 
-    private void EnsureGeneratedSlots(int maxGeneratedSlots)
-    {
-        foreach (BodyPartType bodyPartType in Enum.GetValues(typeof(BodyPartType)))
+        for (int i = 0; i < generatedSlots.Count; i++)
         {
-            BodyPartGeneratedSpriteSlots slots = null;
-            for (int i = 0; i < generatedSpriteSlotsByPart.Count; i++)
+            if (generatedSlots[i] == null)
             {
-                if (generatedSpriteSlotsByPart[i] != null && generatedSpriteSlotsByPart[i].bodyPartType == bodyPartType)
-                {
-                    slots = generatedSpriteSlotsByPart[i];
-                    break;
-                }
+                generatedSlots[i] = new CharacterSpriteSlot(i, false);
             }
 
-            if (slots == null)
-            {
-                slots = new BodyPartGeneratedSpriteSlots(bodyPartType, maxGeneratedSlots);
-                generatedSpriteSlotsByPart.Add(slots);
-            }
-
-            slots.EnsureSlots(maxGeneratedSlots);
+            generatedSlots[i].EnsureSlotState(i, false);
         }
     }
 }
@@ -282,12 +192,12 @@ public class HumanCustomizationData
 [Serializable]
 public class CharacterCustomizationSaveData
 {
-    public int saveVersion = 1;
-    public List<HumanCustomizationData> humans = new List<HumanCustomizationData>();
+    public int saveVersion = 2;
+    public List<HumanTypeCustomizationData> humans = new List<HumanTypeCustomizationData>();
 
-    public HumanCustomizationData GetHumanData(HumanType humanType, int maxPresets, int maxGeneratedSlots)
+    public HumanTypeCustomizationData GetHumanData(HumanType humanType, int generatedSlotCount)
     {
-        EnsureData(maxPresets, maxGeneratedSlots);
+        EnsureData(generatedSlotCount);
 
         for (int i = 0; i < humans.Count; i++)
         {
@@ -297,16 +207,22 @@ public class CharacterCustomizationSaveData
             }
         }
 
-        HumanCustomizationData humanData = new HumanCustomizationData(humanType, maxPresets, maxGeneratedSlots);
+        HumanTypeCustomizationData humanData = new HumanTypeCustomizationData(humanType, generatedSlotCount);
         humans.Add(humanData);
         return humanData;
     }
 
-    public void EnsureData(int maxPresets, int maxGeneratedSlots)
+    public void EnsureData(int generatedSlotCount)
     {
+        if (humans == null)
+        {
+            humans = new List<HumanTypeCustomizationData>();
+        }
+
         foreach (HumanType humanType in Enum.GetValues(typeof(HumanType)))
         {
-            HumanCustomizationData humanData = null;
+            HumanTypeCustomizationData humanData = null;
+
             for (int i = 0; i < humans.Count; i++)
             {
                 if (humans[i] != null && humans[i].humanType == humanType)
@@ -318,11 +234,37 @@ public class CharacterCustomizationSaveData
 
             if (humanData == null)
             {
-                humanData = new HumanCustomizationData(humanType, maxPresets, maxGeneratedSlots);
+                humanData = new HumanTypeCustomizationData(humanType, generatedSlotCount);
                 humans.Add(humanData);
             }
 
-            humanData.EnsureData(maxPresets, maxGeneratedSlots);
+            humanData.EnsureData(generatedSlotCount);
+        }
+    }
+}
+
+[Serializable]
+public class CharacterSpriteSet
+{
+    public Sprite head;
+    public Sprite neck;
+    public Sprite stomach;
+    public Sprite leg;
+
+    public Sprite GetSprite(BodyPartType part)
+    {
+        switch (part)
+        {
+            case BodyPartType.Head:
+                return head;
+            case BodyPartType.Neck:
+                return neck;
+            case BodyPartType.Stomach:
+                return stomach;
+            case BodyPartType.Leg:
+                return leg;
+            default:
+                return null;
         }
     }
 }
