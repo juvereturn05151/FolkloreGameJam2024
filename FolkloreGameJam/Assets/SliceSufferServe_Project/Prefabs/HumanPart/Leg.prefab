@@ -19,7 +19,11 @@ PrefabInstance:
     - target: {fileID: 3754438026101494723, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 52f29fdaeafdd7448bd66f4ee4db0876, type: 3}
+      objectReference: {fileID: 21300000, guid: 1b280817df11c4249943d812bd798990, type: 3}
+    - target: {fileID: 3754438026101494723, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4275624120517581302, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: m_Name
       value: Leg
