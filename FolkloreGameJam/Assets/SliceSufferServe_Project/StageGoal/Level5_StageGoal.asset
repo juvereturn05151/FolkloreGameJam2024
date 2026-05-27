@@ -16,5 +16,5 @@ MonoBehaviour:
   displayName: Level 5
   levelNumber: 5
   oneStarScore: 270
-  twoStarScore: 360
-  threeStarScore: 450
+  twoStarScore: 400
+  threeStarScore: 500

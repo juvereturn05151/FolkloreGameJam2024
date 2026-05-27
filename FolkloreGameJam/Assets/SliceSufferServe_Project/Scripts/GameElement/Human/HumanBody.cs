@@ -192,6 +192,11 @@ public class HumanBody : MonoBehaviour
             return;
         }
 
+        if (GameManager.Instance != null && GameManager.Instance.IsRapidSliceEventActive)
+        {
+            return;
+        }
+
         ComboSystem.ResetCombo();
     }
 

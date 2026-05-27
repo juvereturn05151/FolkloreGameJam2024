@@ -31,6 +31,7 @@ public class Food : MonoBehaviour
 
     [Header("Universal Food")]
     [SerializeField] private bool isUniversalFood;
+    [SerializeField] private int universalScore = 40;
     [SerializeField] private float universalScoreMultiplier = 1f;
     [SerializeField] private Sprite universalSprite;
     [SerializeField] private bool useUniversalGlow = true;
@@ -260,7 +261,7 @@ public class Food : MonoBehaviour
 
     public int GetServeScore(int patienceBonus)
     {
-        int baseScore = menu != null ? menu.Score : 0;
+        int baseScore = IsUniversalFood ? Mathf.Max(0, universalScore) : menu != null ? menu.Score : 0;
         int score = baseScore + patienceBonus;
         return IsUniversalFood ? Mathf.RoundToInt(score * UniversalScoreMultiplier) : score;
     }

@@ -15,6 +15,6 @@ MonoBehaviour:
   stageId: level_6
   displayName: Level 6
   levelNumber: 6
-  oneStarScore: 120
-  twoStarScore: 240
-  threeStarScore: 360
+  oneStarScore: 300
+  twoStarScore: 600
+  threeStarScore: 900
