@@ -36,6 +36,10 @@ PrefabInstance:
       propertyPath: m_UseMotor
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5702818048948668893, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_ConnectedAnchor.y
+      value: -3.29
+      objectReference: {fileID: 0}
     - target: {fileID: 5983385280804613021, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: atMainMenu
       value: 1

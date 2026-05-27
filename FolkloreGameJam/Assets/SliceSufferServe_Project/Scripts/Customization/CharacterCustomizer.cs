@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CharacterCustomizer : MonoBehaviour
@@ -133,6 +134,11 @@ public class CharacterCustomizer : MonoBehaviour
         UpdateStatusText("Saved manual customization.");
     }
 
+    public void BackToGameModeSelect()
+    {
+        SceneManager.LoadScene("GameModeSelect");
+    }
+
     public static void SetNormalHumanPartUnlocked(BodyPartType part, int index, bool unlocked)
     {
         if (index <= 0)
@@ -166,6 +172,7 @@ public class CharacterCustomizer : MonoBehaviour
         BindButton("LegNextButton", NextLegs);
         BindButton("DefaultButton", SelectDefaultCharacter);
         BindButton("SaveButton", SaveCustomization);
+        BindButton("BackButton", BackToGameModeSelect);
     }
 
     private void LoadSprites()
@@ -388,7 +395,7 @@ public class CharacterCustomizer : MonoBehaviour
         labelText.color = new Color(0.95f, 0.91f, 0.82f, 1f);
     }
 
-    private static void CreateButton(RectTransform parent, string text, UnityEngine.Events.UnityAction action, Font font, Vector2 anchoredPosition, Vector2 size, Color color)
+    private static Button CreateButton(RectTransform parent, string text, UnityEngine.Events.UnityAction action, Font font, Vector2 anchoredPosition, Vector2 size, Color color)
     {
         GameObject buttonObject = new GameObject(text + "Button", typeof(RectTransform), typeof(Image), typeof(Button));
         buttonObject.transform.SetParent(parent, false);
@@ -421,6 +428,7 @@ public class CharacterCustomizer : MonoBehaviour
         buttonText.fontSize = 20;
         buttonText.alignment = TextAnchor.MiddleCenter;
         buttonText.color = Color.white;
+        return button;
     }
 
     private void ClampSelectedIndices()

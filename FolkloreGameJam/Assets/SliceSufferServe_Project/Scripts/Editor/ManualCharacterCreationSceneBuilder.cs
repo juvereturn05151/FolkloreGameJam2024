@@ -29,7 +29,7 @@ public static class ManualCharacterCreationSceneBuilder
 
     private static void RebuildMissingUiIfNeeded(Scene scene, OpenSceneMode mode)
     {
-        if (Application.isPlaying || scene.path != ScenePath || GameObject.Find("ManualCharacterCreationCanvas") != null)
+        if (Application.isPlaying || scene.path != ScenePath || ManualCreationUiIsComplete())
         {
             return;
         }
@@ -114,6 +114,11 @@ public static class ManualCharacterCreationSceneBuilder
                 Object.DestroyImmediate(existing);
             }
         }
+    }
+
+    private static bool ManualCreationUiIsComplete()
+    {
+        return GameObject.Find("ManualCharacterCreationCanvas") != null;
     }
 
     private static Canvas CreateCanvas()
