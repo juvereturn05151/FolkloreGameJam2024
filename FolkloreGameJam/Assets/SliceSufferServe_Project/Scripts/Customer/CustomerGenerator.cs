@@ -137,10 +137,11 @@ public class CustomerGenerator : MonoBehaviour
             if (levelConfig != null)
             {
                 newCustomer.SetPatienceMultiplier(levelConfig.CustomerPatienceMultiplier);
-                if (levelConfig.HasCustomerOrderCountOverride)
-                {
-                    newCustomer.SetOrderCountRange(levelConfig.CustomerMinOrderCount, levelConfig.CustomerMaxOrderCount);
-                }
+            }
+
+            if (activePhase.HasCustomerOrderCountOverride)
+            {
+                newCustomer.SetOrderCountRange(activePhase.CustomerMinOrderCount, activePhase.CustomerMaxOrderCount);
             }
 
             newCustomer.SetAllowedDesiredFoodStates(activePhase.AllowedFoodStates);

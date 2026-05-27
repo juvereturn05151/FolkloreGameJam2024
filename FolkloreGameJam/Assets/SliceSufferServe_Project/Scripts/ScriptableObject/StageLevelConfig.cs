@@ -25,10 +25,8 @@ public class StageLevelConfig : ScriptableObject
     };
     [Tooltip("Multiplies spawned customers' patience. Values below 1 create faster, hotter-headed customers.")]
     [SerializeField] private float customerPatienceMultiplier = 1f;
-    [Tooltip("Optional minimum number of foods a customer can order. Set both min and max to 0 to use customer prefab appetite.")]
-    [SerializeField] private int customerMinOrderCount;
-    [Tooltip("Optional maximum number of foods a customer can order. Set both min and max to 0 to use customer prefab appetite.")]
-    [SerializeField] private int customerMaxOrderCount;
+    [SerializeField, HideInInspector] private int customerMinOrderCount;
+    [SerializeField, HideInInspector] private int customerMaxOrderCount;
     [SerializeField] private float humanSpawnDelayAfterGhost = 0.35f;
     [SerializeField] private float duration = 180f;
 
@@ -44,10 +42,7 @@ public class StageLevelConfig : ScriptableObject
     public GameObject[] HumanPrefabOverrides => humanPrefabOverrides;
     public StageSpawnPhase[] SpawnPhases => spawnPhases;
     public float CustomerPatienceMultiplier => Mathf.Max(0.01f, customerPatienceMultiplier);
-    public int CustomerMinOrderCount => Mathf.Max(0, customerMinOrderCount);
-    public int CustomerMaxOrderCount => Mathf.Max(0, customerMaxOrderCount);
     public float HumanSpawnDelayAfterGhost => Mathf.Max(0f, humanSpawnDelayAfterGhost);
-    public bool HasCustomerOrderCountOverride => CustomerMaxOrderCount > 0;
     public float Duration => Mathf.Max(0f, duration);
 
     public bool IsBodyPartEnabled(HumanBodyPartType bodyPartType)
@@ -107,11 +102,29 @@ public class StageLevelConfig : ScriptableObject
             return;
         }
 
+        bool hasLegacyOrderCountOverride = customerMaxOrderCount > 0;
+        bool hasPhaseOrderCountOverride = false;
         for (int i = 0; i < spawnPhases.Length; i++)
         {
             if (spawnPhases[i] != null)
             {
+                if (spawnPhases[i].HasCustomerOrderCountOverride)
+                {
+                    hasPhaseOrderCountOverride = true;
+                }
+
                 spawnPhases[i].Validate();
+            }
+        }
+
+        if (hasLegacyOrderCountOverride && !hasPhaseOrderCountOverride)
+        {
+            for (int i = 0; i < spawnPhases.Length; i++)
+            {
+                if (spawnPhases[i] != null)
+                {
+                    spawnPhases[i].SetCustomerOrderCountRange(customerMinOrderCount, customerMaxOrderCount);
+                }
             }
         }
     }
@@ -127,6 +140,10 @@ public class StageSpawnPhase
     [Range(0f, 1f)]
     [SerializeField] private float doubleSpawnChance;
     [SerializeField] private float doubleSpawnDelay = 0.25f;
+    [Tooltip("Optional minimum number of foods a customer can order during this phase. Set both min and max to 0 to use customer prefab appetite.")]
+    [SerializeField] private int customerMinOrderCount;
+    [Tooltip("Optional maximum number of foods a customer can order during this phase. Set both min and max to 0 to use customer prefab appetite.")]
+    [SerializeField] private int customerMaxOrderCount;
     [SerializeField]
     private FoodState[] allowedFoodStates =
     {
@@ -148,12 +165,19 @@ public class StageSpawnPhase
     }
 
     public StageSpawnPhase(float startTime, float endTime, float spawnInterval, float humanSpeedMultiplier, float doubleSpawnChance, FoodState[] allowedFoodStates, GameObject[] humanPrefabOverrides)
+        : this(startTime, endTime, spawnInterval, humanSpeedMultiplier, doubleSpawnChance, 0, 0, allowedFoodStates, humanPrefabOverrides)
+    {
+    }
+
+    public StageSpawnPhase(float startTime, float endTime, float spawnInterval, float humanSpeedMultiplier, float doubleSpawnChance, int customerMinOrderCount, int customerMaxOrderCount, FoodState[] allowedFoodStates, GameObject[] humanPrefabOverrides)
     {
         this.startTime = startTime;
         this.endTime = endTime;
         this.spawnInterval = spawnInterval;
         this.humanSpeedMultiplier = humanSpeedMultiplier;
         this.doubleSpawnChance = doubleSpawnChance;
+        this.customerMinOrderCount = customerMinOrderCount;
+        this.customerMaxOrderCount = customerMaxOrderCount;
         this.allowedFoodStates = allowedFoodStates;
         this.humanPrefabOverrides = humanPrefabOverrides ?? Array.Empty<GameObject>();
     }
@@ -164,8 +188,11 @@ public class StageSpawnPhase
     public float HumanSpeedMultiplier => Mathf.Max(0.01f, humanSpeedMultiplier);
     public float DoubleSpawnChance => Mathf.Clamp01(doubleSpawnChance);
     public float DoubleSpawnDelay => Mathf.Max(0f, doubleSpawnDelay);
+    public int CustomerMinOrderCount => Mathf.Max(0, customerMinOrderCount);
+    public int CustomerMaxOrderCount => Mathf.Max(0, customerMaxOrderCount);
     public FoodState[] AllowedFoodStates => allowedFoodStates;
     public GameObject[] HumanPrefabOverrides => humanPrefabOverrides;
+    public bool HasCustomerOrderCountOverride => CustomerMaxOrderCount > 0;
     public bool HasHumanPrefabOverrides => humanPrefabOverrides != null && humanPrefabOverrides.Length > 0;
 
     public bool Contains(float elapsedTime)
@@ -181,6 +208,8 @@ public class StageSpawnPhase
         humanSpeedMultiplier = Mathf.Max(0.01f, humanSpeedMultiplier);
         doubleSpawnChance = Mathf.Clamp01(doubleSpawnChance);
         doubleSpawnDelay = Mathf.Max(0f, doubleSpawnDelay);
+        customerMinOrderCount = Mathf.Max(0, customerMinOrderCount);
+        customerMaxOrderCount = Mathf.Max(customerMinOrderCount, customerMaxOrderCount);
 
         if (humanPrefabOverrides == null)
         {
@@ -196,6 +225,12 @@ public class StageSpawnPhase
                 FoodState.SuperRotten
             };
         }
+    }
+
+    public void SetCustomerOrderCountRange(int minCount, int maxCount)
+    {
+        customerMinOrderCount = Mathf.Max(0, minCount);
+        customerMaxOrderCount = Mathf.Max(customerMinOrderCount, maxCount);
     }
 }
 

@@ -102,7 +102,7 @@ public class HumanBody : MonoBehaviour
     {
         if (_isBeingDestroyed) return;
         _isBeingDestroyed = true;
-        ComboSystem.ResetCombo();
+        ResetComboForMissedDestroyerIfNeeded();
 
         foreach (HumanPart part in _parts)
         {
@@ -120,7 +120,7 @@ public class HumanBody : MonoBehaviour
             return;
         }
 
-        ComboSystem.ResetCombo();
+        ResetComboForMissedDestroyerIfNeeded();
         _parts.Remove(missedPart);
         missedPart.DestroyWithoutFood();
 
@@ -183,6 +183,16 @@ public class HumanBody : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void ResetComboForMissedDestroyerIfNeeded()
+    {
+        if (GetComponent<RobotHuman>() != null)
+        {
+            return;
+        }
+
+        ComboSystem.ResetCombo();
     }
 
     private void ResolvePartReferences()

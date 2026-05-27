@@ -36,6 +36,8 @@ MonoBehaviour:
     humanSpeedMultiplier: 0.8
     doubleSpawnChance: 0
     doubleSpawnDelay: 0.25
+    customerMinOrderCount: 1
+    customerMaxOrderCount: 2
     allowedFoodStates: 00000000
     humanPrefabOverrides:
     - {fileID: 752638607334200436, guid: 6132527dfd73478db7feb50ab8ffbe99, type: 3}
@@ -45,6 +47,8 @@ MonoBehaviour:
     humanSpeedMultiplier: 1.25
     doubleSpawnChance: 0.3
     doubleSpawnDelay: 0.25
+    customerMinOrderCount: 1
+    customerMaxOrderCount: 2
     allowedFoodStates: 000000000100000002000000
     humanPrefabOverrides: []
   - startTime: 40
@@ -53,6 +57,8 @@ MonoBehaviour:
     humanSpeedMultiplier: 1.25
     doubleSpawnChance: 0
     doubleSpawnDelay: 0.25
+    customerMinOrderCount: 1
+    customerMaxOrderCount: 2
     allowedFoodStates: 000000000100000002000000
     humanPrefabOverrides: []
   - startTime: 70
@@ -61,6 +67,8 @@ MonoBehaviour:
     humanSpeedMultiplier: 1.25
     doubleSpawnChance: 0.3
     doubleSpawnDelay: 0.25
+    customerMinOrderCount: 1
+    customerMaxOrderCount: 2
     allowedFoodStates: 00000000
     humanPrefabOverrides:
     - {fileID: 9028663880306604470, guid: 0ba028d8705148efa7355b4a378fdcdf, type: 3}
@@ -74,6 +82,8 @@ MonoBehaviour:
     humanSpeedMultiplier: 1.25
     doubleSpawnChance: 0.3
     doubleSpawnDelay: 0.25
+    customerMinOrderCount: 1
+    customerMaxOrderCount: 2
     allowedFoodStates: 00000000
     humanPrefabOverrides: []
   customerPatienceMultiplier: 0.5

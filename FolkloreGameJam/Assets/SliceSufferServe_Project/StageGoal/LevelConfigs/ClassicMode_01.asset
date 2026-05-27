@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4596a2037df74ddea37aacda22f3500a, type: 3}
+  m_Name: ClassicMode_01
+  m_EditorClassIdentifier: Assembly-CSharp::StageLevelConfig
+  levelId: level_1
+  displayName: Level 1 - Head Only
+  levelNumber: 1
+  gameplaySceneName: GameplayScene
+  stageGoal: {fileID: 11400000, guid: 181a5f29b52641d19e8d32366b43d4cd, type: 2}
+  allowSuperMeter: 0
+  enabledBodyParts: 00000000
+  activeCustomerSpotIndexes: 01000000
+  allowedGhosts:
+  - {fileID: 11400000, guid: d2952cb466b75414ebc175f0b6c76687, type: 2}
+  humanPrefabOverrides: []
+  spawnPhases:
+  - startTime: 0
+    endTime: 20
+    spawnInterval: 3
+    humanSpeedMultiplier: 0.8
+    doubleSpawnChance: 0
+    doubleSpawnDelay: 0.25
+    allowedFoodStates: 00000000
+  - startTime: 20
+    endTime: 40
+    spawnInterval: 3
+    humanSpeedMultiplier: 1
+    doubleSpawnChance: 0.35
+    doubleSpawnDelay: 0.25
+    allowedFoodStates: 01000000
+  - startTime: 40
+    endTime: 60
+    spawnInterval: 1.6
+    humanSpeedMultiplier: 1.25
+    doubleSpawnChance: 0
+    doubleSpawnDelay: 0.25
+    allowedFoodStates: 02000000
+  customerPatienceMultiplier: 1
+  customerMinOrderCount: 0
+  customerMaxOrderCount: 0
+  humanSpawnDelayAfterGhost: 0.35
+  duration: 60
