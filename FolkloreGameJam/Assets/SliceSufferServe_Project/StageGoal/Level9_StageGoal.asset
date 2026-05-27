@@ -15,6 +15,6 @@ MonoBehaviour:
   stageId: level_9
   displayName: Level 9
   levelNumber: 9
-  oneStarScore: 60
-  twoStarScore: 100
-  threeStarScore: 200
+  oneStarScore: 100
+  twoStarScore: 200
+  threeStarScore: 300
