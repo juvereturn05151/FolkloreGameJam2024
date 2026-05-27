@@ -22,10 +22,9 @@ public class CustomerGenerator : MonoBehaviour
     private bool _isGenerating = true; // Flag to control customer generation
     private float elapsedStageTime;
     private StageLevelConfig levelConfig;
-    private readonly List<Customer> eligibleCustomers = new List<Customer>();
+    private readonly Dictionary<Ghost, List<Customer>> customersByGhost = new Dictionary<Ghost, List<Customer>>();
     private readonly List<CustomerSpot> activeCustomerSpots = new List<CustomerSpot>();
     private HumanGenerator[] humanGenerators;
-    private bool hasGhostFilter;
     private int pendingDemandHumanSpawns;
     private bool isRapidSlicePaused;
 
@@ -49,7 +48,7 @@ public class CustomerGenerator : MonoBehaviour
             }
         }
 
-        BuildEligibleCustomers();
+        BuildCustomersByGhost();
         ApplyActiveCustomerSpots();
         _spawnTimer = GetActivePhase().SpawnInterval;
 
@@ -127,7 +126,7 @@ public class CustomerGenerator : MonoBehaviour
 
         if (emptySpot != null) // If there's an available spot
         {
-            Customer randomCustomer = GetRandomCustomer(); // Get a random customer from the list
+            Customer randomCustomer = GetRandomCustomer(activePhase); // Get a random customer from the list
             if (randomCustomer == null)
             {
                 return;
@@ -177,7 +176,7 @@ public class CustomerGenerator : MonoBehaviour
         if (generator != null)
         {
             // Resolve the prefab override pool using priority: phase > level config > generator defaults
-            GameObject[] phaseOverrides = activePhase.HasHumanPrefabOverrides ? activePhase.HumanPrefabOverrides : null;
+            StageHumanPrefabSpawnEntry[] phaseOverrides = activePhase.HasHumanPrefabSpawnOverrides ? activePhase.HumanPrefabSpawnOverrides : null;
             Debug.Log($"Spawning human to meet demand. Pending demand spawns remaining: {pendingDemandHumanSpawns}. Active phase: {activePhase.StartTime}-{activePhase.EndTime}s. Using {(phaseOverrides != null ? "phase overrides" : "generator defaults")}.");
             generator.SpawnHuman(activePhase.HumanSpeedMultiplier, phaseOverrides);
         }
@@ -189,9 +188,96 @@ public class CustomerGenerator : MonoBehaviour
     }
 
     // Get a random customer from the list of possible customers
-    Customer GetRandomCustomer()
+    Customer GetRandomCustomer(StageSpawnPhase activePhase)
     {
-        List<Customer> source = hasGhostFilter ? eligibleCustomers : _possibleCustomers;
+        StageGhostSpawnEntry[] ghostSpawnEntries = GetGhostSpawnEntries(activePhase);
+        if (HasValidGhostSpawnEntries(ghostSpawnEntries))
+        {
+            return GetWeightedGhostCustomer(ghostSpawnEntries);
+        }
+
+        return GetRandomCustomerFromList(_possibleCustomers);
+    }
+
+    private Customer GetWeightedGhostCustomer(StageGhostSpawnEntry[] ghostSpawnEntries)
+    {
+        float totalWeight = 0f;
+        for (int i = 0; i < ghostSpawnEntries.Length; i++)
+        {
+            StageGhostSpawnEntry entry = ghostSpawnEntries[i];
+            if (entry == null || !entry.IsValid || !HasCustomersForGhost(entry.Ghost))
+            {
+                continue;
+            }
+
+            totalWeight += entry.SpawnPercentage;
+        }
+
+        if (totalWeight <= 0f)
+        {
+            Debug.LogWarning("No eligible customers match the active ghost spawn percentages.");
+            return null;
+        }
+
+        float randomWeight = Random.Range(0f, totalWeight);
+        for (int i = 0; i < ghostSpawnEntries.Length; i++)
+        {
+            StageGhostSpawnEntry entry = ghostSpawnEntries[i];
+            if (entry == null || !entry.IsValid || !HasCustomersForGhost(entry.Ghost))
+            {
+                continue;
+            }
+
+            randomWeight -= entry.SpawnPercentage;
+            if (randomWeight <= 0f)
+            {
+                return GetRandomCustomerFromList(customersByGhost[entry.Ghost]);
+            }
+        }
+
+        return null;
+    }
+
+    private StageGhostSpawnEntry[] GetGhostSpawnEntries(StageSpawnPhase activePhase)
+    {
+        if (activePhase != null && activePhase.HasGhostSpawnOverrides)
+        {
+            return activePhase.GhostSpawnOverrides;
+        }
+
+        if (levelConfig != null && levelConfig.HasGhostSpawnPercentages)
+        {
+            return levelConfig.GhostSpawnPercentages;
+        }
+
+        return null;
+    }
+
+    private static bool HasValidGhostSpawnEntries(StageGhostSpawnEntry[] entries)
+    {
+        if (entries == null)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < entries.Length; i++)
+        {
+            if (entries[i] != null && entries[i].IsValid)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool HasCustomersForGhost(Ghost ghost)
+    {
+        return ghost != null && customersByGhost.TryGetValue(ghost, out List<Customer> customers) && customers.Count > 0;
+    }
+
+    private static Customer GetRandomCustomerFromList(List<Customer> source)
+    {
         if (source == null || source.Count == 0)
         {
             return null;
@@ -249,49 +335,26 @@ public class CustomerGenerator : MonoBehaviour
         _isGenerating = true; // Allow customer generation again
     }
 
-    private void BuildEligibleCustomers()
+    private void BuildCustomersByGhost()
     {
-        eligibleCustomers.Clear();
-
-        hasGhostFilter = levelConfig != null && levelConfig.AllowedGhosts != null && levelConfig.AllowedGhosts.Length > 0;
-
-        if (!hasGhostFilter)
-        {
-            eligibleCustomers.AddRange(_possibleCustomers);
-            return;
-        }
+        customersByGhost.Clear();
 
         for (int i = 0; i < _possibleCustomers.Count; i++)
         {
             Customer customer = _possibleCustomers[i];
-            if (customer != null && IsGhostAllowed(customer.GhostType))
+            if (customer == null || customer.GhostType == null)
             {
-                eligibleCustomers.Add(customer);
+                continue;
             }
-        }
 
-        if (eligibleCustomers.Count == 0)
-        {
-            Debug.LogWarning("No eligible customers match the selected level's allowed ghosts.");
-        }
-    }
-
-    private bool IsGhostAllowed(Ghost ghost)
-    {
-        if (ghost == null)
-        {
-            return false;
-        }
-
-        for (int i = 0; i < levelConfig.AllowedGhosts.Length; i++)
-        {
-            if (levelConfig.AllowedGhosts[i] == ghost)
+            if (!customersByGhost.TryGetValue(customer.GhostType, out List<Customer> customers))
             {
-                return true;
+                customers = new List<Customer>();
+                customersByGhost[customer.GhostType] = customers;
             }
-        }
 
-        return false;
+            customers.Add(customer);
+        }
     }
 
     private StageSpawnPhase GetActivePhase()
@@ -436,7 +499,7 @@ public class CustomerGenerator : MonoBehaviour
         }
 
         // Resolve phase-level overrides for the demand check, mirroring spawn logic
-        GameObject[] phaseOverrides = activePhase.HasHumanPrefabOverrides ? activePhase.HumanPrefabOverrides : null;
+        StageHumanPrefabSpawnEntry[] phaseOverrides = activePhase.HasHumanPrefabSpawnOverrides ? activePhase.HumanPrefabSpawnOverrides : null;
 
         for (int i = 0; i < humanGenerators.Length; i++)
         {

@@ -17,7 +17,7 @@ public class HumanGenerator : MonoBehaviour
     private float spawnTimer; // Timer to track spawn interval
     private StageLevelConfig levelConfig;
     private bool isExternallyControlled;
-    private GameObject[] levelHumanPrefabOverrides; // Level-config overrides, resolved once at Start
+    private StageHumanPrefabSpawnEntry[] levelHumanPrefabOverrides; // Level-config overrides, resolved once at Start
     private CharacterCustomizationManager customizationManager;
 
     void Start()
@@ -63,7 +63,7 @@ public class HumanGenerator : MonoBehaviour
     /// Spawns a human using the three-tier prefab priority:
     /// phase overrides > level config overrides > humanPrefabs serialized list.
     /// </summary>
-    public void SpawnHuman(float movementSpeedMultiplier, GameObject[] phaseOverrides = null)
+    public void SpawnHuman(float movementSpeedMultiplier, StageHumanPrefabSpawnEntry[] phaseOverrides = null)
     {
         HumanBody spawnedHuman = SpawnConfiguredHuman(phaseOverrides);
 
@@ -81,20 +81,20 @@ public class HumanGenerator : MonoBehaviour
     /// Checks whether any prefab in the resolved pool can produce the given menu,
     /// respecting the same three-tier priority as SpawnHuman.
     /// </summary>
-    public bool CanSpawnMenu(Menu menu, StageLevelConfig config, GameObject[] phaseOverrides = null)
+    public bool CanSpawnMenu(Menu menu, StageLevelConfig config, StageHumanPrefabSpawnEntry[] phaseOverrides = null)
     {
         if (menu == null)
         {
             return false;
         }
 
-        GameObject[] pool = ResolveHumanPrefabOverrides(config, phaseOverrides);
+        StageHumanPrefabSpawnEntry[] pool = ResolveHumanPrefabOverrides(config, phaseOverrides);
 
         if (pool != null && pool.Length > 0)
         {
             for (int i = 0; i < pool.Length; i++)
             {
-                if (CanPrefabSpawnMenu(pool[i], menu, config))
+                if (pool[i] != null && pool[i].IsValid && CanPrefabSpawnMenu(pool[i].Prefab, menu, config))
                 {
                     return true;
                 }
@@ -125,19 +125,19 @@ public class HumanGenerator : MonoBehaviour
     /// Instantiates a human from the resolved prefab pool.
     /// Priority: phaseOverrides > levelHumanPrefabOverrides > humanPrefabs.
     /// </summary>
-    private HumanBody SpawnConfiguredHuman(GameObject[] phaseOverrides = null)
+    private HumanBody SpawnConfiguredHuman(StageHumanPrefabSpawnEntry[] phaseOverrides = null)
     {
         Debug.Log("Spawn");
         // Tier 1: phase overrides
-        if (phaseOverrides != null && phaseOverrides.Length > 0)
+        if (HasValidHumanPrefabSpawnEntries(phaseOverrides))
         {
-            return InstantiateFromGameObjectPool(phaseOverrides);
+            return InstantiateFromWeightedPrefabPool(phaseOverrides);
         }
 
         // Tier 2: level config overrides (resolved at Start)
-        if (levelHumanPrefabOverrides != null && levelHumanPrefabOverrides.Length > 0)
+        if (HasValidHumanPrefabSpawnEntries(levelHumanPrefabOverrides))
         {
-            return InstantiateFromGameObjectPool(levelHumanPrefabOverrides);
+            return InstantiateFromWeightedPrefabPool(levelHumanPrefabOverrides);
         }
 
         // Tier 3: serialized HumanBody prefab list
@@ -155,9 +155,9 @@ public class HumanGenerator : MonoBehaviour
         return Instantiate(selectedPrefab, spawnPoint.position, selectedPrefab.transform.rotation);
     }
 
-    private HumanBody InstantiateFromGameObjectPool(GameObject[] pool)
+    private HumanBody InstantiateFromWeightedPrefabPool(StageHumanPrefabSpawnEntry[] pool)
     {
-        GameObject selectedPrefab = pool[Random.Range(0, pool.Length)];
+        GameObject selectedPrefab = GetWeightedPrefab(pool);
         if (selectedPrefab == null)
         {
             return null;
@@ -167,25 +167,77 @@ public class HumanGenerator : MonoBehaviour
         return spawnedObject.GetComponent<HumanBody>();
     }
 
+    private static GameObject GetWeightedPrefab(StageHumanPrefabSpawnEntry[] pool)
+    {
+        float totalWeight = 0f;
+        for (int i = 0; i < pool.Length; i++)
+        {
+            if (pool[i] != null && pool[i].IsValid)
+            {
+                totalWeight += pool[i].SpawnPercentage;
+            }
+        }
+
+        if (totalWeight <= 0f)
+        {
+            return null;
+        }
+
+        float randomWeight = Random.Range(0f, totalWeight);
+        for (int i = 0; i < pool.Length; i++)
+        {
+            if (pool[i] == null || !pool[i].IsValid)
+            {
+                continue;
+            }
+
+            randomWeight -= pool[i].SpawnPercentage;
+            if (randomWeight <= 0f)
+            {
+                return pool[i].Prefab;
+            }
+        }
+
+        return null;
+    }
+
     /// <summary>
     /// Resolves the active prefab pool following three-tier priority.
     /// Returns null if no overrides are set at any tier (caller should fall back to humanPrefabs).
     /// </summary>
-    private static GameObject[] ResolveHumanPrefabOverrides(StageLevelConfig config, GameObject[] phaseOverrides)
+    private static StageHumanPrefabSpawnEntry[] ResolveHumanPrefabOverrides(StageLevelConfig config, StageHumanPrefabSpawnEntry[] phaseOverrides)
     {
         // Tier 1: phase overrides
-        if (phaseOverrides != null && phaseOverrides.Length > 0)
+        if (HasValidHumanPrefabSpawnEntries(phaseOverrides))
         {
             return phaseOverrides;
         }
 
         // Tier 2: level config overrides
-        if (config != null && config.HumanPrefabOverrides != null && config.HumanPrefabOverrides.Length > 0)
+        if (config != null && config.HasHumanPrefabSpawnPercentages)
         {
-            return config.HumanPrefabOverrides;
+            return config.HumanPrefabSpawnPercentages;
         }
 
         return null;
+    }
+
+    private static bool HasValidHumanPrefabSpawnEntries(StageHumanPrefabSpawnEntry[] entries)
+    {
+        if (entries == null)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < entries.Length; i++)
+        {
+            if (entries[i] != null && entries[i].IsValid)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private bool CanPrefabSpawnMenu(Component prefab, Menu menu, StageLevelConfig config)

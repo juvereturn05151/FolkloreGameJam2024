@@ -13,9 +13,12 @@ public class StageLevelConfig : ScriptableObject
     [SerializeField] private HumanBodyPartType[] enabledBodyParts = Array.Empty<HumanBodyPartType>();
     [Tooltip("Zero-based indexes from CustomerGenerator customer spots. In the current 3-plate layout, 1 is the middle plate.")]
     [SerializeField] private int[] activeCustomerSpotIndexes = { 0, 1, 2 };
-    [SerializeField] private Ghost[] allowedGhosts = Array.Empty<Ghost>();
-    [Tooltip("Optional level-specific human prefab list. Empty means use the HumanGenerator's default list.")]
-    [SerializeField] private GameObject[] humanPrefabOverrides = Array.Empty<GameObject>();
+    [SerializeField, HideInInspector] private Ghost[] allowedGhosts = Array.Empty<Ghost>();
+    [Tooltip("Default ghost spawn weights for this level. Empty means all CustomerGenerator prefabs are eligible with equal odds.")]
+    [SerializeField] private StageGhostSpawnEntry[] ghostSpawnPercentages = Array.Empty<StageGhostSpawnEntry>();
+    [SerializeField, HideInInspector] private GameObject[] humanPrefabOverrides = Array.Empty<GameObject>();
+    [Tooltip("Optional level-specific human prefab spawn weights. Empty means use the HumanGenerator's default list.")]
+    [SerializeField] private StageHumanPrefabSpawnEntry[] humanPrefabSpawnPercentages = Array.Empty<StageHumanPrefabSpawnEntry>();
     [SerializeField]
     private StageSpawnPhase[] spawnPhases =
     {
@@ -38,12 +41,14 @@ public class StageLevelConfig : ScriptableObject
     public bool AllowSuperMeter => allowSuperMeter;
     public HumanBodyPartType[] EnabledBodyParts => enabledBodyParts;
     public int[] ActiveCustomerSpotIndexes => activeCustomerSpotIndexes;
-    public Ghost[] AllowedGhosts => allowedGhosts;
-    public GameObject[] HumanPrefabOverrides => humanPrefabOverrides;
+    public StageGhostSpawnEntry[] GhostSpawnPercentages => ghostSpawnPercentages;
+    public StageHumanPrefabSpawnEntry[] HumanPrefabSpawnPercentages => HasValidHumanPrefabSpawnEntries(humanPrefabSpawnPercentages) ? humanPrefabSpawnPercentages : CreateEvenHumanPrefabSpawnEntries(humanPrefabOverrides);
     public StageSpawnPhase[] SpawnPhases => spawnPhases;
     public float CustomerPatienceMultiplier => Mathf.Max(0.01f, customerPatienceMultiplier);
     public float HumanSpawnDelayAfterGhost => Mathf.Max(0f, humanSpawnDelayAfterGhost);
     public float Duration => Mathf.Max(0f, duration);
+    public bool HasGhostSpawnPercentages => HasValidGhostSpawnEntries(ghostSpawnPercentages);
+    public bool HasHumanPrefabSpawnPercentages => HasValidHumanPrefabSpawnEntries(HumanPrefabSpawnPercentages);
 
     public bool IsBodyPartEnabled(HumanBodyPartType bodyPartType)
     {
@@ -88,6 +93,10 @@ public class StageLevelConfig : ScriptableObject
         customerMinOrderCount = Mathf.Max(0, customerMinOrderCount);
         customerMaxOrderCount = Mathf.Max(customerMinOrderCount, customerMaxOrderCount);
         humanSpawnDelayAfterGhost = Mathf.Max(0f, humanSpawnDelayAfterGhost);
+        MigrateLegacyAllowedGhosts();
+        MigrateLegacyHumanPrefabOverrides();
+        ValidateGhostSpawnEntries(ghostSpawnPercentages);
+        ValidateHumanPrefabSpawnEntries(humanPrefabSpawnPercentages);
 
         if (activeCustomerSpotIndexes != null)
         {
@@ -128,6 +137,160 @@ public class StageLevelConfig : ScriptableObject
             }
         }
     }
+
+    private void MigrateLegacyAllowedGhosts()
+    {
+        if ((ghostSpawnPercentages != null && ghostSpawnPercentages.Length > 0) || allowedGhosts == null || allowedGhosts.Length == 0)
+        {
+            return;
+        }
+
+        ghostSpawnPercentages = CreateEvenGhostSpawnEntries(allowedGhosts);
+    }
+
+    private static StageGhostSpawnEntry[] CreateEvenGhostSpawnEntries(Ghost[] ghosts)
+    {
+        if (ghosts == null || ghosts.Length == 0)
+        {
+            return Array.Empty<StageGhostSpawnEntry>();
+        }
+
+        int validGhostCount = 0;
+        for (int i = 0; i < ghosts.Length; i++)
+        {
+            if (ghosts[i] != null)
+            {
+                validGhostCount++;
+            }
+        }
+
+        if (validGhostCount == 0)
+        {
+            return Array.Empty<StageGhostSpawnEntry>();
+        }
+
+        StageGhostSpawnEntry[] entries = new StageGhostSpawnEntry[validGhostCount];
+        float evenPercentage = 100f / validGhostCount;
+        int entryIndex = 0;
+        for (int i = 0; i < ghosts.Length; i++)
+        {
+            if (ghosts[i] != null)
+            {
+                entries[entryIndex] = new StageGhostSpawnEntry(ghosts[i], evenPercentage);
+                entryIndex++;
+            }
+        }
+
+        return entries;
+    }
+
+    private void MigrateLegacyHumanPrefabOverrides()
+    {
+        if ((humanPrefabSpawnPercentages != null && humanPrefabSpawnPercentages.Length > 0) || humanPrefabOverrides == null || humanPrefabOverrides.Length == 0)
+        {
+            return;
+        }
+
+        humanPrefabSpawnPercentages = CreateEvenHumanPrefabSpawnEntries(humanPrefabOverrides);
+    }
+
+    private static StageHumanPrefabSpawnEntry[] CreateEvenHumanPrefabSpawnEntries(GameObject[] prefabs)
+    {
+        if (prefabs == null || prefabs.Length == 0)
+        {
+            return Array.Empty<StageHumanPrefabSpawnEntry>();
+        }
+
+        int validPrefabCount = 0;
+        for (int i = 0; i < prefabs.Length; i++)
+        {
+            if (prefabs[i] != null)
+            {
+                validPrefabCount++;
+            }
+        }
+
+        if (validPrefabCount == 0)
+        {
+            return Array.Empty<StageHumanPrefabSpawnEntry>();
+        }
+
+        StageHumanPrefabSpawnEntry[] entries = new StageHumanPrefabSpawnEntry[validPrefabCount];
+        float evenPercentage = 100f / validPrefabCount;
+        int entryIndex = 0;
+        for (int i = 0; i < prefabs.Length; i++)
+        {
+            if (prefabs[i] != null)
+            {
+                entries[entryIndex] = new StageHumanPrefabSpawnEntry(prefabs[i], evenPercentage);
+                entryIndex++;
+            }
+        }
+
+        return entries;
+    }
+
+    private static bool HasValidGhostSpawnEntries(StageGhostSpawnEntry[] entries)
+    {
+        if (entries == null)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < entries.Length; i++)
+        {
+            if (entries[i] != null && entries[i].IsValid)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static void ValidateGhostSpawnEntries(StageGhostSpawnEntry[] entries)
+    {
+        if (entries == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < entries.Length; i++)
+        {
+            entries[i]?.Validate();
+        }
+    }
+
+    private static bool HasValidHumanPrefabSpawnEntries(StageHumanPrefabSpawnEntry[] entries)
+    {
+        if (entries == null)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < entries.Length; i++)
+        {
+            if (entries[i] != null && entries[i].IsValid)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static void ValidateHumanPrefabSpawnEntries(StageHumanPrefabSpawnEntry[] entries)
+    {
+        if (entries == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < entries.Length; i++)
+        {
+            entries[i]?.Validate();
+        }
+    }
 }
 
 [Serializable]
@@ -151,8 +314,11 @@ public class StageSpawnPhase
         FoodState.MediumRotten,
         FoodState.SuperRotten
     };
-    [Tooltip("Optional human prefab list for this phase. Falls back to level config overrides, then HumanGenerator defaults.")]
-    [SerializeField] private GameObject[] humanPrefabOverrides = Array.Empty<GameObject>();
+    [Tooltip("Optional phase-specific ghost spawn weights. Empty falls back to the level's default ghost spawn weights.")]
+    [SerializeField] private StageGhostSpawnEntry[] ghostSpawnOverrides = Array.Empty<StageGhostSpawnEntry>();
+    [SerializeField, HideInInspector] private GameObject[] humanPrefabOverrides = Array.Empty<GameObject>();
+    [Tooltip("Optional phase-specific human prefab spawn weights. Empty falls back to level config overrides, then HumanGenerator defaults.")]
+    [SerializeField] private StageHumanPrefabSpawnEntry[] humanPrefabSpawnOverrides = Array.Empty<StageHumanPrefabSpawnEntry>();
 
     public StageSpawnPhase(float startTime, float endTime, float spawnInterval, float humanSpeedMultiplier, float doubleSpawnChance)
         : this(startTime, endTime, spawnInterval, humanSpeedMultiplier, doubleSpawnChance, null, null)
@@ -191,9 +357,11 @@ public class StageSpawnPhase
     public int CustomerMinOrderCount => Mathf.Max(0, customerMinOrderCount);
     public int CustomerMaxOrderCount => Mathf.Max(0, customerMaxOrderCount);
     public FoodState[] AllowedFoodStates => allowedFoodStates;
-    public GameObject[] HumanPrefabOverrides => humanPrefabOverrides;
+    public StageGhostSpawnEntry[] GhostSpawnOverrides => ghostSpawnOverrides;
+    public StageHumanPrefabSpawnEntry[] HumanPrefabSpawnOverrides => HasValidHumanPrefabSpawnEntries(humanPrefabSpawnOverrides) ? humanPrefabSpawnOverrides : CreateEvenHumanPrefabSpawnEntries(humanPrefabOverrides);
     public bool HasCustomerOrderCountOverride => CustomerMaxOrderCount > 0;
-    public bool HasHumanPrefabOverrides => humanPrefabOverrides != null && humanPrefabOverrides.Length > 0;
+    public bool HasGhostSpawnOverrides => HasValidGhostSpawnEntries(ghostSpawnOverrides);
+    public bool HasHumanPrefabSpawnOverrides => HasValidHumanPrefabSpawnEntries(HumanPrefabSpawnOverrides);
 
     public bool Contains(float elapsedTime)
     {
@@ -216,6 +384,31 @@ public class StageSpawnPhase
             humanPrefabOverrides = Array.Empty<GameObject>();
         }
 
+        if (humanPrefabSpawnOverrides == null)
+        {
+            humanPrefabSpawnOverrides = Array.Empty<StageHumanPrefabSpawnEntry>();
+        }
+
+        if (humanPrefabSpawnOverrides.Length == 0 && humanPrefabOverrides.Length > 0)
+        {
+            humanPrefabSpawnOverrides = CreateEvenHumanPrefabSpawnEntries(humanPrefabOverrides);
+        }
+
+        for (int i = 0; i < humanPrefabSpawnOverrides.Length; i++)
+        {
+            humanPrefabSpawnOverrides[i]?.Validate();
+        }
+
+        if (ghostSpawnOverrides == null)
+        {
+            ghostSpawnOverrides = Array.Empty<StageGhostSpawnEntry>();
+        }
+
+        for (int i = 0; i < ghostSpawnOverrides.Length; i++)
+        {
+            ghostSpawnOverrides[i]?.Validate();
+        }
+
         if (allowedFoodStates == null || allowedFoodStates.Length == 0)
         {
             allowedFoodStates = new[]
@@ -231,6 +424,124 @@ public class StageSpawnPhase
     {
         customerMinOrderCount = Mathf.Max(0, minCount);
         customerMaxOrderCount = Mathf.Max(customerMinOrderCount, maxCount);
+    }
+
+    private static bool HasValidGhostSpawnEntries(StageGhostSpawnEntry[] entries)
+    {
+        if (entries == null)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < entries.Length; i++)
+        {
+            if (entries[i] != null && entries[i].IsValid)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static StageHumanPrefabSpawnEntry[] CreateEvenHumanPrefabSpawnEntries(GameObject[] prefabs)
+    {
+        if (prefabs == null || prefabs.Length == 0)
+        {
+            return Array.Empty<StageHumanPrefabSpawnEntry>();
+        }
+
+        int validPrefabCount = 0;
+        for (int i = 0; i < prefabs.Length; i++)
+        {
+            if (prefabs[i] != null)
+            {
+                validPrefabCount++;
+            }
+        }
+
+        if (validPrefabCount == 0)
+        {
+            return Array.Empty<StageHumanPrefabSpawnEntry>();
+        }
+
+        StageHumanPrefabSpawnEntry[] entries = new StageHumanPrefabSpawnEntry[validPrefabCount];
+        float evenPercentage = 100f / validPrefabCount;
+        int entryIndex = 0;
+        for (int i = 0; i < prefabs.Length; i++)
+        {
+            if (prefabs[i] != null)
+            {
+                entries[entryIndex] = new StageHumanPrefabSpawnEntry(prefabs[i], evenPercentage);
+                entryIndex++;
+            }
+        }
+
+        return entries;
+    }
+
+    private static bool HasValidHumanPrefabSpawnEntries(StageHumanPrefabSpawnEntry[] entries)
+    {
+        if (entries == null)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < entries.Length; i++)
+        {
+            if (entries[i] != null && entries[i].IsValid)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
+[Serializable]
+public class StageGhostSpawnEntry
+{
+    [SerializeField] private Ghost ghost;
+    [Range(0f, 100f)]
+    [SerializeField] private float spawnPercentage = 100f;
+
+    public StageGhostSpawnEntry(Ghost ghost, float spawnPercentage)
+    {
+        this.ghost = ghost;
+        this.spawnPercentage = spawnPercentage;
+    }
+
+    public Ghost Ghost => ghost;
+    public float SpawnPercentage => Mathf.Max(0f, spawnPercentage);
+    public bool IsValid => ghost != null && SpawnPercentage > 0f;
+
+    public void Validate()
+    {
+        spawnPercentage = Mathf.Max(0f, spawnPercentage);
+    }
+}
+
+[Serializable]
+public class StageHumanPrefabSpawnEntry
+{
+    [SerializeField] private GameObject prefab;
+    [Range(0f, 100f)]
+    [SerializeField] private float spawnPercentage = 100f;
+
+    public StageHumanPrefabSpawnEntry(GameObject prefab, float spawnPercentage)
+    {
+        this.prefab = prefab;
+        this.spawnPercentage = spawnPercentage;
+    }
+
+    public GameObject Prefab => prefab;
+    public float SpawnPercentage => Mathf.Max(0f, spawnPercentage);
+    public bool IsValid => prefab != null && SpawnPercentage > 0f;
+
+    public void Validate()
+    {
+        spawnPercentage = Mathf.Max(0f, spawnPercentage);
     }
 }
 
