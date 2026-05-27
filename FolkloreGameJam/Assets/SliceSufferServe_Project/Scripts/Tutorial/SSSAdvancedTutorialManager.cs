@@ -51,6 +51,11 @@ public class SSSAdvancedTutorialManager : AdvancedTutorialManager_Base
 
     public void DeactivateGenerator()
     {
+        if (_customerGenerator != null)
+        {
+            _customerGenerator.ClearActiveCustomers();
+        }
+
         SetGeneratorActive(_humanGenerator, false);
         SetGeneratorActive(_humanGenerator2, false);
         SetGeneratorActive(_customerGenerator, false);

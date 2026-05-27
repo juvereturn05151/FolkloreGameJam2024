@@ -29,7 +29,7 @@ public class StageSelectManager : MonoBehaviour
         }
 
         StageSelection.SelectLevel(selectedLevel);
-        LoadSelectedStageWithFade(StageSelection.GetEntrySceneName(selectedLevel));
+        LoadSelectedStageWithFade(StageSelection.GetGameplaySceneName(selectedLevel));
     }
 
     public void SelectTutorialForLevel(int levelIndex)
@@ -48,7 +48,7 @@ public class StageSelectManager : MonoBehaviour
         }
 
         StageSelection.SelectLevel(selectedLevel);
-        LoadSelectedStageWithFade(StageSelection.GetEntrySceneName(selectedLevel));
+        LoadSelectedStageWithFade(StageSelection.GetTutorialSceneName(selectedLevel));
     }
 
     public void SelectLevelOne()

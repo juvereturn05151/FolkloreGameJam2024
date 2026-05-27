@@ -12,5 +12,6 @@ public class TeachSuperMeterAttribute : TutorialAttribute
     {
         base.SetBegin();
         SSSAdvancedTutorialManager.Instance.ActivateHumanGenerator();
+        SSSAdvancedTutorialManager.Instance.ActivateCustomerGenerator();
     }
 }

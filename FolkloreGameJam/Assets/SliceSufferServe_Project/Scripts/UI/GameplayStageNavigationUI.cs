@@ -109,7 +109,7 @@ public class GameplayStageNavigationUI : MonoBehaviour
         }
 
         StageSelection.SelectLevel(nextStage);
-        SceneManager.LoadScene(StageSelection.GetEntrySceneName(nextStage));
+        SceneManager.LoadScene(StageSelection.GetGameplaySceneName(nextStage));
     }
 
     public void GoToStoryModeSelect()

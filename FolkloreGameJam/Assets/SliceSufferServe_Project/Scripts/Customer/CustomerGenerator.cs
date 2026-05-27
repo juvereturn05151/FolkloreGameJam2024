@@ -331,8 +331,29 @@ public class CustomerGenerator : MonoBehaviour
     // Clear a customer spot and start generating customers again
     public void ClearCustomerSpot(CustomerSpot spot)
     {
-        spot.SetCustomer(null); // Clear the customer from the spot
+        if (spot == null)
+        {
+            return;
+        }
+
+        spot.ClearCustomer(); // Clear the customer from the spot
         _isGenerating = true; // Allow customer generation again
+    }
+
+    public void ClearActiveCustomers()
+    {
+        StopAllCoroutines();
+        pendingDemandHumanSpawns = 0;
+        _isGenerating = true;
+
+        for (int i = 0; i < activeCustomerSpots.Count; i++)
+        {
+            CustomerSpot spot = activeCustomerSpots[i];
+            if (spot != null)
+            {
+                spot.ClearCustomer();
+            }
+        }
     }
 
     private void BuildCustomersByGhost()

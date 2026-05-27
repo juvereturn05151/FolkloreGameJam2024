@@ -13,12 +13,7 @@ public class CustomerSpot : MonoBehaviour
     {
         if (!isActive)
         {
-            SetCustomer(null);
-            if (_plate != null)
-            {
-                _plate.CurrentCustomer = null;
-                _plate.SetIsOccupied(false);
-            }
+            ClearCustomer();
         }
 
         GameObject root = GetGameplayRoot();
@@ -51,6 +46,17 @@ public class CustomerSpot : MonoBehaviour
                 Destroy(_customer.gameObject); // Remove the customer from the spot
                 _customer = null;
             }
+        }
+    }
+
+    public void ClearCustomer()
+    {
+        SetCustomer(null);
+
+        if (_plate != null)
+        {
+            _plate.CurrentCustomer = null;
+            _plate.SetIsOccupied(false);
         }
     }
 

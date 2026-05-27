@@ -18,6 +18,16 @@ public static class StageSelection
 
     public static string GetEntrySceneName(StageLevelConfig levelConfig)
     {
+        return GetTutorialSceneName(levelConfig);
+    }
+
+    public static string GetGameplaySceneName(StageLevelConfig levelConfig)
+    {
+        return levelConfig == null ? DefaultGameplaySceneName : levelConfig.GameplaySceneName;
+    }
+
+    public static string GetTutorialSceneName(StageLevelConfig levelConfig)
+    {
         if (levelConfig == null)
         {
             return DefaultGameplaySceneName;
@@ -36,6 +46,6 @@ public static class StageSelection
 
     public static string GetSelectedGameplaySceneName()
     {
-        return SelectedLevel == null ? DefaultGameplaySceneName : SelectedLevel.GameplaySceneName;
+        return GetGameplaySceneName(SelectedLevel);
     }
 }
