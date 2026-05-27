@@ -2086,7 +2086,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72cf694b23bf77943a9d4a4ec5f8cc15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneName: TutorialScene
+  targetSceneName: GameplayScene
+  selectedLevelConfig: {fileID: 11400000, guid: 39726fcdbb363bf43aebc382f33f6dac, type: 2}
   humanPart: {fileID: 576806399}
 --- !u!1 &1207962346
 GameObject:
