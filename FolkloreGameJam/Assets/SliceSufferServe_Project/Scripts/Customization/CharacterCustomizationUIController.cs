@@ -7,7 +7,6 @@ public class CharacterCustomizationUIController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private CharacterCustomizationManager customizationManager;
-    [SerializeField] private CharacterGenerationManager generationManager;
 
     [Header("Pages")]
     [SerializeField] private GameObject editPageRoot;
@@ -246,11 +245,6 @@ public class CharacterCustomizationUIController : MonoBehaviour
         if (customizationManager == null)
         {
             customizationManager = CharacterCustomizationManager.Instance ?? FindAnyObjectByType<CharacterCustomizationManager>();
-        }
-
-        if (generationManager == null)
-        {
-            generationManager = FindAnyObjectByType<CharacterGenerationManager>();
         }
     }
 
