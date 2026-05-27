@@ -66,6 +66,7 @@ MonoBehaviour:
   humanGen1: {fileID: 0}
   humanGen2: {fileID: 0}
   customerGen: {fileID: 0}
+  defaultLevelConfig: {fileID: 11400000, guid: 39726fcdbb363bf43aebc382f33f6dac, type: 2}
   stageGoal: {fileID: 11400000, guid: 824bc3dc788f64a4ca9431333436696f, type: 2}
   superMeterThreshold: 100
   superMeterGainPerTrash: 1

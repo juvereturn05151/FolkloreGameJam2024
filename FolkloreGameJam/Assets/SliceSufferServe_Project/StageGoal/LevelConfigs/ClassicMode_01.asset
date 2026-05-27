@@ -17,9 +17,9 @@ MonoBehaviour:
   levelNumber: 1
   gameplaySceneName: GameplayScene
   stageGoal: {fileID: 11400000, guid: 824bc3dc788f64a4ca9431333436696f, type: 2}
-  allowSuperMeter: 0
-  enabledBodyParts: 00000000
-  activeCustomerSpotIndexes: 01000000
+  allowSuperMeter: 1
+  enabledBodyParts: 00000000010000000200000003000000
+  activeCustomerSpotIndexes: 000000000100000002000000
   allowedGhosts:
   - {fileID: 11400000, guid: d2952cb466b75414ebc175f0b6c76687, type: 2}
   ghostSpawnPercentages:

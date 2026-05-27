@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CustomerGenerator customerGen;
 
     [Header("Stage Goal")]
+    [SerializeField] private StageLevelConfig defaultLevelConfig;
     [SerializeField] private StageGoal stageGoal;
 
     [Header("Super Meter")]
@@ -75,6 +76,11 @@ public class GameManager : MonoBehaviour
     {
         if(Instance == null)
             Instance = this;
+
+        if (StageSelection.SelectedLevel == null && defaultLevelConfig != null)
+        {
+            StageSelection.SelectLevel(defaultLevelConfig);
+        }
     }
 
     private void Start()
