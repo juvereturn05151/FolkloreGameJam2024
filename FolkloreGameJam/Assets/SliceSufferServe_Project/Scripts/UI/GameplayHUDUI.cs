@@ -1,5 +1,6 @@
 using DG.Tweening;
 using TMPro;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,6 +27,10 @@ public class GameplayHUDUI : MonoBehaviour
     private Canvas parentCanvas;
     private RectTransform canvasRectTransform;
     private Vector3 scoreTextInitialScale = Vector3.one;
+    private int displayedScore;
+    private int pendingScore;
+    private int pendingScoreVersion;
+    private Coroutine pendingScoreFallbackCoroutine;
 
     private void Awake()
     {
@@ -87,7 +92,7 @@ public class GameplayHUDUI : MonoBehaviour
 
         if (ScoreManager.Instance != null)
         {
-            UpdateScoreUI(ScoreManager.Instance.GetCurrentScore());
+            SetScoreTextImmediate(ScoreManager.Instance.GetCurrentScore());
         }
 
         if (heartImage != null)
@@ -112,6 +117,8 @@ public class GameplayHUDUI : MonoBehaviour
         Vector2 startPosition = WorldToCanvasPosition(worldCamera.WorldToScreenPoint(sourceWorldPosition), uiCamera);
         Vector2 endPosition = GetTargetCanvasPosition(uiCamera);
         int coinCount = Mathf.Max(1, scoreCoinEffectCount);
+        int completedCoinCount = 0;
+        int coinScoreVersion = pendingScoreVersion;
 
         for (int i = 0; i < coinCount; i++)
         {
@@ -132,17 +139,69 @@ public class GameplayHUDUI : MonoBehaviour
                     Destroy(coin.gameObject);
                 }
 
-                PulseScoreText();
+                completedCoinCount++;
+                if (completedCoinCount >= coinCount)
+                {
+                    RevealPendingScoreIfCurrent(coinScoreVersion);
+                }
             });
         }
     }
 
     private void UpdateScoreUI(int newScore)
     {
+        if (newScore <= displayedScore)
+        {
+            SetScoreTextImmediate(newScore);
+            return;
+        }
+
+        pendingScore = newScore;
+        pendingScoreVersion++;
+
+        if (pendingScoreFallbackCoroutine != null)
+        {
+            StopCoroutine(pendingScoreFallbackCoroutine);
+        }
+
+        pendingScoreFallbackCoroutine = StartCoroutine(RevealPendingScoreFallback(pendingScoreVersion));
+    }
+
+    private void SetScoreTextImmediate(int newScore)
+    {
+        displayedScore = newScore;
+        pendingScore = newScore;
+
         if (scoreText != null)
         {
             scoreText.text = "Score: " + newScore;
         }
+    }
+
+    private void RevealPendingScoreIfCurrent(int scoreVersion)
+    {
+        if (scoreVersion != pendingScoreVersion)
+        {
+            return;
+        }
+
+        if (pendingScoreFallbackCoroutine != null)
+        {
+            StopCoroutine(pendingScoreFallbackCoroutine);
+            pendingScoreFallbackCoroutine = null;
+        }
+
+        SetScoreTextImmediate(pendingScore);
+        PulseScoreText();
+    }
+
+    private IEnumerator RevealPendingScoreFallback(int scoreVersion)
+    {
+        float waitTime = 0.18f + Mathf.Max(0.05f, scoreCoinEffectDuration) + Mathf.Max(0f, scoreCoinEffectStagger) * Mathf.Max(0, scoreCoinEffectCount - 1);
+        yield return new WaitForSeconds(waitTime);
+
+        pendingScoreFallbackCoroutine = null;
+        RevealPendingScoreIfCurrent(scoreVersion);
     }
 
     private void UpdateTimeUI(string formattedTime)
