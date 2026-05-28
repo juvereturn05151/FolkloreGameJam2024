@@ -217,9 +217,13 @@ public class Customer : MonoBehaviour
 
         currentState = CustomerState.Eating;
 
-        if (GameUtility.GameManagerExists() && GameManager.Instance.IsSuperScoreMultiplierActive) 
+        if (isEatingRightFood && GameUtility.GameManagerExists() && GameManager.Instance.IsSuperScoreMultiplierActive)
         {
-            currentSpot.ActivateDarkFire();
+            currentSpot?.ActivateDarkFire();
+        }
+        else
+        {
+            currentSpot?.DeactivateDarkFire();
         }
     }
 
@@ -258,6 +262,7 @@ public class Customer : MonoBehaviour
             return;
 
         Eat(finishedFood);
+        currentSpot?.DeactivateDarkFire();
 
         if (!isEatingRightFood)
         {
@@ -350,6 +355,7 @@ public class Customer : MonoBehaviour
             currentPlate.SetIsOccupied(false);
         }
 
+        currentSpot?.DeactivateDarkFire();
         onLeaveRestaurant?.Invoke(currentSpot);
     }
 

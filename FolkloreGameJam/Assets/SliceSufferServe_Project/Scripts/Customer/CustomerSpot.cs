@@ -28,7 +28,7 @@ public class CustomerSpot : MonoBehaviour
     // Set a customer in this spot
     public void SetCustomer(Customer customer)
     {
-        _darkFire.SetActive(false);
+        DeactivateDarkFire();
 
         if (customer != null)
         {
@@ -62,7 +62,18 @@ public class CustomerSpot : MonoBehaviour
 
     public void ActivateDarkFire() 
     {
-        _darkFire.SetActive(true);
+        if (_darkFire != null)
+        {
+            _darkFire.SetActive(true);
+        }
+    }
+
+    public void DeactivateDarkFire()
+    {
+        if (_darkFire != null)
+        {
+            _darkFire.SetActive(false);
+        }
     }
 
     // Check if this spot has a customer
