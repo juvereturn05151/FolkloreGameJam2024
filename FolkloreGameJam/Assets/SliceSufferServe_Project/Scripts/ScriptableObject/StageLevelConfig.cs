@@ -7,6 +7,8 @@ public class StageLevelConfig : ScriptableObject
     [SerializeField] private string levelId;
     [SerializeField] private string displayName;
     [SerializeField] private int levelNumber = 1;
+    [Tooltip("Image shown for this level on the Story Mode selection UI.")]
+    [SerializeField] private Sprite storyModeSelectionSprite;
     [SerializeField] private string gameplaySceneName = "GameplayScene";
     [SerializeField] private StageGoal stageGoal;
     [SerializeField] private bool allowSuperMeter;
@@ -36,6 +38,7 @@ public class StageLevelConfig : ScriptableObject
     public string LevelId => string.IsNullOrWhiteSpace(levelId) ? name : levelId;
     public string DisplayName => string.IsNullOrWhiteSpace(displayName) ? name : displayName;
     public int LevelNumber => Mathf.Max(1, levelNumber);
+    public Sprite StoryModeSelectionSprite => storyModeSelectionSprite;
     public string GameplaySceneName => string.IsNullOrWhiteSpace(gameplaySceneName) ? "GameplayScene" : gameplaySceneName;
     public StageGoal StageGoal => stageGoal;
     public bool AllowSuperMeter => allowSuperMeter;

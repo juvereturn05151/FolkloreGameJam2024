@@ -2879,12 +2879,12 @@ GameObject:
   - component: {fileID: 3841600358901259335}
   - component: {fileID: 7766265405658719264}
   m_Layer: 5
-  m_Name: CurrencyPanel
+  m_Name: StoreCurrencyPanelDeprecated
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4462474994724729455
 RectTransform:
   m_ObjectHideFlags: 0

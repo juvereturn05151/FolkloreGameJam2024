@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: Assembly-CSharp::StageLevelConfig
   levelId: level_1
-  displayName: Level 1 - Head Only
+  displayName: 1 - Welcome to the Kitchen
   levelNumber: 1
+  storyModeSelectionSprite: {fileID: 21300000, guid: 6ffd6e4185a37e4429f858fc4ed6f950, type: 3}
   gameplaySceneName: GameplayScene
   stageGoal: {fileID: 11400000, guid: 181a5f29b52641d19e8d32366b43d4cd, type: 2}
   allowSuperMeter: 0

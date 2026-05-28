@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Level2
   m_EditorClassIdentifier: Assembly-CSharp::StageLevelConfig
   levelId: level_2
-  displayName: Level 2 - Head Neck Body
+  displayName: 2 - More More...
   levelNumber: 2
+  storyModeSelectionSprite: {fileID: 21300000, guid: dae2842b8fe04d8ea2560f845701194c, type: 3}
   gameplaySceneName: GameplayScene
   stageGoal: {fileID: 11400000, guid: f147658f6064435b936acb0880d0de7b, type: 2}
   allowSuperMeter: 0
@@ -24,7 +25,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d2952cb466b75414ebc175f0b6c76687, type: 2}
   - {fileID: 11400000, guid: 02006c8ba69015e418b4a73cbb3f9f9d, type: 2}
   - {fileID: 11400000, guid: 3773c85fcdaf6f841839a87456861e97, type: 2}
+  ghostSpawnPercentages:
+  - ghost: {fileID: 11400000, guid: d2952cb466b75414ebc175f0b6c76687, type: 2}
+    spawnPercentage: 33.333332
+  - ghost: {fileID: 11400000, guid: 02006c8ba69015e418b4a73cbb3f9f9d, type: 2}
+    spawnPercentage: 33.333332
+  - ghost: {fileID: 11400000, guid: 3773c85fcdaf6f841839a87456861e97, type: 2}
+    spawnPercentage: 33.333332
   humanPrefabOverrides: []
+  humanPrefabSpawnPercentages: []
   spawnPhases:
   - startTime: 0
     endTime: 20
@@ -32,21 +41,36 @@ MonoBehaviour:
     humanSpeedMultiplier: 0.8
     doubleSpawnChance: 0
     doubleSpawnDelay: 0.25
+    customerMinOrderCount: 0
+    customerMaxOrderCount: 0
     allowedFoodStates: 00000000
+    ghostSpawnOverrides: []
+    humanPrefabOverrides: []
+    humanPrefabSpawnOverrides: []
   - startTime: 20
     endTime: 40
     spawnInterval: 1.5
     humanSpeedMultiplier: 1
     doubleSpawnChance: 0.35
     doubleSpawnDelay: 0.25
+    customerMinOrderCount: 0
+    customerMaxOrderCount: 0
     allowedFoodStates: 0000000001000000
+    ghostSpawnOverrides: []
+    humanPrefabOverrides: []
+    humanPrefabSpawnOverrides: []
   - startTime: 40
     endTime: 60
     spawnInterval: 0.8
     humanSpeedMultiplier: 1.25
     doubleSpawnChance: 0
     doubleSpawnDelay: 0.25
+    customerMinOrderCount: 0
+    customerMaxOrderCount: 0
     allowedFoodStates: 000000000100000002000000
+    ghostSpawnOverrides: []
+    humanPrefabOverrides: []
+    humanPrefabSpawnOverrides: []
   customerPatienceMultiplier: 1
   customerMinOrderCount: 0
   customerMaxOrderCount: 0

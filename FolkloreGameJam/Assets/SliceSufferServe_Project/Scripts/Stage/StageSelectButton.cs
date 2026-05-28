@@ -12,6 +12,7 @@ public class StageSelectButton : MonoBehaviour
     [SerializeField] private StageSelectManager stageSelectManager;
     [SerializeField] private int levelIndex;
     [SerializeField] private Button button;
+    [SerializeField] private Image previewImage;
     [SerializeField] private Text titleText;
     [SerializeField] private Text starsText;
 
@@ -23,6 +24,8 @@ public class StageSelectButton : MonoBehaviour
         {
             button = GetComponent<Button>();
         }
+
+        EnsurePreviewImage();
 
         Text[] texts = GetComponentsInChildren<Text>(true);
         Font defaultFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
@@ -69,6 +72,8 @@ public class StageSelectButton : MonoBehaviour
             int stars = progress == null ? 0 : progress.bestStars;
             starsText.text = $"{stars} / 3";
         }
+
+        SetPreviewSprite(levelConfig == null ? null : levelConfig.StoryModeSelectionSprite);
     }
 
     public void ConfigureTutorial(StageSelectManager manager, int targetLevelIndex, string tutorialName)
@@ -86,6 +91,57 @@ public class StageSelectButton : MonoBehaviour
         {
             starsText.text = string.Empty;
         }
+
+        SetPreviewSprite(null);
+    }
+
+    private void EnsurePreviewImage()
+    {
+        if (previewImage != null)
+        {
+            previewImage.raycastTarget = false;
+            previewImage.preserveAspect = true;
+            return;
+        }
+
+        Transform existingPreview = transform.Find("LevelPreviewImage");
+        if (existingPreview != null)
+        {
+            previewImage = existingPreview.GetComponent<Image>();
+        }
+
+        if (previewImage == null)
+        {
+            GameObject previewObject = new GameObject("LevelPreviewImage", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            previewObject.transform.SetParent(transform, false);
+            previewObject.transform.SetAsFirstSibling();
+
+            RectTransform previewRect = previewObject.GetComponent<RectTransform>();
+            previewRect.anchorMin = new Vector2(0.5f, 0.5f);
+            previewRect.anchorMax = new Vector2(0.5f, 0.5f);
+            previewRect.anchoredPosition = new Vector2(0f, 10f);
+            previewRect.sizeDelta = new Vector2(220f, 120f);
+
+            previewImage = previewObject.GetComponent<Image>();
+        }
+
+        previewImage.raycastTarget = false;
+        previewImage.preserveAspect = true;
+        previewImage.gameObject.SetActive(false);
+    }
+
+    private void SetPreviewSprite(Sprite sprite)
+    {
+        EnsurePreviewImage();
+
+        if (previewImage == null)
+        {
+            return;
+        }
+
+        previewImage.sprite = sprite;
+        previewImage.enabled = sprite != null;
+        previewImage.gameObject.SetActive(sprite != null);
     }
 
     private void SelectLevel()
