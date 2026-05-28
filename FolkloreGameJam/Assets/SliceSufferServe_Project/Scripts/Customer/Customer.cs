@@ -383,6 +383,7 @@ public class Customer : MonoBehaviour
         feedbackController?.SpawnScoreFeedback(scoreWithCombo);
 
         GameManager.Instance.IncreaseScore(scoreWithCombo);
+        GameplayHUDUI.Instance?.PlayScoreCoinEffect(transform.position);
         onEatRightFood?.Invoke(this);
         onLeaveRestaurant?.Invoke(currentSpot);
     }

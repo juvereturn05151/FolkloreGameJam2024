@@ -2259,6 +2259,13 @@ MonoBehaviour:
   heartImage: {fileID: 2431673750805073159}
   clockTimerImage: {fileID: 6752982767601165046}
   clockHand: {fileID: 3213548895678128872}
+  scoreCoinImage: {fileID: 554468338328743450}
+  scoreCoinSprite: {fileID: -2015707226, guid: ecc941590d2557243895d34b7f1a3307, type: 3}
+  scoreCoinEffectCount: 5
+  scoreCoinEffectSize: {x: 42, y: 42}
+  scoreCoinEffectDuration: 0.65
+  scoreCoinEffectStagger: 0.05
+  scoreCoinEffectSpread: 80
 --- !u!114 &9900000001003
 MonoBehaviour:
   m_ObjectHideFlags: 0
