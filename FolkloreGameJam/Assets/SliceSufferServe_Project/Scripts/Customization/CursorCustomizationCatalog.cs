@@ -71,12 +71,22 @@ public static class CursorCustomizationSelection
     public static string GetSelectedCursorId()
     {
         string cursorId = PlayerPrefs.GetString(PlayerPrefsKey, DefaultCursorId);
-        return string.IsNullOrWhiteSpace(cursorId) ? DefaultCursorId : cursorId;
+        if (string.IsNullOrWhiteSpace(cursorId) || !CharacterCustomizer.IsWeaponCursorUnlocked(cursorId))
+        {
+            return DefaultCursorId;
+        }
+
+        return cursorId;
     }
 
     public static void SetSelectedCursorId(string cursorId)
     {
-        PlayerPrefs.SetString(PlayerPrefsKey, string.IsNullOrWhiteSpace(cursorId) ? DefaultCursorId : cursorId);
+        if (string.IsNullOrWhiteSpace(cursorId) || !CharacterCustomizer.IsWeaponCursorUnlocked(cursorId))
+        {
+            cursorId = DefaultCursorId;
+        }
+
+        PlayerPrefs.SetString(PlayerPrefsKey, cursorId);
         PlayerPrefs.Save();
     }
 }

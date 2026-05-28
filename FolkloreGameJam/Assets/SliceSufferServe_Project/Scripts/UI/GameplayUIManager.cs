@@ -24,6 +24,8 @@ public class GameplayUIManager : MonoBehaviour
 
     private void Start()
     {
+        GlobalCurrencyPanel.SetVisible(false);
+
         OnGhostAnger += () =>
         {
             if (GameUtility.FeedbackManagerExists()) 
@@ -48,6 +50,8 @@ public class GameplayUIManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        GlobalCurrencyPanel.SetVisible(true);
+
         gameplayHUDUI?.Unbind();
         superComboUI?.UnbindSuperMeter();
         superComboUI?.UnbindCombo();

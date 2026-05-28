@@ -34,11 +34,13 @@ public class CharacterCustomizationData
     public const string BodyIndexKey = "CustomBodyIndex";
     public const string LegsIndexKey = "CustomLegsIndex";
     public const string CursorIdKey = "CustomWeaponCursorId";
+    public const string HumanTypeKey = "CustomHumanType";
 
     public int headIndex;
     public int neckIndex;
     public int bodyIndex;
     public int legsIndex;
+    public HumanType selectedHumanType = HumanType.NormalHuman;
     public string selectedCursorId = CursorCustomizationSelection.DefaultCursorId;
 
     public static CharacterCustomizationData LoadFromPlayerPrefs()
@@ -49,15 +51,21 @@ public class CharacterCustomizationData
             neckIndex = PlayerPrefs.GetInt(NeckIndexKey, 0),
             bodyIndex = PlayerPrefs.GetInt(BodyIndexKey, 0),
             legsIndex = PlayerPrefs.GetInt(LegsIndexKey, 0),
+            selectedHumanType = (HumanType)PlayerPrefs.GetInt(HumanTypeKey, (int)HumanType.NormalHuman),
             selectedCursorId = PlayerPrefs.GetString(CursorIdKey, CursorCustomizationSelection.GetSelectedCursorId())
         };
 
-        if (string.IsNullOrWhiteSpace(data.selectedCursorId))
+        if (!Enum.IsDefined(typeof(HumanType), data.selectedHumanType))
+        {
+            data.selectedHumanType = HumanType.NormalHuman;
+        }
+
+        if (string.IsNullOrWhiteSpace(data.selectedCursorId) || !CharacterCustomizer.IsWeaponCursorUnlocked(data.selectedCursorId))
         {
             data.selectedCursorId = CursorCustomizationSelection.DefaultCursorId;
         }
 
-        Debug.Log($"Manual character customization loaded: head={data.headIndex}, neck={data.neckIndex}, body={data.bodyIndex}, legs={data.legsIndex}, cursor={data.selectedCursorId}");
+        Debug.Log($"Manual character customization loaded: type={data.selectedHumanType}, head={data.headIndex}, neck={data.neckIndex}, body={data.bodyIndex}, legs={data.legsIndex}, cursor={data.selectedCursorId}");
         return data;
     }
 
@@ -67,10 +75,15 @@ public class CharacterCustomizationData
         PlayerPrefs.SetInt(NeckIndexKey, neckIndex);
         PlayerPrefs.SetInt(BodyIndexKey, bodyIndex);
         PlayerPrefs.SetInt(LegsIndexKey, legsIndex);
-        PlayerPrefs.SetString(CursorIdKey, string.IsNullOrWhiteSpace(selectedCursorId) ? CursorCustomizationSelection.DefaultCursorId : selectedCursorId);
-        CursorCustomizationSelection.SetSelectedCursorId(selectedCursorId);
+        PlayerPrefs.SetInt(HumanTypeKey, (int)selectedHumanType);
+        string cursorId = string.IsNullOrWhiteSpace(selectedCursorId) || !CharacterCustomizer.IsWeaponCursorUnlocked(selectedCursorId)
+            ? CursorCustomizationSelection.DefaultCursorId
+            : selectedCursorId;
+        selectedCursorId = cursorId;
+        PlayerPrefs.SetString(CursorIdKey, cursorId);
+        CursorCustomizationSelection.SetSelectedCursorId(cursorId);
         PlayerPrefs.Save();
-        Debug.Log($"Manual character customization saved: head={headIndex}, neck={neckIndex}, body={bodyIndex}, legs={legsIndex}, cursor={selectedCursorId}");
+        Debug.Log($"Manual character customization saved: type={selectedHumanType}, head={headIndex}, neck={neckIndex}, body={bodyIndex}, legs={legsIndex}, cursor={selectedCursorId}");
     }
 }
 

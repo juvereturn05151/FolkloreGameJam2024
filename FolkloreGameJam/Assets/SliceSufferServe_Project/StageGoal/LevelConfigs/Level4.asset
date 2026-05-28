@@ -15,7 +15,7 @@ MonoBehaviour:
   levelId: level_4
   displayName: 4 - It's Getting Busier
   levelNumber: 4
-  storyModeSelectionSprite: {fileID: 0}
+  storyModeSelectionSprite: {fileID: 21300000, guid: bc489bf5ff93ab14c9ccad81764660f0, type: 3}
   gameplaySceneName: GameplayScene
   stageGoal: {fileID: 11400000, guid: f2a8407e8d90493391bafb8d44896f8a, type: 2}
   allowSuperMeter: 1

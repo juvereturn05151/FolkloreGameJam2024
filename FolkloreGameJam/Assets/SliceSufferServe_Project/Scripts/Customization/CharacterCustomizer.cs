@@ -6,6 +6,9 @@ public class CharacterCustomizer : MonoBehaviour
 {
     public const int FreeNormalHumanPartCount = 5;
 
+    private const string NormalHumanResourceRoot = "Characters/Human/Normal";
+    private const string RockThrowerHumanResourceRoot = "Characters/Human/RockThrower";
+    private const string ObeseHumanResourceRoot = "Characters/Human/Obese";
     private const string FreeHeadsResourcePath = "Characters/Human/Normal/Free/Heads";
     private const string FreeNecksResourcePath = "Characters/Human/Normal/Free/Necks";
     private const string FreeStomachsResourcePath = "Characters/Human/Normal/Free/Stomach";
@@ -48,8 +51,8 @@ public class CharacterCustomizer : MonoBehaviour
 
     private void Awake()
     {
-        LoadSprites();
         selectedData = CharacterCustomizationData.LoadFromPlayerPrefs();
+        LoadSprites();
         ClampSelectedIndices();
         BuildDefaultManualControls();
         ResolvePreviewReferences();
@@ -135,14 +138,31 @@ public class CharacterCustomizer : MonoBehaviour
 
     public void SelectDefaultCharacter()
     {
+        selectedData.selectedHumanType = HumanType.NormalHuman;
         selectedData.headIndex = 0;
         selectedData.neckIndex = 0;
         selectedData.bodyIndex = 0;
         selectedData.legsIndex = 0;
+        LoadSprites();
         selectedData.SaveToPlayerPrefs();
         ApplyPreview();
         UpdateStatusText("Using default normal human.");
         Debug.Log("Manual customization selected default normal human.");
+    }
+
+    public void SelectNormalHuman()
+    {
+        SelectHumanType(HumanType.NormalHuman);
+    }
+
+    public void SelectRockThrowerHuman()
+    {
+        SelectHumanType(HumanType.RockThrowerHuman);
+    }
+
+    public void SelectObeseHuman()
+    {
+        SelectHumanType(HumanType.ObeseHuman);
     }
 
     public void SaveCustomization()
@@ -194,7 +214,15 @@ public class CharacterCustomizer : MonoBehaviour
             selectedData = CharacterCustomizationData.LoadFromPlayerPrefs();
         }
 
-        selectedData.selectedCursorId = string.IsNullOrWhiteSpace(cursorId) ? CursorCustomizationSelection.DefaultCursorId : cursorId;
+        string resolvedCursorId = string.IsNullOrWhiteSpace(cursorId) ? CursorCustomizationSelection.DefaultCursorId : cursorId;
+        if (!IsWeaponCursorUnlocked(resolvedCursorId))
+        {
+            UpdateStatusText($"{GetCursorDisplayName(resolvedCursorId)} is locked.");
+            RefreshWeaponCursorButtons();
+            return;
+        }
+
+        selectedData.selectedCursorId = resolvedCursorId;
         selectedData.SaveToPlayerPrefs();
         DragAndDropManager.Instance?.UseKnifeCursor();
         RefreshWeaponCursorButtons();
@@ -209,35 +237,94 @@ public class CharacterCustomizer : MonoBehaviour
 
     public static void SetNormalHumanPartUnlocked(BodyPartType part, int index, bool unlocked)
     {
-        if (index < FreeNormalHumanPartCount)
-        {
-            return;
-        }
-
-        PlayerPrefs.SetInt(GetNormalHumanPartUnlockKey(part, index), unlocked ? 1 : 0);
-        PlayerPrefs.Save();
-        Debug.Log($"Manual customization unlock updated: part={part}, index={index}, unlocked={unlocked}");
+        SetHumanPartUnlocked(HumanType.NormalHuman, part, index, unlocked);
     }
 
     public static bool IsNormalHumanPartUnlocked(BodyPartType part, int index)
     {
-        return index < FreeNormalHumanPartCount || PlayerPrefs.GetInt(GetNormalHumanPartUnlockKey(part, index), 0) == 1;
+        return IsHumanPartUnlocked(HumanType.NormalHuman, part, index);
     }
 
     public static string GetNormalHumanPartUnlockKey(BodyPartType part, int index)
     {
-        return $"UnlockedNormalHuman{part}{index}";
+        return GetHumanPartUnlockKey(HumanType.NormalHuman, part, index);
+    }
+
+    public static void SetHumanPartUnlocked(HumanType humanType, BodyPartType part, int index, bool unlocked)
+    {
+        if (index < GetFreeHumanPartCount(humanType, part))
+        {
+            return;
+        }
+
+        PlayerPrefs.SetInt(GetHumanPartUnlockKey(humanType, part, index), unlocked ? 1 : 0);
+        PlayerPrefs.Save();
+        Debug.Log($"Manual customization unlock updated: humanType={humanType}, part={part}, index={index}, unlocked={unlocked}");
+    }
+
+    public static bool IsHumanPartUnlocked(HumanType humanType, BodyPartType part, int index)
+    {
+        return index < GetFreeHumanPartCount(humanType, part) || PlayerPrefs.GetInt(GetHumanPartUnlockKey(humanType, part, index), 0) == 1;
+    }
+
+    public static string GetHumanPartUnlockKey(HumanType humanType, BodyPartType part, int index)
+    {
+        return $"Unlocked{humanType}{part}{index}";
+    }
+
+    public static void SetWeaponCursorUnlocked(string cursorId, bool unlocked)
+    {
+        if (string.IsNullOrWhiteSpace(cursorId) || cursorId == CursorCustomizationSelection.DefaultCursorId)
+        {
+            return;
+        }
+
+        PlayerPrefs.SetInt(GetWeaponCursorUnlockKey(cursorId), unlocked ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    public static bool IsWeaponCursorUnlocked(string cursorId)
+    {
+        return string.IsNullOrWhiteSpace(cursorId)
+            || cursorId == CursorCustomizationSelection.DefaultCursorId
+            || PlayerPrefs.GetInt(GetWeaponCursorUnlockKey(cursorId), 0) == 1;
+    }
+
+    public static string GetWeaponCursorUnlockKey(string cursorId)
+    {
+        return $"UnlockedWeaponCursor_{cursorId}";
     }
 
     public static Sprite[] LoadNormalHumanPartSprites(BodyPartType part)
     {
-        Sprite[] freeSprites = Resources.LoadAll<Sprite>(GetFreeResourcePath(part));
-        Sprite[] unlockableSprites = Resources.LoadAll<Sprite>(GetUnlockableResourcePath(part));
+        return LoadHumanPartSprites(HumanType.NormalHuman, part);
+    }
+
+    public static Sprite[] LoadHumanPartSprites(HumanType humanType, BodyPartType part)
+    {
+        Sprite[] freeSprites = humanType == HumanType.NormalHuman
+            ? Resources.LoadAll<Sprite>(GetFreeResourcePath(part))
+            : FilterSpritesByPart(Resources.LoadAll<Sprite>(GetFreeResourcePath(humanType, part)), part);
+        Sprite[] unlockableSprites = humanType == HumanType.NormalHuman
+            ? Resources.LoadAll<Sprite>(GetUnlockableResourcePath(part))
+            : FilterSpritesByPart(Resources.LoadAll<Sprite>(GetUnlockableResourcePath(humanType, part)), part);
+
+        SortSpritesByDefaultFirst(freeSprites);
+        SortSpritesByDefaultFirst(unlockableSprites);
         Sprite[] sprites = new Sprite[freeSprites.Length + unlockableSprites.Length];
         freeSprites.CopyTo(sprites, 0);
         unlockableSprites.CopyTo(sprites, freeSprites.Length);
-        SortSpritesByDefaultFirst(sprites);
         return sprites;
+    }
+
+    public static int GetFreeHumanPartCount(HumanType humanType, BodyPartType part)
+    {
+        if (humanType == HumanType.NormalHuman)
+        {
+            return Resources.LoadAll<Sprite>(GetFreeResourcePath(part)).Length;
+        }
+
+        return FilterSpritesByPart(Resources.LoadAll<Sprite>(GetFreeResourcePath(humanType, part)), part).Length;
     }
 
     private void ResolvePreviewReferences()
@@ -265,6 +352,9 @@ public class CharacterCustomizer : MonoBehaviour
         BindButton("DefaultButton", SelectDefaultCharacter);
         BindButton("SaveButton", SaveCustomization);
         BindButton("BackButton", BackToGameModeSelect);
+        BindButton("NormalHumanButton", SelectNormalHuman);
+        BindButton("RockThrowerHumanButton", SelectRockThrowerHuman);
+        BindButton("ObeseHumanButton", SelectObeseHuman);
     }
 
     private void BindWeaponCursorUi()
@@ -307,7 +397,7 @@ public class CharacterCustomizer : MonoBehaviour
                 continue;
             }
 
-            SetButtonLabel(button, option.DisplayName);
+            SetButtonLabel(button, IsWeaponCursorUnlocked(option.Id) ? option.DisplayName : $"{option.DisplayName} (Locked)");
             string capturedId = option.Id;
             button.onClick.AddListener(() => SelectWeaponCursor(capturedId));
         }
@@ -414,10 +504,11 @@ public class CharacterCustomizer : MonoBehaviour
 
     private void LoadSprites()
     {
-        Sprite[] resourceHeads = LoadNormalHumanPartSprites(BodyPartType.Head);
-        Sprite[] resourceNecks = LoadNormalHumanPartSprites(BodyPartType.Neck);
-        Sprite[] resourceStomachs = LoadNormalHumanPartSprites(BodyPartType.Stomach);
-        Sprite[] resourceLegs = LoadNormalHumanPartSprites(BodyPartType.Leg);
+        HumanType humanType = selectedData != null ? selectedData.selectedHumanType : HumanType.NormalHuman;
+        Sprite[] resourceHeads = LoadHumanPartSprites(humanType, BodyPartType.Head);
+        Sprite[] resourceNecks = LoadHumanPartSprites(humanType, BodyPartType.Neck);
+        Sprite[] resourceStomachs = LoadHumanPartSprites(humanType, BodyPartType.Stomach);
+        Sprite[] resourceLegs = LoadHumanPartSprites(humanType, BodyPartType.Leg);
 
         if (resourceHeads.Length > 0)
         {
@@ -455,7 +546,26 @@ public class CharacterCustomizer : MonoBehaviour
             legsOptions = System.Array.Empty<Sprite>();
         }
 
-        Debug.Log($"Manual customization loaded normal human sprites: heads={headOptions.Length}, necks={neckOptions.Length}, stomachs={bodyOptions.Length}, legs={legsOptions.Length}");
+        Debug.Log($"Manual customization loaded {humanType} sprites: heads={headOptions.Length}, necks={neckOptions.Length}, stomachs={bodyOptions.Length}, legs={legsOptions.Length}");
+    }
+
+    private void SelectHumanType(HumanType humanType)
+    {
+        if (selectedData == null)
+        {
+            selectedData = CharacterCustomizationData.LoadFromPlayerPrefs();
+        }
+
+        selectedData.selectedHumanType = humanType;
+        selectedData.headIndex = 0;
+        selectedData.neckIndex = 0;
+        selectedData.bodyIndex = 0;
+        selectedData.legsIndex = 0;
+        LoadSprites();
+        ClampSelectedIndices();
+        selectedData.SaveToPlayerPrefs();
+        ApplyPreview();
+        UpdateStatusText($"Selected {GetHumanTypeDisplayName(humanType)}.");
     }
 
     private void BuildDefaultManualControls()
@@ -497,11 +607,14 @@ public class CharacterCustomizer : MonoBehaviour
         panelImage.color = new Color(0.08f, 0.07f, 0.06f, 0.86f);
 
         manualControlsRoot = panelObject.transform;
-        CreateLabel(panel, "Normal Human", font, new Vector2(0f, 212f), 24);
-        CreatePartRow(panel, "Head", PreviousHead, NextHead, font, 136f);
-        CreatePartRow(panel, "Neck", PreviousNeck, NextNeck, font, 62f);
-        CreatePartRow(panel, "Stomach", PreviousStomach, NextStomach, font, -12f);
-        CreatePartRow(panel, "Leg", PreviousLegs, NextLegs, font, -86f);
+        CreateLabel(panel, "Manual Human", font, new Vector2(0f, 212f), 24);
+        CreateButton(panel, "Normal", SelectNormalHuman, font, new Vector2(-112f, 166f), new Vector2(98f, 38f), new Color(0.24f, 0.22f, 0.18f, 1f));
+        CreateButton(panel, "Rock", SelectRockThrowerHuman, font, new Vector2(0f, 166f), new Vector2(98f, 38f), new Color(0.24f, 0.22f, 0.18f, 1f));
+        CreateButton(panel, "Obese", SelectObeseHuman, font, new Vector2(112f, 166f), new Vector2(98f, 38f), new Color(0.24f, 0.22f, 0.18f, 1f));
+        CreatePartRow(panel, "Head", PreviousHead, NextHead, font, 96f);
+        CreatePartRow(panel, "Neck", PreviousNeck, NextNeck, font, 28f);
+        CreatePartRow(panel, "Stomach", PreviousStomach, NextStomach, font, -40f);
+        CreatePartRow(panel, "Leg", PreviousLegs, NextLegs, font, -108f);
         CreateButton(panel, "Default", SelectDefaultCharacter, font, new Vector2(-92f, -196f), new Vector2(146f, 48f), new Color(0.24f, 0.22f, 0.18f, 1f));
         CreateButton(panel, "Save", SaveCustomization, font, new Vector2(92f, -196f), new Vector2(146f, 48f), new Color(0.74f, 0.22f, 0.16f, 1f));
     }
@@ -755,7 +868,7 @@ public class CharacterCustomizer : MonoBehaviour
             return;
         }
 
-        string status = $"Head {DisplayIndex(selectedData.headIndex, headOptions)} | Neck {DisplayIndex(selectedData.neckIndex, neckOptions)} | Stomach {DisplayIndex(selectedData.bodyIndex, bodyOptions)} | Leg {DisplayIndex(selectedData.legsIndex, legsOptions)} | Weapon {GetCursorDisplayName(selectedData.selectedCursorId)}";
+        string status = $"{GetHumanTypeDisplayName(selectedData.selectedHumanType)} | Head {DisplayIndex(selectedData.headIndex, headOptions)} | Neck {DisplayIndex(selectedData.neckIndex, neckOptions)} | Stomach {DisplayIndex(selectedData.bodyIndex, bodyOptions)} | Leg {DisplayIndex(selectedData.legsIndex, legsOptions)} | Weapon {GetCursorDisplayName(selectedData.selectedCursorId)}";
         statusText.text = string.IsNullOrWhiteSpace(prefix) ? status : $"{prefix} {status}";
     }
 
@@ -783,7 +896,12 @@ public class CharacterCustomizer : MonoBehaviour
             }
 
             bool selected = option.Id == selectedCursorId;
-            background.color = selected ? new Color(0.74f, 0.22f, 0.16f, 1f) : new Color(0.18f, 0.16f, 0.13f, 1f);
+            bool unlocked = IsWeaponCursorUnlocked(option.Id);
+            button.interactable = unlocked;
+            SetButtonLabel(button, unlocked ? option.DisplayName : $"{option.DisplayName} (Locked)");
+            background.color = !unlocked
+                ? new Color(0.09f, 0.08f, 0.07f, 0.85f)
+                : selected ? new Color(0.74f, 0.22f, 0.16f, 1f) : new Color(0.18f, 0.16f, 0.13f, 1f);
         }
     }
 
@@ -853,7 +971,8 @@ public class CharacterCustomizer : MonoBehaviour
             return true;
         }
 
-        return IsNormalHumanPartUnlocked(part, index);
+        HumanType humanType = selectedData != null ? selectedData.selectedHumanType : HumanType.NormalHuman;
+        return IsHumanPartUnlocked(humanType, part, index);
     }
 
     private static int ClampIndex(int index, Sprite[] options)
@@ -954,6 +1073,96 @@ public class CharacterCustomizer : MonoBehaviour
                 return UnlockableStomachsResourcePath;
             case BodyPartType.Leg:
                 return UnlockableLegsResourcePath;
+            default:
+                return string.Empty;
+        }
+    }
+
+    private static string GetFreeResourcePath(HumanType humanType, BodyPartType part)
+    {
+        if (humanType == HumanType.NormalHuman)
+        {
+            return GetFreeResourcePath(part);
+        }
+
+        return $"{GetHumanResourceRoot(humanType)}/Free";
+    }
+
+    private static string GetUnlockableResourcePath(HumanType humanType, BodyPartType part)
+    {
+        if (humanType == HumanType.NormalHuman)
+        {
+            return GetUnlockableResourcePath(part);
+        }
+
+        return $"{GetHumanResourceRoot(humanType)}/Unlockables";
+    }
+
+    private static string GetHumanResourceRoot(HumanType humanType)
+    {
+        switch (humanType)
+        {
+            case HumanType.RockThrowerHuman:
+                return RockThrowerHumanResourceRoot;
+            case HumanType.ObeseHuman:
+                return ObeseHumanResourceRoot;
+            case HumanType.NormalHuman:
+                return NormalHumanResourceRoot;
+            default:
+                return string.Empty;
+        }
+    }
+
+    private static Sprite[] FilterSpritesByPart(Sprite[] sprites, BodyPartType part)
+    {
+        if (sprites == null || sprites.Length == 0)
+        {
+            return System.Array.Empty<Sprite>();
+        }
+
+        System.Collections.Generic.List<Sprite> filtered = new System.Collections.Generic.List<Sprite>();
+        string token = GetPartNameToken(part);
+        for (int i = 0; i < sprites.Length; i++)
+        {
+            Sprite sprite = sprites[i];
+            if (sprite != null && sprite.name.ToLowerInvariant().Contains(token))
+            {
+                filtered.Add(sprite);
+            }
+        }
+
+        Sprite[] result = filtered.ToArray();
+        SortSpritesByDefaultFirst(result);
+        return result;
+    }
+
+    public static string GetHumanTypeDisplayName(HumanType humanType)
+    {
+        switch (humanType)
+        {
+            case HumanType.RockThrowerHuman:
+                return "Rock Thrower";
+            case HumanType.ObeseHuman:
+                return "Obese";
+            case HumanType.RobotHuman:
+                return "Robot";
+            default:
+                return "Normal Human";
+        }
+    }
+
+    private static string GetPartNameToken(BodyPartType part)
+    {
+        switch (part)
+        {
+            case BodyPartType.Head:
+                return "head";
+            case BodyPartType.Neck:
+                return "neck";
+            case BodyPartType.Stomach:
+                return "stomach";
+            case BodyPartType.Leg:
+                return "leg";
             default:
                 return string.Empty;
         }

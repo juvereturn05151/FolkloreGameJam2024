@@ -12,6 +12,8 @@ public class StoreUIManager : MonoBehaviour
     private const string ItemsTabId = "items";
     private const string HumanTabId = "human";
     private const int HumanPartPrice = 1000;
+    private const int SpecialHumanPartPrice = 6000;
+    private const int WeaponCursorPrice = 5000;
 
     [Header("Store")]
     [SerializeField] private StoreManager storeManager;
@@ -23,6 +25,7 @@ public class StoreUIManager : MonoBehaviour
     [SerializeField] private Button backButton;
     [SerializeField] private TextMeshProUGUI currencyBalanceText;
     [SerializeField] private TextMeshProUGUI statusText;
+    [SerializeField] private TMP_FontAsset priceFontAsset;
 
     [Header("Disable Ads UI")]
     [SerializeField] private TextMeshProUGUI disableAdsPriceText;
@@ -41,9 +44,13 @@ public class StoreUIManager : MonoBehaviour
     private string selectedTabId;
     private readonly List<TabButtonBinding> tabButtonBindings = new List<TabButtonBinding>();
     private readonly List<HumanStoreItemView> humanItemViews = new List<HumanStoreItemView>();
+    private readonly List<WeaponStoreItemView> weaponItemViews = new List<WeaponStoreItemView>();
+    private CursorCustomizationCatalog cursorCatalog;
     private GameObject humanPanel;
     private HumanStoreItem pendingHumanPurchase;
+    private WeaponStoreItem pendingWeaponPurchase;
     private bool humanStoreUiBuilt;
+    private bool weaponStoreUiBuilt;
 
     private void Awake()
     {
@@ -51,6 +58,9 @@ public class StoreUIManager : MonoBehaviour
         {
             storeManager = FindFirstObjectByType<StoreManager>();
         }
+
+        cursorCatalog = CursorCustomizationCatalog.LoadDefault();
+        ApplyPriceFont(disableAdsPriceText);
     }
 
     private void OnEnable()
@@ -131,6 +141,7 @@ public class StoreUIManager : MonoBehaviour
     public void OpenDisableAdsPurchasePrompt()
     {
         pendingHumanPurchase = null;
+        pendingWeaponPurchase = null;
 
         if (storeManager != null && storeManager.AreAdsDisabled)
         {
@@ -172,6 +183,7 @@ public class StoreUIManager : MonoBehaviour
     public void CancelPurchasePrompt()
     {
         pendingHumanPurchase = null;
+        pendingWeaponPurchase = null;
 
         if (purchasePromptPanel != null)
         {
@@ -185,8 +197,9 @@ public class StoreUIManager : MonoBehaviour
     {
         UpdateCurrencyBalance(SaveSystem.GetCurrencyBalance());
         RefreshDisableAdsUI();
-        RefreshItemsPlaceholderUI();
+        EnsureWeaponStoreUI();
         RefreshHumanItemsUI();
+        RefreshWeaponItemsUI();
     }
 
     private void WireButtons()
@@ -293,7 +306,8 @@ public class StoreUIManager : MonoBehaviour
     {
         if (itemsPlaceholderText != null)
         {
-            itemsPlaceholderText.text = "Items coming soon.";
+            itemsPlaceholderText.text = string.Empty;
+            itemsPlaceholderText.gameObject.SetActive(false);
         }
     }
 
@@ -320,6 +334,24 @@ public class StoreUIManager : MonoBehaviour
         RepositionTabButtons();
         BuildHumanItems();
         humanStoreUiBuilt = true;
+    }
+
+    private void EnsureWeaponStoreUI()
+    {
+        if (weaponStoreUiBuilt)
+        {
+            return;
+        }
+
+        StoreTabView weaponsTab = FindTab(ItemsTabId);
+        if (weaponsTab?.Panel == null)
+        {
+            return;
+        }
+
+        RefreshItemsPlaceholderUI();
+        BuildWeaponItems(weaponsTab.Panel.transform);
+        weaponStoreUiBuilt = true;
     }
 
     private Button CreateHumanTabButton(Button templateButton)
@@ -374,15 +406,28 @@ public class StoreUIManager : MonoBehaviour
         RectTransform content = CreateHumanItemsContent(humanPanel.transform);
         string[] personaNames = { "Indian", "Chinese", "Jewish", "Hipster", "American Blond" };
 
-        AddHumanSection(content, "Heads", BodyPartType.Head, personaNames);
-        AddHumanSection(content, "Necks", BodyPartType.Neck, personaNames);
-        AddHumanSection(content, "Stomachs", BodyPartType.Stomach, personaNames);
-        AddHumanSection(content, "Legs", BodyPartType.Leg, personaNames);
+        AddHumanSection(content, "Heads", HumanType.NormalHuman, BodyPartType.Head, HumanPartPrice, personaNames);
+        AddHumanSection(content, "Necks", HumanType.NormalHuman, BodyPartType.Neck, HumanPartPrice, personaNames);
+        AddHumanSection(content, "Stomachs", HumanType.NormalHuman, BodyPartType.Stomach, HumanPartPrice, personaNames);
+        AddHumanSection(content, "Legs", HumanType.NormalHuman, BodyPartType.Leg, HumanPartPrice, personaNames);
+        AddHumanSection(content, "Rock Thrower Heads", HumanType.RockThrowerHuman, BodyPartType.Head, SpecialHumanPartPrice);
+        AddHumanSection(content, "Rock Thrower Necks", HumanType.RockThrowerHuman, BodyPartType.Neck, SpecialHumanPartPrice);
+        AddHumanSection(content, "Rock Thrower Stomachs", HumanType.RockThrowerHuman, BodyPartType.Stomach, SpecialHumanPartPrice);
+        AddHumanSection(content, "Rock Thrower Legs", HumanType.RockThrowerHuman, BodyPartType.Leg, SpecialHumanPartPrice);
+        AddHumanSection(content, "Obese Heads", HumanType.ObeseHuman, BodyPartType.Head, SpecialHumanPartPrice);
+        AddHumanSection(content, "Obese Necks", HumanType.ObeseHuman, BodyPartType.Neck, SpecialHumanPartPrice);
+        AddHumanSection(content, "Obese Stomachs", HumanType.ObeseHuman, BodyPartType.Stomach, SpecialHumanPartPrice);
+        AddHumanSection(content, "Obese Legs", HumanType.ObeseHuman, BodyPartType.Leg, SpecialHumanPartPrice);
     }
 
     private RectTransform CreateHumanItemsContent(Transform parent)
     {
-        GameObject scrollObject = new GameObject("HumanItemsScrollView", typeof(RectTransform), typeof(ScrollRect));
+        return CreateStoreItemsContent(parent, "HumanItems");
+    }
+
+    private RectTransform CreateStoreItemsContent(Transform parent, string namePrefix)
+    {
+        GameObject scrollObject = new GameObject($"{namePrefix}ScrollView", typeof(RectTransform), typeof(ScrollRect));
         scrollObject.transform.SetParent(parent, false);
 
         RectTransform scrollRectTransform = scrollObject.GetComponent<RectTransform>();
@@ -406,7 +451,7 @@ public class StoreUIManager : MonoBehaviour
         Mask mask = viewportObject.GetComponent<Mask>();
         mask.showMaskGraphic = false;
 
-        GameObject contentObject = new GameObject("HumanItemsContent", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(ContentSizeFitter));
+        GameObject contentObject = new GameObject($"{namePrefix}Content", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(ContentSizeFitter));
         contentObject.transform.SetParent(viewportObject.transform, false);
 
         RectTransform rectTransform = contentObject.GetComponent<RectTransform>();
@@ -437,18 +482,52 @@ public class StoreUIManager : MonoBehaviour
         return rectTransform;
     }
 
-    private void AddHumanSection(RectTransform content, string title, BodyPartType part, string[] personaNames)
+    private void BuildWeaponItems(Transform parent)
+    {
+        if (parent == null || weaponItemViews.Count > 0)
+        {
+            return;
+        }
+
+        cursorCatalog ??= CursorCustomizationCatalog.LoadDefault();
+        if (cursorCatalog == null)
+        {
+            return;
+        }
+
+        RectTransform content = CreateStoreItemsContent(parent, "WeaponItems");
+        TextMeshProUGUI titleText = CreateText(content, "Weapons", 32, TextAlignmentOptions.Left, new Color(1f, 0.92f, 0.78f, 1f));
+        titleText.name = "WeaponsTitle";
+        AddLayoutElement(titleText.gameObject, 44f);
+
+        foreach (CursorCustomizationOption option in cursorCatalog.Options)
+        {
+            if (option == null || option.Id == CursorCustomizationSelection.DefaultCursorId)
+            {
+                continue;
+            }
+
+            WeaponStoreItem item = new WeaponStoreItem(option);
+            weaponItemViews.Add(CreateWeaponItemView(content, item));
+        }
+    }
+
+    private void AddHumanSection(RectTransform content, string title, HumanType humanType, BodyPartType part, int price, string[] personaNames = null)
     {
         TextMeshProUGUI titleText = CreateText(content, title, 32, TextAlignmentOptions.Left, new Color(1f, 0.92f, 0.78f, 1f));
         titleText.name = $"{title}Title";
         AddLayoutElement(titleText.gameObject, 44f);
 
-        Sprite[] sprites = CharacterCustomizer.LoadNormalHumanPartSprites(part);
-        for (int i = CharacterCustomizer.FreeNormalHumanPartCount; i < sprites.Length; i++)
+        Sprite[] sprites = CharacterCustomizer.LoadHumanPartSprites(humanType, part);
+        int freePartCount = CharacterCustomizer.GetFreeHumanPartCount(humanType, part);
+        for (int i = freePartCount; i < sprites.Length; i++)
         {
-            int unlockableIndex = i - CharacterCustomizer.FreeNormalHumanPartCount;
-            string personaName = unlockableIndex >= 0 && unlockableIndex < personaNames.Length ? personaNames[unlockableIndex] : $"Unlockable {unlockableIndex + 1}";
-            HumanStoreItem item = new HumanStoreItem(part, i, $"{personaName} {GetPartDisplayName(part)}", sprites[i]);
+            int unlockableIndex = i - freePartCount;
+            string personaName = personaNames != null && unlockableIndex >= 0 && unlockableIndex < personaNames.Length ? personaNames[unlockableIndex] : $"Unlockable {unlockableIndex + 1}";
+            string displayName = humanType == HumanType.NormalHuman
+                ? $"{personaName} {GetPartDisplayName(part)}"
+                : $"{CharacterCustomizer.GetHumanTypeDisplayName(humanType)} {GetPartDisplayName(part)} {unlockableIndex + 1}";
+            HumanStoreItem item = new HumanStoreItem(humanType, part, i, price, displayName, sprites[i]);
             humanItemViews.Add(CreateHumanItemView(content, item));
         }
     }
@@ -478,7 +557,8 @@ public class StoreUIManager : MonoBehaviour
         labelLayout.flexibleWidth = 1f;
         labelLayout.preferredHeight = 62f;
 
-        TextMeshProUGUI price = CreateText(row.transform, HumanPartPrice.ToString("N0"), 24, TextAlignmentOptions.Center, new Color(1f, 0.82f, 0.36f, 1f));
+        TextMeshProUGUI price = CreateText(row.transform, item.Price.ToString("N0"), 24, TextAlignmentOptions.Center, new Color(1f, 0.82f, 0.36f, 1f));
+        ApplyPriceFont(price);
         AddLayoutElement(price.gameObject, 130f, 62f);
 
         Button buyButton = CreateHumanBuyButton(row.transform);
@@ -487,6 +567,43 @@ public class StoreUIManager : MonoBehaviour
         buyButton.onClick.AddListener(() => OpenHumanPurchasePrompt(capturedItem));
 
         return new HumanStoreItemView(item, buyButton, buyText, price, preview);
+    }
+
+    private WeaponStoreItemView CreateWeaponItemView(RectTransform parent, WeaponStoreItem item)
+    {
+        GameObject row = new GameObject($"{item.DisplayName}WeaponStoreItem", typeof(RectTransform), typeof(Image), typeof(HorizontalLayoutGroup), typeof(LayoutElement));
+        row.transform.SetParent(parent, false);
+
+        Image background = row.GetComponent<Image>();
+        background.color = new Color(0.08f, 0.07f, 0.06f, 0.78f);
+
+        HorizontalLayoutGroup layout = row.GetComponent<HorizontalLayoutGroup>();
+        layout.padding = new RectOffset(18, 18, 12, 12);
+        layout.spacing = 18f;
+        layout.childAlignment = TextAnchor.MiddleLeft;
+        layout.childControlWidth = false;
+        layout.childControlHeight = true;
+        layout.childForceExpandWidth = false;
+        layout.childForceExpandHeight = false;
+
+        AddLayoutElement(row, 86f);
+
+        Image preview = CreateTexturePreview(row.transform, item.CursorTexture);
+        TextMeshProUGUI label = CreateText(row.transform, item.DisplayName, 26, TextAlignmentOptions.Left, new Color(0.95f, 0.9f, 0.82f, 1f));
+        LayoutElement labelLayout = label.gameObject.AddComponent<LayoutElement>();
+        labelLayout.flexibleWidth = 1f;
+        labelLayout.preferredHeight = 62f;
+
+        TextMeshProUGUI price = CreateText(row.transform, WeaponCursorPrice.ToString("N0"), 24, TextAlignmentOptions.Center, new Color(1f, 0.82f, 0.36f, 1f));
+        ApplyPriceFont(price);
+        AddLayoutElement(price.gameObject, 130f, 62f);
+
+        Button buyButton = CreateHumanBuyButton(row.transform);
+        TextMeshProUGUI buyText = buyButton.GetComponentInChildren<TextMeshProUGUI>(true);
+        WeaponStoreItem capturedItem = item;
+        buyButton.onClick.AddListener(() => OpenWeaponPurchasePrompt(capturedItem));
+
+        return new WeaponStoreItemView(item, buyButton, buyText, price, preview);
     }
 
     private Image CreateHumanItemPreview(Transform parent, Sprite sprite)
@@ -504,6 +621,17 @@ public class StoreUIManager : MonoBehaviour
         image.raycastTarget = false;
         image.color = Color.white;
         return image;
+    }
+
+    private Image CreateTexturePreview(Transform parent, Texture2D texture)
+    {
+        Sprite sprite = null;
+        if (texture != null)
+        {
+            sprite = Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100f);
+        }
+
+        return CreateHumanItemPreview(parent, sprite);
     }
 
     private Button CreateHumanBuyButton(Transform parent)
@@ -552,7 +680,7 @@ public class StoreUIManager : MonoBehaviour
             return;
         }
 
-        if (CharacterCustomizer.IsNormalHumanPartUnlocked(item.Part, item.OptionIndex))
+        if (CharacterCustomizer.IsHumanPartUnlocked(item.HumanType, item.Part, item.OptionIndex))
         {
             SetStatus($"{item.DisplayName} already owned.");
             RefreshHumanItemsUI();
@@ -563,7 +691,7 @@ public class StoreUIManager : MonoBehaviour
 
         if (purchasePromptText != null)
         {
-            purchasePromptText.text = $"Buy {item.DisplayName} for {HumanPartPrice:N0}?";
+            purchasePromptText.text = $"Buy {item.DisplayName} for {item.Price:N0}?";
         }
 
         if (purchasePromptPanel != null)
@@ -575,11 +703,48 @@ public class StoreUIManager : MonoBehaviour
         ConfirmHumanPurchase();
     }
 
+    private void OpenWeaponPurchasePrompt(WeaponStoreItem item)
+    {
+        if (item == null)
+        {
+            return;
+        }
+
+        if (CharacterCustomizer.IsWeaponCursorUnlocked(item.CursorId))
+        {
+            SetStatus($"{item.DisplayName} already owned.");
+            RefreshWeaponItemsUI();
+            return;
+        }
+
+        pendingHumanPurchase = null;
+        pendingWeaponPurchase = item;
+
+        if (purchasePromptText != null)
+        {
+            purchasePromptText.text = $"Buy {item.DisplayName} for {WeaponCursorPrice:N0}?";
+        }
+
+        if (purchasePromptPanel != null)
+        {
+            purchasePromptPanel.SetActive(true);
+            return;
+        }
+
+        ConfirmWeaponPurchase();
+    }
+
     private void ConfirmCurrentPurchase()
     {
         if (pendingHumanPurchase != null)
         {
             ConfirmHumanPurchase();
+            return;
+        }
+
+        if (pendingWeaponPurchase != null)
+        {
+            ConfirmWeaponPurchase();
             return;
         }
 
@@ -601,21 +766,55 @@ public class StoreUIManager : MonoBehaviour
             return;
         }
 
-        if (CharacterCustomizer.IsNormalHumanPartUnlocked(item.Part, item.OptionIndex))
+        if (CharacterCustomizer.IsHumanPartUnlocked(item.HumanType, item.Part, item.OptionIndex))
         {
             SetStatus($"{item.DisplayName} already owned.");
             RefreshHumanItemsUI();
             return;
         }
 
-        if (!SaveSystem.SpendCurrency(HumanPartPrice))
+        if (!SaveSystem.SpendCurrency(item.Price))
         {
-            SetStatus($"Not enough currency. Need {HumanPartPrice:N0}.");
+            SetStatus($"Not enough currency. Need {item.Price:N0}.");
             Refresh();
             return;
         }
 
-        CharacterCustomizer.SetNormalHumanPartUnlocked(item.Part, item.OptionIndex, true);
+        CharacterCustomizer.SetHumanPartUnlocked(item.HumanType, item.Part, item.OptionIndex, true);
+        SetStatus($"Unlocked {item.DisplayName}.");
+        Refresh();
+    }
+
+    private void ConfirmWeaponPurchase()
+    {
+        if (purchasePromptPanel != null)
+        {
+            purchasePromptPanel.SetActive(false);
+        }
+
+        WeaponStoreItem item = pendingWeaponPurchase;
+        pendingWeaponPurchase = null;
+
+        if (item == null)
+        {
+            return;
+        }
+
+        if (CharacterCustomizer.IsWeaponCursorUnlocked(item.CursorId))
+        {
+            SetStatus($"{item.DisplayName} already owned.");
+            RefreshWeaponItemsUI();
+            return;
+        }
+
+        if (!SaveSystem.SpendCurrency(WeaponCursorPrice))
+        {
+            SetStatus($"Not enough currency. Need {WeaponCursorPrice:N0}.");
+            Refresh();
+            return;
+        }
+
+        CharacterCustomizer.SetWeaponCursorUnlocked(item.CursorId, true);
         SetStatus($"Unlocked {item.DisplayName}.");
         Refresh();
     }
@@ -630,7 +829,7 @@ public class StoreUIManager : MonoBehaviour
                 continue;
             }
 
-            bool owned = CharacterCustomizer.IsNormalHumanPartUnlocked(view.Item.Part, view.Item.OptionIndex);
+            bool owned = CharacterCustomizer.IsHumanPartUnlocked(view.Item.HumanType, view.Item.Part, view.Item.OptionIndex);
             if (view.BuyButton != null)
             {
                 view.BuyButton.interactable = !owned;
@@ -643,7 +842,35 @@ public class StoreUIManager : MonoBehaviour
 
             if (view.PriceText != null)
             {
-                view.PriceText.text = owned ? "Owned" : HumanPartPrice.ToString("N0");
+                view.PriceText.text = owned ? "Owned" : view.Item.Price.ToString("N0");
+            }
+        }
+    }
+
+    private void RefreshWeaponItemsUI()
+    {
+        for (int i = 0; i < weaponItemViews.Count; i++)
+        {
+            WeaponStoreItemView view = weaponItemViews[i];
+            if (view == null || view.Item == null)
+            {
+                continue;
+            }
+
+            bool owned = CharacterCustomizer.IsWeaponCursorUnlocked(view.Item.CursorId);
+            if (view.BuyButton != null)
+            {
+                view.BuyButton.interactable = !owned;
+            }
+
+            if (view.BuyButtonText != null)
+            {
+                view.BuyButtonText.text = owned ? "Owned" : "Buy";
+            }
+
+            if (view.PriceText != null)
+            {
+                view.PriceText.text = owned ? "Owned" : WeaponCursorPrice.ToString("N0");
             }
         }
     }
@@ -727,6 +954,14 @@ public class StoreUIManager : MonoBehaviour
         }
     }
 
+    private void ApplyPriceFont(TextMeshProUGUI text)
+    {
+        if (text != null && priceFontAsset != null)
+        {
+            text.font = priceFontAsset;
+        }
+    }
+
     private static Button FindButtonByName(string objectName)
     {
         Button[] buttons = FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None);
@@ -794,16 +1029,20 @@ public class StoreUIManager : MonoBehaviour
 
 public class HumanStoreItem
 {
-    public HumanStoreItem(BodyPartType part, int optionIndex, string displayName, Sprite sprite)
+    public HumanStoreItem(HumanType humanType, BodyPartType part, int optionIndex, int price, string displayName, Sprite sprite)
     {
+        HumanType = humanType;
         Part = part;
         OptionIndex = optionIndex;
+        Price = price;
         DisplayName = displayName;
         Sprite = sprite;
     }
 
+    public HumanType HumanType { get; }
     public BodyPartType Part { get; }
     public int OptionIndex { get; }
+    public int Price { get; }
     public string DisplayName { get; }
     public Sprite Sprite { get; }
 }
@@ -820,6 +1059,38 @@ public class HumanStoreItemView
     }
 
     public HumanStoreItem Item { get; }
+    public Button BuyButton { get; }
+    public TextMeshProUGUI BuyButtonText { get; }
+    public TextMeshProUGUI PriceText { get; }
+    public Image PreviewImage { get; }
+}
+
+public class WeaponStoreItem
+{
+    public WeaponStoreItem(CursorCustomizationOption option)
+    {
+        CursorId = option.Id;
+        DisplayName = option.DisplayName;
+        CursorTexture = option.cursorTexture;
+    }
+
+    public string CursorId { get; }
+    public string DisplayName { get; }
+    public Texture2D CursorTexture { get; }
+}
+
+public class WeaponStoreItemView
+{
+    public WeaponStoreItemView(WeaponStoreItem item, Button buyButton, TextMeshProUGUI buyButtonText, TextMeshProUGUI priceText, Image previewImage)
+    {
+        Item = item;
+        BuyButton = buyButton;
+        BuyButtonText = buyButtonText;
+        PriceText = priceText;
+        PreviewImage = previewImage;
+    }
+
+    public WeaponStoreItem Item { get; }
     public Button BuyButton { get; }
     public TextMeshProUGUI BuyButtonText { get; }
     public TextMeshProUGUI PriceText { get; }

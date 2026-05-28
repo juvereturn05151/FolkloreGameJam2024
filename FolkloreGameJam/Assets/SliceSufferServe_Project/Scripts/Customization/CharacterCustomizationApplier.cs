@@ -64,10 +64,12 @@ public class CharacterCustomizationApplier : MonoBehaviour
         Sprite[] bodyOverrides = null,
         Sprite[] legsOverrides = null)
     {
-        Sprite[] resourceHeads = CharacterCustomizer.LoadNormalHumanPartSprites(BodyPartType.Head);
-        Sprite[] resourceNecks = CharacterCustomizer.LoadNormalHumanPartSprites(BodyPartType.Neck);
-        Sprite[] resourceStomachs = CharacterCustomizer.LoadNormalHumanPartSprites(BodyPartType.Stomach);
-        Sprite[] resourceLegs = CharacterCustomizer.LoadNormalHumanPartSprites(BodyPartType.Leg);
+        CharacterCustomizationData data = CharacterCustomizationData.LoadFromPlayerPrefs();
+        HumanType humanType = data.selectedHumanType;
+        Sprite[] resourceHeads = CharacterCustomizer.LoadHumanPartSprites(humanType, BodyPartType.Head);
+        Sprite[] resourceNecks = CharacterCustomizer.LoadHumanPartSprites(humanType, BodyPartType.Neck);
+        Sprite[] resourceStomachs = CharacterCustomizer.LoadHumanPartSprites(humanType, BodyPartType.Stomach);
+        Sprite[] resourceLegs = CharacterCustomizer.LoadHumanPartSprites(humanType, BodyPartType.Leg);
 
         Sprite[] heads = HasSprites(resourceHeads) ? resourceHeads : headOverrides;
         Sprite[] necks = HasSprites(resourceNecks) ? resourceNecks : neckOverrides;
@@ -79,10 +81,8 @@ public class CharacterCustomizationApplier : MonoBehaviour
         bodies ??= System.Array.Empty<Sprite>();
         legs ??= System.Array.Empty<Sprite>();
 
-        Debug.Log($"Manual customization applier loaded normal human sprites: heads={heads.Length}, necks={necks.Length}, stomachs={bodies.Length}, legs={legs.Length}");
-
-        CharacterCustomizationData data = CharacterCustomizationData.LoadFromPlayerPrefs();
-        Debug.Log($"Manual customization applying selected indices: head={data.headIndex}, neck={data.neckIndex}, body={data.bodyIndex}, legs={data.legsIndex}");
+        Debug.Log($"Manual customization applier loaded {humanType} sprites: heads={heads.Length}, necks={necks.Length}, stomachs={bodies.Length}, legs={legs.Length}");
+        Debug.Log($"Manual customization applying selected indices: type={humanType}, head={data.headIndex}, neck={data.neckIndex}, body={data.bodyIndex}, legs={data.legsIndex}");
 
         return new CharacterSpriteSet
         {

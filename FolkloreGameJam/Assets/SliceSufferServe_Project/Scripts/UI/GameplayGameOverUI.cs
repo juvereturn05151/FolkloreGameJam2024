@@ -135,6 +135,8 @@ public class GameplayGameOverUI : MonoBehaviour
 
     private void ShowGameOverPanel()
     {
+        GlobalCurrencyPanel.SetVisible(true);
+
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
