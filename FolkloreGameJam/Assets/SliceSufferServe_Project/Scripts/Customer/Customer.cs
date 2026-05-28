@@ -379,10 +379,9 @@ public class Customer : MonoBehaviour
         int patienceBonus = patienceController != null ? (int)patienceController.CurrentValue : 0;
         int baseScore = food.GetServeScore(patienceBonus);
         int scoreWithCombo = ComboSystem.ApplyScoreMultiplier(baseScore);
+        int earnedScore = GameManager.Instance.IncreaseScore(scoreWithCombo);
 
-        feedbackController?.SpawnScoreFeedback(scoreWithCombo);
-
-        GameManager.Instance.IncreaseScore(scoreWithCombo);
+        feedbackController?.SpawnScoreFeedback(earnedScore);
         GameplayHUDUI.Instance?.PlayScoreCoinEffect(transform.position);
         onEatRightFood?.Invoke(this);
         onLeaveRestaurant?.Invoke(currentSpot);

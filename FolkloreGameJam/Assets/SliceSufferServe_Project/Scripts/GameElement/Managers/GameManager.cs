@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour
 
     #region -Score Fucntions-
 
-    public void IncreaseScore(int _value)
+    public int IncreaseScore(int _value)
     {
         // increaseScoreFeedback.PlayFeedbacks();
         if (GameUtility.FeedbackManagerExists()) 
@@ -115,6 +115,7 @@ public class GameManager : MonoBehaviour
 
         int scoreValue = Mathf.RoundToInt(_value * activeScoreMultiplier);
         ScoreManager.Instance.AddScore(scoreValue);
+        return scoreValue;
     }
 
     public void DecreaseScore(int _value)
