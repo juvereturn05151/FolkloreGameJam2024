@@ -11,6 +11,7 @@ public class DragAndDropManager : MonoBehaviour
     [SerializeField] private CursorMode cursorMode = CursorMode.Auto;
 
     private bool dragging;
+    private Texture2D selectedKnifeCursor;
 
     public bool isDragging
     {
@@ -23,7 +24,7 @@ public class DragAndDropManager : MonoBehaviour
             }
 
             dragging = value;
-            ApplyCursor(dragging ? cursorHand : cursorKnife);
+            ApplyCursor(dragging ? cursorHand : GetSelectedKnifeCursor());
         }
     }
 
@@ -67,14 +68,14 @@ public class DragAndDropManager : MonoBehaviour
     {
         if (hasFocus)
         {
-            ApplyCursor(dragging ? cursorHand : cursorKnife);
+            ApplyCursor(dragging ? cursorHand : GetSelectedKnifeCursor());
         }
     }
 
     public void UseKnifeCursor()
     {
         dragging = false;
-        ApplyCursor(cursorKnife);
+        ApplyCursor(GetSelectedKnifeCursor());
     }
 
     public void UseHandCursor()
@@ -86,5 +87,13 @@ public class DragAndDropManager : MonoBehaviour
     private void ApplyCursor(Texture2D cursorTexture)
     {
         Cursor.SetCursor(cursorTexture, cursorHotspot, cursorMode);
+    }
+
+    private Texture2D GetSelectedKnifeCursor()
+    {
+        string cursorId = CursorCustomizationSelection.GetSelectedCursorId();
+        CursorCustomizationCatalog catalog = CursorCustomizationCatalog.LoadDefault();
+        selectedKnifeCursor = catalog != null ? catalog.GetOption(cursorId)?.cursorTexture : null;
+        return selectedKnifeCursor != null ? selectedKnifeCursor : cursorKnife;
     }
 }

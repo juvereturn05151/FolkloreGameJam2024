@@ -26,8 +26,19 @@ public class CharacterCustomizer : MonoBehaviour
     [SerializeField] private bool allPartsUnlockedForTesting = true;
     [SerializeField] private Transform manualControlsRoot;
     [SerializeField] private Text statusText;
+    [SerializeField] private GameObject weaponCursorPanel;
+    [SerializeField] private Button characterTabButton;
+    [SerializeField] private Button weaponTabButton;
+    [SerializeField] private GameObject[] characterPartUiObjects;
+    [SerializeField] private GameObject[] humanPreviewUiObjects;
+    [SerializeField] private GameObject humanPreviewRoot;
+    [SerializeField] private GameObject weaponPreviewRoot;
+    [SerializeField] private Image weaponPreviewImage;
 
     private CharacterCustomizationData selectedData;
+    private CursorCustomizationCatalog cursorCatalog;
+    private Sprite weaponPreviewSprite;
+    private bool showingWeaponPreview;
 
     private void Awake()
     {
@@ -37,6 +48,7 @@ public class CharacterCustomizer : MonoBehaviour
         BuildDefaultManualControls();
         ResolvePreviewReferences();
         BindManualUiButtons();
+        BindWeaponCursorUi();
         ApplyPreview();
         UpdateStatusText();
     }
@@ -134,6 +146,56 @@ public class CharacterCustomizer : MonoBehaviour
         UpdateStatusText("Saved manual customization.");
     }
 
+    public void ShowCharacterCustomizationTab()
+    {
+        showingWeaponPreview = false;
+        SetCharacterPartUiActive(true);
+        SetHumanPreviewUiActive(true);
+        ApplyPreview();
+
+        if (weaponCursorPanel != null)
+        {
+            weaponCursorPanel.SetActive(false);
+        }
+
+        SetTabButtonColor(characterTabButton, new Color(0.74f, 0.22f, 0.16f, 1f));
+        SetTabButtonColor(weaponTabButton, new Color(0.24f, 0.22f, 0.18f, 1f));
+        UpdateStatusText();
+    }
+
+    public void ShowWeaponCustomizationTab()
+    {
+        showingWeaponPreview = true;
+        SetCharacterPartUiActive(false);
+        SetHumanPreviewUiActive(false);
+        ClearHumanPreviewSprites();
+
+        if (weaponCursorPanel != null)
+        {
+            weaponCursorPanel.SetActive(true);
+        }
+
+        SetTabButtonColor(characterTabButton, new Color(0.24f, 0.22f, 0.18f, 1f));
+        SetTabButtonColor(weaponTabButton, new Color(0.74f, 0.22f, 0.16f, 1f));
+        RefreshWeaponCursorButtons();
+        ApplyWeaponPreview();
+    }
+
+    public void SelectWeaponCursor(string cursorId)
+    {
+        if (selectedData == null)
+        {
+            selectedData = CharacterCustomizationData.LoadFromPlayerPrefs();
+        }
+
+        selectedData.selectedCursorId = string.IsNullOrWhiteSpace(cursorId) ? CursorCustomizationSelection.DefaultCursorId : cursorId;
+        selectedData.SaveToPlayerPrefs();
+        DragAndDropManager.Instance?.UseKnifeCursor();
+        RefreshWeaponCursorButtons();
+        ApplyWeaponPreview();
+        UpdateStatusText($"Selected {GetCursorDisplayName(selectedData.selectedCursorId)}.");
+    }
+
     public void BackToGameModeSelect()
     {
         SceneManager.LoadScene("GameModeSelect");
@@ -158,6 +220,9 @@ public class CharacterCustomizer : MonoBehaviour
         bodyImage ??= FindImageByName("StomachPreviewImage");
         legsImage ??= FindImageByName("LegPreviewImage");
         statusText ??= FindTextByName("SelectedHumanLabel");
+        humanPreviewRoot ??= FindTransformByName("Human")?.gameObject;
+        weaponPreviewRoot ??= FindTransformByName("Weapon")?.gameObject;
+        weaponPreviewImage ??= FindChildImageByName(weaponPreviewRoot, "Image") ?? FindImageByName("WeaponPreviewImage");
     }
 
     private void BindManualUiButtons()
@@ -173,6 +238,151 @@ public class CharacterCustomizer : MonoBehaviour
         BindButton("DefaultButton", SelectDefaultCharacter);
         BindButton("SaveButton", SaveCustomization);
         BindButton("BackButton", BackToGameModeSelect);
+    }
+
+    private void BindWeaponCursorUi()
+    {
+        cursorCatalog = CursorCustomizationCatalog.LoadDefault();
+        if (cursorCatalog == null || cursorCatalog.Options.Length == 0)
+        {
+            Debug.LogWarning("Cursor customization catalog is missing or empty.");
+            return;
+        }
+
+        weaponCursorPanel ??= FindTransformByName("WeaponCursorPanel")?.gameObject;
+        characterTabButton ??= FindButtonByName("CharacterCustomizationTabButton");
+        weaponTabButton ??= FindButtonByName("WeaponCursorTabButton");
+        ResolveCharacterPartUiObjects();
+        ResolveHumanPreviewUiObjects();
+
+        if (characterTabButton != null)
+        {
+            characterTabButton.onClick.RemoveListener(ShowCharacterCustomizationTab);
+            characterTabButton.onClick.AddListener(ShowCharacterCustomizationTab);
+        }
+
+        if (weaponTabButton != null)
+        {
+            weaponTabButton.onClick.RemoveListener(ShowWeaponCustomizationTab);
+            weaponTabButton.onClick.AddListener(ShowWeaponCustomizationTab);
+        }
+
+        foreach (CursorCustomizationOption option in cursorCatalog.Options)
+        {
+            if (option == null)
+            {
+                continue;
+            }
+
+            Button button = FindButtonByName($"{option.Id}CursorOptionButton");
+            if (button == null)
+            {
+                continue;
+            }
+
+            SetButtonLabel(button, option.DisplayName);
+            string capturedId = option.Id;
+            button.onClick.AddListener(() => SelectWeaponCursor(capturedId));
+        }
+
+        ShowCharacterCustomizationTab();
+    }
+
+    private void ResolveCharacterPartUiObjects()
+    {
+        if (characterPartUiObjects != null && characterPartUiObjects.Length > 0)
+        {
+            return;
+        }
+
+        string[] objectNames =
+        {
+            "ControlsTitle",
+            "HeadLabel",
+            "HeadPreviousButton",
+            "HeadNextButton",
+            "NeckLabel",
+            "NeckPreviousButton",
+            "NeckNextButton",
+            "StomachLabel",
+            "StomachPreviousButton",
+            "StomachNextButton",
+            "LegLabel",
+            "LegPreviousButton",
+            "LegNextButton",
+            "DefaultButton",
+            "SaveButton"
+        };
+
+        characterPartUiObjects = new GameObject[objectNames.Length];
+        for (int i = 0; i < objectNames.Length; i++)
+        {
+            characterPartUiObjects[i] = FindTransformByName(objectNames[i])?.gameObject;
+        }
+    }
+
+    private void SetCharacterPartUiActive(bool active)
+    {
+        ResolveCharacterPartUiObjects();
+
+        if (characterPartUiObjects == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < characterPartUiObjects.Length; i++)
+        {
+            if (characterPartUiObjects[i] != null)
+            {
+                characterPartUiObjects[i].SetActive(active);
+            }
+        }
+    }
+
+    private void ResolveHumanPreviewUiObjects()
+    {
+        if (humanPreviewUiObjects != null && humanPreviewUiObjects.Length > 0)
+        {
+            return;
+        }
+
+        string[] objectNames =
+        {
+            "PreviewLabel",
+            "ManualPreview"
+        };
+
+        humanPreviewUiObjects = new GameObject[objectNames.Length];
+        for (int i = 0; i < objectNames.Length; i++)
+        {
+            humanPreviewUiObjects[i] = FindTransformByName(objectNames[i])?.gameObject;
+        }
+    }
+
+    private void SetHumanPreviewUiActive(bool active)
+    {
+        ResolveHumanPreviewUiObjects();
+
+        if (humanPreviewUiObjects != null)
+        {
+            for (int i = 0; i < humanPreviewUiObjects.Length; i++)
+            {
+                if (humanPreviewUiObjects[i] != null)
+                {
+                    humanPreviewUiObjects[i].SetActive(true);
+                }
+            }
+        }
+
+        if (humanPreviewRoot != null)
+        {
+            humanPreviewRoot.SetActive(active);
+        }
+
+        if (weaponPreviewRoot != null)
+        {
+            weaponPreviewRoot.SetActive(!active);
+        }
     }
 
     private void LoadSprites()
@@ -441,15 +651,64 @@ public class CharacterCustomizer : MonoBehaviour
 
     private void ApplyPreview()
     {
+        if (showingWeaponPreview)
+        {
+            ApplyWeaponPreview();
+            return;
+        }
+
         ApplyHead();
         ApplyNeck();
         ApplyBody();
         ApplyLegs();
     }
 
+    private void ApplyWeaponPreview()
+    {
+        if (!showingWeaponPreview)
+        {
+            return;
+        }
+
+        cursorCatalog ??= CursorCustomizationCatalog.LoadDefault();
+        CursorCustomizationOption option = cursorCatalog != null ? cursorCatalog.GetOption(selectedData.selectedCursorId) : null;
+        Texture2D cursorTexture = option != null ? option.cursorTexture : null;
+        Image targetPreviewImage = weaponPreviewImage != null ? weaponPreviewImage : headImage;
+        ClearHumanPreviewSprites();
+
+        if (cursorTexture != null)
+        {
+            if (weaponPreviewSprite == null || weaponPreviewSprite.texture != cursorTexture)
+            {
+                weaponPreviewSprite = Sprite.Create(
+                    cursorTexture,
+                    new Rect(0f, 0f, cursorTexture.width, cursorTexture.height),
+                    new Vector2(0.5f, 0.5f),
+                    100f);
+            }
+
+            SetSprite(targetPreviewImage, weaponPreviewSprite);
+        }
+
+        if (targetPreviewImage == headImage)
+        {
+            SetSprite(neckImage, null);
+            SetSprite(bodyImage, null);
+            SetSprite(legsImage, null);
+        }
+    }
+
     private void ApplyHead()
     {
         SetSprite(headImage, GetSprite(headOptions, selectedData.headIndex));
+    }
+
+    private void ClearHumanPreviewSprites()
+    {
+        SetSprite(headImage, null);
+        SetSprite(neckImage, null);
+        SetSprite(bodyImage, null);
+        SetSprite(legsImage, null);
     }
 
     private void ApplyNeck()
@@ -474,8 +733,57 @@ public class CharacterCustomizer : MonoBehaviour
             return;
         }
 
-        string status = $"Head {DisplayIndex(selectedData.headIndex, headOptions)} | Neck {DisplayIndex(selectedData.neckIndex, neckOptions)} | Stomach {DisplayIndex(selectedData.bodyIndex, bodyOptions)} | Leg {DisplayIndex(selectedData.legsIndex, legsOptions)}";
+        string status = $"Head {DisplayIndex(selectedData.headIndex, headOptions)} | Neck {DisplayIndex(selectedData.neckIndex, neckOptions)} | Stomach {DisplayIndex(selectedData.bodyIndex, bodyOptions)} | Leg {DisplayIndex(selectedData.legsIndex, legsOptions)} | Weapon {GetCursorDisplayName(selectedData.selectedCursorId)}";
         statusText.text = string.IsNullOrWhiteSpace(prefix) ? status : $"{prefix} {status}";
+    }
+
+    private void RefreshWeaponCursorButtons()
+    {
+        string selectedCursorId = selectedData == null ? CursorCustomizationSelection.GetSelectedCursorId() : selectedData.selectedCursorId;
+
+        if (cursorCatalog == null)
+        {
+            return;
+        }
+
+        foreach (CursorCustomizationOption option in cursorCatalog.Options)
+        {
+            if (option == null)
+            {
+                continue;
+            }
+
+            Button button = FindButtonByName($"{option.Id}CursorOptionButton");
+            Image background = button != null ? button.GetComponent<Image>() : null;
+            if (background == null)
+            {
+                continue;
+            }
+
+            bool selected = option.Id == selectedCursorId;
+            background.color = selected ? new Color(0.74f, 0.22f, 0.16f, 1f) : new Color(0.18f, 0.16f, 0.13f, 1f);
+        }
+    }
+
+    private string GetCursorDisplayName(string cursorId)
+    {
+        cursorCatalog ??= CursorCustomizationCatalog.LoadDefault();
+        CursorCustomizationOption option = cursorCatalog != null ? cursorCatalog.GetOption(cursorId) : null;
+        return option != null ? option.DisplayName : "Knife";
+    }
+
+    private static void SetTabButtonColor(Button button, Color color)
+    {
+        if (button == null)
+        {
+            return;
+        }
+
+        Image image = button.GetComponent<Image>();
+        if (image != null)
+        {
+            image.color = color;
+        }
     }
 
     private int NextUnlockedIndex(BodyPartType part, int currentIndex, Sprite[] options)
@@ -640,6 +948,48 @@ public class CharacterCustomizer : MonoBehaviour
         }
 
         return null;
+    }
+
+    private static Transform FindTransformByName(string objectName)
+    {
+        Transform[] transforms = FindObjectsByType<Transform>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        for (int i = 0; i < transforms.Length; i++)
+        {
+            if (transforms[i] != null && transforms[i].name == objectName)
+            {
+                return transforms[i];
+            }
+        }
+
+        return null;
+    }
+
+    private static Image FindChildImageByName(GameObject parent, string objectName)
+    {
+        if (parent == null)
+        {
+            return null;
+        }
+
+        Image[] images = parent.GetComponentsInChildren<Image>(true);
+        for (int i = 0; i < images.Length; i++)
+        {
+            if (images[i] != null && images[i].name == objectName)
+            {
+                return images[i];
+            }
+        }
+
+        return null;
+    }
+
+    private static void SetButtonLabel(Button button, string label)
+    {
+        Text text = button.GetComponentInChildren<Text>(true);
+        if (text != null)
+        {
+            text.text = label;
+        }
     }
 
     private static void BindButton(string objectName, UnityEngine.Events.UnityAction action)

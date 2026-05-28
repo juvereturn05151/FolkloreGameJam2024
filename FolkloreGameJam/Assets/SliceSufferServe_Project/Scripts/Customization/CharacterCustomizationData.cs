@@ -33,11 +33,13 @@ public class CharacterCustomizationData
     public const string NeckIndexKey = "CustomNeckIndex";
     public const string BodyIndexKey = "CustomBodyIndex";
     public const string LegsIndexKey = "CustomLegsIndex";
+    public const string CursorIdKey = "CustomWeaponCursorId";
 
     public int headIndex;
     public int neckIndex;
     public int bodyIndex;
     public int legsIndex;
+    public string selectedCursorId = CursorCustomizationSelection.DefaultCursorId;
 
     public static CharacterCustomizationData LoadFromPlayerPrefs()
     {
@@ -46,10 +48,16 @@ public class CharacterCustomizationData
             headIndex = PlayerPrefs.GetInt(HeadIndexKey, 0),
             neckIndex = PlayerPrefs.GetInt(NeckIndexKey, 0),
             bodyIndex = PlayerPrefs.GetInt(BodyIndexKey, 0),
-            legsIndex = PlayerPrefs.GetInt(LegsIndexKey, 0)
+            legsIndex = PlayerPrefs.GetInt(LegsIndexKey, 0),
+            selectedCursorId = PlayerPrefs.GetString(CursorIdKey, CursorCustomizationSelection.GetSelectedCursorId())
         };
 
-        Debug.Log($"Manual character customization loaded: head={data.headIndex}, neck={data.neckIndex}, body={data.bodyIndex}, legs={data.legsIndex}");
+        if (string.IsNullOrWhiteSpace(data.selectedCursorId))
+        {
+            data.selectedCursorId = CursorCustomizationSelection.DefaultCursorId;
+        }
+
+        Debug.Log($"Manual character customization loaded: head={data.headIndex}, neck={data.neckIndex}, body={data.bodyIndex}, legs={data.legsIndex}, cursor={data.selectedCursorId}");
         return data;
     }
 
@@ -59,8 +67,10 @@ public class CharacterCustomizationData
         PlayerPrefs.SetInt(NeckIndexKey, neckIndex);
         PlayerPrefs.SetInt(BodyIndexKey, bodyIndex);
         PlayerPrefs.SetInt(LegsIndexKey, legsIndex);
+        PlayerPrefs.SetString(CursorIdKey, string.IsNullOrWhiteSpace(selectedCursorId) ? CursorCustomizationSelection.DefaultCursorId : selectedCursorId);
+        CursorCustomizationSelection.SetSelectedCursorId(selectedCursorId);
         PlayerPrefs.Save();
-        Debug.Log($"Manual character customization saved: head={headIndex}, neck={neckIndex}, body={bodyIndex}, legs={legsIndex}");
+        Debug.Log($"Manual character customization saved: head={headIndex}, neck={neckIndex}, body={bodyIndex}, legs={legsIndex}, cursor={selectedCursorId}");
     }
 }
 

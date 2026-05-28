@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbdd57c3a7b64d7bbfbf99bb0dfb30e2, type: 3}
+  m_Name: CursorCustomizationCatalog
+  m_EditorClassIdentifier: 
+  options:
+  - id: knife
+    displayName: Knife
+    cursorTexture: {fileID: 2800000, guid: bd965cc8ea129cd48bc4979e2de799bd, type: 3}
+  - id: claw
+    displayName: Claw
+    cursorTexture: {fileID: 2800000, guid: c4d3f4980618458cb2a1319f64be7710, type: 3}
+  - id: chainsaw
+    displayName: Chainsaw
+    cursorTexture: {fileID: 2800000, guid: 0a9930ef48964f08aa233746763f32e3, type: 3}
+  - id: rainbow_knife
+    displayName: Rainbow Knife
+    cursorTexture: {fileID: 2800000, guid: bbcf1c8fcb5a4d549e8ed6c73f8e448d, type: 3}
+  - id: flame_blade
+    displayName: Flame Blade
+    cursorTexture: {fileID: 2800000, guid: f680b163cbab4f1e8fd85ca1ea0649be, type: 3}
+  - id: golden_blade
+    displayName: Ancient Golden Blade
+    cursorTexture: {fileID: 2800000, guid: 933dfe452b564f65a22e12fac2c34709, type: 3}
