@@ -961,6 +961,10 @@ PrefabInstance:
       propertyPath: 'objectsToDisableDuringCurtain.Array.data[1]'
       value: 
       objectReference: {fileID: 1971858344}
+    - target: {fileID: 814575705322671072, guid: 9b5fe3015cbc3234c99a932e3d5916a5, type: 3}
+      propertyPath: cameraTransform
+      value: 
+      objectReference: {fileID: 565006682}
     - target: {fileID: 3289484873757203815, guid: 9b5fe3015cbc3234c99a932e3d5916a5, type: 3}
       propertyPath: m_Name
       value: GameplayUICanvas_Remake
