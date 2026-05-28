@@ -87,7 +87,7 @@ public static class ManualCharacterCreationSceneBuilder
 
         SerializedObject serializedCustomizer = new SerializedObject(customizer);
         serializedCustomizer.FindProperty("createDefaultManualControls").boolValue = false;
-        serializedCustomizer.FindProperty("allPartsUnlockedForTesting").boolValue = true;
+        serializedCustomizer.FindProperty("allPartsUnlockedForTesting").boolValue = false;
         serializedCustomizer.FindProperty("manualControlsRoot").objectReferenceValue = controls;
         serializedCustomizer.FindProperty("statusText").objectReferenceValue = statusText;
         serializedCustomizer.FindProperty("headImage").objectReferenceValue = headImage;

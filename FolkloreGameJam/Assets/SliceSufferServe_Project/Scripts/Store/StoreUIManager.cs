@@ -10,6 +10,8 @@ public class StoreUIManager : MonoBehaviour
 {
     private const string DisableAdsTabId = "disable_ads";
     private const string ItemsTabId = "items";
+    private const string HumanTabId = "human";
+    private const int HumanPartPrice = 1000;
 
     [Header("Store")]
     [SerializeField] private StoreManager storeManager;
@@ -38,6 +40,10 @@ public class StoreUIManager : MonoBehaviour
 
     private string selectedTabId;
     private readonly List<TabButtonBinding> tabButtonBindings = new List<TabButtonBinding>();
+    private readonly List<HumanStoreItemView> humanItemViews = new List<HumanStoreItemView>();
+    private GameObject humanPanel;
+    private HumanStoreItem pendingHumanPurchase;
+    private bool humanStoreUiBuilt;
 
     private void Awake()
     {
@@ -58,6 +64,7 @@ public class StoreUIManager : MonoBehaviour
             storeManager.OnPurchaseFailed.AddListener(ShowPurchaseFailed);
         }
 
+        EnsureHumanStoreUI();
         WireButtons();
         SelectTab(string.IsNullOrWhiteSpace(selectedTabId) ? defaultTabId : selectedTabId);
         Refresh();
@@ -85,6 +92,11 @@ public class StoreUIManager : MonoBehaviour
     public void SelectItemsTab()
     {
         SelectTab(ItemsTabId);
+    }
+
+    public void SelectHumanTab()
+    {
+        SelectTab(HumanTabId);
     }
 
     public void SelectTab(string tabId)
@@ -118,6 +130,8 @@ public class StoreUIManager : MonoBehaviour
 
     public void OpenDisableAdsPurchasePrompt()
     {
+        pendingHumanPurchase = null;
+
         if (storeManager != null && storeManager.AreAdsDisabled)
         {
             Refresh();
@@ -157,6 +171,8 @@ public class StoreUIManager : MonoBehaviour
 
     public void CancelPurchasePrompt()
     {
+        pendingHumanPurchase = null;
+
         if (purchasePromptPanel != null)
         {
             purchasePromptPanel.SetActive(false);
@@ -170,6 +186,7 @@ public class StoreUIManager : MonoBehaviour
         UpdateCurrencyBalance(SaveSystem.GetCurrencyBalance());
         RefreshDisableAdsUI();
         RefreshItemsPlaceholderUI();
+        RefreshHumanItemsUI();
     }
 
     private void WireButtons()
@@ -203,7 +220,7 @@ public class StoreUIManager : MonoBehaviour
 
         if (purchaseConfirmButton != null)
         {
-            purchaseConfirmButton.onClick.AddListener(ConfirmDisableAdsPurchase);
+            purchaseConfirmButton.onClick.AddListener(ConfirmCurrentPurchase);
         }
 
         if (purchaseCancelButton != null)
@@ -238,7 +255,7 @@ public class StoreUIManager : MonoBehaviour
 
         if (purchaseConfirmButton != null)
         {
-            purchaseConfirmButton.onClick.RemoveListener(ConfirmDisableAdsPurchase);
+            purchaseConfirmButton.onClick.RemoveListener(ConfirmCurrentPurchase);
         }
 
         if (purchaseCancelButton != null)
@@ -280,6 +297,464 @@ public class StoreUIManager : MonoBehaviour
         }
     }
 
+    private void EnsureHumanStoreUI()
+    {
+        if (humanStoreUiBuilt)
+        {
+            return;
+        }
+
+        StoreTabView itemsTab = FindTab(ItemsTabId);
+        StoreTabView disableAdsTab = FindTab(DisableAdsTabId);
+        Button templateButton = itemsTab?.TabButton ?? disableAdsTab?.TabButton;
+        GameObject templatePanel = itemsTab?.Panel ?? disableAdsTab?.Panel;
+
+        if (templateButton == null || templatePanel == null)
+        {
+            return;
+        }
+
+        Button humanTabButton = CreateHumanTabButton(templateButton);
+        humanPanel = CreateHumanPanel(templatePanel);
+        tabs.Add(new StoreTabView(HumanTabId, humanTabButton, humanPanel));
+        RepositionTabButtons();
+        BuildHumanItems();
+        humanStoreUiBuilt = true;
+    }
+
+    private Button CreateHumanTabButton(Button templateButton)
+    {
+        Button existing = FindButtonByName("HumanTabButton");
+        if (existing != null)
+        {
+            return existing;
+        }
+
+        Button button = Instantiate(templateButton, templateButton.transform.parent);
+        button.name = "HumanTabButton";
+        SetText(button.GetComponentInChildren<TextMeshProUGUI>(true), "Human");
+        return button;
+    }
+
+    private GameObject CreateHumanPanel(GameObject templatePanel)
+    {
+        GameObject existing = FindTransformByName("HumanPanel")?.gameObject;
+        if (existing != null)
+        {
+            return existing;
+        }
+
+        GameObject panel = new GameObject("HumanPanel", typeof(RectTransform), typeof(Image));
+        panel.transform.SetParent(templatePanel.transform.parent, false);
+
+        RectTransform templateRect = templatePanel.GetComponent<RectTransform>();
+        RectTransform rectTransform = panel.GetComponent<RectTransform>();
+        rectTransform.anchorMin = templateRect.anchorMin;
+        rectTransform.anchorMax = templateRect.anchorMax;
+        rectTransform.pivot = templateRect.pivot;
+        rectTransform.anchoredPosition = templateRect.anchoredPosition;
+        rectTransform.sizeDelta = templateRect.sizeDelta;
+        rectTransform.offsetMin = templateRect.offsetMin;
+        rectTransform.offsetMax = templateRect.offsetMax;
+
+        Image image = panel.GetComponent<Image>();
+        Image templateImage = templatePanel.GetComponent<Image>();
+        image.color = templateImage != null ? templateImage.color : new Color(0.13f, 0.18f, 0.15f, 0.96f);
+        panel.SetActive(false);
+        return panel;
+    }
+
+    private void BuildHumanItems()
+    {
+        if (humanPanel == null || humanItemViews.Count > 0)
+        {
+            return;
+        }
+
+        RectTransform content = CreateHumanItemsContent(humanPanel.transform);
+        string[] personaNames = { "Indian", "Chinese", "Jewish", "Hipster", "American Blond" };
+
+        AddHumanSection(content, "Heads", BodyPartType.Head, personaNames);
+        AddHumanSection(content, "Necks", BodyPartType.Neck, personaNames);
+        AddHumanSection(content, "Stomachs", BodyPartType.Stomach, personaNames);
+        AddHumanSection(content, "Legs", BodyPartType.Leg, personaNames);
+    }
+
+    private RectTransform CreateHumanItemsContent(Transform parent)
+    {
+        GameObject scrollObject = new GameObject("HumanItemsScrollView", typeof(RectTransform), typeof(ScrollRect));
+        scrollObject.transform.SetParent(parent, false);
+
+        RectTransform scrollRectTransform = scrollObject.GetComponent<RectTransform>();
+        scrollRectTransform.anchorMin = Vector2.zero;
+        scrollRectTransform.anchorMax = Vector2.one;
+        scrollRectTransform.offsetMin = new Vector2(60f, 36f);
+        scrollRectTransform.offsetMax = new Vector2(-60f, -36f);
+
+        GameObject viewportObject = new GameObject("Viewport", typeof(RectTransform), typeof(Image), typeof(Mask));
+        viewportObject.transform.SetParent(scrollObject.transform, false);
+
+        RectTransform viewportRect = viewportObject.GetComponent<RectTransform>();
+        viewportRect.anchorMin = Vector2.zero;
+        viewportRect.anchorMax = Vector2.one;
+        viewportRect.offsetMin = Vector2.zero;
+        viewportRect.offsetMax = Vector2.zero;
+
+        Image viewportImage = viewportObject.GetComponent<Image>();
+        viewportImage.color = new Color(1f, 1f, 1f, 0.02f);
+
+        Mask mask = viewportObject.GetComponent<Mask>();
+        mask.showMaskGraphic = false;
+
+        GameObject contentObject = new GameObject("HumanItemsContent", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(ContentSizeFitter));
+        contentObject.transform.SetParent(viewportObject.transform, false);
+
+        RectTransform rectTransform = contentObject.GetComponent<RectTransform>();
+        rectTransform.anchorMin = new Vector2(0f, 1f);
+        rectTransform.anchorMax = new Vector2(1f, 1f);
+        rectTransform.pivot = new Vector2(0.5f, 1f);
+        rectTransform.anchoredPosition = Vector2.zero;
+        rectTransform.sizeDelta = Vector2.zero;
+
+        VerticalLayoutGroup layout = contentObject.GetComponent<VerticalLayoutGroup>();
+        layout.spacing = 14f;
+        layout.padding = new RectOffset(0, 0, 0, 0);
+        layout.childAlignment = TextAnchor.UpperCenter;
+        layout.childControlWidth = true;
+        layout.childControlHeight = false;
+        layout.childForceExpandWidth = true;
+        layout.childForceExpandHeight = false;
+
+        ContentSizeFitter fitter = contentObject.GetComponent<ContentSizeFitter>();
+        fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+        ScrollRect scrollRect = scrollObject.GetComponent<ScrollRect>();
+        scrollRect.viewport = viewportRect;
+        scrollRect.content = rectTransform;
+        scrollRect.horizontal = false;
+        scrollRect.vertical = true;
+        scrollRect.movementType = ScrollRect.MovementType.Clamped;
+        return rectTransform;
+    }
+
+    private void AddHumanSection(RectTransform content, string title, BodyPartType part, string[] personaNames)
+    {
+        TextMeshProUGUI titleText = CreateText(content, title, 32, TextAlignmentOptions.Left, new Color(1f, 0.92f, 0.78f, 1f));
+        titleText.name = $"{title}Title";
+        AddLayoutElement(titleText.gameObject, 44f);
+
+        Sprite[] sprites = CharacterCustomizer.LoadNormalHumanPartSprites(part);
+        for (int i = CharacterCustomizer.FreeNormalHumanPartCount; i < sprites.Length; i++)
+        {
+            int unlockableIndex = i - CharacterCustomizer.FreeNormalHumanPartCount;
+            string personaName = unlockableIndex >= 0 && unlockableIndex < personaNames.Length ? personaNames[unlockableIndex] : $"Unlockable {unlockableIndex + 1}";
+            HumanStoreItem item = new HumanStoreItem(part, i, $"{personaName} {GetPartDisplayName(part)}", sprites[i]);
+            humanItemViews.Add(CreateHumanItemView(content, item));
+        }
+    }
+
+    private HumanStoreItemView CreateHumanItemView(RectTransform parent, HumanStoreItem item)
+    {
+        GameObject row = new GameObject($"{item.DisplayName}StoreItem", typeof(RectTransform), typeof(Image), typeof(HorizontalLayoutGroup), typeof(LayoutElement));
+        row.transform.SetParent(parent, false);
+
+        Image background = row.GetComponent<Image>();
+        background.color = new Color(0.08f, 0.07f, 0.06f, 0.78f);
+
+        HorizontalLayoutGroup layout = row.GetComponent<HorizontalLayoutGroup>();
+        layout.padding = new RectOffset(18, 18, 12, 12);
+        layout.spacing = 18f;
+        layout.childAlignment = TextAnchor.MiddleLeft;
+        layout.childControlWidth = false;
+        layout.childControlHeight = true;
+        layout.childForceExpandWidth = false;
+        layout.childForceExpandHeight = false;
+
+        AddLayoutElement(row, 86f);
+
+        Image preview = CreateHumanItemPreview(row.transform, item.Sprite);
+        TextMeshProUGUI label = CreateText(row.transform, item.DisplayName, 26, TextAlignmentOptions.Left, new Color(0.95f, 0.9f, 0.82f, 1f));
+        LayoutElement labelLayout = label.gameObject.AddComponent<LayoutElement>();
+        labelLayout.flexibleWidth = 1f;
+        labelLayout.preferredHeight = 62f;
+
+        TextMeshProUGUI price = CreateText(row.transform, HumanPartPrice.ToString("N0"), 24, TextAlignmentOptions.Center, new Color(1f, 0.82f, 0.36f, 1f));
+        AddLayoutElement(price.gameObject, 130f, 62f);
+
+        Button buyButton = CreateHumanBuyButton(row.transform);
+        TextMeshProUGUI buyText = buyButton.GetComponentInChildren<TextMeshProUGUI>(true);
+        HumanStoreItem capturedItem = item;
+        buyButton.onClick.AddListener(() => OpenHumanPurchasePrompt(capturedItem));
+
+        return new HumanStoreItemView(item, buyButton, buyText, price, preview);
+    }
+
+    private Image CreateHumanItemPreview(Transform parent, Sprite sprite)
+    {
+        GameObject previewObject = new GameObject("Preview", typeof(RectTransform), typeof(Image), typeof(LayoutElement));
+        previewObject.transform.SetParent(parent, false);
+
+        LayoutElement layout = previewObject.GetComponent<LayoutElement>();
+        layout.preferredWidth = 64f;
+        layout.preferredHeight = 62f;
+
+        Image image = previewObject.GetComponent<Image>();
+        image.sprite = sprite;
+        image.preserveAspect = true;
+        image.raycastTarget = false;
+        image.color = Color.white;
+        return image;
+    }
+
+    private Button CreateHumanBuyButton(Transform parent)
+    {
+        GameObject buttonObject = new GameObject("BuyButton", typeof(RectTransform), typeof(Image), typeof(Button), typeof(LayoutElement));
+        buttonObject.transform.SetParent(parent, false);
+
+        LayoutElement layout = buttonObject.GetComponent<LayoutElement>();
+        layout.preferredWidth = 150f;
+        layout.preferredHeight = 62f;
+
+        Image image = buttonObject.GetComponent<Image>();
+        image.color = new Color(0.65f, 0.22f, 0.16f, 1f);
+
+        Button button = buttonObject.GetComponent<Button>();
+        button.targetGraphic = image;
+
+        TextMeshProUGUI text = CreateText(buttonObject.transform, "Buy", 26, TextAlignmentOptions.Center, new Color(1f, 0.94f, 0.82f, 1f));
+        RectTransform textRect = text.GetComponent<RectTransform>();
+        textRect.anchorMin = Vector2.zero;
+        textRect.anchorMax = Vector2.one;
+        textRect.offsetMin = Vector2.zero;
+        textRect.offsetMax = Vector2.zero;
+        return button;
+    }
+
+    private TextMeshProUGUI CreateText(Transform parent, string value, int fontSize, TextAlignmentOptions alignment, Color color)
+    {
+        GameObject textObject = new GameObject("Text", typeof(RectTransform), typeof(TextMeshProUGUI));
+        textObject.transform.SetParent(parent, false);
+
+        TextMeshProUGUI text = textObject.GetComponent<TextMeshProUGUI>();
+        text.text = value;
+        text.font = statusText != null ? statusText.font : null;
+        text.fontSize = fontSize;
+        text.alignment = alignment;
+        text.color = color;
+        text.raycastTarget = false;
+        return text;
+    }
+
+    private void OpenHumanPurchasePrompt(HumanStoreItem item)
+    {
+        if (item == null)
+        {
+            return;
+        }
+
+        if (CharacterCustomizer.IsNormalHumanPartUnlocked(item.Part, item.OptionIndex))
+        {
+            SetStatus($"{item.DisplayName} already owned.");
+            RefreshHumanItemsUI();
+            return;
+        }
+
+        pendingHumanPurchase = item;
+
+        if (purchasePromptText != null)
+        {
+            purchasePromptText.text = $"Buy {item.DisplayName} for {HumanPartPrice:N0}?";
+        }
+
+        if (purchasePromptPanel != null)
+        {
+            purchasePromptPanel.SetActive(true);
+            return;
+        }
+
+        ConfirmHumanPurchase();
+    }
+
+    private void ConfirmCurrentPurchase()
+    {
+        if (pendingHumanPurchase != null)
+        {
+            ConfirmHumanPurchase();
+            return;
+        }
+
+        ConfirmDisableAdsPurchase();
+    }
+
+    private void ConfirmHumanPurchase()
+    {
+        if (purchasePromptPanel != null)
+        {
+            purchasePromptPanel.SetActive(false);
+        }
+
+        HumanStoreItem item = pendingHumanPurchase;
+        pendingHumanPurchase = null;
+
+        if (item == null)
+        {
+            return;
+        }
+
+        if (CharacterCustomizer.IsNormalHumanPartUnlocked(item.Part, item.OptionIndex))
+        {
+            SetStatus($"{item.DisplayName} already owned.");
+            RefreshHumanItemsUI();
+            return;
+        }
+
+        if (!SaveSystem.SpendCurrency(HumanPartPrice))
+        {
+            SetStatus($"Not enough currency. Need {HumanPartPrice:N0}.");
+            Refresh();
+            return;
+        }
+
+        CharacterCustomizer.SetNormalHumanPartUnlocked(item.Part, item.OptionIndex, true);
+        SetStatus($"Unlocked {item.DisplayName}.");
+        Refresh();
+    }
+
+    private void RefreshHumanItemsUI()
+    {
+        for (int i = 0; i < humanItemViews.Count; i++)
+        {
+            HumanStoreItemView view = humanItemViews[i];
+            if (view == null || view.Item == null)
+            {
+                continue;
+            }
+
+            bool owned = CharacterCustomizer.IsNormalHumanPartUnlocked(view.Item.Part, view.Item.OptionIndex);
+            if (view.BuyButton != null)
+            {
+                view.BuyButton.interactable = !owned;
+            }
+
+            if (view.BuyButtonText != null)
+            {
+                view.BuyButtonText.text = owned ? "Owned" : "Buy";
+            }
+
+            if (view.PriceText != null)
+            {
+                view.PriceText.text = owned ? "Owned" : HumanPartPrice.ToString("N0");
+            }
+        }
+    }
+
+    private StoreTabView FindTab(string tabId)
+    {
+        for (int i = 0; i < tabs.Count; i++)
+        {
+            if (tabs[i] != null && tabs[i].TabId == tabId)
+            {
+                return tabs[i];
+            }
+        }
+
+        return null;
+    }
+
+    private void RepositionTabButtons()
+    {
+        List<Button> buttons = new List<Button>();
+        for (int i = 0; i < tabs.Count; i++)
+        {
+            if (tabs[i]?.TabButton != null)
+            {
+                buttons.Add(tabs[i].TabButton);
+            }
+        }
+
+        float spacing = 310f;
+        float startX = -spacing * (buttons.Count - 1) * 0.5f;
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            RectTransform rectTransform = buttons[i].GetComponent<RectTransform>();
+            if (rectTransform != null)
+            {
+                rectTransform.anchorMin = new Vector2(0.5f, rectTransform.anchorMin.y);
+                rectTransform.anchorMax = new Vector2(0.5f, rectTransform.anchorMax.y);
+                rectTransform.anchoredPosition = new Vector2(startX + spacing * i, rectTransform.anchoredPosition.y);
+            }
+        }
+    }
+
+    private static void AddLayoutElement(GameObject gameObject, float preferredHeight)
+    {
+        AddLayoutElement(gameObject, -1f, preferredHeight);
+    }
+
+    private static void AddLayoutElement(GameObject gameObject, float preferredWidth, float preferredHeight)
+    {
+        LayoutElement layout = gameObject.GetComponent<LayoutElement>() ?? gameObject.AddComponent<LayoutElement>();
+        if (preferredWidth >= 0f)
+        {
+            layout.preferredWidth = preferredWidth;
+        }
+
+        layout.preferredHeight = preferredHeight;
+    }
+
+    private static string GetPartDisplayName(BodyPartType part)
+    {
+        switch (part)
+        {
+            case BodyPartType.Head:
+                return "Head";
+            case BodyPartType.Neck:
+                return "Neck";
+            case BodyPartType.Stomach:
+                return "Stomach";
+            case BodyPartType.Leg:
+                return "Leg";
+            default:
+                return "Part";
+        }
+    }
+
+    private static void SetText(TextMeshProUGUI text, string value)
+    {
+        if (text != null)
+        {
+            text.text = value;
+        }
+    }
+
+    private static Button FindButtonByName(string objectName)
+    {
+        Button[] buttons = FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            if (buttons[i] != null && buttons[i].name == objectName)
+            {
+                return buttons[i];
+            }
+        }
+
+        return null;
+    }
+
+    private static Transform FindTransformByName(string objectName)
+    {
+        Transform[] transforms = FindObjectsByType<Transform>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        for (int i = 0; i < transforms.Length; i++)
+        {
+            if (transforms[i] != null && transforms[i].name == objectName)
+            {
+                return transforms[i];
+            }
+        }
+
+        return null;
+    }
+
     private void UpdateCurrencyBalance(int currencyBalance)
     {
         if (currencyBalanceText != null)
@@ -317,6 +792,40 @@ public class StoreUIManager : MonoBehaviour
     }
 }
 
+public class HumanStoreItem
+{
+    public HumanStoreItem(BodyPartType part, int optionIndex, string displayName, Sprite sprite)
+    {
+        Part = part;
+        OptionIndex = optionIndex;
+        DisplayName = displayName;
+        Sprite = sprite;
+    }
+
+    public BodyPartType Part { get; }
+    public int OptionIndex { get; }
+    public string DisplayName { get; }
+    public Sprite Sprite { get; }
+}
+
+public class HumanStoreItemView
+{
+    public HumanStoreItemView(HumanStoreItem item, Button buyButton, TextMeshProUGUI buyButtonText, TextMeshProUGUI priceText, Image previewImage)
+    {
+        Item = item;
+        BuyButton = buyButton;
+        BuyButtonText = buyButtonText;
+        PriceText = priceText;
+        PreviewImage = previewImage;
+    }
+
+    public HumanStoreItem Item { get; }
+    public Button BuyButton { get; }
+    public TextMeshProUGUI BuyButtonText { get; }
+    public TextMeshProUGUI PriceText { get; }
+    public Image PreviewImage { get; }
+}
+
 public class TabButtonBinding
 {
     public TabButtonBinding(Button button, UnityAction action)
@@ -332,6 +841,17 @@ public class TabButtonBinding
 [Serializable]
 public class StoreTabView
 {
+    public StoreTabView()
+    {
+    }
+
+    public StoreTabView(string tabId, Button tabButton, GameObject panel)
+    {
+        this.tabId = tabId;
+        this.tabButton = tabButton;
+        this.panel = panel;
+    }
+
     [SerializeField] private string tabId;
     [SerializeField] private Button tabButton;
     [SerializeField] private GameObject panel;

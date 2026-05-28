@@ -4,10 +4,16 @@ using UnityEngine.UI;
 
 public class CharacterCustomizer : MonoBehaviour
 {
-    private const string HeadsResourcePath = "Characters/Human/Normal/Heads";
-    private const string NecksResourcePath = "Characters/Human/Normal/Necks";
-    private const string StomachsResourcePath = "Characters/Human/Normal/Stomach";
-    private const string LegsResourcePath = "Characters/Human/Normal/Legs";
+    public const int FreeNormalHumanPartCount = 5;
+
+    private const string FreeHeadsResourcePath = "Characters/Human/Normal/Free/Heads";
+    private const string FreeNecksResourcePath = "Characters/Human/Normal/Free/Necks";
+    private const string FreeStomachsResourcePath = "Characters/Human/Normal/Free/Stomach";
+    private const string FreeLegsResourcePath = "Characters/Human/Normal/Free/Legs";
+    private const string UnlockableHeadsResourcePath = "Characters/Human/Normal/Unlockables/Heads";
+    private const string UnlockableNecksResourcePath = "Characters/Human/Normal/Unlockables/Necks";
+    private const string UnlockableStomachsResourcePath = "Characters/Human/Normal/Unlockables/Stomach";
+    private const string UnlockableLegsResourcePath = "Characters/Human/Normal/Unlockables/Legs";
 
     [Header("Preview UI Images")]
     [SerializeField] private Image headImage;
@@ -23,7 +29,7 @@ public class CharacterCustomizer : MonoBehaviour
 
     [Header("Manual UI")]
     [SerializeField] private bool createDefaultManualControls = true;
-    [SerializeField] private bool allPartsUnlockedForTesting = true;
+    [SerializeField] private bool allPartsUnlockedForTesting;
     [SerializeField] private Transform manualControlsRoot;
     [SerializeField] private Text statusText;
     [SerializeField] private GameObject weaponCursorPanel;
@@ -203,14 +209,35 @@ public class CharacterCustomizer : MonoBehaviour
 
     public static void SetNormalHumanPartUnlocked(BodyPartType part, int index, bool unlocked)
     {
-        if (index <= 0)
+        if (index < FreeNormalHumanPartCount)
         {
             return;
         }
 
-        PlayerPrefs.SetInt(GetUnlockKey(part, index), unlocked ? 1 : 0);
+        PlayerPrefs.SetInt(GetNormalHumanPartUnlockKey(part, index), unlocked ? 1 : 0);
         PlayerPrefs.Save();
         Debug.Log($"Manual customization unlock updated: part={part}, index={index}, unlocked={unlocked}");
+    }
+
+    public static bool IsNormalHumanPartUnlocked(BodyPartType part, int index)
+    {
+        return index < FreeNormalHumanPartCount || PlayerPrefs.GetInt(GetNormalHumanPartUnlockKey(part, index), 0) == 1;
+    }
+
+    public static string GetNormalHumanPartUnlockKey(BodyPartType part, int index)
+    {
+        return $"UnlockedNormalHuman{part}{index}";
+    }
+
+    public static Sprite[] LoadNormalHumanPartSprites(BodyPartType part)
+    {
+        Sprite[] freeSprites = Resources.LoadAll<Sprite>(GetFreeResourcePath(part));
+        Sprite[] unlockableSprites = Resources.LoadAll<Sprite>(GetUnlockableResourcePath(part));
+        Sprite[] sprites = new Sprite[freeSprites.Length + unlockableSprites.Length];
+        freeSprites.CopyTo(sprites, 0);
+        unlockableSprites.CopyTo(sprites, freeSprites.Length);
+        SortSpritesByDefaultFirst(sprites);
+        return sprites;
     }
 
     private void ResolvePreviewReferences()
@@ -387,10 +414,10 @@ public class CharacterCustomizer : MonoBehaviour
 
     private void LoadSprites()
     {
-        Sprite[] resourceHeads = Resources.LoadAll<Sprite>(HeadsResourcePath);
-        Sprite[] resourceNecks = Resources.LoadAll<Sprite>(NecksResourcePath);
-        Sprite[] resourceStomachs = Resources.LoadAll<Sprite>(StomachsResourcePath);
-        Sprite[] resourceLegs = Resources.LoadAll<Sprite>(LegsResourcePath);
+        Sprite[] resourceHeads = LoadNormalHumanPartSprites(BodyPartType.Head);
+        Sprite[] resourceNecks = LoadNormalHumanPartSprites(BodyPartType.Neck);
+        Sprite[] resourceStomachs = LoadNormalHumanPartSprites(BodyPartType.Stomach);
+        Sprite[] resourceLegs = LoadNormalHumanPartSprites(BodyPartType.Leg);
 
         if (resourceHeads.Length > 0)
         {
@@ -427,11 +454,6 @@ public class CharacterCustomizer : MonoBehaviour
         {
             legsOptions = System.Array.Empty<Sprite>();
         }
-
-        SortSpritesByDefaultFirst(headOptions);
-        SortSpritesByDefaultFirst(neckOptions);
-        SortSpritesByDefaultFirst(bodyOptions);
-        SortSpritesByDefaultFirst(legsOptions);
 
         Debug.Log($"Manual customization loaded normal human sprites: heads={headOptions.Length}, necks={neckOptions.Length}, stomachs={bodyOptions.Length}, legs={legsOptions.Length}");
     }
@@ -826,17 +848,12 @@ public class CharacterCustomizer : MonoBehaviour
 
     private bool IsPartUnlocked(BodyPartType part, int index)
     {
-        if (index == 0 || allPartsUnlockedForTesting)
+        if (allPartsUnlockedForTesting)
         {
             return true;
         }
 
-        return PlayerPrefs.GetInt(GetUnlockKey(part, index), 0) == 1;
-    }
-
-    private static string GetUnlockKey(BodyPartType part, int index)
-    {
-        return $"UnlockedNormalHuman{part}{index}";
+        return IsNormalHumanPartUnlocked(part, index);
     }
 
     private static int ClampIndex(int index, Sprite[] options)
@@ -906,6 +923,40 @@ public class CharacterCustomizer : MonoBehaviour
         }
 
         return !System.Text.RegularExpressions.Regex.IsMatch(spriteName, @"\d+$");
+    }
+
+    private static string GetFreeResourcePath(BodyPartType part)
+    {
+        switch (part)
+        {
+            case BodyPartType.Head:
+                return FreeHeadsResourcePath;
+            case BodyPartType.Neck:
+                return FreeNecksResourcePath;
+            case BodyPartType.Stomach:
+                return FreeStomachsResourcePath;
+            case BodyPartType.Leg:
+                return FreeLegsResourcePath;
+            default:
+                return string.Empty;
+        }
+    }
+
+    private static string GetUnlockableResourcePath(BodyPartType part)
+    {
+        switch (part)
+        {
+            case BodyPartType.Head:
+                return UnlockableHeadsResourcePath;
+            case BodyPartType.Neck:
+                return UnlockableNecksResourcePath;
+            case BodyPartType.Stomach:
+                return UnlockableStomachsResourcePath;
+            case BodyPartType.Leg:
+                return UnlockableLegsResourcePath;
+            default:
+                return string.Empty;
+        }
     }
 
     private static Image FindImageByName(string objectName)

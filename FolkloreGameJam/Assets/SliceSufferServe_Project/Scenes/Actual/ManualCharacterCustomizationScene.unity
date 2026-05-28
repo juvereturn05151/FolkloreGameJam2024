@@ -4010,7 +4010,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d947a32359740e846820b4c02740326f, type: 3}
   - {fileID: 21300000, guid: 4e378fb881518464cbb622edd1254efd, type: 3}
   createDefaultManualControls: 0
-  allPartsUnlockedForTesting: 1
+  allPartsUnlockedForTesting: 0
   manualControlsRoot: {fileID: 1362326967}
   statusText: {fileID: 1373680838}
   weaponCursorPanel: {fileID: 6000000020}
