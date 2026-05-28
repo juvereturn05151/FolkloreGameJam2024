@@ -139,6 +139,7 @@ public class Food : MonoBehaviour
         if (GameUtility.DragAndDropManagerExists())
         {
             DragAndDropManager.Instance.isDragging = true;
+            DragAndDropManager.Instance.UseHandCursor();
         }
     }
 
@@ -147,6 +148,7 @@ public class Food : MonoBehaviour
         if (GameUtility.DragAndDropManagerExists())
         {
             DragAndDropManager.Instance.isDragging = false;
+            DragAndDropManager.Instance.UseKnifeCursor();
         }
 
         TryServeCurrentPlate();
@@ -157,6 +159,7 @@ public class Food : MonoBehaviour
         if (GameUtility.DragAndDropManagerExists())
         {
             DragAndDropManager.Instance.isDragging = false;
+            DragAndDropManager.Instance.UseKnifeCursor();
         }
     }
 

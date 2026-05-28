@@ -50,6 +50,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885df7c4880239e4a901f017c68e9de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cursorKnife: {fileID: 2800000, guid: bd965cc8ea129cd48bc4979e2de799bd, type: 3}
+  cursorHand: {fileID: 2800000, guid: 8506b411c0d3f674d8a36a9dacd02fdc, type: 3}
+  cursorHotspot: {x: 0, y: 0}
+  cursorMode: 0
 --- !u!114 &232721953073803165
 MonoBehaviour:
   m_ObjectHideFlags: 0
