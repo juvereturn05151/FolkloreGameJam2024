@@ -14,6 +14,8 @@ public class Blade : MonoBehaviour
     [SerializeField]
     private GameObject bladeTrailPrefab;
     [SerializeField]
+    private BladeTrailCustomizationOption[] bladeTrailOptions;
+    [SerializeField]
     private float minCuttingVelocity = .001f;
     [SerializeField]
     private Rigidbody2D rb;
@@ -88,7 +90,7 @@ public class Blade : MonoBehaviour
         }
 
         isCutting = true;
-        currentBladeTrail = Instantiate(bladeTrailPrefab, transform);
+        currentBladeTrail = Instantiate(GetSelectedBladeTrailPrefab(), transform);
         previousPosition = cam.ScreenToWorldPoint(Input.mousePosition);
         circleCollider.enabled = false;
         SoundManager.instance.PlaySFX("SFX_Slice");
@@ -105,5 +107,39 @@ public class Blade : MonoBehaviour
         }
         
         circleCollider.enabled = false;
+    }
+
+    private GameObject GetSelectedBladeTrailPrefab()
+    {
+        string cursorId = CursorCustomizationSelection.GetSelectedCursorId();
+
+        if (bladeTrailOptions != null)
+        {
+            for (int i = 0; i < bladeTrailOptions.Length; i++)
+            {
+                BladeTrailCustomizationOption option = bladeTrailOptions[i];
+                if (option != null && option.Matches(cursorId) && option.BladeTrailPrefab != null)
+                {
+                    return option.BladeTrailPrefab;
+                }
+            }
+        }
+
+        return bladeTrailPrefab;
+    }
+}
+
+[System.Serializable]
+public class BladeTrailCustomizationOption
+{
+    [SerializeField] private string cursorId;
+    [SerializeField] private GameObject bladeTrailPrefab;
+
+    public GameObject BladeTrailPrefab => bladeTrailPrefab;
+
+    public bool Matches(string selectedCursorId)
+    {
+        return !string.IsNullOrWhiteSpace(cursorId)
+            && string.Equals(cursorId, selectedCursorId, System.StringComparison.Ordinal);
     }
 }

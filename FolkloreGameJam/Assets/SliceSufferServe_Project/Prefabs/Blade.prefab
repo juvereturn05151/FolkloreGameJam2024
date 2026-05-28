@@ -47,6 +47,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bladeTrailPrefab: {fileID: 1945049117440188, guid: 2b0b5703536e41ef94cb1bc34f03bfa7, type: 3}
+  bladeTrailOptions:
+  - cursorId: knife
+    bladeTrailPrefab: {fileID: 1945049117440188, guid: 2b0b5703536e41ef94cb1bc34f03bfa7, type: 3}
+  - cursorId: claw
+    bladeTrailPrefab: {fileID: 1000000000000000001, guid: c2291d53f9bd4cc88a3ee404f1cb7e10, type: 3}
+  - cursorId: chainsaw
+    bladeTrailPrefab: {fileID: 1945049117440188, guid: 730c49848a254a158e1b0de77e230de1, type: 3}
+  - cursorId: rainbow_knife
+    bladeTrailPrefab: {fileID: 1945049117440188, guid: d482397dcb41410d98a4c934d6716720, type: 3}
+  - cursorId: flame_blade
+    bladeTrailPrefab: {fileID: 1945049117440188, guid: 44e5e2292a0e457d904f08ef81378d82, type: 3}
+  - cursorId: golden_blade
+    bladeTrailPrefab: {fileID: 1945049117440188, guid: eb0c86871d4f4a13a00efb91437e5cc2, type: 3}
   minCuttingVelocity: 1e-20
   rb: {fileID: 4148937759417104274}
   circleCollider: {fileID: 4803802644840929784}
