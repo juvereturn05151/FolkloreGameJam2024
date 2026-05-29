@@ -81,6 +81,11 @@ public class HumanBody : MonoBehaviour
         if (_isBeingDestroyed) return;
         _isBeingDestroyed = true;
 
+        if (GameUtility.GameManagerExists())
+        {
+            AndroidAchievementSystem.ReportFirstBlood();
+        }
+
         foreach (HumanPart part in _parts)
         {
             if (part == null) continue;

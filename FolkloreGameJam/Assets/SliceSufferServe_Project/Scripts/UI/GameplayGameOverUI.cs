@@ -65,6 +65,7 @@ public class GameplayGameOverUI : MonoBehaviour
 
         StageGoalResult stageGoalResult = GameManager.Instance.EvaluateAndSaveStageGoal(currentScore);
         preparedStageGoalResult = stageGoalResult;
+        AndroidAchievementSystem.ReportStageResult(stageGoalResult);
         UpdateStageGoalUI(stageGoalResult);
         SetClassicLeaderboardButtonVisible(StageSelection.IsClassicMode);
 

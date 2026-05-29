@@ -1,2 +1,0 @@
-E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\CMakeLists.txt
-E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\FramePacing\CMakeLists.txt

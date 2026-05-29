@@ -310,6 +310,7 @@ public class Customer : MonoBehaviour
     private void HandleSatisfied()
     {
         ComboSystem.AddCombo();
+        AndroidAchievementSystem.ReportOrganServed();
         HandleTutorialServeProgress();
         feedbackController?.PlaySatisfiedFeedback();
         orderUI?.TriggerRight();

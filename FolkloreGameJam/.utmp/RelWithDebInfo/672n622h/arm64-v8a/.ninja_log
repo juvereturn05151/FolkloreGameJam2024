@@ -1,5 +1,3 @@
 # ninja log v5
-4	621	8010659258764946	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	dd60368a57c7d6bf
-622	983	8010659262129259	E:/FolkloreJam/FolkloreGameJam2024/FolkloreGameJam/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/672n622h/obj/arm64-v8a/libswappywrapper.so	7e5994f8a30673ea
-18	846	8017235219615628	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	dd60368a57c7d6bf
-847	2016	8017235230638446	E:/FolkloreJam/FolkloreGameJam2024/FolkloreGameJam/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/672n622h/obj/arm64-v8a/libswappywrapper.so	7e5994f8a30673ea
+1	179	8017330345858879	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	dd60368a57c7d6bf
+181	429	8017330348188062	E:/FolkloreJam/FolkloreGameJam2024/FolkloreGameJam/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/672n622h/obj/arm64-v8a/libswappywrapper.so	7e5994f8a30673ea

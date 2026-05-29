@@ -200,6 +200,7 @@ public class StoreUIManager : MonoBehaviour
         EnsureWeaponStoreUI();
         RefreshHumanItemsUI();
         RefreshWeaponItemsUI();
+        AndroidAchievementSystem.ReportStoreInventoryChanged();
     }
 
     private void WireButtons()
@@ -781,6 +782,7 @@ public class StoreUIManager : MonoBehaviour
         }
 
         CharacterCustomizer.SetHumanPartUnlocked(item.HumanType, item.Part, item.OptionIndex, true);
+        AndroidAchievementSystem.ReportStoreInventoryChanged();
         SetStatus($"Unlocked {item.DisplayName}.");
         Refresh();
     }
@@ -815,6 +817,7 @@ public class StoreUIManager : MonoBehaviour
         }
 
         CharacterCustomizer.SetWeaponCursorUnlocked(item.CursorId, true);
+        AndroidAchievementSystem.ReportStoreInventoryChanged();
         SetStatus($"Unlocked {item.DisplayName}.");
         Refresh();
     }
