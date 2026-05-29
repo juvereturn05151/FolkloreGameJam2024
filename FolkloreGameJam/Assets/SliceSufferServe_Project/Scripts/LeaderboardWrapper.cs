@@ -20,7 +20,16 @@ public class LeaderboardWrapper : MonoBehaviour
 
     void Start()
     {
-        steamLeaderboardDisplay.Activate(info, scores, yourRankNumber);
+        if (ShouldUseGooglePlayClassicLeaderboard())
+        {
+            ShowGooglePlayClassicLeaderboard();
+            return;
+        }
+
+        if (steamLeaderboardDisplay != null)
+        {
+            steamLeaderboardDisplay.Activate(info, scores, yourRankNumber);
+        }
     }
 
     // Update is called once per frame
@@ -55,5 +64,34 @@ public class LeaderboardWrapper : MonoBehaviour
     private void LoadMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    private bool ShouldUseGooglePlayClassicLeaderboard()
+    {
+#if UNITY_ANDROID
+        return StageSelection.IsClassicMode;
+#else
+        return false;
+#endif
+    }
+
+    private void ShowGooglePlayClassicLeaderboard()
+    {
+        SetText(info, "Opening Classic Mode Leaderboard...");
+        SetText(scores, string.Empty);
+        SetText(yourRankNumber, string.Empty);
+
+        GooglePlayManager.ShowClassicLeaderboard();
+    }
+
+    private static void SetText(TextMeshProUGUI text, string value)
+    {
+        if (text == null)
+        {
+            return;
+        }
+
+        text.gameObject.SetActive(!string.IsNullOrEmpty(value));
+        text.text = value;
     }
 }

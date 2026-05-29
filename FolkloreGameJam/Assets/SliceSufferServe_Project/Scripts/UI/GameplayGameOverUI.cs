@@ -81,7 +81,15 @@ public class GameplayGameOverUI : MonoBehaviour
             gameOverHighScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0);
         }
 
+#if UNITY_ANDROID
+        if (StageSelection.IsClassicMode)
+        {
+            GooglePlayManager.ReportClassicScore(currentScore);
+        }
+#else
         SteamLeaderboardManager.UpdateScore(currentScore);
+#endif
+
         return stageGoalResult;
     }
 
