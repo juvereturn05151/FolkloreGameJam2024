@@ -5,6 +5,7 @@ public static class StageSelection
     private const string SecondTutorialSceneName = "SecondTutorial";
 
     public static StageLevelConfig SelectedLevel { get; private set; }
+    public static bool IsClassicMode => IsClassicLevel(SelectedLevel);
 
     public static void SelectLevel(StageLevelConfig levelConfig)
     {
@@ -47,5 +48,23 @@ public static class StageSelection
     public static string GetSelectedGameplaySceneName()
     {
         return GetGameplaySceneName(SelectedLevel);
+    }
+
+    private static bool IsClassicLevel(StageLevelConfig levelConfig)
+    {
+        if (levelConfig == null)
+        {
+            return false;
+        }
+
+        return IsClassicText(levelConfig.LevelId)
+            || IsClassicText(levelConfig.DisplayName)
+            || IsClassicText(levelConfig.name);
+    }
+
+    private static bool IsClassicText(string value)
+    {
+        return !string.IsNullOrWhiteSpace(value)
+            && value.ToLowerInvariant().Contains("classic");
     }
 }

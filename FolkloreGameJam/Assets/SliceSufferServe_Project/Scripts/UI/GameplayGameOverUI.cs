@@ -46,6 +46,8 @@ public class GameplayGameOverUI : MonoBehaviour
 
     public void Initialize()
     {
+        SetClassicLeaderboardButtonVisible(false);
+
         if (gameOverHighScoreText != null && ScoreManager.Instance != null)
         {
             gameOverHighScoreText.text = $"High Score: {ScoreManager.Instance.GetHighScore()}";
@@ -64,6 +66,7 @@ public class GameplayGameOverUI : MonoBehaviour
         StageGoalResult stageGoalResult = GameManager.Instance.EvaluateAndSaveStageGoal(currentScore);
         preparedStageGoalResult = stageGoalResult;
         UpdateStageGoalUI(stageGoalResult);
+        SetClassicLeaderboardButtonVisible(StageSelection.IsClassicMode);
 
         int earnedCurrency = CurrencySystem.AwardCurrencyFromScore(currentScore, scorePointsPerCurrency);
         UpdateCurrencyRewardUI(earnedCurrency);
@@ -146,7 +149,7 @@ public class GameplayGameOverUI : MonoBehaviour
 
     private void TriggerStarAnimation()
     {
-        if (starAnimator == null || preparedStageGoalResult == null)
+        if (StageSelection.IsClassicMode || starAnimator == null || preparedStageGoalResult == null)
         {
             return;
         }
@@ -167,6 +170,30 @@ public class GameplayGameOverUI : MonoBehaviour
 
     private void UpdateStageGoalUI(StageGoalResult result)
     {
+        bool showStageGoalUi = !StageSelection.IsClassicMode;
+        SetTextVisible(gameOverStarsText, showStageGoalUi);
+        SetTextVisible(gameOverNextGoalText, showStageGoalUi);
+
+        if (starAnimator != null)
+        {
+            starAnimator.gameObject.SetActive(showStageGoalUi);
+        }
+
+        if (!showStageGoalUi)
+        {
+            if (gameOverStarsText != null)
+            {
+                gameOverStarsText.text = string.Empty;
+            }
+
+            if (gameOverNextGoalText != null)
+            {
+                gameOverNextGoalText.text = string.Empty;
+            }
+
+            return;
+        }
+
         if (gameOverStarsText != null)
         {
             gameOverStarsText.text = result == null ? string.Empty : $"Stars: {result.Stars} / 3";
@@ -187,6 +214,22 @@ public class GameplayGameOverUI : MonoBehaviour
         gameOverNextGoalText.text = nextStarScore.HasValue
             ? $"Next star: {nextStarScore.Value}"
             : "All stars earned";
+    }
+
+    private void SetClassicLeaderboardButtonVisible(bool visible)
+    {
+        if (leaderboardUI != null)
+        {
+            leaderboardUI.gameObject.SetActive(visible);
+        }
+    }
+
+    private static void SetTextVisible(TextMeshProUGUI text, bool visible)
+    {
+        if (text != null)
+        {
+            text.gameObject.SetActive(visible);
+        }
     }
 
     private void UpdateCurrencyRewardUI(int earnedCurrency)

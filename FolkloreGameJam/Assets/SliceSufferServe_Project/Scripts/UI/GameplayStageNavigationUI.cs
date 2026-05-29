@@ -63,6 +63,12 @@ public class GameplayStageNavigationUI : MonoBehaviour
 
     public void UpdateAfterGameOver(StageGoalResult result)
     {
+        if (StageSelection.IsClassicMode)
+        {
+            HideStageNavigationButtons();
+            return;
+        }
+
         if (gameOverActionsRoot != null)
         {
             gameOverActionsRoot.gameObject.SetActive(true);
@@ -79,6 +85,24 @@ public class GameplayStageNavigationUI : MonoBehaviour
         string label = canGoNext ? "Next Stage" : hasOneStar ? "Last Stage" : "Need 1 Star";
 
         SetNextStageButtonState(canGoNext, label);
+    }
+
+    private void HideStageNavigationButtons()
+    {
+        if (gameOverActionsRoot != null)
+        {
+            gameOverActionsRoot.gameObject.SetActive(false);
+        }
+
+        if (nextStageButton != null)
+        {
+            nextStageButton.gameObject.SetActive(false);
+        }
+
+        if (storyModeSelectButton != null)
+        {
+            storyModeSelectButton.gameObject.SetActive(false);
+        }
     }
 
     public void SetNextStageButtonState(bool canGoNext, string label)
@@ -141,6 +165,9 @@ public class GameplayStageNavigationUI : MonoBehaviour
 
     public void GoToLeaderboard()
     {
+        Debug.Log("Navigating to Leaderboard...");
+        Debug.Log("Timescale:" + Time.timeScale);
+
         if (GameUtility.SoundManagerExists())
         {
             SoundManager.instance.PlayMenuBGM();

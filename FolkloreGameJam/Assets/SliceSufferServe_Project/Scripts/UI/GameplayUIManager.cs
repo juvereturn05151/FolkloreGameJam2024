@@ -64,7 +64,7 @@ public class GameplayUIManager : MonoBehaviour
         {
             return;
         }
-
+        Time.timeScale = 1f;
         gameOverSequenceStarted = true;
         StageGoalResult stageGoalResult = gameOverUI.PrepareGameOver();
         stageNavigationUI?.UpdateAfterGameOver(stageGoalResult);

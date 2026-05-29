@@ -204,6 +204,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 1
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -265,15 +266,15 @@ RectTransform:
   m_GameObject: {fileID: 2450353477272522066}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.371402, y: 2.371402, z: 2.371402}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5502752017569092029}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -102, y: 69.66197}
-  m_SizeDelta: {x: 76.2619, y: 73.324}
+  m_AnchoredPosition: {x: -744, y: 1285}
+  m_SizeDelta: {x: 73.6543, y: 73.324}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9117979315916984638
 CanvasRenderer:
@@ -547,6 +548,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 1
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -646,6 +648,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -720,8 +723,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxPlayer: 13
-  m_SteamLeaderboardEntries:
-    m_SteamLeaderboardEntries: 0
 --- !u!1 &8166961500105194415
 GameObject:
   m_ObjectHideFlags: 0
@@ -827,6 +828,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 1
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -888,14 +890,14 @@ RectTransform:
   m_GameObject: {fileID: 8177440792845917451}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalScale: {x: -2.3667157, y: 2.3667157, z: 2.3667157}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5502752017569092029}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 101.9, y: 69.66197}
+  m_AnchoredPosition: {x: 705, y: 1288}
   m_SizeDelta: {x: 77.2281, y: 73.324}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4404586792617986099
@@ -1095,6 +1097,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
