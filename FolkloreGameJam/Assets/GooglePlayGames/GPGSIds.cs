@@ -24,13 +24,7 @@
 
 public static class GPGSIds
 {
-        public const string achievement_first_step = "CggIgI6H5hsQAhAC"; // <GPGSID>
-        public const string achievement_impressive_butcher = "CggIgI6H5hsQAhAD"; // <GPGSID>
-        public const string achievement_completionist_butcher = "CggIgI6H5hsQAhAE"; // <GPGSID>
-        public const string achievement_profitable_restaurant = "CggIgI6H5hsQAhAB"; // <GPGSID>
-        public const string achievement_perfectionist_butcher = "CggIgI6H5hsQAhAF"; // <GPGSID>
-        public const string achievement_first_blood = "CggIgI6H5hsQAhAA"; // <GPGSID>
-        public const string achievement_shopaholic = "CggIgI6H5hsQAhAG"; // <GPGSID>
+        public const string leaderboard_classic_mode_leaderboard = "CgkIpNabzsEbEAIQAQ"; // <GPGSID>
 
 }
 

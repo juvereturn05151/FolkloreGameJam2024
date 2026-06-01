@@ -1,0 +1,7 @@
+[
+{
+  "directory": "E:/FolkloreJam/FolkloreGameJam2024/FolkloreGameJam/.utmp/Debug/2m6jq3d2/arm64-v8a",
+  "command": "E:\\Unity\\Editor\\6000.4.6f1\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\NDK\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=E:/Unity/Editor/6000.4.6f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DEXTERNAL_FRAME_PACING_CODE -Dswappywrapper_EXPORTS -IE:/FolkloreJam/FolkloreGameJam2024/FolkloreGameJam/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp/FramePacing -isystem C:/Users/drago/.gradle/caches/9.1.0/transforms/4ebbe5df63d1eb82789c97756ba50259/workspace/transformed/jetified-games-frame-pacing-2.1.2/prefab/modules/swappy_static/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -Wall -Wextra -pedantic -Werror -fno-limit-debug-info  -fPIC -o FramePacing\\CMakeFiles\\swappywrapper.dir\\UnitySwappyWrapper.cpp.o -c E:\\FolkloreJam\\FolkloreGameJam2024\\FolkloreGameJam\\Library\\Bee\\Android\\Prj\\IL2CPP\\Gradle\\unityLibrary\\src\\main\\cpp\\FramePacing\\UnitySwappyWrapper.cpp",
+  "file": "E:\\FolkloreJam\\FolkloreGameJam2024\\FolkloreGameJam\\Library\\Bee\\Android\\Prj\\IL2CPP\\Gradle\\unityLibrary\\src\\main\\cpp\\FramePacing\\UnitySwappyWrapper.cpp"
+}
+]

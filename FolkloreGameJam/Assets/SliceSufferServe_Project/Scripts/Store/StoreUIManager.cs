@@ -72,6 +72,7 @@ public class StoreUIManager : MonoBehaviour
             storeManager.OnAdsDisabledPurchased.AddListener(Refresh);
             storeManager.OnAdsAlreadyDisabled.AddListener(Refresh);
             storeManager.OnPurchaseFailed.AddListener(ShowPurchaseFailed);
+            storeManager.RestoreDisableAdsEntitlement();
         }
 
         EnsureHumanStoreUI();

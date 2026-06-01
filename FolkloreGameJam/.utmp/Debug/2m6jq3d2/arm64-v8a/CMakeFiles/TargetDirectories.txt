@@ -1,0 +1,5 @@
+E:/FolkloreJam/FolkloreGameJam2024/FolkloreGameJam/.utmp/Debug/2m6jq3d2/arm64-v8a/CMakeFiles/edit_cache.dir
+E:/FolkloreJam/FolkloreGameJam2024/FolkloreGameJam/.utmp/Debug/2m6jq3d2/arm64-v8a/CMakeFiles/rebuild_cache.dir
+E:/FolkloreJam/FolkloreGameJam2024/FolkloreGameJam/.utmp/Debug/2m6jq3d2/arm64-v8a/FramePacing/CMakeFiles/swappywrapper.dir
+E:/FolkloreJam/FolkloreGameJam2024/FolkloreGameJam/.utmp/Debug/2m6jq3d2/arm64-v8a/FramePacing/CMakeFiles/edit_cache.dir
+E:/FolkloreJam/FolkloreGameJam2024/FolkloreGameJam/.utmp/Debug/2m6jq3d2/arm64-v8a/FramePacing/CMakeFiles/rebuild_cache.dir

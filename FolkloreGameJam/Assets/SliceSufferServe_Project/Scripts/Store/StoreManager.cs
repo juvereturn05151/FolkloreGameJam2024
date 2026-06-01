@@ -70,6 +70,7 @@ public class StoreManager : MonoBehaviour, IDetailedStoreListener
         }
 
         SaveSystem.SetAdsDisabled(true);
+        InterstitialAdManager.OnAdsDisabled();
         OnAdsDisabledPurchased?.Invoke();
         Debug.Log("Disable ads purchased and saved.");
     }
@@ -83,6 +84,7 @@ public class StoreManager : MonoBehaviour, IDetailedStoreListener
     {
         if (!IsStoreReady)
         {
+            InitializePurchasing();
             return;
         }
 
@@ -90,7 +92,10 @@ public class StoreManager : MonoBehaviour, IDetailedStoreListener
         if (product != null && product.hasReceipt)
         {
             CompleteDisableAdsPurchase();
+            return;
         }
+
+        Debug.Log("No remove ads entitlement receipt found to restore.");
     }
 
     public void OnInitialized(IStoreController controller, IExtensionProvider extensions)

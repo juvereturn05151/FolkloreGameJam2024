@@ -39,6 +39,14 @@ public sealed class InterstitialAdManager : MonoBehaviour
 
     private bool CanShowInterstitial => interstitialAd != null && interstitialAd.CanShowAd();
 
+    public static void OnAdsDisabled()
+    {
+        if (instance != null)
+        {
+            instance.DestroyInterstitial();
+        }
+    }
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void EnsureInstance()
     {
@@ -94,6 +102,12 @@ public sealed class InterstitialAdManager : MonoBehaviour
 
     private void InitializeAds()
     {
+        if (SaveSystem.AreAdsDisabled())
+        {
+            DestroyInterstitial();
+            return;
+        }
+
         if (isInitialized || string.IsNullOrEmpty(InterstitialAdUnitId))
         {
             return;
@@ -108,6 +122,12 @@ public sealed class InterstitialAdManager : MonoBehaviour
 
     private void LoadInterstitial()
     {
+        if (SaveSystem.AreAdsDisabled())
+        {
+            DestroyInterstitial();
+            return;
+        }
+
         if (isLoading || string.IsNullOrEmpty(InterstitialAdUnitId))
         {
             return;
@@ -146,6 +166,7 @@ public sealed class InterstitialAdManager : MonoBehaviour
     {
         if (SaveSystem.AreAdsDisabled())
         {
+            DestroyInterstitial();
             onComplete?.Invoke();
             return;
         }
@@ -180,7 +201,11 @@ public sealed class InterstitialAdManager : MonoBehaviour
         isShowing = false;
 
         DestroyInterstitial();
-        LoadInterstitial();
+
+        if (!SaveSystem.AreAdsDisabled())
+        {
+            LoadInterstitial();
+        }
 
         onComplete?.Invoke();
     }
