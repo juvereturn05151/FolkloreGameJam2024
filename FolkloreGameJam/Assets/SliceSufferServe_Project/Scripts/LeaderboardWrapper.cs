@@ -178,7 +178,10 @@ public class LeaderboardWrapper : MonoBehaviour
     {
         IScore[] loadedScores = data.Scores ?? new IScore[0];
 
-        SetText(info, loadedScores.Length == 0 ? "No Classic Mode scores yet." : string.Empty);
+        bool hasPlayerScore = data.PlayerScore != null && data.PlayerScore.value > 0;
+        bool hasLeaderboardScores = loadedScores.Length > 0;
+
+        SetText(info, hasLeaderboardScores || hasPlayerScore ? string.Empty : "No Classic Mode scores yet.");
 
         StringBuilder scoreBuilder = new StringBuilder();
 

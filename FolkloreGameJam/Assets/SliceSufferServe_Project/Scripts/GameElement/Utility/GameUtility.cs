@@ -35,5 +35,10 @@ public static class GameUtility
         return SoundManager.instance != null;
     }
 
+    public static bool GooglePlayManagerExists()
+    {
+        return GooglePlayManager.Instance != null;
+    }
+
     // Other utility methods
 }

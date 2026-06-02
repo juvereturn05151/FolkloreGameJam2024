@@ -6,13 +6,13 @@ using UnityEngine;
 public class GooglePlayManager : MonoBehaviour
 {
     public const string ClassicLeaderboardId = "CgkIpNabzsEbEAIQAQ";
-    public const string FirstBloodAchievementId = "CggIgI6H5hsQAhAA";
-    public const string ProfitableRestaurantAchievementId = "CggIgI6H5hsQAhAB";
-    public const string FirstStepAchievementId = "CggIgI6H5hsQAhAC";
-    public const string ImpressiveButcherAchievementId = "CggIgI6H5hsQAhAD";
-    public const string CompletionistButcherAchievementId = "CggIgI6H5hsQAhAE";
-    public const string PerfectionistButcherAchievementId = "CggIgI6H5hsQAhAF";
-    public const string ShopaholicAchievementId = "CggIgI6H5hsQAhAG";
+    public const string FirstBloodAchievementId = "CgkIpNabzsEbEAIQAg";
+    public const string ProfitableRestaurantAchievementId = "CgkIpNabzsEbEAIQAw";
+    public const string FirstStepAchievementId = "CgkIpNabzsEbEAIQBA";
+    public const string ImpressiveButcherAchievementId = "CgkIpNabzsEbEAIQBQ";
+    public const string CompletionistButcherAchievementId = "CgkIpNabzsEbEAIQBg";
+    public const string PerfectionistButcherAchievementId = "CgkIpNabzsEbEAIQBw";
+    public const string ShopaholicAchievementId = "CgkIpNabzsEbEAIQCA";
 
     public static GooglePlayManager Instance;
 
@@ -125,7 +125,7 @@ public class GooglePlayManager : MonoBehaviour
 
             PlayGamesPlatform.Instance.LoadScores(
                 ClassicLeaderboardId,
-                LeaderboardStart.TopScores,
+                LeaderboardStart.PlayerCentered,
                 rowCount,
                 LeaderboardCollection.Public,
                 LeaderboardTimeSpan.AllTime,
@@ -143,13 +143,15 @@ public class GooglePlayManager : MonoBehaviour
                     manager.lastLeaderboardStatus =
                         data.Status +
                         " / Valid: " + data.Valid +
-                        " / Scores: " + (data.Scores == null ? 0 : data.Scores.Length);
+                        " / Scores: " + (data.Scores == null ? 0 : data.Scores.Length) +
+                        " / PlayerScore: " + (data.PlayerScore == null ? "null" : data.PlayerScore.value.ToString());
 
                     manager.lastDebugMessage = "Leaderboard scores status: " + manager.lastLeaderboardStatus;
 
                     Debug.LogError("[GPGS] Classic leaderboard scores status: " + data.Status);
                     Debug.LogError("[GPGS] Classic leaderboard scores valid: " + data.Valid);
                     Debug.LogError("[GPGS] Classic leaderboard scores count: " + (data.Scores == null ? 0 : data.Scores.Length));
+                    Debug.LogError("[GPGS] Classic leaderboard player score: " + (data.PlayerScore == null ? "null" : data.PlayerScore.value.ToString()));
 
                     callback?.Invoke(data.Valid, data);
                 });
@@ -727,4 +729,6 @@ public static class AndroidAchievementSystem
 
         return true;
     }
+
+
 }
