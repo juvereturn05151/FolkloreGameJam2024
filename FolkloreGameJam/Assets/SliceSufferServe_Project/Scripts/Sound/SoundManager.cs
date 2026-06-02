@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class SoundEffect
@@ -11,6 +12,9 @@ public class SoundEffect
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
+
+    private const string DefaultGameplaySceneName = "GameplayScene";
+    private const string ArcadeGameplaySceneName = "ArcadeMode";
 
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
@@ -32,10 +36,12 @@ public class SoundManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
             Destroy(gameObject);
+            return;
         }
 
         soundEffects = new Dictionary<string, AudioClip>();
@@ -50,12 +56,43 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
-        PlayMusic(backgroundMusic);
+        Scene activeScene = SceneManager.GetActiveScene();
+        if (IsGameplayScene(activeScene.name))
+        {
+            PlayGameplayBGM();
+        }
+        else
+        {
+            PlayMusic(backgroundMusic);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (IsGameplayScene(scene.name))
+        {
+            PlayGameplayBGM();
+        }
     }
 
     public void PlayGameplayBGM() 
     {
         PlayMusic(backgroundGameplayMusic);
+    }
+
+    private bool IsGameplayScene(string sceneName)
+    {
+        return sceneName == DefaultGameplaySceneName
+            || sceneName == ArcadeGameplaySceneName
+            || sceneName == StageSelection.GetSelectedGameplaySceneName();
     }
 
     public void PlayMenuBGM()
@@ -65,6 +102,11 @@ public class SoundManager : MonoBehaviour
 
     public void PlayMusic(AudioClip clip)
     {
+        if (clip == null || musicSource == null)
+        {
+            return;
+        }
+
         if (musicSource.isPlaying)
         {
             musicSource.Stop();
