@@ -212,10 +212,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Plate (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 7756634274568793163, guid: fdf48e6fdcef84b42b4381e0d53de84c, type: 3}
-      propertyPath: m_SortingOrder
-      value: 44
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -292,10 +288,6 @@ PrefabInstance:
     - target: {fileID: 4812665308420189380, guid: fdf48e6fdcef84b42b4381e0d53de84c, type: 3}
       propertyPath: m_Name
       value: Plate
-      objectReference: {fileID: 0}
-    - target: {fileID: 7756634274568793163, guid: fdf48e6fdcef84b42b4381e0d53de84c, type: 3}
-      propertyPath: m_SortingOrder
-      value: 44
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -458,10 +450,6 @@ PrefabInstance:
     - target: {fileID: 4812665308420189380, guid: fdf48e6fdcef84b42b4381e0d53de84c, type: 3}
       propertyPath: m_Name
       value: Plate (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7756634274568793163, guid: fdf48e6fdcef84b42b4381e0d53de84c, type: 3}
-      propertyPath: m_SortingOrder
-      value: 44
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

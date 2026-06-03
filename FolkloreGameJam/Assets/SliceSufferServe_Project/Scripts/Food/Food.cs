@@ -187,13 +187,13 @@ public class Food : MonoBehaviour
     {
         if (draggable2D != null)
         {
-            draggable2D.SnapTo(plate.transform, new Vector3(0f, 0.86f, 0f));
+            draggable2D.SnapTo(plate.transform, new Vector3(0f, 1.0f, 0f));
             draggable2D.SetCanDrag(false);
         }
         else
         {
             transform.SetParent(plate.transform);
-            transform.localPosition = new Vector3(0f, 0.86f, 0f);
+            transform.localPosition = new Vector3(0f, 1.0f, 0f);
         }
 
         if (rigidBody2D != null)
