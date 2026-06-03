@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(HumanBody))]
-public class ObeseRapidSliceEvent : MonoBehaviour
+public class BigRapidSliceEvent : MonoBehaviour
 {
     [Header("Whole Body Target")]
     [SerializeField] private Vector2 hitboxSize = new Vector2(7.5f, 8.5f);

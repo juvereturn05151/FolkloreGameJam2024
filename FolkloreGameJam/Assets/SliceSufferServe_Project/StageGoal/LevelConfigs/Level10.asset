@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level10
   m_EditorClassIdentifier: Assembly-CSharp::StageLevelConfig
   levelId: level_10
-  displayName: Level 10 - Full Body Spinner Robot Obese Rock Thrower
+  displayName: Level 10 - Full Body Spinner Robot Big Rock Thrower
   levelNumber: 10
   gameplaySceneName: GameplayScene
   stageGoal: {fileID: 11400000, guid: 0eca591993744f799883db7b022ac5d9, type: 2}

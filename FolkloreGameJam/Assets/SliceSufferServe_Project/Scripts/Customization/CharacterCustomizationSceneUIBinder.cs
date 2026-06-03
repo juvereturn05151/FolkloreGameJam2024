@@ -37,8 +37,9 @@ public class CharacterCustomizationSceneUIBinder : MonoBehaviour
         Bind("GeneratePageButton", ShowGeneratePage);
 
         Bind("NormalHumanButton", () => SelectHuman(HumanType.NormalHuman));
+        Bind("KnightHumanButton", () => SelectHuman(HumanType.KnightHuman));
         Bind("RockThrowerHumanButton", () => SelectHuman(HumanType.RockThrowerHuman));
-        Bind("ObeseHumanButton", () => SelectHuman(HumanType.ObeseHuman));
+        Bind("BigHumanButton", () => SelectHuman(HumanType.BigHuman));
         Bind("RobotHumanButton", () => SelectHuman(HumanType.RobotHuman));
 
         Bind("GeneratedSlotPreviousButton", SelectPreviousGeneratedSlot);

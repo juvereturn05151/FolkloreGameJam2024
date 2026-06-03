@@ -52,7 +52,7 @@ public class CharacterCustomizationUIController : MonoBehaviour
 
     // UI setup notes:
     // - Page tab buttons: call ShowEditPage() and ShowGeneratePage().
-    // - Human type buttons: call SelectNormalHuman(), SelectRockThrowerHuman(), SelectObeseHuman(), SelectRobotHuman().
+    // - Human type buttons: call SelectNormalHuman(), SelectBigHuman(), SelectKnightHuman(), SelectRockThrowerHuman(), SelectRobotHuman().
     // - Generate slot buttons/dropdowns: call SelectGeneratedSlot(oneBasedIndex), where Slot 1 passes 1.
     // - Generation mode buttons/dropdowns: call SelectHeadOnly(), SelectNeckOnly(), SelectStomachOnly(), SelectLegOnly().
     // - Prompt input field: connect OnValueChanged(string) to SetPromptText(string).
@@ -182,9 +182,14 @@ public class CharacterCustomizationUIController : MonoBehaviour
         SelectHumanType(HumanType.RockThrowerHuman);
     }
 
-    public void SelectObeseHuman()
+    public void SelectBigHuman()
     {
-        SelectHumanType(HumanType.ObeseHuman);
+        SelectHumanType(HumanType.BigHuman);
+    }
+
+    public void SelectKnightHuman()
+    {
+        SelectHumanType(HumanType.KnightHuman);
     }
 
     public void SelectRobotHuman()
@@ -272,8 +277,10 @@ public class CharacterCustomizationUIController : MonoBehaviour
                 return "Normal Human";
             case HumanType.RockThrowerHuman:
                 return "Rock Thrower Human";
-            case HumanType.ObeseHuman:
+            case HumanType.BigHuman:
                 return "Big Human";
+            case HumanType.KnightHuman:
+                return "Knight Human";
             case HumanType.RobotHuman:
                 return "Robot Human";
             default:

@@ -4,10 +4,11 @@ using UnityEngine;
 
 public enum HumanType
 {
-    NormalHuman,
-    RockThrowerHuman,
-    ObeseHuman,
-    RobotHuman
+    NormalHuman = 0,
+    RockThrowerHuman = 1,
+    BigHuman = 2,
+    RobotHuman = 3,
+    KnightHuman = 4
 }
 
 public enum BodyPartType

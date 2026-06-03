@@ -663,7 +663,9 @@ public static class AndroidAchievementSystem
         {
             HumanType.NormalHuman,
             HumanType.RockThrowerHuman,
-            HumanType.ObeseHuman
+            HumanType.BigHuman,
+            HumanType.KnightHuman,
+            HumanType.RobotHuman
         };
 
         BodyPartType[] bodyParts =

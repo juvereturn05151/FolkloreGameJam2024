@@ -42,7 +42,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4275624120517581302, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: m_Name
-      value: ObeseNeck
+      value: BigNeck
       objectReference: {fileID: 0}
     - target: {fileID: 7151428326088628948, guid: cefa3e012526d764298fb2f2210fea91, type: 3}
       propertyPath: m_Size.x

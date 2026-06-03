@@ -424,10 +424,18 @@ public class StoreUIManager : MonoBehaviour
         AddHumanSection(content, "Rock Thrower Necks", HumanType.RockThrowerHuman, BodyPartType.Neck, SpecialHumanPartPrice);
         AddHumanSection(content, "Rock Thrower Stomachs", HumanType.RockThrowerHuman, BodyPartType.Stomach, SpecialHumanPartPrice);
         AddHumanSection(content, "Rock Thrower Legs", HumanType.RockThrowerHuman, BodyPartType.Leg, SpecialHumanPartPrice);
-        AddHumanSection(content, "Big Heads", HumanType.ObeseHuman, BodyPartType.Head, SpecialHumanPartPrice);
-        AddHumanSection(content, "Big Necks", HumanType.ObeseHuman, BodyPartType.Neck, SpecialHumanPartPrice);
-        AddHumanSection(content, "Big Stomachs", HumanType.ObeseHuman, BodyPartType.Stomach, SpecialHumanPartPrice);
-        AddHumanSection(content, "Big Legs", HumanType.ObeseHuman, BodyPartType.Leg, SpecialHumanPartPrice);
+        AddHumanSection(content, "Big Heads", HumanType.BigHuman, BodyPartType.Head, SpecialHumanPartPrice);
+        AddHumanSection(content, "Big Necks", HumanType.BigHuman, BodyPartType.Neck, SpecialHumanPartPrice);
+        AddHumanSection(content, "Big Stomachs", HumanType.BigHuman, BodyPartType.Stomach, SpecialHumanPartPrice);
+        AddHumanSection(content, "Big Legs", HumanType.BigHuman, BodyPartType.Leg, SpecialHumanPartPrice);
+        AddHumanSection(content, "Knight Heads", HumanType.KnightHuman, BodyPartType.Head, SpecialHumanPartPrice);
+        AddHumanSection(content, "Knight Necks", HumanType.KnightHuman, BodyPartType.Neck, SpecialHumanPartPrice);
+        AddHumanSection(content, "Knight Stomachs", HumanType.KnightHuman, BodyPartType.Stomach, SpecialHumanPartPrice);
+        AddHumanSection(content, "Knight Legs", HumanType.KnightHuman, BodyPartType.Leg, SpecialHumanPartPrice);
+        AddHumanSection(content, "Robot Heads", HumanType.RobotHuman, BodyPartType.Head, SpecialHumanPartPrice);
+        AddHumanSection(content, "Robot Necks", HumanType.RobotHuman, BodyPartType.Neck, SpecialHumanPartPrice);
+        AddHumanSection(content, "Robot Stomachs", HumanType.RobotHuman, BodyPartType.Stomach, SpecialHumanPartPrice);
+        AddHumanSection(content, "Robot Legs", HumanType.RobotHuman, BodyPartType.Leg, SpecialHumanPartPrice);
     }
 
     private RectTransform CreateHumanItemsContent(Transform parent)

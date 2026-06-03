@@ -1319,8 +1319,10 @@ public class CharacterGenerationManager : MonoBehaviour
         {
             case HumanType.RockThrowerHuman:
                 return "RockThrower";
-            case HumanType.ObeseHuman:
-                return "Obese";
+            case HumanType.BigHuman:
+                return "Big";
+            case HumanType.KnightHuman:
+                return "Knight";
             case HumanType.RobotHuman:
                 return "Robot";
             default:
@@ -1334,8 +1336,10 @@ public class CharacterGenerationManager : MonoBehaviour
         {
             case HumanType.RockThrowerHuman:
                 return "rock";
-            case HumanType.ObeseHuman:
-                return "obese";
+            case HumanType.BigHuman:
+                return "big";
+            case HumanType.KnightHuman:
+                return "knight";
             case HumanType.RobotHuman:
                 return "robot";
             default:

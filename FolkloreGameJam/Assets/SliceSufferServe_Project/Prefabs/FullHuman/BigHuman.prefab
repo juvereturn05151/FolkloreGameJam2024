@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6643490498467574925}
   - component: {fileID: 2670415562231792641}
   m_Layer: 0
-  m_Name: ObeseHuman
+  m_Name: BigHuman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -153,7 +153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3559172785843697910, guid: 188ebd2ba48249dfa4f896b8a904b60c, type: 3}
       propertyPath: m_Name
-      value: ObeseLeg
+      value: BigLeg
       objectReference: {fileID: 0}
     - target: {fileID: 4211282958953936025, guid: 188ebd2ba48249dfa4f896b8a904b60c, type: 3}
       propertyPath: m_Mass
@@ -344,7 +344,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 5c6890234f8060a428cd6195a1e207f8, type: 3}
     - target: {fileID: 2088345412941928811, guid: 3ec9c8119f3f40eba21c3583426f1875, type: 3}
       propertyPath: m_Name
-      value: ObeseHead
+      value: BigHead
       objectReference: {fileID: 0}
     - target: {fileID: 3152046748745776114, guid: 3ec9c8119f3f40eba21c3583426f1875, type: 3}
       propertyPath: m_Radius
@@ -566,7 +566,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6860405529023956082, guid: 663c89c499bb4313b889fd6f3229fe6a, type: 3}
       propertyPath: m_Name
-      value: ObeseStomach
+      value: BigStomach
       objectReference: {fileID: 0}
     - target: {fileID: 7980435004161994378, guid: 663c89c499bb4313b889fd6f3229fe6a, type: 3}
       propertyPath: startForce
@@ -642,7 +642,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1318883063043468615, guid: 5159779ad11648d79ca2d22c44404767, type: 3}
       propertyPath: m_Name
-      value: ObeseNeck
+      value: BigNeck
       objectReference: {fileID: 0}
     - target: {fileID: 2090230060325365618, guid: 5159779ad11648d79ca2d22c44404767, type: 3}
       propertyPath: m_Sprite

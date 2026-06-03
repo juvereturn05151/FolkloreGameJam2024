@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level8
   m_EditorClassIdentifier: Assembly-CSharp::StageLevelConfig
   levelId: level_8
-  displayName: Level 8 - Full Body Spinner Robot Obese
+  displayName: Level 8 - Full Body Spinner Robot Big
   levelNumber: 8
   gameplaySceneName: GameplayScene
   stageGoal: {fileID: 11400000, guid: e3217fbe59e246eab942c029032ab1df, type: 2}

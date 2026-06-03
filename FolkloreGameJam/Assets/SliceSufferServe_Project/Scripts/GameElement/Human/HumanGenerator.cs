@@ -73,7 +73,7 @@ public class HumanGenerator : MonoBehaviour
         }
 
         spawnedHuman.ApplyLevelConfig(levelConfig);
-        ApplyNormalHumanCustomization(spawnedHuman);
+        ApplyHumanCustomization(spawnedHuman);
         spawnedHuman.ApplyMovementSpeedMultiplier(movementSpeedMultiplier);
     }
 
@@ -257,7 +257,7 @@ public class HumanGenerator : MonoBehaviour
             return false;
         }
 
-        if (prefab.GetComponent<ObeseRapidSliceEvent>() != null)
+        if (prefab.GetComponent<BigRapidSliceEvent>() != null)
         {
             return true;
         }
@@ -299,9 +299,9 @@ public class HumanGenerator : MonoBehaviour
         return false;
     }
 
-    private void ApplyNormalHumanCustomization(HumanBody spawnedHuman)
+    private void ApplyHumanCustomization(HumanBody spawnedHuman)
     {
-        if (spawnedHuman == null || !IsNormalHuman(spawnedHuman))
+        if (spawnedHuman == null)
         {
             return;
         }
@@ -311,16 +311,67 @@ public class HumanGenerator : MonoBehaviour
             customizationManager = CharacterCustomizationManager.GetOrCreateRuntimeInstance();
         }
 
-        CharacterSpriteSet manualSpriteSet = CharacterCustomizationApplier.LoadSavedSpriteSet();
-        if (manualSpriteSet != null && manualSpriteSet.HasAnySprite())
+        HumanType spawnedType = GetHumanType(spawnedHuman);
+        CharacterCustomizationData manualData = CharacterCustomizationData.LoadFromPlayerPrefs();
+        if (manualData.selectedHumanType == spawnedType)
         {
-            spawnedHuman.ApplyCustomizationSpriteSet(manualSpriteSet);
+            CharacterSpriteSet manualSpriteSet = CharacterCustomizationApplier.LoadSavedSpriteSet();
+            if (manualSpriteSet != null && manualSpriteSet.HasAnySprite())
+            {
+                spawnedHuman.ApplyCustomizationSpriteSet(manualSpriteSet);
+                return;
+            }
+        }
+
+        if (customizationManager != null && customizationManager.TryGetGeneratedSpriteSetForSpawn(spawnedType, out CharacterSpriteSet generatedSpriteSet))
+        {
+            spawnedHuman.ApplyCustomizationSpriteSet(generatedSpriteSet);
         }
     }
 
-    private static bool IsNormalHuman(HumanBody humanBody)
+    private static HumanType GetHumanType(HumanBody humanBody)
     {
+        if (humanBody.GetComponent<BigRapidSliceEvent>() != null)
+        {
+            return HumanType.BigHuman;
+        }
+
+        if (humanBody.GetComponent<HumanRockThrower>() != null)
+        {
+            return HumanType.RockThrowerHuman;
+        }
+
+        if (humanBody.GetComponent<RobotHuman>() != null)
+        {
+            return HumanType.RobotHuman;
+        }
+
+        if (humanBody.GetComponentInChildren<KnightArmorLayer>(true) != null)
+        {
+            return HumanType.KnightHuman;
+        }
+
         string humanName = humanBody.gameObject.name;
-        return humanName == "Human" || humanName.StartsWith("Human(");
+        if (humanName.Contains("Big"))
+        {
+            return HumanType.BigHuman;
+        }
+
+        if (humanName.Contains("RockThrower") || humanName.Contains("Rock Thrower"))
+        {
+            return HumanType.RockThrowerHuman;
+        }
+
+        if (humanName.Contains("Robot"))
+        {
+            return HumanType.RobotHuman;
+        }
+
+        if (humanName.Contains("Knight"))
+        {
+            return HumanType.KnightHuman;
+        }
+
+        return HumanType.NormalHuman;
     }
 }

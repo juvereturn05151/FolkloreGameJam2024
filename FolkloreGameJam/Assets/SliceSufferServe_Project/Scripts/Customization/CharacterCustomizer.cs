@@ -8,7 +8,9 @@ public class CharacterCustomizer : MonoBehaviour
 
     private const string NormalHumanResourceRoot = "Characters/Human/Normal";
     private const string RockThrowerHumanResourceRoot = "Characters/Human/RockThrower";
-    private const string ObeseHumanResourceRoot = "Characters/Human/Obese";
+    private const string BigHumanResourceRoot = "Characters/Human/Big";
+    private const string KnightHumanResourceRoot = "Characters/Human/Knight";
+    private const string RobotHumanResourceRoot = "Characters/Human/Robot";
     private const string FreeHeadsResourcePath = "Characters/Human/Normal/Free/Heads";
     private const string FreeNecksResourcePath = "Characters/Human/Normal/Free/Necks";
     private const string FreeStomachsResourcePath = "Characters/Human/Normal/Free/Stomach";
@@ -31,9 +33,10 @@ public class CharacterCustomizer : MonoBehaviour
     [SerializeField] private Sprite[] legsOptions;
 
     [Header("Manual UI")]
-    [SerializeField] private bool createDefaultManualControls = true;
     [SerializeField] private bool allPartsUnlockedForTesting;
+    [SerializeField] private CharacterCustomizationManager customizationManager;
     [SerializeField] private Transform manualControlsRoot;
+    [SerializeField] private Text titleText;
     [SerializeField] private Text statusText;
     [SerializeField] private GameObject weaponCursorPanel;
     [SerializeField] private Button characterTabButton;
@@ -52,9 +55,9 @@ public class CharacterCustomizer : MonoBehaviour
     private void Awake()
     {
         selectedData = CharacterCustomizationData.LoadFromPlayerPrefs();
+        ResolveCustomizationManager();
         LoadSprites();
         ClampSelectedIndices();
-        BuildDefaultManualControls();
         ResolvePreviewReferences();
         BindManualUiButtons();
         BindWeaponCursorUi();
@@ -160,9 +163,19 @@ public class CharacterCustomizer : MonoBehaviour
         SelectHumanType(HumanType.RockThrowerHuman);
     }
 
-    public void SelectObeseHuman()
+    public void SelectBigHuman()
     {
-        SelectHumanType(HumanType.ObeseHuman);
+        SelectHumanType(HumanType.BigHuman);
+    }
+
+    public void SelectKnightHuman()
+    {
+        SelectHumanType(HumanType.KnightHuman);
+    }
+
+    public void SelectRobotHuman()
+    {
+        SelectHumanType(HumanType.RobotHuman);
     }
 
     public void SaveCustomization()
@@ -186,6 +199,7 @@ public class CharacterCustomizer : MonoBehaviour
 
         SetTabButtonColor(characterTabButton, new Color(0.74f, 0.22f, 0.16f, 1f));
         SetTabButtonColor(weaponTabButton, new Color(0.24f, 0.22f, 0.18f, 1f));
+        RefreshHumanTypeTabColors();
         UpdateStatusText();
     }
 
@@ -333,6 +347,7 @@ public class CharacterCustomizer : MonoBehaviour
         neckImage ??= FindImageByName("NeckPreviewImage");
         bodyImage ??= FindImageByName("StomachPreviewImage");
         legsImage ??= FindImageByName("LegPreviewImage");
+        titleText ??= FindTextByName("Title");
         statusText ??= FindTextByName("SelectedHumanLabel");
         humanPreviewRoot ??= FindTransformByName("Human")?.gameObject;
         weaponPreviewRoot ??= FindTransformByName("Weapon")?.gameObject;
@@ -353,8 +368,10 @@ public class CharacterCustomizer : MonoBehaviour
         BindButton("SaveButton", SaveCustomization);
         BindButton("BackButton", BackToGameModeSelect);
         BindButton("NormalHumanButton", SelectNormalHuman);
+        BindButton("KnightHumanButton", SelectKnightHuman);
         BindButton("RockThrowerHumanButton", SelectRockThrowerHuman);
-        BindButton("ObeseHumanButton", SelectObeseHuman);
+        BindButton("BigHumanButton", SelectBigHuman);
+        BindButton("RobotHumanButton", SelectRobotHuman);
     }
 
     private void BindWeaponCursorUi()
@@ -414,6 +431,7 @@ public class CharacterCustomizer : MonoBehaviour
 
         string[] objectNames =
         {
+            "HumanTypeTabs",
             "ControlsTitle",
             "HeadLabel",
             "HeadPreviousButton",
@@ -505,16 +523,16 @@ public class CharacterCustomizer : MonoBehaviour
     private void LoadSprites()
     {
         HumanType humanType = selectedData != null ? selectedData.selectedHumanType : HumanType.NormalHuman;
-        Sprite[] resourceHeads = LoadHumanPartSprites(humanType, BodyPartType.Head);
-        Sprite[] resourceNecks = LoadHumanPartSprites(humanType, BodyPartType.Neck);
-        Sprite[] resourceStomachs = LoadHumanPartSprites(humanType, BodyPartType.Stomach);
-        Sprite[] resourceLegs = LoadHumanPartSprites(humanType, BodyPartType.Leg);
+        Sprite[] resourceHeads = LoadHumanPartOptions(humanType, BodyPartType.Head);
+        Sprite[] resourceNecks = LoadHumanPartOptions(humanType, BodyPartType.Neck);
+        Sprite[] resourceStomachs = LoadHumanPartOptions(humanType, BodyPartType.Stomach);
+        Sprite[] resourceLegs = LoadHumanPartOptions(humanType, BodyPartType.Leg);
 
         if (resourceHeads.Length > 0)
         {
             headOptions = resourceHeads;
         }
-        else if (headOptions == null)
+        else
         {
             headOptions = System.Array.Empty<Sprite>();
         }
@@ -523,7 +541,7 @@ public class CharacterCustomizer : MonoBehaviour
         {
             neckOptions = resourceNecks;
         }
-        else if (neckOptions == null)
+        else
         {
             neckOptions = System.Array.Empty<Sprite>();
         }
@@ -532,7 +550,7 @@ public class CharacterCustomizer : MonoBehaviour
         {
             bodyOptions = resourceStomachs;
         }
-        else if (bodyOptions == null)
+        else
         {
             bodyOptions = System.Array.Empty<Sprite>();
         }
@@ -541,12 +559,35 @@ public class CharacterCustomizer : MonoBehaviour
         {
             legsOptions = resourceLegs;
         }
-        else if (legsOptions == null)
+        else
         {
             legsOptions = System.Array.Empty<Sprite>();
         }
 
         Debug.Log($"Manual customization loaded {humanType} sprites: heads={headOptions.Length}, necks={neckOptions.Length}, stomachs={bodyOptions.Length}, legs={legsOptions.Length}");
+    }
+
+    private Sprite[] LoadHumanPartOptions(HumanType humanType, BodyPartType part)
+    {
+        Sprite[] resourceSprites = LoadHumanPartSprites(humanType, part);
+        if (resourceSprites.Length > 0)
+        {
+            return resourceSprites;
+        }
+
+        ResolveCustomizationManager();
+        Sprite defaultSprite = customizationManager != null ? customizationManager.GetDefaultSprite(humanType, part) : null;
+        return defaultSprite != null ? new[] { defaultSprite } : System.Array.Empty<Sprite>();
+    }
+
+    private void ResolveCustomizationManager()
+    {
+        if (customizationManager != null)
+        {
+            return;
+        }
+
+        customizationManager = CharacterCustomizationManager.Instance ?? FindAnyObjectByType<CharacterCustomizationManager>();
     }
 
     private void SelectHumanType(HumanType humanType)
@@ -565,215 +606,8 @@ public class CharacterCustomizer : MonoBehaviour
         ClampSelectedIndices();
         selectedData.SaveToPlayerPrefs();
         ApplyPreview();
+        RefreshHumanTypeTabColors();
         UpdateStatusText($"Selected {GetHumanTypeDisplayName(humanType)}.");
-    }
-
-    private void BuildDefaultManualControls()
-    {
-        if (!createDefaultManualControls || manualControlsRoot != null || GameObject.Find("ManualCharacterCustomizationUI") != null)
-        {
-            return;
-        }
-
-        Canvas canvas = FindFirstObjectByType<Canvas>();
-        if (canvas == null)
-        {
-            canvas = CreateManualCanvas();
-        }
-
-        Font font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-        GameObject rootObject = new GameObject("ManualCharacterCustomizationUI", typeof(RectTransform));
-        rootObject.transform.SetParent(canvas.transform, false);
-
-        RectTransform root = rootObject.GetComponent<RectTransform>();
-        root.anchorMin = Vector2.zero;
-        root.anchorMax = Vector2.one;
-        root.offsetMin = Vector2.zero;
-        root.offsetMax = Vector2.zero;
-
-        CreateBackground(root);
-        CreatePreview(root, font);
-
-        GameObject panelObject = new GameObject("ManualCustomizationControls", typeof(RectTransform), typeof(Image));
-        panelObject.transform.SetParent(root, false);
-        RectTransform panel = panelObject.GetComponent<RectTransform>();
-        panel.anchorMin = new Vector2(1f, 0.5f);
-        panel.anchorMax = new Vector2(1f, 0.5f);
-        panel.pivot = new Vector2(1f, 0.5f);
-        panel.anchoredPosition = new Vector2(-44f, 0f);
-        panel.sizeDelta = new Vector2(360f, 500f);
-
-        Image panelImage = panelObject.GetComponent<Image>();
-        panelImage.color = new Color(0.08f, 0.07f, 0.06f, 0.86f);
-
-        manualControlsRoot = panelObject.transform;
-        CreateLabel(panel, "Manual Human", font, new Vector2(0f, 212f), 24);
-        CreateButton(panel, "Normal", SelectNormalHuman, font, new Vector2(-112f, 166f), new Vector2(98f, 38f), new Color(0.24f, 0.22f, 0.18f, 1f));
-        CreateButton(panel, "Rock", SelectRockThrowerHuman, font, new Vector2(0f, 166f), new Vector2(98f, 38f), new Color(0.24f, 0.22f, 0.18f, 1f));
-        CreateButton(panel, "Big", SelectObeseHuman, font, new Vector2(112f, 166f), new Vector2(98f, 38f), new Color(0.24f, 0.22f, 0.18f, 1f));
-        CreatePartRow(panel, "Head", PreviousHead, NextHead, font, 96f);
-        CreatePartRow(panel, "Neck", PreviousNeck, NextNeck, font, 28f);
-        CreatePartRow(panel, "Stomach", PreviousStomach, NextStomach, font, -40f);
-        CreatePartRow(panel, "Leg", PreviousLegs, NextLegs, font, -108f);
-        CreateButton(panel, "Default", SelectDefaultCharacter, font, new Vector2(-92f, -196f), new Vector2(146f, 48f), new Color(0.24f, 0.22f, 0.18f, 1f));
-        CreateButton(panel, "Save", SaveCustomization, font, new Vector2(92f, -196f), new Vector2(146f, 48f), new Color(0.74f, 0.22f, 0.16f, 1f));
-    }
-
-    private static Canvas CreateManualCanvas()
-    {
-        GameObject canvasObject = new GameObject("ManualCharacterCustomizationCanvas", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
-        Canvas canvas = canvasObject.GetComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-
-        CanvasScaler scaler = canvasObject.GetComponent<CanvasScaler>();
-        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(1920f, 1080f);
-        scaler.matchWidthOrHeight = 0.5f;
-
-        return canvas;
-    }
-
-    private static void CreateBackground(RectTransform root)
-    {
-        GameObject backgroundObject = new GameObject("ManualBackground", typeof(RectTransform), typeof(Image));
-        backgroundObject.transform.SetParent(root, false);
-
-        RectTransform background = backgroundObject.GetComponent<RectTransform>();
-        background.anchorMin = Vector2.zero;
-        background.anchorMax = Vector2.one;
-        background.offsetMin = Vector2.zero;
-        background.offsetMax = Vector2.zero;
-
-        Image image = backgroundObject.GetComponent<Image>();
-        image.color = new Color(0.05f, 0.045f, 0.04f, 1f);
-    }
-
-    private void CreatePreview(RectTransform root, Font font)
-    {
-        CreateLabel(root, "Preview", font, new Vector2(-420f, 360f), 28);
-
-        GameObject previewObject = new GameObject("ManualPreview", typeof(RectTransform), typeof(Image));
-        previewObject.transform.SetParent(root, false);
-
-        RectTransform preview = previewObject.GetComponent<RectTransform>();
-        preview.anchorMin = new Vector2(0.5f, 0.5f);
-        preview.anchorMax = new Vector2(0.5f, 0.5f);
-        preview.pivot = new Vector2(0.5f, 0.5f);
-        preview.anchoredPosition = new Vector2(-420f, -20f);
-        preview.sizeDelta = new Vector2(520f, 760f);
-
-        Image previewImage = previewObject.GetComponent<Image>();
-        previewImage.color = new Color(0.11f, 0.10f, 0.09f, 0.95f);
-
-        Vector2 previewSize = new Vector2(420f, 746f);
-        legsImage ??= CreatePreviewImage(preview, "LegPreviewImage", Vector2.zero, previewSize);
-        bodyImage ??= CreatePreviewImage(preview, "StomachPreviewImage", Vector2.zero, previewSize);
-        neckImage ??= CreatePreviewImage(preview, "NeckPreviewImage", Vector2.zero, previewSize);
-        headImage ??= CreatePreviewImage(preview, "HeadPreviewImage", Vector2.zero, previewSize);
-
-        statusText ??= CreateStatusText(root, font);
-    }
-
-    private static Image CreatePreviewImage(RectTransform parent, string objectName, Vector2 anchoredPosition, Vector2 size)
-    {
-        GameObject imageObject = new GameObject(objectName, typeof(RectTransform), typeof(Image));
-        imageObject.transform.SetParent(parent, false);
-
-        RectTransform rectTransform = imageObject.GetComponent<RectTransform>();
-        rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
-        rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-        rectTransform.pivot = new Vector2(0.5f, 0.5f);
-        rectTransform.anchoredPosition = anchoredPosition;
-        rectTransform.sizeDelta = size;
-
-        Image image = imageObject.GetComponent<Image>();
-        image.color = Color.white;
-        image.preserveAspect = true;
-        image.raycastTarget = false;
-        return image;
-    }
-
-    private static Text CreateStatusText(RectTransform root, Font font)
-    {
-        GameObject statusObject = new GameObject("ManualCustomizationStatusText", typeof(RectTransform), typeof(Text));
-        statusObject.transform.SetParent(root, false);
-
-        RectTransform rectTransform = statusObject.GetComponent<RectTransform>();
-        rectTransform.anchorMin = new Vector2(0.5f, 0f);
-        rectTransform.anchorMax = new Vector2(0.5f, 0f);
-        rectTransform.pivot = new Vector2(0.5f, 0f);
-        rectTransform.anchoredPosition = new Vector2(-420f, 34f);
-        rectTransform.sizeDelta = new Vector2(760f, 42f);
-
-        Text text = statusObject.GetComponent<Text>();
-        text.font = font;
-        text.fontSize = 20;
-        text.alignment = TextAnchor.MiddleCenter;
-        text.color = new Color(0.95f, 0.91f, 0.82f, 1f);
-        return text;
-    }
-
-    private void CreatePartRow(RectTransform parent, string label, UnityEngine.Events.UnityAction previousAction, UnityEngine.Events.UnityAction nextAction, Font font, float y)
-    {
-        CreateLabel(parent, label, font, new Vector2(0f, y + 18f), 18);
-        CreateButton(parent, "<", previousAction, font, new Vector2(-86f, y - 12f), new Vector2(64f, 36f), new Color(0.24f, 0.22f, 0.18f, 1f));
-        CreateButton(parent, ">", nextAction, font, new Vector2(86f, y - 12f), new Vector2(64f, 36f), new Color(0.24f, 0.22f, 0.18f, 1f));
-    }
-
-    private static void CreateLabel(RectTransform parent, string text, Font font, Vector2 anchoredPosition, int fontSize)
-    {
-        GameObject labelObject = new GameObject(text + "Label", typeof(RectTransform), typeof(Text));
-        labelObject.transform.SetParent(parent, false);
-
-        RectTransform rectTransform = labelObject.GetComponent<RectTransform>();
-        rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
-        rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-        rectTransform.pivot = new Vector2(0.5f, 0.5f);
-        rectTransform.anchoredPosition = anchoredPosition;
-        rectTransform.sizeDelta = new Vector2(280f, 32f);
-
-        Text labelText = labelObject.GetComponent<Text>();
-        labelText.text = text;
-        labelText.font = font;
-        labelText.fontSize = fontSize;
-        labelText.alignment = TextAnchor.MiddleCenter;
-        labelText.color = new Color(0.95f, 0.91f, 0.82f, 1f);
-    }
-
-    private static Button CreateButton(RectTransform parent, string text, UnityEngine.Events.UnityAction action, Font font, Vector2 anchoredPosition, Vector2 size, Color color)
-    {
-        GameObject buttonObject = new GameObject(text + "Button", typeof(RectTransform), typeof(Image), typeof(Button));
-        buttonObject.transform.SetParent(parent, false);
-
-        RectTransform rectTransform = buttonObject.GetComponent<RectTransform>();
-        rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
-        rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-        rectTransform.pivot = new Vector2(0.5f, 0.5f);
-        rectTransform.anchoredPosition = anchoredPosition;
-        rectTransform.sizeDelta = size;
-
-        Image image = buttonObject.GetComponent<Image>();
-        image.color = color;
-
-        Button button = buttonObject.GetComponent<Button>();
-        button.onClick.AddListener(action);
-
-        GameObject textObject = new GameObject("Text", typeof(RectTransform), typeof(Text));
-        textObject.transform.SetParent(buttonObject.transform, false);
-
-        RectTransform textTransform = textObject.GetComponent<RectTransform>();
-        textTransform.anchorMin = Vector2.zero;
-        textTransform.anchorMax = Vector2.one;
-        textTransform.offsetMin = Vector2.zero;
-        textTransform.offsetMax = Vector2.zero;
-
-        Text buttonText = textObject.GetComponent<Text>();
-        buttonText.text = text;
-        buttonText.font = font;
-        buttonText.fontSize = 20;
-        buttonText.alignment = TextAnchor.MiddleCenter;
-        buttonText.color = Color.white;
-        return button;
     }
 
     private void ClampSelectedIndices()
@@ -863,13 +697,20 @@ public class CharacterCustomizer : MonoBehaviour
 
     private void UpdateStatusText(string prefix = null)
     {
-        if (statusText == null)
+        string humanDisplayName = GetHumanTypeDisplayName(selectedData.selectedHumanType);
+
+        if (titleText != null)
         {
-            return;
+            titleText.text = selectedData.selectedHumanType == HumanType.NormalHuman
+                ? humanDisplayName
+                : $"{humanDisplayName} Human";
         }
 
-        string status = $"{GetHumanTypeDisplayName(selectedData.selectedHumanType)} | Head {DisplayIndex(selectedData.headIndex, headOptions)} | Neck {DisplayIndex(selectedData.neckIndex, neckOptions)} | Stomach {DisplayIndex(selectedData.bodyIndex, bodyOptions)} | Leg {DisplayIndex(selectedData.legsIndex, legsOptions)} | Weapon {GetCursorDisplayName(selectedData.selectedCursorId)}";
-        statusText.text = string.IsNullOrWhiteSpace(prefix) ? status : $"{prefix} {status}";
+        if (statusText != null)
+        {
+            string status = $"{humanDisplayName} | Head {DisplayIndex(selectedData.headIndex, headOptions)} | Neck {DisplayIndex(selectedData.neckIndex, neckOptions)} | Stomach {DisplayIndex(selectedData.bodyIndex, bodyOptions)} | Leg {DisplayIndex(selectedData.legsIndex, legsOptions)} | Weapon {GetCursorDisplayName(selectedData.selectedCursorId)}";
+            statusText.text = string.IsNullOrWhiteSpace(prefix) ? status : $"{prefix} {status}";
+        }
     }
 
     private void RefreshWeaponCursorButtons()
@@ -924,6 +765,29 @@ public class CharacterCustomizer : MonoBehaviour
         {
             image.color = color;
         }
+    }
+
+    private void RefreshHumanTypeTabColors()
+    {
+        HumanType selectedType = selectedData != null ? selectedData.selectedHumanType : HumanType.NormalHuman;
+        SetHumanTypeTabColor("NormalHumanButton", selectedType == HumanType.NormalHuman);
+        SetHumanTypeTabColor("BigHumanButton", selectedType == HumanType.BigHuman);
+        SetHumanTypeTabColor("KnightHumanButton", selectedType == HumanType.KnightHuman);
+        SetHumanTypeTabColor("RockThrowerHumanButton", selectedType == HumanType.RockThrowerHuman);
+        SetHumanTypeTabColor("RobotHumanButton", selectedType == HumanType.RobotHuman);
+    }
+
+    private static void SetHumanTypeTabColor(string buttonName, bool selected)
+    {
+        Button button = FindButtonByName(buttonName);
+        if (button == null)
+        {
+            return;
+        }
+
+        SetTabButtonColor(button, selected
+            ? new Color(0.74f, 0.22f, 0.16f, 1f)
+            : new Color(0.24f, 0.22f, 0.18f, 1f));
     }
 
     private int NextUnlockedIndex(BodyPartType part, int currentIndex, Sprite[] options)
@@ -1104,8 +968,12 @@ public class CharacterCustomizer : MonoBehaviour
         {
             case HumanType.RockThrowerHuman:
                 return RockThrowerHumanResourceRoot;
-            case HumanType.ObeseHuman:
-                return ObeseHumanResourceRoot;
+            case HumanType.BigHuman:
+                return BigHumanResourceRoot;
+            case HumanType.KnightHuman:
+                return KnightHumanResourceRoot;
+            case HumanType.RobotHuman:
+                return RobotHumanResourceRoot;
             case HumanType.NormalHuman:
                 return NormalHumanResourceRoot;
             default:
@@ -1142,8 +1010,10 @@ public class CharacterCustomizer : MonoBehaviour
         {
             case HumanType.RockThrowerHuman:
                 return "Rock Thrower";
-            case HumanType.ObeseHuman:
+            case HumanType.BigHuman:
                 return "Big";
+            case HumanType.KnightHuman:
+                return "Knight";
             case HumanType.RobotHuman:
                 return "Robot";
             default:

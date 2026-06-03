@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level9
   m_EditorClassIdentifier: Assembly-CSharp::StageLevelConfig
   levelId: level_9
-  displayName: Level 9 - Full Body Spinner Robot Obese Three Customers
+  displayName: Level 9 - Full Body Spinner Robot Big Three Customers
   levelNumber: 9
   gameplaySceneName: GameplayScene
   stageGoal: {fileID: 11400000, guid: 405bf08f3e194f1a88272414cb7ba224, type: 2}
