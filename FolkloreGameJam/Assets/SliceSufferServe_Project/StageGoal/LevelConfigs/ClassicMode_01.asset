@@ -15,6 +15,7 @@ MonoBehaviour:
   levelId: classicmode_01
   displayName: ClassicMode 1
   levelNumber: 1
+  storyModeSelectionSprite: {fileID: 0}
   gameplaySceneName: GameplayScene
   stageGoal: {fileID: 11400000, guid: 824bc3dc788f64a4ca9431333436696f, type: 2}
   allowSuperMeter: 1
@@ -45,7 +46,7 @@ MonoBehaviour:
   spawnPhases:
   - startTime: 0
     endTime: 20
-    spawnInterval: 3
+    spawnInterval: 4
     humanSpeedMultiplier: 0.8
     doubleSpawnChance: 0
     doubleSpawnDelay: 0.25

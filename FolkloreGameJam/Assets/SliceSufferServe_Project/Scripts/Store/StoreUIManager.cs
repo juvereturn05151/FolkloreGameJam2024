@@ -14,6 +14,14 @@ public class StoreUIManager : MonoBehaviour
     private const int HumanPartPrice = 1000;
     private const int SpecialHumanPartPrice = 6000;
     private const int WeaponCursorPrice = 5000;
+    private const float HumanItemRowHeight = 176f;
+    private const float HumanItemPreviewWidth = 190f;
+    private const float HumanItemPreviewHeight = 148f;
+    private const float HumanItemPreviewScale = 2.2f;
+    private const float StoreItemRowHeight = 86f;
+    private const float StoreItemPreviewWidth = 64f;
+    private const float StoreItemPreviewHeight = 62f;
+    private const float StoreItemPreviewScale = 1f;
 
     [Header("Store")]
     [SerializeField] private StoreManager storeManager;
@@ -406,7 +414,7 @@ public class StoreUIManager : MonoBehaviour
         }
 
         RectTransform content = CreateHumanItemsContent(humanPanel.transform);
-        string[] personaNames = { "Indian", "Chinese", "Jewish", "Hipster", "American Blond" };
+        string[] personaNames = { "Person1", "Person2", "Person3", "Person4", "Person5" };
 
         AddHumanSection(content, "Heads", HumanType.NormalHuman, BodyPartType.Head, HumanPartPrice, personaNames);
         AddHumanSection(content, "Necks", HumanType.NormalHuman, BodyPartType.Neck, HumanPartPrice, personaNames);
@@ -416,10 +424,10 @@ public class StoreUIManager : MonoBehaviour
         AddHumanSection(content, "Rock Thrower Necks", HumanType.RockThrowerHuman, BodyPartType.Neck, SpecialHumanPartPrice);
         AddHumanSection(content, "Rock Thrower Stomachs", HumanType.RockThrowerHuman, BodyPartType.Stomach, SpecialHumanPartPrice);
         AddHumanSection(content, "Rock Thrower Legs", HumanType.RockThrowerHuman, BodyPartType.Leg, SpecialHumanPartPrice);
-        AddHumanSection(content, "Obese Heads", HumanType.ObeseHuman, BodyPartType.Head, SpecialHumanPartPrice);
-        AddHumanSection(content, "Obese Necks", HumanType.ObeseHuman, BodyPartType.Neck, SpecialHumanPartPrice);
-        AddHumanSection(content, "Obese Stomachs", HumanType.ObeseHuman, BodyPartType.Stomach, SpecialHumanPartPrice);
-        AddHumanSection(content, "Obese Legs", HumanType.ObeseHuman, BodyPartType.Leg, SpecialHumanPartPrice);
+        AddHumanSection(content, "Big Heads", HumanType.ObeseHuman, BodyPartType.Head, SpecialHumanPartPrice);
+        AddHumanSection(content, "Big Necks", HumanType.ObeseHuman, BodyPartType.Neck, SpecialHumanPartPrice);
+        AddHumanSection(content, "Big Stomachs", HumanType.ObeseHuman, BodyPartType.Stomach, SpecialHumanPartPrice);
+        AddHumanSection(content, "Big Legs", HumanType.ObeseHuman, BodyPartType.Leg, SpecialHumanPartPrice);
     }
 
     private RectTransform CreateHumanItemsContent(Transform parent)
@@ -468,7 +476,7 @@ public class StoreUIManager : MonoBehaviour
         layout.padding = new RectOffset(0, 0, 0, 0);
         layout.childAlignment = TextAnchor.UpperCenter;
         layout.childControlWidth = true;
-        layout.childControlHeight = false;
+        layout.childControlHeight = true;
         layout.childForceExpandWidth = true;
         layout.childForceExpandHeight = false;
 
@@ -551,17 +559,17 @@ public class StoreUIManager : MonoBehaviour
         layout.childForceExpandWidth = false;
         layout.childForceExpandHeight = false;
 
-        AddLayoutElement(row, 86f);
+        AddLayoutElement(row, HumanItemRowHeight);
 
         Image preview = CreateHumanItemPreview(row.transform, item.Sprite);
         TextMeshProUGUI label = CreateText(row.transform, item.DisplayName, 26, TextAlignmentOptions.Left, new Color(0.95f, 0.9f, 0.82f, 1f));
         LayoutElement labelLayout = label.gameObject.AddComponent<LayoutElement>();
         labelLayout.flexibleWidth = 1f;
-        labelLayout.preferredHeight = 62f;
+        labelLayout.preferredHeight = 148f;
 
         TextMeshProUGUI price = CreateText(row.transform, item.Price.ToString("N0"), 24, TextAlignmentOptions.Center, new Color(1f, 0.82f, 0.36f, 1f));
         ApplyPriceFont(price);
-        AddLayoutElement(price.gameObject, 130f, 62f);
+        AddLayoutElement(price.gameObject, 130f, 148f);
 
         Button buyButton = CreateHumanBuyButton(row.transform);
         TextMeshProUGUI buyText = buyButton.GetComponentInChildren<TextMeshProUGUI>(true);
@@ -588,7 +596,7 @@ public class StoreUIManager : MonoBehaviour
         layout.childForceExpandWidth = false;
         layout.childForceExpandHeight = false;
 
-        AddLayoutElement(row, 86f);
+        AddLayoutElement(row, StoreItemRowHeight);
 
         Image preview = CreateTexturePreview(row.transform, item.CursorTexture);
         TextMeshProUGUI label = CreateText(row.transform, item.DisplayName, 26, TextAlignmentOptions.Left, new Color(0.95f, 0.9f, 0.82f, 1f));
@@ -610,12 +618,27 @@ public class StoreUIManager : MonoBehaviour
 
     private Image CreateHumanItemPreview(Transform parent, Sprite sprite)
     {
-        GameObject previewObject = new GameObject("Preview", typeof(RectTransform), typeof(Image), typeof(LayoutElement));
-        previewObject.transform.SetParent(parent, false);
+        return CreateItemPreview(parent, sprite, HumanItemPreviewWidth, HumanItemPreviewHeight, HumanItemPreviewScale);
+    }
 
-        LayoutElement layout = previewObject.GetComponent<LayoutElement>();
-        layout.preferredWidth = 64f;
-        layout.preferredHeight = 62f;
+    private Image CreateItemPreview(Transform parent, Sprite sprite, float preferredWidth, float preferredHeight, float previewScale)
+    {
+        GameObject previewContainer = new GameObject("Preview", typeof(RectTransform), typeof(LayoutElement), typeof(RectMask2D));
+        previewContainer.transform.SetParent(parent, false);
+
+        LayoutElement layout = previewContainer.GetComponent<LayoutElement>();
+        layout.preferredWidth = preferredWidth;
+        layout.preferredHeight = preferredHeight;
+
+        GameObject previewObject = new GameObject("PreviewImage", typeof(RectTransform), typeof(Image));
+        previewObject.transform.SetParent(previewContainer.transform, false);
+
+        RectTransform imageRect = previewObject.GetComponent<RectTransform>();
+        imageRect.anchorMin = Vector2.zero;
+        imageRect.anchorMax = Vector2.one;
+        imageRect.offsetMin = Vector2.zero;
+        imageRect.offsetMax = Vector2.zero;
+        imageRect.localScale = Vector3.one * previewScale;
 
         Image image = previewObject.GetComponent<Image>();
         image.sprite = sprite;
@@ -633,7 +656,7 @@ public class StoreUIManager : MonoBehaviour
             sprite = Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100f);
         }
 
-        return CreateHumanItemPreview(parent, sprite);
+        return CreateItemPreview(parent, sprite, StoreItemPreviewWidth, StoreItemPreviewHeight, StoreItemPreviewScale);
     }
 
     private Button CreateHumanBuyButton(Transform parent)

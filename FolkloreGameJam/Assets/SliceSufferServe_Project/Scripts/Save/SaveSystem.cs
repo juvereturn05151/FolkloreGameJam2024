@@ -51,6 +51,11 @@ public static class SaveSystem
         {
             data.levelProgress = new System.Collections.Generic.List<LevelProgressSaveData>();
         }
+
+        if (data.completedTutorialIds == null)
+        {
+            data.completedTutorialIds = new System.Collections.Generic.List<string>();
+        }
     }
 
     public static void Save()
@@ -154,6 +159,27 @@ public static class SaveSystem
 
         Save();
         return progress;
+    }
+
+    public static bool HasCompletedLevel(string levelId)
+    {
+        LevelProgressSaveData progress = GetLevelProgress(levelId);
+        return progress != null && progress.bestStars > 0;
+    }
+
+    public static bool IsTutorialCompleted(string tutorialId)
+    {
+        return Data.IsTutorialCompleted(tutorialId);
+    }
+
+    public static void MarkTutorialCompleted(string tutorialId)
+    {
+        if (!Data.MarkTutorialCompleted(tutorialId))
+        {
+            return;
+        }
+
+        Save();
     }
 
     public static void Clear()

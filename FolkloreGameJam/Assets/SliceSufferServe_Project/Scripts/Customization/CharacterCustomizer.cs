@@ -610,7 +610,7 @@ public class CharacterCustomizer : MonoBehaviour
         CreateLabel(panel, "Manual Human", font, new Vector2(0f, 212f), 24);
         CreateButton(panel, "Normal", SelectNormalHuman, font, new Vector2(-112f, 166f), new Vector2(98f, 38f), new Color(0.24f, 0.22f, 0.18f, 1f));
         CreateButton(panel, "Rock", SelectRockThrowerHuman, font, new Vector2(0f, 166f), new Vector2(98f, 38f), new Color(0.24f, 0.22f, 0.18f, 1f));
-        CreateButton(panel, "Obese", SelectObeseHuman, font, new Vector2(112f, 166f), new Vector2(98f, 38f), new Color(0.24f, 0.22f, 0.18f, 1f));
+        CreateButton(panel, "Big", SelectObeseHuman, font, new Vector2(112f, 166f), new Vector2(98f, 38f), new Color(0.24f, 0.22f, 0.18f, 1f));
         CreatePartRow(panel, "Head", PreviousHead, NextHead, font, 96f);
         CreatePartRow(panel, "Neck", PreviousNeck, NextNeck, font, 28f);
         CreatePartRow(panel, "Stomach", PreviousStomach, NextStomach, font, -40f);
@@ -1143,7 +1143,7 @@ public class CharacterCustomizer : MonoBehaviour
             case HumanType.RockThrowerHuman:
                 return "Rock Thrower";
             case HumanType.ObeseHuman:
-                return "Obese";
+                return "Big";
             case HumanType.RobotHuman:
                 return "Robot";
             default:

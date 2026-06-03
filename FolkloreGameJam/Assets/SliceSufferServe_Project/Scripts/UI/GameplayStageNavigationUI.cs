@@ -82,7 +82,15 @@ public class GameplayStageNavigationUI : MonoBehaviour
         bool hasOneStar = result != null && result.Stars >= 1;
         bool hasNextStage = GetNextStage() != null;
         bool canGoNext = hasOneStar && hasNextStage;
-        string label = canGoNext ? "Next Stage" : hasOneStar ? "Last Stage" : "Need 1 Star";
+        string label;
+        if (canGoNext)
+        {
+            label = IsNextStageTutorialRequired() ? "Next Tutorial" : "Next Stage";
+        }
+        else
+        {
+            label = hasOneStar ? "Last Stage" : "Need 1 Star";
+        }
 
         SetNextStageButtonState(canGoNext, label);
     }
@@ -133,7 +141,31 @@ public class GameplayStageNavigationUI : MonoBehaviour
         }
 
         StageSelection.SelectLevel(nextStage);
-        SceneManager.LoadScene(StageSelection.GetGameplaySceneName(nextStage));
+        SceneManager.LoadScene(GetNextStageSceneName(nextStage));
+    }
+
+    private string GetNextStageSceneName(StageLevelConfig nextStage)
+    {
+        return IsSecondTutorialRequired(nextStage)
+            ? StageSelection.GetTutorialSceneName(nextStage)
+            : StageSelection.GetGameplaySceneName(nextStage);
+    }
+
+    private bool IsNextStageTutorialRequired()
+    {
+        return IsSecondTutorialRequired(GetNextStage());
+    }
+
+    private bool IsSecondTutorialRequired(StageLevelConfig nextStage)
+    {
+        if (nextStage == null || levelDatabase == null)
+        {
+            return false;
+        }
+
+        int nextStageIndex = levelDatabase.IndexOf(nextStage);
+        return nextStageIndex == 3
+            && !SaveSystem.IsTutorialCompleted(StageUnlockSystem.SecondTutorialId);
     }
 
     public void GoToStoryModeSelect()

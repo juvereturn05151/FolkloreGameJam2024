@@ -273,7 +273,7 @@ public class CharacterCustomizationUIController : MonoBehaviour
             case HumanType.RockThrowerHuman:
                 return "Rock Thrower Human";
             case HumanType.ObeseHuman:
-                return "Obese Human";
+                return "Big Human";
             case HumanType.RobotHuman:
                 return "Robot Human";
             default:

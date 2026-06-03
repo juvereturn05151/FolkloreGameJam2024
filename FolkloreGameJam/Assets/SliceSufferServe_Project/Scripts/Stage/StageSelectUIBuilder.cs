@@ -147,7 +147,7 @@ public class StageSelectUIBuilder : MonoBehaviour
     private void CreateTutorialNode(int nodeIndex, int targetLevelIndex, string tutorialName, int nodeCount)
     {
         StageSelectButton stageNode = CreateNode(nodeIndex, nodeCount);
-        stageNode.ConfigureTutorial(stageSelectManager, targetLevelIndex, tutorialName);
+        stageNode.ConfigureTutorial(stageSelectManager, targetLevelIndex, tutorialName, levelDatabase);
     }
 
     private StageSelectButton CreateNode(int nodeIndex, int nodeCount)

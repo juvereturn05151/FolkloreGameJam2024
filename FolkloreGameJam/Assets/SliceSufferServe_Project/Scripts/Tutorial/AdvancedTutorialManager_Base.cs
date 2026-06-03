@@ -144,6 +144,8 @@ public class AdvancedTutorialManager_Base : MonoBehaviour
 
     private void LoadGameScene()
     {
+        MarkSelectedTutorialCompleted();
+
         if (SoundManager.instance != null)
         {
             SoundManager.instance.PlayGameplayBGM();
@@ -162,6 +164,21 @@ public class AdvancedTutorialManager_Base : MonoBehaviour
     private void LoadScene()
     {
         SceneManager.LoadScene(StageSelection.GetSelectedGameplaySceneName());
+    }
+
+    private void MarkSelectedTutorialCompleted()
+    {
+        StageLevelConfig selectedLevel = StageSelection.SelectedLevel;
+        if (selectedLevel == null)
+        {
+            return;
+        }
+
+        string tutorialId = StageUnlockSystem.GetTutorialIdForTargetLevelIndex(selectedLevel.LevelNumber - 1);
+        if (!string.IsNullOrWhiteSpace(tutorialId))
+        {
+            SaveSystem.MarkTutorialCompleted(tutorialId);
+        }
     }
 
     private void SetGameState(GameManager.GameState state)

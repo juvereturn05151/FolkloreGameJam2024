@@ -15,8 +15,10 @@ public class StageSelectButton : MonoBehaviour
     [SerializeField] private Image previewImage;
     [SerializeField] private Text titleText;
     [SerializeField] private Text starsText;
+    [SerializeField] private Sprite lockSprite;
 
     private SelectMode selectMode;
+    private bool isUnlocked;
 
     private void Awake()
     {
@@ -60,6 +62,7 @@ public class StageSelectButton : MonoBehaviour
         stageSelectManager = manager;
         levelIndex = index;
         selectMode = SelectMode.Level;
+        isUnlocked = StageUnlockSystem.IsLevelUnlocked(GetLevelDatabase(manager), index);
 
         if (titleText != null && levelConfig != null)
         {
@@ -68,19 +71,23 @@ public class StageSelectButton : MonoBehaviour
 
         if (starsText != null && levelConfig != null)
         {
-            LevelProgressSaveData progress = SaveSystem.GetLevelProgress(levelConfig.LevelId);
-            int stars = progress == null ? 0 : progress.bestStars;
-            starsText.text = $"{stars} / 3";
+            int stars = levelConfig.StageGoal == null
+                ? GetSavedStars(levelConfig.LevelId)
+                : levelConfig.StageGoal.GetBestStars();
+            starsText.text = isUnlocked ? $"{stars} / 3" : string.Empty;
         }
 
-        SetPreviewSprite(levelConfig == null ? null : levelConfig.StoryModeSelectionSprite);
+        SetButtonState();
+        Sprite previewSprite = isUnlocked && levelConfig != null ? levelConfig.StoryModeSelectionSprite : lockSprite;
+        SetPreviewSprite(previewSprite);
     }
 
-    public void ConfigureTutorial(StageSelectManager manager, int targetLevelIndex, string tutorialName)
+    public void ConfigureTutorial(StageSelectManager manager, int targetLevelIndex, string tutorialName, StageLevelDatabase levelDatabase)
     {
         stageSelectManager = manager;
         levelIndex = targetLevelIndex;
         selectMode = SelectMode.Tutorial;
+        isUnlocked = StageUnlockSystem.IsTutorialUnlocked(levelDatabase, targetLevelIndex);
 
         if (titleText != null)
         {
@@ -92,7 +99,8 @@ public class StageSelectButton : MonoBehaviour
             starsText.text = string.Empty;
         }
 
-        SetPreviewSprite(null);
+        SetButtonState();
+        SetPreviewSprite(isUnlocked ? null : lockSprite);
     }
 
     private void EnsurePreviewImage()
@@ -144,9 +152,17 @@ public class StageSelectButton : MonoBehaviour
         previewImage.gameObject.SetActive(sprite != null);
     }
 
+    private void SetButtonState()
+    {
+        if (button != null)
+        {
+            button.interactable = isUnlocked;
+        }
+    }
+
     private void SelectLevel()
     {
-        if (stageSelectManager == null)
+        if (stageSelectManager == null || !isUnlocked)
         {
             return;
         }
@@ -158,5 +174,16 @@ public class StageSelectButton : MonoBehaviour
         }
 
         stageSelectManager.SelectLevel(levelIndex);
+    }
+
+    private static int GetSavedStars(string levelId)
+    {
+        LevelProgressSaveData progress = SaveSystem.GetLevelProgress(levelId);
+        return progress == null ? 0 : progress.bestStars;
+    }
+
+    private static StageLevelDatabase GetLevelDatabase(StageSelectManager manager)
+    {
+        return manager == null ? null : manager.LevelDatabase;
     }
 }

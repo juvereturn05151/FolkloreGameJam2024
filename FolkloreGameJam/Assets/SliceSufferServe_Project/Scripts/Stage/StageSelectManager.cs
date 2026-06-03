@@ -8,6 +8,8 @@ public class StageSelectManager : MonoBehaviour
     private bool loadingSelectedStage;
     private string pendingSceneName;
 
+    public StageLevelDatabase LevelDatabase => levelDatabase;
+
     public void SetLevelDatabase(StageLevelDatabase database)
     {
         levelDatabase = database;
@@ -28,6 +30,12 @@ public class StageSelectManager : MonoBehaviour
             return;
         }
 
+        if (!StageUnlockSystem.IsLevelUnlocked(levelDatabase, levelIndex))
+        {
+            Debug.LogWarning($"Level at index {levelIndex} is locked.");
+            return;
+        }
+
         StageSelection.SelectLevel(selectedLevel);
         LoadSelectedStageWithFade(StageSelection.GetGameplaySceneName(selectedLevel));
     }
@@ -44,6 +52,12 @@ public class StageSelectManager : MonoBehaviour
         if (selectedLevel == null)
         {
             Debug.LogWarning($"Cannot select tutorial for level at index {levelIndex}.");
+            return;
+        }
+
+        if (!StageUnlockSystem.IsTutorialUnlocked(levelDatabase, levelIndex))
+        {
+            Debug.LogWarning($"Tutorial for level index {levelIndex} is locked.");
             return;
         }
 

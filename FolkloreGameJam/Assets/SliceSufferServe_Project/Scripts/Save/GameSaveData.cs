@@ -12,6 +12,7 @@ public class GameSaveData
     public string highestCompletedLevelId = string.Empty;
     public int highestCompletedLevelNumber;
     public List<LevelProgressSaveData> levelProgress = new List<LevelProgressSaveData>();
+    public List<string> completedTutorialIds = new List<string>();
 
     public LevelProgressSaveData GetOrCreateLevelProgress(string levelId)
     {
@@ -43,6 +44,37 @@ public class GameSaveData
         }
 
         return null;
+    }
+
+    public bool IsTutorialCompleted(string tutorialId)
+    {
+        if (string.IsNullOrWhiteSpace(tutorialId) || completedTutorialIds == null)
+        {
+            return false;
+        }
+
+        return completedTutorialIds.Contains(tutorialId);
+    }
+
+    public bool MarkTutorialCompleted(string tutorialId)
+    {
+        if (string.IsNullOrWhiteSpace(tutorialId))
+        {
+            return false;
+        }
+
+        if (completedTutorialIds == null)
+        {
+            completedTutorialIds = new List<string>();
+        }
+
+        if (completedTutorialIds.Contains(tutorialId))
+        {
+            return false;
+        }
+
+        completedTutorialIds.Add(tutorialId);
+        return true;
     }
 }
 
