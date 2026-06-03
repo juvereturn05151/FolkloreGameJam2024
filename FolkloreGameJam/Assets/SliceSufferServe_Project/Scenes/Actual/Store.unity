@@ -386,6 +386,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2000000001}
   - component: {fileID: 2000000002}
+  - component: {fileID: 2000000003}
   m_Layer: 0
   m_Name: StoreSystems
   m_TagString: Untagged
@@ -432,6 +433,69 @@ MonoBehaviour:
   OnPurchaseFailed:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2000000003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000000000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 786d0953bdb34000a81da9888eebebd8, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  defaultSpriteSets:
+  - humanType: 0
+    bodyPartSprites:
+    - bodyPartType: 0
+      sprite: {fileID: 21300000, guid: 6ffd6e4185a37e4429f858fc4ed6f950, type: 3}
+    - bodyPartType: 1
+      sprite: {fileID: 21300000, guid: e040c665a4a01144c89df267379eb386, type: 3}
+    - bodyPartType: 2
+      sprite: {fileID: 21300000, guid: 1b2c339113bfd6b4099d7217936d7878, type: 3}
+    - bodyPartType: 3
+      sprite: {fileID: 21300000, guid: 1b280817df11c4249943d812bd798990, type: 3}
+  - humanType: 1
+    bodyPartSprites:
+    - bodyPartType: 0
+      sprite: {fileID: 21300000, guid: abd7c9ca3c305ab49a9f9e2df97591ee, type: 3}
+    - bodyPartType: 1
+      sprite: {fileID: 21300000, guid: 31782f3917ec8084baef76de0be7586f, type: 3}
+    - bodyPartType: 2
+      sprite: {fileID: 21300000, guid: e16491c5866d0f842b5dad4e2855dd02, type: 3}
+    - bodyPartType: 3
+      sprite: {fileID: 21300000, guid: 1b2f141a32269cc4b97d119baf2f46d5, type: 3}
+  - humanType: 2
+    bodyPartSprites:
+    - bodyPartType: 0
+      sprite: {fileID: 21300000, guid: 5c6890234f8060a428cd6195a1e207f8, type: 3}
+    - bodyPartType: 1
+      sprite: {fileID: 21300000, guid: 46bd0ecead84b4245ab04e9e7d09536b, type: 3}
+    - bodyPartType: 2
+      sprite: {fileID: 21300000, guid: cc078b0eab896da488b4cccc1047e01f, type: 3}
+    - bodyPartType: 3
+      sprite: {fileID: 21300000, guid: d666d0b4aaafb3c44953347e83e743ba, type: 3}
+  - humanType: 3
+    bodyPartSprites:
+    - bodyPartType: 0
+      sprite: {fileID: 21300000, guid: c94adbec6c8d3f24c88066eaaf3ccfeb, type: 3}
+    - bodyPartType: 1
+      sprite: {fileID: 21300000, guid: 7b3e99c69dc4944419356279854d84a5, type: 3}
+    - bodyPartType: 2
+      sprite: {fileID: 21300000, guid: 79df0ba8608eed74fb1eb469266374c0, type: 3}
+    - bodyPartType: 3
+      sprite: {fileID: 21300000, guid: 198ec0802ee37bd4691ae1f33412fbc2, type: 3}
+  - humanType: 4
+    bodyPartSprites:
+    - bodyPartType: 0
+      sprite: {fileID: 21300000, guid: b898bb15e87a03342b9f6c20dae82b7f, type: 3}
+    - bodyPartType: 1
+      sprite: {fileID: 21300000, guid: e654acdfe9d93d04eae1dffb6c442e06, type: 3}
+    - bodyPartType: 2
+      sprite: {fileID: 21300000, guid: 7c375d065ccb6e54bb874a6304a53a02, type: 3}
+    - bodyPartType: 3
+      sprite: {fileID: 21300000, guid: 8b15adb1090c21947a60fdd863e2386d, type: 3}
 --- !u!1001 &308657876450063247
 PrefabInstance:
   m_ObjectHideFlags: 0

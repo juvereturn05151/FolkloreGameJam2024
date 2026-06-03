@@ -86,10 +86,10 @@ public class CharacterCustomizationApplier : MonoBehaviour
 
         return new CharacterSpriteSet
         {
-            head = GetSprite(heads, data.headIndex),
-            neck = GetSprite(necks, data.neckIndex),
-            stomach = GetSprite(bodies, data.bodyIndex),
-            leg = GetSprite(legs, data.legsIndex)
+            head = GetUnlockedSprite(humanType, BodyPartType.Head, heads, data.headIndex),
+            neck = GetUnlockedSprite(humanType, BodyPartType.Neck, necks, data.neckIndex),
+            stomach = GetUnlockedSprite(humanType, BodyPartType.Stomach, bodies, data.bodyIndex),
+            leg = GetUnlockedSprite(humanType, BodyPartType.Leg, legs, data.legsIndex)
         };
     }
 
@@ -106,6 +106,16 @@ public class CharacterCustomizationApplier : MonoBehaviour
         }
 
         return options[Mathf.Clamp(index, 0, options.Length - 1)];
+    }
+
+    private static Sprite GetUnlockedSprite(HumanType humanType, BodyPartType part, Sprite[] options, int index)
+    {
+        if (!CharacterCustomizer.IsHumanPartUnlocked(humanType, part, index))
+        {
+            return null;
+        }
+
+        return GetSprite(options, index);
     }
 
     private static void SetSprite(SpriteRenderer spriteRenderer, Image image, Sprite sprite)

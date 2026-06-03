@@ -25,6 +25,7 @@ public class StoreUIManager : MonoBehaviour
 
     [Header("Store")]
     [SerializeField] private StoreManager storeManager;
+    [SerializeField] private CharacterCustomizationManager customizationManager;
     [SerializeField] private string defaultTabId = DisableAdsTabId;
     [SerializeField] private string backSceneName = "GameModeSelect";
     [SerializeField] private List<StoreTabView> tabs = new List<StoreTabView>();
@@ -67,6 +68,7 @@ public class StoreUIManager : MonoBehaviour
             storeManager = FindFirstObjectByType<StoreManager>();
         }
 
+        ResolveCustomizationManager();
         cursorCatalog = CursorCustomizationCatalog.LoadDefault();
         ApplyPriceFont(disableAdsPriceText);
     }
@@ -538,6 +540,16 @@ public class StoreUIManager : MonoBehaviour
 
         Sprite[] sprites = CharacterCustomizer.LoadHumanPartSprites(humanType, part);
         int freePartCount = CharacterCustomizer.GetFreeHumanPartCount(humanType, part);
+        if (sprites.Length == 0)
+        {
+            Sprite defaultSprite = GetDefaultHumanPartSprite(humanType, part);
+            if (defaultSprite != null)
+            {
+                sprites = new[] { defaultSprite };
+                freePartCount = 0;
+            }
+        }
+
         for (int i = freePartCount; i < sprites.Length; i++)
         {
             int unlockableIndex = i - freePartCount;
@@ -921,6 +933,22 @@ public class StoreUIManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    private Sprite GetDefaultHumanPartSprite(HumanType humanType, BodyPartType part)
+    {
+        ResolveCustomizationManager();
+        return customizationManager != null ? customizationManager.GetDefaultSprite(humanType, part) : null;
+    }
+
+    private void ResolveCustomizationManager()
+    {
+        if (customizationManager != null)
+        {
+            return;
+        }
+
+        customizationManager = CharacterCustomizationManager.Instance ?? FindAnyObjectByType<CharacterCustomizationManager>();
     }
 
     private void RepositionTabButtons()

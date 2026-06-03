@@ -181,6 +181,12 @@ public class CharacterCustomizer : MonoBehaviour
     public void SaveCustomization()
     {
         ClampSelectedIndices();
+        if (!AreSelectedPartsUnlocked())
+        {
+            UpdateStatusText("Buy selected parts in Store first.");
+            return;
+        }
+
         selectedData.SaveToPlayerPrefs();
         UpdateStatusText("Saved manual customization.");
     }
@@ -335,10 +341,10 @@ public class CharacterCustomizer : MonoBehaviour
     {
         if (humanType == HumanType.NormalHuman)
         {
-            return Resources.LoadAll<Sprite>(GetFreeResourcePath(part)).Length;
+            return Resources.LoadAll<Sprite>(GetFreeResourcePath(part)).Length > 0 ? 1 : 0;
         }
 
-        return FilterSpritesByPart(Resources.LoadAll<Sprite>(GetFreeResourcePath(humanType, part)), part).Length;
+        return 0;
     }
 
     private void ResolvePreviewReferences()
@@ -604,7 +610,6 @@ public class CharacterCustomizer : MonoBehaviour
         selectedData.legsIndex = 0;
         LoadSprites();
         ClampSelectedIndices();
-        selectedData.SaveToPlayerPrefs();
         ApplyPreview();
         RefreshHumanTypeTabColors();
         UpdateStatusText($"Selected {GetHumanTypeDisplayName(humanType)}.");
@@ -687,12 +692,12 @@ public class CharacterCustomizer : MonoBehaviour
 
     private void ApplyBody()
     {
-        SetSprite( bodyImage, GetSprite(bodyOptions, selectedData.bodyIndex));
+        SetSprite(bodyImage, GetSprite(bodyOptions, selectedData.bodyIndex));
     }
 
     private void ApplyLegs()
     {
-        SetSprite( legsImage, GetSprite(legsOptions, selectedData.legsIndex));
+        SetSprite(legsImage, GetSprite(legsOptions, selectedData.legsIndex));
     }
 
     private void UpdateStatusText(string prefix = null)
@@ -709,6 +714,11 @@ public class CharacterCustomizer : MonoBehaviour
         if (statusText != null)
         {
             string status = $"{humanDisplayName} | Head {DisplayIndex(selectedData.headIndex, headOptions)} | Neck {DisplayIndex(selectedData.neckIndex, neckOptions)} | Stomach {DisplayIndex(selectedData.bodyIndex, bodyOptions)} | Leg {DisplayIndex(selectedData.legsIndex, legsOptions)} | Weapon {GetCursorDisplayName(selectedData.selectedCursorId)}";
+            if (!AreSelectedPartsUnlocked())
+            {
+                status = $"{status} | Locked";
+            }
+
             statusText.text = string.IsNullOrWhiteSpace(prefix) ? status : $"{prefix} {status}";
         }
     }
@@ -837,6 +847,14 @@ public class CharacterCustomizer : MonoBehaviour
 
         HumanType humanType = selectedData != null ? selectedData.selectedHumanType : HumanType.NormalHuman;
         return IsHumanPartUnlocked(humanType, part, index);
+    }
+
+    private bool AreSelectedPartsUnlocked()
+    {
+        return IsPartUnlocked(BodyPartType.Head, selectedData.headIndex)
+            && IsPartUnlocked(BodyPartType.Neck, selectedData.neckIndex)
+            && IsPartUnlocked(BodyPartType.Stomach, selectedData.bodyIndex)
+            && IsPartUnlocked(BodyPartType.Leg, selectedData.legsIndex);
     }
 
     private static int ClampIndex(int index, Sprite[] options)
