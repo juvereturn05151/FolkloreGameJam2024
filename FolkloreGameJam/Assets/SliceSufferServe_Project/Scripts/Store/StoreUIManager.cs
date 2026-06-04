@@ -12,8 +12,8 @@ public class StoreUIManager : MonoBehaviour
     private const string ItemsTabId = "items";
     private const string HumanTabId = "human";
     private const int HumanPartPrice = 1000;
-    private const int SpecialHumanPartPrice = 6000;
-    private const int WeaponCursorPrice = 5000;
+    private const int SpecialHumanPartPrice = 2000;
+    private const int WeaponCursorPrice = 3000;
     private const float HumanItemRowHeight = 176f;
     private const float HumanItemPreviewWidth = 190f;
     private const float HumanItemPreviewHeight = 148f;
