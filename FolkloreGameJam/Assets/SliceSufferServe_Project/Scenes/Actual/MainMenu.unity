@@ -743,7 +743,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &669030206
 Transform:
   m_ObjectHideFlags: 0
@@ -1249,30 +1249,6 @@ PrefabInstance:
     - target: {fileID: 5672938583680543418, guid: 9e477673d1ab9d34980b3d60ff7ac385, type: 3}
       propertyPath: m_Name
       value: SoundManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 8871612749460196905, guid: 9e477673d1ab9d34980b3d60ff7ac385, type: 3}
-      propertyPath: backgroundMusic
-      value: 
-      objectReference: {fileID: 8300000, guid: fdeefbb7fd7114d41b9dc2c0fe5097ac, type: 3}
-    - target: {fileID: 8871612749460196905, guid: 9e477673d1ab9d34980b3d60ff7ac385, type: 3}
-      propertyPath: soundEffectsList.Array.size
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 8871612749460196905, guid: 9e477673d1ab9d34980b3d60ff7ac385, type: 3}
-      propertyPath: soundEffectsList.Array.data[9].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 8b163f51087cc1c46aad9f2a57140edf, type: 3}
-    - target: {fileID: 8871612749460196905, guid: 9e477673d1ab9d34980b3d60ff7ac385, type: 3}
-      propertyPath: soundEffectsList.Array.data[9].name
-      value: ChangeFoodState
-      objectReference: {fileID: 0}
-    - target: {fileID: 8871612749460196905, guid: 9e477673d1ab9d34980b3d60ff7ac385, type: 3}
-      propertyPath: soundEffectsList.Array.data[10].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 07de4c26e0928d244843f7339f4ac9f9, type: 3}
-    - target: {fileID: 8871612749460196905, guid: 9e477673d1ab9d34980b3d60ff7ac385, type: 3}
-      propertyPath: soundEffectsList.Array.data[10].name
-      value: Trash
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

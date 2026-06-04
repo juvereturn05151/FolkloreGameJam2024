@@ -267,7 +267,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Classic Mode
+  m_text: Score Challenge Mode
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e2820357450b2d44fb61f7cfc0b46bdf, type: 2}
   m_sharedMaterial: {fileID: 8027569774994263215, guid: e2820357450b2d44fb61f7cfc0b46bdf, type: 2}
@@ -294,14 +294,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 56.88
-  m_fontSizeBase: 56.88
+  m_fontSize: 37.2
+  m_fontSizeBase: 37.2
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1475,8 +1475,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1400199657}
-  - {fileID: 1199334281}
   - {fileID: 1961298683}
+  - {fileID: 1199334281}
   - {fileID: 650285973}
   - {fileID: 949982365}
   - {fileID: 950692162}
@@ -1599,7 +1599,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4967561666900042100, guid: 866284a43087dce43a37a0fa26f38e50, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8371221690434577718, guid: 866284a43087dce43a37a0fa26f38e50, type: 3}
       propertyPath: m_Camera
@@ -2076,7 +2076,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 713, y: -299}
+  m_AnchoredPosition: {x: 1421, y: -299}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1199334282
@@ -2093,7 +2093,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetSceneName: GameplayScene
   selectedLevelConfig: {fileID: 11400000, guid: 39726fcdbb363bf43aebc382f33f6dac, type: 2}
-  humanPart: {fileID: 576806399}
+  humanPart: {fileID: 1797489623}
 --- !u!1 &1207962346
 GameObject:
   m_ObjectHideFlags: 0
@@ -2838,7 +2838,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -45, y: -298}
+  m_AnchoredPosition: {x: -726, y: -298}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1961298684
@@ -2855,7 +2855,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetSceneName: StoryModeSelect
   selectedLevelConfig: {fileID: 0}
-  humanPart: {fileID: 1797489623}
+  humanPart: {fileID: 576806399}
 --- !u!1001 &2082983310
 PrefabInstance:
   m_ObjectHideFlags: 0
