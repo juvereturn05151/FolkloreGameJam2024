@@ -55,6 +55,12 @@ public class StoreUIManager : MonoBehaviour
     [Header("Items Placeholder UI")]
     [SerializeField] private TextMeshProUGUI itemsPlaceholderText;
 
+    [Header("Generated UI Prefabs")]
+    [SerializeField] private StoreItemsContentView storeItemsContentPrefab;
+    [SerializeField] private TextMeshProUGUI sectionTitlePrefab;
+    [SerializeField] private StoreItemRowView humanItemPrefab;
+    [SerializeField] private StoreItemRowView weaponItemPrefab;
+
     private string selectedTabId;
     private readonly List<TabButtonBinding> tabButtonBindings = new List<TabButtonBinding>();
     private readonly List<HumanStoreItemView> humanItemViews = new List<HumanStoreItemView>();
@@ -335,20 +341,13 @@ public class StoreUIManager : MonoBehaviour
             return;
         }
 
-        StoreTabView itemsTab = FindTab(ItemsTabId);
-        StoreTabView disableAdsTab = FindTab(DisableAdsTabId);
-        Button templateButton = itemsTab?.TabButton ?? disableAdsTab?.TabButton;
-        GameObject templatePanel = itemsTab?.Panel ?? disableAdsTab?.Panel;
-
-        if (templateButton == null || templatePanel == null)
+        StoreTabView humanTab = FindTab(HumanTabId);
+        if (humanTab?.Panel == null)
         {
             return;
         }
 
-        Button humanTabButton = CreateHumanTabButton(templateButton);
-        humanPanel = CreateHumanPanel(templatePanel);
-        tabs.Add(new StoreTabView(HumanTabId, humanTabButton, humanPanel));
-        RepositionTabButtons();
+        humanPanel = humanTab.Panel;
         BuildHumanItems();
         humanStoreUiBuilt = true;
     }
@@ -369,48 +368,6 @@ public class StoreUIManager : MonoBehaviour
         RefreshItemsPlaceholderUI();
         BuildWeaponItems(weaponsTab.Panel.transform);
         weaponStoreUiBuilt = true;
-    }
-
-    private Button CreateHumanTabButton(Button templateButton)
-    {
-        Button existing = FindButtonByName("HumanTabButton");
-        if (existing != null)
-        {
-            return existing;
-        }
-
-        Button button = Instantiate(templateButton, templateButton.transform.parent);
-        button.name = "HumanTabButton";
-        SetText(button.GetComponentInChildren<TextMeshProUGUI>(true), "Human");
-        return button;
-    }
-
-    private GameObject CreateHumanPanel(GameObject templatePanel)
-    {
-        GameObject existing = FindTransformByName("HumanPanel")?.gameObject;
-        if (existing != null)
-        {
-            return existing;
-        }
-
-        GameObject panel = new GameObject("HumanPanel", typeof(RectTransform), typeof(Image));
-        panel.transform.SetParent(templatePanel.transform.parent, false);
-
-        RectTransform templateRect = templatePanel.GetComponent<RectTransform>();
-        RectTransform rectTransform = panel.GetComponent<RectTransform>();
-        rectTransform.anchorMin = templateRect.anchorMin;
-        rectTransform.anchorMax = templateRect.anchorMax;
-        rectTransform.pivot = templateRect.pivot;
-        rectTransform.anchoredPosition = templateRect.anchoredPosition;
-        rectTransform.sizeDelta = templateRect.sizeDelta;
-        rectTransform.offsetMin = templateRect.offsetMin;
-        rectTransform.offsetMax = templateRect.offsetMax;
-
-        Image image = panel.GetComponent<Image>();
-        Image templateImage = templatePanel.GetComponent<Image>();
-        image.color = templateImage != null ? templateImage.color : new Color(0.13f, 0.18f, 0.15f, 0.96f);
-        panel.SetActive(false);
-        return panel;
     }
 
     private void BuildHumanItems()
@@ -452,6 +409,29 @@ public class StoreUIManager : MonoBehaviour
 
     private RectTransform CreateStoreItemsContent(Transform parent, string namePrefix)
     {
+        if (storeItemsContentPrefab != null)
+        {
+            StoreItemsContentView view = Instantiate(storeItemsContentPrefab, parent);
+            view.name = $"{namePrefix}ScrollView";
+            view.ResolveReferences();
+
+            RectTransform prefabRectTransform = view.GetComponent<RectTransform>();
+            if (prefabRectTransform != null)
+            {
+                prefabRectTransform.anchorMin = Vector2.zero;
+                prefabRectTransform.anchorMax = Vector2.one;
+                prefabRectTransform.offsetMin = new Vector2(60f, 36f);
+                prefabRectTransform.offsetMax = new Vector2(-60f, -36f);
+            }
+
+            RectTransform content = view.Content;
+            if (content != null)
+            {
+                content.name = $"{namePrefix}Content";
+                return content;
+            }
+        }
+
         GameObject scrollObject = new GameObject($"{namePrefix}ScrollView", typeof(RectTransform), typeof(ScrollRect));
         scrollObject.transform.SetParent(parent, false);
 
@@ -527,9 +507,7 @@ public class StoreUIManager : MonoBehaviour
             weaponLayout.childForceExpandWidth = false;
         }
 
-        TextMeshProUGUI titleText = CreateText(content, "Weapons", 32, TextAlignmentOptions.Left, new Color(1f, 0.92f, 0.78f, 1f));
-        titleText.name = "WeaponsTitle";
-        AddLayoutElement(titleText.gameObject, WeaponItemRowWidth, 44f);
+        CreateSectionTitle(content, "Weapons", "WeaponsTitle", WeaponItemRowWidth);
 
         foreach (CursorCustomizationOption option in cursorCatalog.Options)
         {
@@ -545,9 +523,7 @@ public class StoreUIManager : MonoBehaviour
 
     private void AddHumanSection(RectTransform content, string title, HumanType humanType, BodyPartType part, int price, string[] personaNames = null)
     {
-        TextMeshProUGUI titleText = CreateText(content, title, 32, TextAlignmentOptions.Left, new Color(1f, 0.92f, 0.78f, 1f));
-        titleText.name = $"{title}Title";
-        AddLayoutElement(titleText.gameObject, 44f);
+        CreateSectionTitle(content, title, $"{title}Title");
 
         Sprite[] sprites = CharacterCustomizer.LoadHumanPartSprites(humanType, part);
         int freePartCount = CharacterCustomizer.GetFreeHumanPartCount(humanType, part);
@@ -573,8 +549,59 @@ public class StoreUIManager : MonoBehaviour
         }
     }
 
+    private TextMeshProUGUI CreateSectionTitle(RectTransform parent, string value, string objectName, float preferredWidth = -1f)
+    {
+        TextMeshProUGUI titleText;
+        if (sectionTitlePrefab != null)
+        {
+            titleText = Instantiate(sectionTitlePrefab, parent);
+            titleText.name = objectName;
+            titleText.text = value;
+        }
+        else
+        {
+            titleText = CreateText(parent, value, 32, TextAlignmentOptions.Left, new Color(1f, 0.92f, 0.78f, 1f));
+            titleText.name = objectName;
+        }
+
+        AddLayoutElement(titleText.gameObject, preferredWidth, 44f);
+        return titleText;
+    }
+
     private HumanStoreItemView CreateHumanItemView(RectTransform parent, HumanStoreItem item)
     {
+        if (humanItemPrefab != null)
+        {
+            StoreItemRowView rowView = Instantiate(humanItemPrefab, parent);
+            rowView.name = $"{item.DisplayName}StoreItem";
+            rowView.ResolveReferences();
+
+            SetText(rowView.TitleText, item.DisplayName);
+            SetText(rowView.DescriptionText, string.Empty);
+            SetText(rowView.PriceText, item.Price.ToString("N0"));
+            SetText(rowView.BuyButtonText, "Buy");
+            ApplyPriceFont(rowView.PriceText);
+
+            if (rowView.DescriptionText != null)
+            {
+                rowView.DescriptionText.gameObject.SetActive(false);
+            }
+
+            if (rowView.PreviewImage != null)
+            {
+                rowView.PreviewImage.sprite = item.Sprite;
+                rowView.PreviewImage.preserveAspect = true;
+            }
+
+            if (rowView.BuyButton != null)
+            {
+                HumanStoreItem prefabCapturedItem = item;
+                rowView.BuyButton.onClick.AddListener(() => OpenHumanPurchasePrompt(prefabCapturedItem));
+            }
+
+            return new HumanStoreItemView(item, rowView.BuyButton, rowView.BuyButtonText, rowView.PriceText, rowView.PreviewImage);
+        }
+
         GameObject row = new GameObject($"{item.DisplayName}StoreItem", typeof(RectTransform), typeof(Image), typeof(HorizontalLayoutGroup), typeof(LayoutElement));
         row.transform.SetParent(parent, false);
 
@@ -612,6 +639,33 @@ public class StoreUIManager : MonoBehaviour
 
     private WeaponStoreItemView CreateWeaponItemView(RectTransform parent, WeaponStoreItem item)
     {
+        if (weaponItemPrefab != null)
+        {
+            StoreItemRowView rowView = Instantiate(weaponItemPrefab, parent);
+            rowView.name = $"{item.DisplayName}WeaponStoreItem";
+            rowView.ResolveReferences();
+
+            SetText(rowView.TitleText, item.DisplayName.ToUpperInvariant());
+            SetText(rowView.DescriptionText, GetWeaponDescription(item.CursorId));
+            SetText(rowView.PriceText, WeaponCursorPrice.ToString("N0"));
+            SetText(rowView.BuyButtonText, "Buy");
+            ApplyPriceFont(rowView.PriceText);
+
+            if (rowView.PreviewImage != null)
+            {
+                rowView.PreviewImage.sprite = CreateSprite(item.CursorTexture);
+                rowView.PreviewImage.preserveAspect = true;
+            }
+
+            if (rowView.BuyButton != null)
+            {
+                WeaponStoreItem prefabCapturedItem = item;
+                rowView.BuyButton.onClick.AddListener(() => OpenWeaponPurchasePrompt(prefabCapturedItem));
+            }
+
+            return new WeaponStoreItemView(item, rowView.BuyButton, rowView.BuyButtonText, rowView.PriceText, rowView.PreviewImage);
+        }
+
         GameObject row = new GameObject($"{item.DisplayName}WeaponStoreItem", typeof(RectTransform), typeof(Image), typeof(HorizontalLayoutGroup), typeof(LayoutElement));
         row.transform.SetParent(parent, false);
 
@@ -711,13 +765,7 @@ public class StoreUIManager : MonoBehaviour
 
     private Image CreateTexturePreview(Transform parent, Texture2D texture)
     {
-        Sprite sprite = null;
-        if (texture != null)
-        {
-            sprite = Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100f);
-        }
-
-        return CreateItemPreview(parent, sprite, WeaponItemPreviewWidth, WeaponItemPreviewHeight, WeaponItemPreviewScale);
+        return CreateItemPreview(parent, CreateSprite(texture), WeaponItemPreviewWidth, WeaponItemPreviewHeight, WeaponItemPreviewScale);
     }
 
     private Button CreateHumanBuyButton(Transform parent)
@@ -997,31 +1045,6 @@ public class StoreUIManager : MonoBehaviour
         customizationManager = CharacterCustomizationManager.Instance ?? FindAnyObjectByType<CharacterCustomizationManager>();
     }
 
-    private void RepositionTabButtons()
-    {
-        List<Button> buttons = new List<Button>();
-        for (int i = 0; i < tabs.Count; i++)
-        {
-            if (tabs[i]?.TabButton != null)
-            {
-                buttons.Add(tabs[i].TabButton);
-            }
-        }
-
-        float spacing = 310f;
-        float startX = -spacing * (buttons.Count - 1) * 0.5f;
-        for (int i = 0; i < buttons.Count; i++)
-        {
-            RectTransform rectTransform = buttons[i].GetComponent<RectTransform>();
-            if (rectTransform != null)
-            {
-                rectTransform.anchorMin = new Vector2(0.5f, rectTransform.anchorMin.y);
-                rectTransform.anchorMax = new Vector2(0.5f, rectTransform.anchorMax.y);
-                rectTransform.anchoredPosition = new Vector2(startX + spacing * i, rectTransform.anchoredPosition.y);
-            }
-        }
-    }
-
     private static void AddLayoutElement(GameObject gameObject, float preferredHeight)
     {
         AddLayoutElement(gameObject, -1f, preferredHeight);
@@ -1072,6 +1095,13 @@ public class StoreUIManager : MonoBehaviour
             default:
                 return "A custom weapon cursor for the kitchen.";
         }
+    }
+
+    private static Sprite CreateSprite(Texture2D texture)
+    {
+        return texture != null
+            ? Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100f)
+            : null;
     }
 
     private static void SetText(TextMeshProUGUI text, string value)
