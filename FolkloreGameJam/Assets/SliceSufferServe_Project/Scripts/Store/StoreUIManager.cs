@@ -39,7 +39,6 @@ public class StoreUIManager : MonoBehaviour
     [SerializeField] private Button backButton;
     [SerializeField] private TextMeshProUGUI currencyBalanceText;
     [SerializeField] private TextMeshProUGUI statusText;
-    [SerializeField] private TMP_FontAsset priceFontAsset;
 
     [Header("Disable Ads UI")]
     [SerializeField] private TextMeshProUGUI disableAdsPriceText;
@@ -81,7 +80,6 @@ public class StoreUIManager : MonoBehaviour
 
         ResolveCustomizationManager();
         cursorCatalog = CursorCustomizationCatalog.LoadDefault();
-        ApplyPriceFont(disableAdsPriceText);
     }
 
     private void OnEnable()
@@ -580,7 +578,6 @@ public class StoreUIManager : MonoBehaviour
             SetText(rowView.DescriptionText, string.Empty);
             SetText(rowView.PriceText, item.Price.ToString("N0"));
             SetText(rowView.BuyButtonText, "Buy");
-            ApplyPriceFont(rowView.PriceText);
 
             if (rowView.DescriptionText != null)
             {
@@ -626,7 +623,6 @@ public class StoreUIManager : MonoBehaviour
         labelLayout.preferredHeight = 148f;
 
         TextMeshProUGUI price = CreateText(row.transform, item.Price.ToString("N0"), 24, TextAlignmentOptions.Center, new Color(1f, 0.82f, 0.36f, 1f));
-        ApplyPriceFont(price);
         AddLayoutElement(price.gameObject, 130f, 148f);
 
         Button buyButton = CreateHumanBuyButton(row.transform);
@@ -649,7 +645,6 @@ public class StoreUIManager : MonoBehaviour
             SetText(rowView.DescriptionText, GetWeaponDescription(item.CursorId));
             SetText(rowView.PriceText, WeaponCursorPrice.ToString("N0"));
             SetText(rowView.BuyButtonText, "Buy");
-            ApplyPriceFont(rowView.PriceText);
 
             if (rowView.PreviewImage != null)
             {
@@ -687,7 +682,6 @@ public class StoreUIManager : MonoBehaviour
         CreateWeaponInfoBlock(row.transform, item);
 
         TextMeshProUGUI price = CreateText(row.transform, WeaponCursorPrice.ToString("N0"), 44, TextAlignmentOptions.Center, new Color(1f, 0.82f, 0.36f, 1f));
-        ApplyPriceFont(price);
         AddLayoutElement(price.gameObject, WeaponItemPriceWidth, WeaponItemControlHeight);
 
         Button buyButton = CreateBuyButton(row.transform, WeaponItemBuyButtonWidth, WeaponItemControlHeight, 41);
@@ -1109,14 +1103,6 @@ public class StoreUIManager : MonoBehaviour
         if (text != null)
         {
             text.text = value;
-        }
-    }
-
-    private void ApplyPriceFont(TextMeshProUGUI text)
-    {
-        if (text != null && priceFontAsset != null)
-        {
-            text.font = priceFontAsset;
         }
     }
 
