@@ -89,6 +89,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 99fe14aedc7f9704ea547fcf7813d41e, type: 3}
   - name: ReadyEvilPower
     clip: {fileID: 8300000, guid: 817f488b9d037914fb77af39d3d86a02, type: 3}
+  - name: HumanRobotAppear
+    clip: {fileID: 8300000, guid: bb09d54bc6ba4534aaeef68dc51b173a, type: 3}
+  - name: HumanRobotExplode
+    clip: {fileID: 8300000, guid: 7d2ec74bb01f86449b654dfd5b539884, type: 3}
   - name: AI_Krasue_Angry_1
     clip: {fileID: 8300000, guid: 183ca534c2a87ab459c705cad4474e33, type: 3}
   - name: AI_Krasue_Angry_2

@@ -86,6 +86,7 @@ public class HumanBody : MonoBehaviour
     {
         if (_isBeingDestroyed) return;
         _isBeingDestroyed = true;
+        GetComponent<RobotHuman>()?.PlayExplodeSound();
 
         if (GameUtility.GameManagerExists())
         {

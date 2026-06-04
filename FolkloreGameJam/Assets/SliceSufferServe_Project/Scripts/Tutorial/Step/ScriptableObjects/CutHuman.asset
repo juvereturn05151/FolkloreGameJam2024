@@ -16,7 +16,7 @@ MonoBehaviour:
   DialogueLines:
   - Mwahahaha! Welcome to our restaurant!
   - Your job is to slice humans and serve their organs to our customers.
-  - Now, try slicing them by dragging your mouse, like that fruit-slicing game!
+  - Now, try slicing them by dragging your fingers, like that fruit-slicing game!
   ShowTutorialGuideOnStart: 0
   ShowOnSecondDialogue: 0
   ShowOnLastDialogue: 0
