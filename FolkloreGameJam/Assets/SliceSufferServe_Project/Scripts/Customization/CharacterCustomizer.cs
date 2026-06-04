@@ -51,6 +51,10 @@ public class CharacterCustomizer : MonoBehaviour
     private CursorCustomizationCatalog cursorCatalog;
     private Sprite weaponPreviewSprite;
     private bool showingWeaponPreview;
+    private Vector3 headPreviewBaseScale = Vector3.one;
+    private Vector3 neckPreviewBaseScale = Vector3.one;
+    private Vector3 bodyPreviewBaseScale = Vector3.one;
+    private Vector3 legsPreviewBaseScale = Vector3.one;
 
     private void Awake()
     {
@@ -59,6 +63,7 @@ public class CharacterCustomizer : MonoBehaviour
         LoadSprites();
         ClampSelectedIndices();
         ResolvePreviewReferences();
+        CachePreviewBaseScales();
         BindManualUiButtons();
         BindWeaponCursorUi();
         ApplyPreview();
@@ -370,6 +375,52 @@ public class CharacterCustomizer : MonoBehaviour
         weaponPreviewImage ??= FindChildImageByName(weaponPreviewRoot, "Image") ?? FindImageByName("WeaponPreviewImage");
     }
 
+    private void CachePreviewBaseScales()
+    {
+        headPreviewBaseScale = GetImageScale(headImage);
+        neckPreviewBaseScale = GetImageScale(neckImage);
+        bodyPreviewBaseScale = GetImageScale(bodyImage);
+        legsPreviewBaseScale = GetImageScale(legsImage);
+    }
+
+    private void ApplyHumanPreviewScales()
+    {
+        bool widenBigHumanBodyParts = selectedData != null && selectedData.selectedHumanType == HumanType.BigHuman;
+        ApplyPreviewScale(headImage, headPreviewBaseScale, false);
+        ApplyPreviewScale(neckImage, neckPreviewBaseScale, widenBigHumanBodyParts);
+        ApplyPreviewScale(bodyImage, bodyPreviewBaseScale, widenBigHumanBodyParts);
+        ApplyPreviewScale(legsImage, legsPreviewBaseScale, widenBigHumanBodyParts);
+    }
+
+    private void ResetHumanPreviewScales()
+    {
+        ApplyPreviewScale(headImage, headPreviewBaseScale, false);
+        ApplyPreviewScale(neckImage, neckPreviewBaseScale, false);
+        ApplyPreviewScale(bodyImage, bodyPreviewBaseScale, false);
+        ApplyPreviewScale(legsImage, legsPreviewBaseScale, false);
+    }
+
+    private static Vector3 GetImageScale(Image image)
+    {
+        return image != null ? image.rectTransform.localScale : Vector3.one;
+    }
+
+    private static void ApplyPreviewScale(Image image, Vector3 baseScale, bool widen)
+    {
+        if (image == null)
+        {
+            return;
+        }
+
+        Vector3 scale = baseScale;
+        if (widen)
+        {
+            scale.x *= 1.50f;
+        }
+
+        image.rectTransform.localScale = scale;
+    }
+
     private void BindManualUiButtons()
     {
         BindButton("HeadPreviousButton", PreviousHead);
@@ -430,6 +481,7 @@ public class CharacterCustomizer : MonoBehaviour
                 continue;
             }
 
+            EnsureWeaponCursorOptionImage(button, option);
             SetButtonLabel(button, IsWeaponCursorUnlocked(option.Id) ? option.DisplayName : $"{option.DisplayName} (Locked)");
             string capturedId = option.Id;
             button.onClick.AddListener(() => SelectWeaponCursor(capturedId));
@@ -641,6 +693,7 @@ public class CharacterCustomizer : MonoBehaviour
             return;
         }
 
+        ApplyHumanPreviewScales();
         ApplyHead();
         ApplyNeck();
         ApplyBody();
@@ -659,6 +712,7 @@ public class CharacterCustomizer : MonoBehaviour
         Texture2D cursorTexture = option != null ? option.cursorTexture : null;
         Image targetPreviewImage = weaponPreviewImage != null ? weaponPreviewImage : headImage;
         ClearHumanPreviewSprites();
+        ResetHumanPreviewScales();
 
         if (cursorTexture != null)
         {
@@ -684,6 +738,7 @@ public class CharacterCustomizer : MonoBehaviour
 
     private void ApplyHead()
     {
+        ApplyHumanPreviewScales();
         SetSprite(headImage, GetSprite(headOptions, selectedData.headIndex));
     }
 
@@ -697,16 +752,19 @@ public class CharacterCustomizer : MonoBehaviour
 
     private void ApplyNeck()
     {
+        ApplyHumanPreviewScales();
         SetSprite(neckImage, GetSprite(neckOptions, selectedData.neckIndex));
     }
 
     private void ApplyBody()
     {
+        ApplyHumanPreviewScales();
         SetSprite(bodyImage, GetSprite(bodyOptions, selectedData.bodyIndex));
     }
 
     private void ApplyLegs()
     {
+        ApplyHumanPreviewScales();
         SetSprite(legsImage, GetSprite(legsOptions, selectedData.legsIndex));
     }
 
@@ -759,11 +817,70 @@ public class CharacterCustomizer : MonoBehaviour
             bool selected = option.Id == selectedCursorId;
             bool unlocked = IsWeaponCursorUnlocked(option.Id);
             button.interactable = unlocked;
+            RefreshWeaponCursorOptionImage(button, option, unlocked);
             SetButtonLabel(button, unlocked ? option.DisplayName : $"{option.DisplayName} (Locked)");
             background.color = !unlocked
                 ? new Color(0.09f, 0.08f, 0.07f, 0.85f)
                 : selected ? new Color(0.74f, 0.22f, 0.16f, 1f) : new Color(0.18f, 0.16f, 0.13f, 1f);
         }
+    }
+
+    private void EnsureWeaponCursorOptionImage(Button button, CursorCustomizationOption option)
+    {
+        if (button == null)
+        {
+            return;
+        }
+
+        RawImage preview = FindCursorOptionRawImage(button.gameObject);
+        if (preview == null)
+        {
+            GameObject previewObject = new GameObject("CursorPreviewImage", typeof(RectTransform), typeof(RawImage));
+            previewObject.transform.SetParent(button.transform, false);
+
+            RectTransform rectTransform = previewObject.GetComponent<RectTransform>();
+            rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            rectTransform.anchoredPosition = new Vector2(0f, 20f);
+            rectTransform.sizeDelta = new Vector2(92f, 54f);
+
+            preview = previewObject.GetComponent<RawImage>();
+            preview.raycastTarget = false;
+        }
+
+        RefreshWeaponCursorOptionImage(button, option, IsWeaponCursorUnlocked(option.Id));
+    }
+
+    private void RefreshWeaponCursorOptionImage(Button button, CursorCustomizationOption option, bool unlocked)
+    {
+        RawImage preview = FindCursorOptionRawImage(button != null ? button.gameObject : null);
+        if (preview == null || option == null)
+        {
+            return;
+        }
+
+        preview.texture = option.cursorTexture;
+        preview.enabled = option.cursorTexture != null;
+        preview.color = unlocked ? Color.white : new Color(0.55f, 0.52f, 0.48f, 1f);
+    }
+
+    private static RawImage FindCursorOptionRawImage(GameObject parent)
+    {
+        if (parent == null)
+        {
+            return null;
+        }
+
+        RawImage[] rawImages = parent.GetComponentsInChildren<RawImage>(true);
+        for (int i = 0; i < rawImages.Length; i++)
+        {
+            if (rawImages[i] != null && rawImages[i].name == "CursorPreviewImage")
+            {
+                return rawImages[i];
+            }
+        }
+
+        return null;
     }
 
     private string GetCursorDisplayName(string cursorId)
