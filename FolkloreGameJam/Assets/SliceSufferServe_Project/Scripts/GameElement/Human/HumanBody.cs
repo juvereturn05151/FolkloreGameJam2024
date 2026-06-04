@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class HumanBody : MonoBehaviour
 {
+    private const string CutHeadSoundName = "CutHead";
+    private const string CutNeckSoundName = "CutNeck";
+    private const string CutStomachSoundName = "CutStomach";
+    private const string CutLegSoundName = "CutLeg";
+
     [SerializeField] private HumanPart _head;
     [SerializeField] private HumanPart _neck;
     [SerializeField] private HumanPart _body;
@@ -16,6 +21,7 @@ public class HumanBody : MonoBehaviour
     private void Awake()
     {
         ResolvePartReferences();
+        ApplyPartSliceSounds();
         _parts.Clear();
         _parts.AddRange(GetComponentsInChildren<HumanPart>());
 
@@ -239,11 +245,36 @@ public class HumanBody : MonoBehaviour
         }
     }
 
+    private void ApplyPartSliceSounds()
+    {
+        if (GetComponent<RobotHuman>() != null)
+        {
+            SetPartSliceSound(_head, string.Empty);
+            SetPartSliceSound(_neck, string.Empty);
+            SetPartSliceSound(_body, string.Empty);
+            SetPartSliceSound(_leg, string.Empty);
+            return;
+        }
+
+        SetPartSliceSound(_head, CutHeadSoundName);
+        SetPartSliceSound(_neck, CutNeckSoundName);
+        SetPartSliceSound(_body, CutStomachSoundName);
+        SetPartSliceSound(_leg, CutLegSoundName);
+    }
+
     private void SetPartActive(HumanPart part, bool isActive)
     {
         if (part != null)
         {
             part.gameObject.SetActive(isActive);
+        }
+    }
+
+    private static void SetPartSliceSound(HumanPart part, string soundName)
+    {
+        if (part != null)
+        {
+            part.SetSliceSoundName(soundName);
         }
     }
 

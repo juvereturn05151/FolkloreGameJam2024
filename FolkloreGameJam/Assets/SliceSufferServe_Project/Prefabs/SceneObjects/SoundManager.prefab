@@ -73,6 +73,14 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 8b163f51087cc1c46aad9f2a57140edf, type: 3}
   - name: Trash
     clip: {fileID: 8300000, guid: 07de4c26e0928d244843f7339f4ac9f9, type: 3}
+  - name: CutHead
+    clip: {fileID: 8300000, guid: 21f043310a9d56947b00e9a3812163bf, type: 3}
+  - name: CutNeck
+    clip: {fileID: 8300000, guid: 5a8eee93c1b9fc346bb6a5ae5ecfd00d, type: 3}
+  - name: CutStomach
+    clip: {fileID: 8300000, guid: e782939292b08f44db9ca13b20836527, type: 3}
+  - name: CutLeg
+    clip: {fileID: 8300000, guid: be8df690c3517aa469d5f7aa5540686e, type: 3}
   backgroundMusic: {fileID: 8300000, guid: ccefe387f8fc50d40908cd0a36d4ecca, type: 3}
   backgroundGameplayMusic: {fileID: 8300000, guid: c104fb30668be6543b2b25478c566583, type: 3}
   backgroundMenu: {fileID: 8300000, guid: ccefe387f8fc50d40908cd0a36d4ecca, type: 3}

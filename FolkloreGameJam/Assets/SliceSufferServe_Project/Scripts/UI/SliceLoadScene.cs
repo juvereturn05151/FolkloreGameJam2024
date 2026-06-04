@@ -7,6 +7,18 @@ public class SliceLoadScene : LoadSceneEventBase
 
     private void Start()
     {
+        RefreshLockedVisualState();
+
+        if (!IsLoadUnlocked())
+        {
+            if (humanPart != null)
+            {
+                humanPart.enabled = false;
+            }
+
+            return;
+        }
+
         // Add listener for part destruction
         if (humanPart != null)
             humanPart.OnPartDestroyed.AddListener(() => OnLoadSceneEvent());

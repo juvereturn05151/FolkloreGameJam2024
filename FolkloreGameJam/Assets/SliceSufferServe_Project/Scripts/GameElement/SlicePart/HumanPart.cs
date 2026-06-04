@@ -11,6 +11,7 @@ public class HumanPart : MonoBehaviour
 
     [Header("Slice Feedback Settings")]
     [SerializeField] private List<FeedbackRequest> feedbackRequests = new();
+    [SerializeField] private string sliceSoundName;
 
     [Header("Spawn / Motion")]
     [SerializeField] private GameObject foodPrefab;
@@ -50,6 +51,11 @@ public class HumanPart : MonoBehaviour
     public void SetFoodPrefab(GameObject prefab)
     {
         foodPrefab = prefab;
+    }
+
+    public void SetSliceSoundName(string soundName)
+    {
+        sliceSoundName = soundName;
     }
 
     public void SetCutsRequiredToDestroy(int cutsRequired)
@@ -173,6 +179,7 @@ public class HumanPart : MonoBehaviour
         }
 
         SpawnSliceFeedbackFallback();
+        PlaySliceSound();
         Sliced?.Invoke(transform.position, feedbackRequests);
         OnPartDestroyed?.Invoke();
 
@@ -238,6 +245,14 @@ public class HumanPart : MonoBehaviour
         if (shakeOnDurabilityHit && GameUtility.FeedbackManagerExists())
         {
             FeedbackManager.Instance.ShakeCameraFeedback(0.18f, 0.12f);
+        }
+    }
+
+    private void PlaySliceSound()
+    {
+        if (!string.IsNullOrWhiteSpace(sliceSoundName) && GameUtility.SoundManagerExists())
+        {
+            SoundManager.instance.PlaySFX(sliceSoundName);
         }
     }
 
