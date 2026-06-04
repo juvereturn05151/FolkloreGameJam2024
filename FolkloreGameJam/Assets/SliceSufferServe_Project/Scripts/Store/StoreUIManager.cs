@@ -18,10 +18,15 @@ public class StoreUIManager : MonoBehaviour
     private const float HumanItemPreviewWidth = 190f;
     private const float HumanItemPreviewHeight = 148f;
     private const float HumanItemPreviewScale = 2.2f;
-    private const float StoreItemRowHeight = 86f;
-    private const float StoreItemPreviewWidth = 64f;
-    private const float StoreItemPreviewHeight = 62f;
-    private const float StoreItemPreviewScale = 1f;
+    private const float WeaponItemRowWidth = 1030f;
+    private const float WeaponItemRowHeight = 198f;
+    private const float WeaponItemPreviewWidth = 176f;
+    private const float WeaponItemPreviewHeight = 154f;
+    private const float WeaponItemPreviewScale = 1f;
+    private const float WeaponItemInfoWidth = 450f;
+    private const float WeaponItemPriceWidth = 145f;
+    private const float WeaponItemControlHeight = 78f;
+    private const float WeaponItemBuyButtonWidth = 160f;
 
     [Header("Store")]
     [SerializeField] private StoreManager storeManager;
@@ -516,9 +521,15 @@ public class StoreUIManager : MonoBehaviour
         }
 
         RectTransform content = CreateStoreItemsContent(parent, "WeaponItems");
+        VerticalLayoutGroup weaponLayout = content.GetComponent<VerticalLayoutGroup>();
+        if (weaponLayout != null)
+        {
+            weaponLayout.childForceExpandWidth = false;
+        }
+
         TextMeshProUGUI titleText = CreateText(content, "Weapons", 32, TextAlignmentOptions.Left, new Color(1f, 0.92f, 0.78f, 1f));
         titleText.name = "WeaponsTitle";
-        AddLayoutElement(titleText.gameObject, 44f);
+        AddLayoutElement(titleText.gameObject, WeaponItemRowWidth, 44f);
 
         foreach (CursorCustomizationOption option in cursorCatalog.Options)
         {
@@ -605,30 +616,27 @@ public class StoreUIManager : MonoBehaviour
         row.transform.SetParent(parent, false);
 
         Image background = row.GetComponent<Image>();
-        background.color = new Color(0.08f, 0.07f, 0.06f, 0.78f);
+        background.color = new Color(0.62f, 0.52f, 0.39f, 0.95f);
 
         HorizontalLayoutGroup layout = row.GetComponent<HorizontalLayoutGroup>();
-        layout.padding = new RectOffset(18, 18, 12, 12);
-        layout.spacing = 18f;
+        layout.padding = new RectOffset(32, 32, 22, 22);
+        layout.spacing = 34f;
         layout.childAlignment = TextAnchor.MiddleLeft;
         layout.childControlWidth = false;
         layout.childControlHeight = true;
         layout.childForceExpandWidth = false;
         layout.childForceExpandHeight = false;
 
-        AddLayoutElement(row, StoreItemRowHeight);
+        AddLayoutElement(row, WeaponItemRowWidth, WeaponItemRowHeight);
 
         Image preview = CreateTexturePreview(row.transform, item.CursorTexture);
-        TextMeshProUGUI label = CreateText(row.transform, item.DisplayName, 26, TextAlignmentOptions.Left, new Color(0.95f, 0.9f, 0.82f, 1f));
-        LayoutElement labelLayout = label.gameObject.AddComponent<LayoutElement>();
-        labelLayout.flexibleWidth = 1f;
-        labelLayout.preferredHeight = 62f;
+        CreateWeaponInfoBlock(row.transform, item);
 
-        TextMeshProUGUI price = CreateText(row.transform, WeaponCursorPrice.ToString("N0"), 24, TextAlignmentOptions.Center, new Color(1f, 0.82f, 0.36f, 1f));
+        TextMeshProUGUI price = CreateText(row.transform, WeaponCursorPrice.ToString("N0"), 44, TextAlignmentOptions.Center, new Color(1f, 0.82f, 0.36f, 1f));
         ApplyPriceFont(price);
-        AddLayoutElement(price.gameObject, 130f, 62f);
+        AddLayoutElement(price.gameObject, WeaponItemPriceWidth, WeaponItemControlHeight);
 
-        Button buyButton = CreateHumanBuyButton(row.transform);
+        Button buyButton = CreateBuyButton(row.transform, WeaponItemBuyButtonWidth, WeaponItemControlHeight, 41);
         TextMeshProUGUI buyText = buyButton.GetComponentInChildren<TextMeshProUGUI>(true);
         WeaponStoreItem capturedItem = item;
         buyButton.onClick.AddListener(() => OpenWeaponPurchasePrompt(capturedItem));
@@ -639,6 +647,39 @@ public class StoreUIManager : MonoBehaviour
     private Image CreateHumanItemPreview(Transform parent, Sprite sprite)
     {
         return CreateItemPreview(parent, sprite, HumanItemPreviewWidth, HumanItemPreviewHeight, HumanItemPreviewScale);
+    }
+
+    private void CreateWeaponInfoBlock(Transform parent, WeaponStoreItem item)
+    {
+        GameObject textBlock = new GameObject("Info", typeof(RectTransform), typeof(LayoutElement));
+        textBlock.transform.SetParent(parent, false);
+
+        RectTransform textBlockRect = textBlock.GetComponent<RectTransform>();
+        textBlockRect.sizeDelta = new Vector2(WeaponItemInfoWidth, WeaponItemPreviewHeight);
+
+        LayoutElement layout = textBlock.GetComponent<LayoutElement>();
+        layout.preferredWidth = WeaponItemInfoWidth;
+        layout.preferredHeight = WeaponItemPreviewHeight;
+
+        TextMeshProUGUI title = CreateText(textBlock.transform, item.DisplayName.ToUpperInvariant(), 46, TextAlignmentOptions.Left, new Color(0.12f, 0.08f, 0.05f, 1f));
+        RectTransform titleRect = title.GetComponent<RectTransform>();
+        titleRect.anchorMin = new Vector2(0f, 1f);
+        titleRect.anchorMax = new Vector2(1f, 1f);
+        titleRect.pivot = new Vector2(0f, 1f);
+        titleRect.anchoredPosition = Vector2.zero;
+        titleRect.sizeDelta = new Vector2(0f, 58f);
+        title.enableWordWrapping = false;
+        title.overflowMode = TextOverflowModes.Overflow;
+
+        TextMeshProUGUI description = CreateText(textBlock.transform, GetWeaponDescription(item.CursorId), 30, TextAlignmentOptions.TopLeft, new Color(0.15f, 0.11f, 0.08f, 1f));
+        RectTransform descriptionRect = description.GetComponent<RectTransform>();
+        descriptionRect.anchorMin = new Vector2(0f, 0f);
+        descriptionRect.anchorMax = new Vector2(1f, 1f);
+        descriptionRect.pivot = new Vector2(0f, 1f);
+        descriptionRect.offsetMin = new Vector2(0f, 0f);
+        descriptionRect.offsetMax = new Vector2(0f, -58f);
+        description.enableWordWrapping = true;
+        description.overflowMode = TextOverflowModes.Overflow;
     }
 
     private Image CreateItemPreview(Transform parent, Sprite sprite, float preferredWidth, float preferredHeight, float previewScale)
@@ -676,17 +717,22 @@ public class StoreUIManager : MonoBehaviour
             sprite = Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100f);
         }
 
-        return CreateItemPreview(parent, sprite, StoreItemPreviewWidth, StoreItemPreviewHeight, StoreItemPreviewScale);
+        return CreateItemPreview(parent, sprite, WeaponItemPreviewWidth, WeaponItemPreviewHeight, WeaponItemPreviewScale);
     }
 
     private Button CreateHumanBuyButton(Transform parent)
+    {
+        return CreateBuyButton(parent, 150f, 62f, 26);
+    }
+
+    private Button CreateBuyButton(Transform parent, float preferredWidth, float preferredHeight, int fontSize)
     {
         GameObject buttonObject = new GameObject("BuyButton", typeof(RectTransform), typeof(Image), typeof(Button), typeof(LayoutElement));
         buttonObject.transform.SetParent(parent, false);
 
         LayoutElement layout = buttonObject.GetComponent<LayoutElement>();
-        layout.preferredWidth = 150f;
-        layout.preferredHeight = 62f;
+        layout.preferredWidth = preferredWidth;
+        layout.preferredHeight = preferredHeight;
 
         Image image = buttonObject.GetComponent<Image>();
         image.color = new Color(0.65f, 0.22f, 0.16f, 1f);
@@ -694,7 +740,7 @@ public class StoreUIManager : MonoBehaviour
         Button button = buttonObject.GetComponent<Button>();
         button.targetGraphic = image;
 
-        TextMeshProUGUI text = CreateText(buttonObject.transform, "Buy", 26, TextAlignmentOptions.Center, new Color(1f, 0.94f, 0.82f, 1f));
+        TextMeshProUGUI text = CreateText(buttonObject.transform, "Buy", fontSize, TextAlignmentOptions.Center, new Color(1f, 0.94f, 0.82f, 1f));
         RectTransform textRect = text.GetComponent<RectTransform>();
         textRect.anchorMin = Vector2.zero;
         textRect.anchorMax = Vector2.one;
@@ -1006,6 +1052,25 @@ public class StoreUIManager : MonoBehaviour
                 return "Leg";
             default:
                 return "Part";
+        }
+    }
+
+    private static string GetWeaponDescription(string cursorId)
+    {
+        switch (cursorId)
+        {
+            case "claw":
+                return "Sharp and deadly. A classic weapon for close encounters.";
+            case "chainsaw":
+                return "Loud, heavy, and built for messy work.";
+            case "rainbow_knife":
+                return "A bright blade with a strange appetite.";
+            case "flame_blade":
+                return "Hot steel for fast, brutal cuts.";
+            case "golden_blade":
+                return "Ancient metal polished for legendary service.";
+            default:
+                return "A custom weapon cursor for the kitchen.";
         }
     }
 
