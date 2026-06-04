@@ -6,6 +6,12 @@ using UnityEngine.Events;
 
 public class Customer : MonoBehaviour
 {
+    private const string ComeInAISound = "ComeIn";
+    private const string AngryAISound = "Angry";
+    private const string EatAISound = "Eat";
+    private const string SatisfiedAISound = "Satisfied";
+    private const string CoinCollectingSound = "CoinCollecting";
+
     [Serializable] public class LeaveRestaurant : UnityEvent<CustomerSpot> { }
     [Serializable] public class EatRightFood : UnityEvent<Customer> { }
 
@@ -94,7 +100,10 @@ public class Customer : MonoBehaviour
 
     private void InitializeCustomer()
     {
-        SoundManager.instance.PlaySFX("DoorBell");
+        if (!PlayCustomerAISound(ComeInAISound) && GameUtility.SoundManagerExists())
+        {
+            SoundManager.instance.PlaySFX("DoorBell");
+        }
 
         ApplyGhostVisual();
         GenerateOrders();
@@ -216,6 +225,7 @@ public class Customer : MonoBehaviour
         }
 
         currentState = CustomerState.Eating;
+        PlayCustomerAISound(EatAISound);
 
         if (isEatingRightFood && GameUtility.GameManagerExists() && GameManager.Instance.IsSuperScoreMultiplierActive)
         {
@@ -299,6 +309,7 @@ public class Customer : MonoBehaviour
     private void HandleWrongFood()
     {
         ComboSystem.ResetCombo();
+        PlayCustomerAISound(AngryAISound);
         feedbackController?.PlayWrongFoodFeedback();
         orderUI?.TriggerWrong();
         patienceController?.PenalizeHalf();
@@ -312,6 +323,7 @@ public class Customer : MonoBehaviour
         ComboSystem.AddCombo();
         AndroidAchievementSystem.ReportOrganServed();
         HandleTutorialServeProgress();
+        PlayCustomerAISound(SatisfiedAISound);
         feedbackController?.PlaySatisfiedFeedback();
         orderUI?.TriggerRight();
     }
@@ -384,6 +396,11 @@ public class Customer : MonoBehaviour
 
         feedbackController?.SpawnScoreFeedback(earnedScore);
         GameplayHUDUI.Instance?.PlayScoreCoinEffect(transform.position);
+        if (GameUtility.SoundManagerExists())
+        {
+            SoundManager.instance.PlaySFX(CoinCollectingSound);
+        }
+
         onEatRightFood?.Invoke(this);
         onLeaveRestaurant?.Invoke(currentSpot);
     }
@@ -394,5 +411,42 @@ public class Customer : MonoBehaviour
 
         orderUI.ShowOrders(currentOrders);
         currentState = CustomerState.WaitingForFood;
+    }
+
+    private bool PlayCustomerAISound(string situationName)
+    {
+        if (!GameUtility.SoundManagerExists() || string.IsNullOrWhiteSpace(situationName))
+        {
+            return false;
+        }
+
+        string ghostName = GetAISoundGhostName();
+        if (string.IsNullOrWhiteSpace(ghostName))
+        {
+            return false;
+        }
+
+        return SoundManager.instance.PlayRandomSFXByPrefix($"AI_{ghostName}_{situationName}_");
+    }
+
+    private string GetAISoundGhostName()
+    {
+        if (ghostType == null)
+        {
+            return string.Empty;
+        }
+
+        string sourceName = !string.IsNullOrWhiteSpace(ghostType.Name) ? ghostType.Name : ghostType.name;
+        return NormalizeAISoundName(sourceName);
+    }
+
+    private static string NormalizeAISoundName(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return string.Empty;
+        }
+
+        return value.Replace(" ", string.Empty).Replace("_", string.Empty).Replace("-", string.Empty);
     }
 }

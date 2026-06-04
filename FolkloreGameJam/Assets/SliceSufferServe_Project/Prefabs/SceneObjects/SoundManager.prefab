@@ -81,6 +81,134 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: e782939292b08f44db9ca13b20836527, type: 3}
   - name: CutLeg
     clip: {fileID: 8300000, guid: be8df690c3517aa469d5f7aa5540686e, type: 3}
+  - name: CoinCollecting
+    clip: {fileID: 8300000, guid: 05c0d26b915deb04ea1e850ae6aab95e, type: 3}
+  - name: AI_Krasue_Angry_1
+    clip: {fileID: 8300000, guid: 183ca534c2a87ab459c705cad4474e33, type: 3}
+  - name: AI_Krasue_Angry_2
+    clip: {fileID: 8300000, guid: 9e726a8da728c5949af23dbab8eba860, type: 3}
+  - name: AI_Krasue_Angry_3
+    clip: {fileID: 8300000, guid: e7d4a1acb1e707349b1468984fe401b4, type: 3}
+  - name: AI_Krasue_Angry_4
+    clip: {fileID: 8300000, guid: c9cf1fde7b2d62a409ae1ec414085b6b, type: 3}
+  - name: AI_Krasue_ComeIn_1
+    clip: {fileID: 8300000, guid: 4da076fb010eefd4a8817572a1133a38, type: 3}
+  - name: AI_Krasue_ComeIn_2
+    clip: {fileID: 8300000, guid: 3dbf849fd73e36c49ae7c436260cb501, type: 3}
+  - name: AI_Krasue_ComeIn_3
+    clip: {fileID: 8300000, guid: d351e0fde4cb4a44ca3813d0e25fa9bf, type: 3}
+  - name: AI_Krasue_ComeIn_4
+    clip: {fileID: 8300000, guid: d54f536b7abd5344b945b68a62af8d81, type: 3}
+  - name: AI_Krasue_Eat_1
+    clip: {fileID: 8300000, guid: c7928a90b8465ec41b7cec169ebee88b, type: 3}
+  - name: AI_Krasue_Eat_2
+    clip: {fileID: 8300000, guid: eb79e9f3c19f635469b0d3f3762c2950, type: 3}
+  - name: AI_Krasue_Eat_3
+    clip: {fileID: 8300000, guid: 813e006f8d84d464bb2e8f4a8e161ccd, type: 3}
+  - name: AI_Krasue_Eat_4
+    clip: {fileID: 8300000, guid: 8a9566f38535b7248ba1b61c0e7bd2ae, type: 3}
+  - name: AI_Krasue_Satisfied_1
+    clip: {fileID: 8300000, guid: 3d4ec817cec7f17489d276f55dac7699, type: 3}
+  - name: AI_Krasue_Satisfied_2
+    clip: {fileID: 8300000, guid: 3076757416055254194bc4d53564b246, type: 3}
+  - name: AI_Krasue_Satisfied_3
+    clip: {fileID: 8300000, guid: c8097f54bbebe474c875b910580a8670, type: 3}
+  - name: AI_Krasue_Satisfied_4
+    clip: {fileID: 8300000, guid: 6531676703a780e44a23a6467bccaf15, type: 3}
+  - name: AI_Pop_Angry_1
+    clip: {fileID: 8300000, guid: 050a970d63a89f04495f79e8d7792251, type: 3}
+  - name: AI_Pop_Angry_2
+    clip: {fileID: 8300000, guid: ed12b0de78fc38940a5afef02332cf3e, type: 3}
+  - name: AI_Pop_Angry_3
+    clip: {fileID: 8300000, guid: b1a33f9cd1748a1408fab627db535296, type: 3}
+  - name: AI_Pop_Angry_4
+    clip: {fileID: 8300000, guid: 011986464c0633c42800966409f6d20b, type: 3}
+  - name: AI_Pop_ComeIn_1
+    clip: {fileID: 8300000, guid: f11657afcc2aa064eabcc16d69777d1b, type: 3}
+  - name: AI_Pop_ComeIn_2
+    clip: {fileID: 8300000, guid: dece16d106f05b04ebb6f10b2069b845, type: 3}
+  - name: AI_Pop_ComeIn_3
+    clip: {fileID: 8300000, guid: 8d16eff07432c37489cf992a3848c127, type: 3}
+  - name: AI_Pop_ComeIn_4
+    clip: {fileID: 8300000, guid: 15e7baefee0346e4caa591277b48ff29, type: 3}
+  - name: AI_Pop_Eat_1
+    clip: {fileID: 8300000, guid: 8c36a250dd55c98499d83f9c87d02a9f, type: 3}
+  - name: AI_Pop_Eat_2
+    clip: {fileID: 8300000, guid: e5394ff950711cf4d9ef22a4c5706af1, type: 3}
+  - name: AI_Pop_Eat_3
+    clip: {fileID: 8300000, guid: 1e397a7141660d244973afab997a875d, type: 3}
+  - name: AI_Pop_Eat_4
+    clip: {fileID: 8300000, guid: eb6fc14bcb141264a943a036725847e5, type: 3}
+  - name: AI_Pop_Satisfied_1
+    clip: {fileID: 8300000, guid: 5801ed1bef6f6754d852718f3ac06a3e, type: 3}
+  - name: AI_Pop_Satisfied_2
+    clip: {fileID: 8300000, guid: da34111280b7d3c45bd746f05ccf7473, type: 3}
+  - name: AI_Pop_Satisfied_3
+    clip: {fileID: 8300000, guid: 9402b9a89f101e54385e02905a251621, type: 3}
+  - name: AI_Pop_Satisfied_4
+    clip: {fileID: 8300000, guid: 245c191df35a78f4da4f7faf72d0151c, type: 3}
+  - name: AI_Vampire_Angry_1
+    clip: {fileID: 8300000, guid: 8d669a35fbccbf24b8437b72e1447951, type: 3}
+  - name: AI_Vampire_Angry_2
+    clip: {fileID: 8300000, guid: 4b781d281442dc343ab38507fdf0804c, type: 3}
+  - name: AI_Vampire_Angry_3
+    clip: {fileID: 8300000, guid: c30317a1a9beeba41904b659b921e4d3, type: 3}
+  - name: AI_Vampire_Angry_4
+    clip: {fileID: 8300000, guid: c82f46a4123432440bb5d5d7ff9ae4fe, type: 3}
+  - name: AI_Vampire_ComeIn_1
+    clip: {fileID: 8300000, guid: a386eb71bd1b27148bedbfd607460e75, type: 3}
+  - name: AI_Vampire_ComeIn_2
+    clip: {fileID: 8300000, guid: a0fcb2beacd2a704eaf93ea967b40b75, type: 3}
+  - name: AI_Vampire_ComeIn_3
+    clip: {fileID: 8300000, guid: 85fcda92d6b8bc141a799366f9a054da, type: 3}
+  - name: AI_Vampire_ComeIn_4
+    clip: {fileID: 8300000, guid: e93c6dca4455881499a13b52b5582e90, type: 3}
+  - name: AI_Vampire_Eat_1
+    clip: {fileID: 8300000, guid: b91cf4ce6a7e10b4fb60080060ac217d, type: 3}
+  - name: AI_Vampire_Eat_2
+    clip: {fileID: 8300000, guid: 65fcbbc78a18b374988dd06709d3eae8, type: 3}
+  - name: AI_Vampire_Eat_3
+    clip: {fileID: 8300000, guid: 778f44323de2db24b9b61e7cf8da1a86, type: 3}
+  - name: AI_Vampire_Eat_4
+    clip: {fileID: 8300000, guid: 781f75522aae52a49b731e2cd9f2e3c3, type: 3}
+  - name: AI_Vampire_Satisfied_1
+    clip: {fileID: 8300000, guid: e00ffde4db8961d45afb55ec721004ef, type: 3}
+  - name: AI_Vampire_Satisfied_2
+    clip: {fileID: 8300000, guid: 73f0260b9f47f5a43be48c3f0fb1a416, type: 3}
+  - name: AI_Vampire_Satisfied_3
+    clip: {fileID: 8300000, guid: 3018af16e77d36a4b8c008b8bc712965, type: 3}
+  - name: AI_Vampire_Satisfied_4
+    clip: {fileID: 8300000, guid: 1cfc46f1641c3f741ae18f874c3268bf, type: 3}
+  - name: AI_Zombie_Angry_1
+    clip: {fileID: 8300000, guid: 69b4827862cdb2f4ab38de8d0ad2330b, type: 3}
+  - name: AI_Zombie_Angry_2
+    clip: {fileID: 8300000, guid: 11bf4669e27fa1741aedac69a7db77de, type: 3}
+  - name: AI_Zombie_Angry_3
+    clip: {fileID: 8300000, guid: fe356ff643aa8024f9ceb6bf01f7ba0b, type: 3}
+  - name: AI_Zombie_Angry_4
+    clip: {fileID: 8300000, guid: 3f63d169acedf9f499f6270dc9868311, type: 3}
+  - name: AI_Zombie_ComeIn_1
+    clip: {fileID: 8300000, guid: 4d11e5f7293c6f9458007c0515954957, type: 3}
+  - name: AI_Zombie_ComeIn_2
+    clip: {fileID: 8300000, guid: 5faa048282badc64e8c980c2b7e7bf94, type: 3}
+  - name: AI_Zombie_ComeIn_3
+    clip: {fileID: 8300000, guid: d7bac69fb94fc8d4baec306b0b9dec69, type: 3}
+  - name: AI_Zombie_ComeIn_4
+    clip: {fileID: 8300000, guid: 8fbf67b7c886a684382795df81ed852c, type: 3}
+  - name: AI_Zombie_Eat_1
+    clip: {fileID: 8300000, guid: 0a0663b733f4b184d9e9ff15daf5068b, type: 3}
+  - name: AI_Zombie_Eat_2
+    clip: {fileID: 8300000, guid: 553c8ada0351c28419a3117633f1d296, type: 3}
+  - name: AI_Zombie_Eat_3
+    clip: {fileID: 8300000, guid: 848ec3c8cec9f8f4f8ee2f133bb4abad, type: 3}
+  - name: AI_Zombie_Eat_4
+    clip: {fileID: 8300000, guid: a8e13e4eb38f4944fb046d4ed1249c44, type: 3}
+  - name: AI_Zombie_Satisfied_1
+    clip: {fileID: 8300000, guid: ea9483bd5ee609e4dbc3560de5ca1581, type: 3}
+  - name: AI_Zombie_Satisfied_2
+    clip: {fileID: 8300000, guid: 652ab0da234d85c419e1f5721b28301a, type: 3}
+  - name: AI_Zombie_Satisfied_3
+    clip: {fileID: 8300000, guid: 75f9d2b72b8a90942b956a005f183ebe, type: 3}
   backgroundMusic: {fileID: 8300000, guid: ccefe387f8fc50d40908cd0a36d4ecca, type: 3}
   backgroundGameplayMusic: {fileID: 8300000, guid: c104fb30668be6543b2b25478c566583, type: 3}
   backgroundMenu: {fileID: 8300000, guid: ccefe387f8fc50d40908cd0a36d4ecca, type: 3}

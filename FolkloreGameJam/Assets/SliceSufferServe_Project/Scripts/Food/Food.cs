@@ -205,8 +205,6 @@ public class Food : MonoBehaviour
 
         IsReadyToEat = true;
 
-        SoundManager.instance.PlaySFX("Eating");
-
         if (servingCollision != null)
         {
             servingCollision.enabled = false;

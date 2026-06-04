@@ -22,8 +22,6 @@ public class CustomerFeedbackController : MonoBehaviour
             animator.SetBool("Happy", true);
         }
 
-        SoundManager.instance.PlaySFX("Like");
-
         if (heart != null && heartLocation != null)
         {
             Object.Instantiate(heart, heartLocation.position, Quaternion.identity, heartLocation);
@@ -41,8 +39,6 @@ public class CustomerFeedbackController : MonoBehaviour
         {
             animator.SetTrigger("Anger");
         }
-
-        SoundManager.instance.PlaySFX("Nah");
 
         if (unsatisfyFeedback != null && feedbackParent != null)
         {

@@ -136,6 +136,32 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public bool PlayRandomSFXByPrefix(string sfxNamePrefix)
+    {
+        if (string.IsNullOrWhiteSpace(sfxNamePrefix) || soundEffects == null || sfxSource == null)
+        {
+            return false;
+        }
+
+        List<AudioClip> matchingClips = new();
+        foreach (KeyValuePair<string, AudioClip> soundEffect in soundEffects)
+        {
+            if (soundEffect.Value != null && soundEffect.Key.StartsWith(sfxNamePrefix))
+            {
+                matchingClips.Add(soundEffect.Value);
+            }
+        }
+
+        if (matchingClips.Count == 0)
+        {
+            Debug.LogWarning("Sound effect prefix not found: " + sfxNamePrefix);
+            return false;
+        }
+
+        sfxSource.PlayOneShot(matchingClips[Random.Range(0, matchingClips.Count)], sfxVolume);
+        return true;
+    }
+
     public void AddSoundEffect(string sfxName, AudioClip clip)
     {
         if (!soundEffects.ContainsKey(sfxName))
