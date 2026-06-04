@@ -9,6 +9,10 @@ using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
+    private const string EvilPowerReadySound = "ReadyEvilPower";
+    private const string EvilPowerActivateSound = "EvilPowerActivate";
+    private const string EvilPowerOngoingSound = "EvilPowerOngoing";
+
     public static GameManager Instance;
     public event Action<float, float> OnSuperMeterChanged;
     public event Action<float, float> OnSuperActiveTimeChanged;
@@ -71,6 +75,7 @@ public class GameManager : MonoBehaviour
     private float activeScoreMultiplier = 1f;
     private Coroutine superScoreMultiplierCoroutine;
     private float superScoreMultiplierRemainingTime;
+    private bool hasPlayedSuperReadySound;
 
     private void Awake()
     {
@@ -143,6 +148,7 @@ public class GameManager : MonoBehaviour
     public void ApplyGameOver() 
     {
         isGameOver = true;
+        StopEvilPowerOngoingSound();
 
         if (humanGen1 != null) 
         {
@@ -186,8 +192,15 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        bool wasSuperMeterFull = IsSuperMeterFull;
         currentSuperMeter = Mathf.Clamp(currentSuperMeter + amount, 0f, SuperMeterThreshold);
         NotifySuperMeterChanged();
+
+        if (!wasSuperMeterFull && IsSuperMeterFull && !hasPlayedSuperReadySound)
+        {
+            PlayEvilPowerSound(EvilPowerReadySound);
+            hasPlayedSuperReadySound = true;
+        }
     }
 
     public bool TryActivateSuper()
@@ -198,8 +211,10 @@ public class GameManager : MonoBehaviour
         }
 
         currentSuperMeter = 0f;
+        hasPlayedSuperReadySound = false;
         NotifySuperMeterChanged();
 
+        PlayEvilPowerSound(EvilPowerActivateSound);
         superActivated?.Invoke();
         OnSuperActivated?.Invoke();
 
@@ -277,6 +292,7 @@ public class GameManager : MonoBehaviour
         activeScoreMultiplier = Mathf.Max(1f, superScoreMultiplier);
         float duration = SuperScoreMultiplierDuration;
         superScoreMultiplierRemainingTime = duration;
+        PlayEvilPowerOngoingSound();
         OnSuperActiveTimeChanged?.Invoke(superScoreMultiplierRemainingTime, duration);
 
         while (superScoreMultiplierRemainingTime > 0f)
@@ -288,11 +304,36 @@ public class GameManager : MonoBehaviour
 
         activeScoreMultiplier = 1f;
         superScoreMultiplierCoroutine = null;
+        StopEvilPowerOngoingSound();
         OnSuperEnded?.Invoke();
         if (evilPower.activeSelf)
         {
             evilPower.SetActive(false);
         }
         NotifySuperMeterChanged();
+    }
+
+    private static void PlayEvilPowerSound(string soundName)
+    {
+        if (GameUtility.SoundManagerExists())
+        {
+            SoundManager.instance.PlaySFX(soundName);
+        }
+    }
+
+    private static void PlayEvilPowerOngoingSound()
+    {
+        if (GameUtility.SoundManagerExists())
+        {
+            SoundManager.instance.PlayLoopingSFX(EvilPowerOngoingSound);
+        }
+    }
+
+    private static void StopEvilPowerOngoingSound()
+    {
+        if (GameUtility.SoundManagerExists())
+        {
+            SoundManager.instance.StopLoopingSFX(EvilPowerOngoingSound);
+        }
     }
 }

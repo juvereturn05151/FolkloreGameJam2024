@@ -18,6 +18,7 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioSource loopingSfxSource;
 
     [Range(0f, 1f)] public float musicVolume = 1f;
     [Range(0f, 1f)] public float sfxVolume = 1f;
@@ -52,6 +53,8 @@ public class SoundManager : MonoBehaviour
                 soundEffects[soundEffect.name] = soundEffect.clip;
             }
         }
+
+        EnsureLoopingSfxSource();
     }
 
     private void Start()
@@ -162,6 +165,48 @@ public class SoundManager : MonoBehaviour
         return true;
     }
 
+    public void PlayLoopingSFX(string sfxName)
+    {
+        if (!TryGetSoundEffect(sfxName, out AudioClip clip))
+        {
+            Debug.LogWarning("Sound effect not found: " + sfxName);
+            return;
+        }
+
+        EnsureLoopingSfxSource();
+        if (loopingSfxSource == null)
+        {
+            return;
+        }
+
+        if (loopingSfxSource.isPlaying && loopingSfxSource.clip == clip)
+        {
+            return;
+        }
+
+        loopingSfxSource.Stop();
+        loopingSfxSource.clip = clip;
+        loopingSfxSource.volume = sfxVolume;
+        loopingSfxSource.loop = true;
+        loopingSfxSource.Play();
+    }
+
+    public void StopLoopingSFX(string sfxName)
+    {
+        if (loopingSfxSource == null || !loopingSfxSource.isPlaying)
+        {
+            return;
+        }
+
+        if (TryGetSoundEffect(sfxName, out AudioClip clip) && loopingSfxSource.clip != clip)
+        {
+            return;
+        }
+
+        loopingSfxSource.Stop();
+        loopingSfxSource.clip = null;
+    }
+
     public void AddSoundEffect(string sfxName, AudioClip clip)
     {
         if (!soundEffects.ContainsKey(sfxName))
@@ -179,5 +224,32 @@ public class SoundManager : MonoBehaviour
     public void SetSFXVolume(float volume)
     {
         sfxVolume = volume;
+
+        if (loopingSfxSource != null)
+        {
+            loopingSfxSource.volume = sfxVolume;
+        }
+    }
+
+    private bool TryGetSoundEffect(string sfxName, out AudioClip clip)
+    {
+        clip = null;
+        return !string.IsNullOrWhiteSpace(sfxName)
+            && soundEffects != null
+            && soundEffects.TryGetValue(sfxName, out clip)
+            && clip != null;
+    }
+
+    private void EnsureLoopingSfxSource()
+    {
+        if (loopingSfxSource != null)
+        {
+            return;
+        }
+
+        loopingSfxSource = gameObject.AddComponent<AudioSource>();
+        loopingSfxSource.playOnAwake = false;
+        loopingSfxSource.loop = true;
+        loopingSfxSource.volume = sfxVolume;
     }
 }

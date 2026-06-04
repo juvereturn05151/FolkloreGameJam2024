@@ -83,6 +83,12 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: be8df690c3517aa469d5f7aa5540686e, type: 3}
   - name: CoinCollecting
     clip: {fileID: 8300000, guid: 05c0d26b915deb04ea1e850ae6aab95e, type: 3}
+  - name: EvilPowerActivate
+    clip: {fileID: 8300000, guid: c1c44b0cea5aac04395f4699d8c5aef2, type: 3}
+  - name: EvilPowerOngoing
+    clip: {fileID: 8300000, guid: 99fe14aedc7f9704ea547fcf7813d41e, type: 3}
+  - name: ReadyEvilPower
+    clip: {fileID: 8300000, guid: 817f488b9d037914fb77af39d3d86a02, type: 3}
   - name: AI_Krasue_Angry_1
     clip: {fileID: 8300000, guid: 183ca534c2a87ab459c705cad4474e33, type: 3}
   - name: AI_Krasue_Angry_2
