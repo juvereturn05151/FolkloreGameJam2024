@@ -65,6 +65,16 @@ public class CharacterCustomizer : MonoBehaviour
         UpdateStatusText();
     }
 
+    private void OnEnable()
+    {
+        GlobalCurrencyPanel.SetVisible(false);
+    }
+
+    private void OnDestroy()
+    {
+        GlobalCurrencyPanel.SetVisible(true);
+    }
+
     public void NextHead()
     {
         selectedData.headIndex = NextUnlockedIndex(BodyPartType.Head, selectedData.headIndex, headOptions);

@@ -36,7 +36,7 @@ EditorBuildSettings:
     path: Assets/SliceSufferServe_Project/Scenes/Actual/Credits.unity
     guid: 8b78015749f8972449a5c8c0e5810442
   - enabled: 1
-    path: Assets/SliceSufferServe_Project/Scenes/Actual/ManualCharacterCustomizationScene.unity
+    path: Assets/SliceSufferServe_Project/Scenes/Actual/CharacterCustomizationScene.unity
     guid: 1d33b85d28df4d3a8e8f04e2eebd59ba
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
