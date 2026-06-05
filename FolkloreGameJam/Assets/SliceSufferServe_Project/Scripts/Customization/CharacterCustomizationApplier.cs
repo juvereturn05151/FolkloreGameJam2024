@@ -84,12 +84,17 @@ public class CharacterCustomizationApplier : MonoBehaviour
         Debug.Log($"Manual customization applier loaded {humanType} sprites: heads={heads.Length}, necks={necks.Length}, stomachs={bodies.Length}, legs={legs.Length}");
         Debug.Log($"Manual customization applying selected indices: type={humanType}, head={data.headIndex}, neck={data.neckIndex}, body={data.bodyIndex}, legs={data.legsIndex}");
 
+        int headIndex = ResolveSavedIndex(data, BodyPartType.Head, heads, data.headIndex);
+        int neckIndex = ResolveSavedIndex(data, BodyPartType.Neck, necks, data.neckIndex);
+        int bodyIndex = ResolveSavedIndex(data, BodyPartType.Stomach, bodies, data.bodyIndex);
+        int legsIndex = ResolveSavedIndex(data, BodyPartType.Leg, legs, data.legsIndex);
+
         return new CharacterSpriteSet
         {
-            head = GetUnlockedSprite(humanType, BodyPartType.Head, heads, data.headIndex),
-            neck = GetUnlockedSprite(humanType, BodyPartType.Neck, necks, data.neckIndex),
-            stomach = GetUnlockedSprite(humanType, BodyPartType.Stomach, bodies, data.bodyIndex),
-            leg = GetUnlockedSprite(humanType, BodyPartType.Leg, legs, data.legsIndex)
+            head = GetUnlockedSprite(humanType, BodyPartType.Head, heads, headIndex),
+            neck = GetUnlockedSprite(humanType, BodyPartType.Neck, necks, neckIndex),
+            stomach = GetUnlockedSprite(humanType, BodyPartType.Stomach, bodies, bodyIndex),
+            leg = GetUnlockedSprite(humanType, BodyPartType.Leg, legs, legsIndex)
         };
     }
 
@@ -116,6 +121,17 @@ public class CharacterCustomizationApplier : MonoBehaviour
         }
 
         return GetSprite(options, index);
+    }
+
+    private static int ResolveSavedIndex(CharacterCustomizationData data, BodyPartType part, Sprite[] options, int fallbackIndex)
+    {
+        int resolvedIndex = CharacterCustomizer.FindSpriteIndex(options, data.GetSpriteId(part));
+        if (resolvedIndex >= 0)
+        {
+            return resolvedIndex;
+        }
+
+        return options == null || options.Length == 0 ? 0 : Mathf.Clamp(fallbackIndex, 0, options.Length - 1);
     }
 
     private static void SetSprite(SpriteRenderer spriteRenderer, Image image, Sprite sprite)

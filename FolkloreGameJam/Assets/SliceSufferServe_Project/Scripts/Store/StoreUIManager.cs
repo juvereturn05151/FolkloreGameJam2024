@@ -515,8 +515,6 @@ public class StoreUIManager : MonoBehaviour
             return;
         }
 
-        CreateSectionTitle(content, section.SectionTitle, $"{section.SectionTitle}Title");
-
         HumanType humanType = section.HumanType;
         BodyPartType part = section.BodyPart;
         Sprite[] sprites = CharacterCustomizer.LoadHumanPartSprites(humanType, part);
@@ -533,6 +531,13 @@ public class StoreUIManager : MonoBehaviour
 
         int firstItemIndex = freePartCount + section.SkipUnlockableCount;
         int maxItemCount = section.MaxItems <= 0 ? int.MaxValue : section.MaxItems;
+        if (firstItemIndex >= sprites.Length || maxItemCount <= 0)
+        {
+            return;
+        }
+
+        CreateSectionTitle(content, section.SectionTitle, $"{section.SectionTitle}Title");
+
         int addedItemCount = 0;
 
         for (int i = firstItemIndex; i < sprites.Length && addedItemCount < maxItemCount; i++)
@@ -810,7 +815,7 @@ public class StoreUIManager : MonoBehaviour
             return;
         }
 
-        if (CharacterCustomizer.IsHumanPartUnlocked(item.HumanType, item.Part, item.OptionIndex))
+        if (CharacterCustomizer.IsHumanPartUnlocked(item.HumanType, item.Part, item.Sprite))
         {
             SetStatus($"{item.DisplayName} already owned.");
             RefreshHumanItemsUI();
@@ -896,7 +901,7 @@ public class StoreUIManager : MonoBehaviour
             return;
         }
 
-        if (CharacterCustomizer.IsHumanPartUnlocked(item.HumanType, item.Part, item.OptionIndex))
+        if (CharacterCustomizer.IsHumanPartUnlocked(item.HumanType, item.Part, item.Sprite))
         {
             SetStatus($"{item.DisplayName} already owned.");
             RefreshHumanItemsUI();
@@ -910,7 +915,7 @@ public class StoreUIManager : MonoBehaviour
             return;
         }
 
-        CharacterCustomizer.SetHumanPartUnlocked(item.HumanType, item.Part, item.OptionIndex, true);
+        CharacterCustomizer.SetHumanPartUnlocked(item.HumanType, item.Part, item.Sprite, true);
         AndroidAchievementSystem.ReportStoreInventoryChanged();
         SetStatus($"Unlocked {item.DisplayName}.");
         Refresh();
@@ -961,7 +966,7 @@ public class StoreUIManager : MonoBehaviour
                 continue;
             }
 
-            bool owned = CharacterCustomizer.IsHumanPartUnlocked(view.Item.HumanType, view.Item.Part, view.Item.OptionIndex);
+            bool owned = CharacterCustomizer.IsHumanPartUnlocked(view.Item.HumanType, view.Item.Part, view.Item.Sprite);
             if (view.BuyButton != null)
             {
                 view.BuyButton.interactable = !owned;

@@ -1446,6 +1446,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30799e89dc78a7d48836e12aa4a0d0b9, type: 3}
+--- !u!1 &910620300
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 910620301}
+  - component: {fileID: 910620302}
+  m_Layer: 0
+  m_Name: CutsceneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &910620301
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 910620300}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &910620302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 910620300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dc6b65ce08b44e19f0b8b6fc54dc4e5, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  sequence: {fileID: 11400000, guid: 3e9b45d5116c4278a8baecb37f0d4a59, type: 2}
+  nextSceneName: MainMenu
+  playOnStart: 1
+  backgroundImage: {fileID: 0}
+  dialogueBoxImage: {fileID: 0}
+  dialogueText: {fileID: 0}
+  fadeImage: {fileID: 0}
+  useFade: 1
+  fadeDuration: 0.35
+  inputCooldown: 0.12
+  dialogueBoxColor: {r: 0.04, g: 0, b: 0, a: 0.88}
+  dialogueTextColor: {r: 0.95, g: 0.88, b: 0.78, a: 1}
+  fadeColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1462,3 +1519,4 @@ SceneRoots:
   - {fileID: 5424246195923278074}
   - {fileID: 245209269}
   - {fileID: 5845023556808083789}
+  - {fileID: 910620301}

@@ -6,7 +6,8 @@ public class StageSelectButton : MonoBehaviour
     private enum SelectMode
     {
         Level,
-        Tutorial
+        Tutorial,
+        Cutscene
     }
 
     [SerializeField] private StageSelectManager stageSelectManager;
@@ -103,6 +104,27 @@ public class StageSelectButton : MonoBehaviour
         SetPreviewSprite(isUnlocked ? null : lockSprite);
     }
 
+    public void ConfigureCutscene(StageSelectManager manager, int targetLevelIndex, string cutsceneName, StageLevelDatabase levelDatabase, Sprite previewSprite)
+    {
+        stageSelectManager = manager;
+        levelIndex = targetLevelIndex;
+        selectMode = SelectMode.Cutscene;
+        isUnlocked = StageUnlockSystem.IsTutorialUnlocked(levelDatabase, targetLevelIndex);
+
+        if (titleText != null)
+        {
+            titleText.text = cutsceneName;
+        }
+
+        if (starsText != null)
+        {
+            starsText.text = string.Empty;
+        }
+
+        SetButtonState();
+        SetPreviewSprite(isUnlocked ? previewSprite : lockSprite);
+    }
+
     private void EnsurePreviewImage()
     {
         if (previewImage != null)
@@ -170,6 +192,12 @@ public class StageSelectButton : MonoBehaviour
         if (selectMode == SelectMode.Tutorial)
         {
             stageSelectManager.SelectTutorialForLevel(levelIndex);
+            return;
+        }
+
+        if (selectMode == SelectMode.Cutscene)
+        {
+            stageSelectManager.SelectCutsceneBeforeTutorial(levelIndex);
             return;
         }
 

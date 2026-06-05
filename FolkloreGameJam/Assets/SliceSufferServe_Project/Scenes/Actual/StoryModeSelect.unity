@@ -949,9 +949,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa3ab6f6f278400a924f676f94f1a35d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   levelDatabase: {fileID: 11400000, guid: 8dfbb37688d646b89e8dc6e0c1c41991, type: 2}
+  cutsceneSceneName: Cinematic
 --- !u!114 &3000000003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -980,8 +981,10 @@ MonoBehaviour:
   rowSpacing: 320
   maxNodesPerRow: 4
   levelsPerPage: 6
+  firstCutsceneName: Opening
   firstTutorialName: First Tutorial
   secondTutorialName: Second Tutorial
+  firstCutscenePreviewSprite: {fileID: 21300000, guid: 633da36568dea0443bbf8bdb5a67032d, type: 3}
 --- !u!114 &3100000404 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5374088883595294297, guid: dd165efa476c11e47ae9b19cd63257f3, type: 3}

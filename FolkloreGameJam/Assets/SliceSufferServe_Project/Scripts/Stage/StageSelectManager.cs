@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class StageSelectManager : MonoBehaviour
 {
     [SerializeField] private StageLevelDatabase levelDatabase;
+    [SerializeField] private string cutsceneSceneName = "Cinematic";
 
     private bool loadingSelectedStage;
     private string pendingSceneName;
@@ -63,6 +64,32 @@ public class StageSelectManager : MonoBehaviour
 
         StageSelection.SelectLevel(selectedLevel);
         LoadSelectedStageWithFade(StageSelection.GetTutorialSceneName(selectedLevel));
+    }
+
+    public void SelectCutsceneBeforeTutorial(int levelIndex)
+    {
+        if (loadingSelectedStage)
+        {
+            return;
+        }
+
+        StageLevelConfig selectedLevel = GetLevel(levelIndex);
+
+        if (selectedLevel == null)
+        {
+            Debug.LogWarning($"Cannot select cutscene for level at index {levelIndex}.");
+            return;
+        }
+
+        if (!StageUnlockSystem.IsTutorialUnlocked(levelDatabase, levelIndex))
+        {
+            Debug.LogWarning($"Cutscene for level index {levelIndex} is locked.");
+            return;
+        }
+
+        StageSelection.SelectLevel(selectedLevel);
+        CutsceneManager.SetNextSceneNameOverride(StageSelection.GetTutorialSceneName(selectedLevel));
+        LoadSelectedStageWithFade(cutsceneSceneName);
     }
 
     public void SelectLevelOne()

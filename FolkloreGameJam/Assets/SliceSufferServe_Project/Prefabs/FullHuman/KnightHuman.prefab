@@ -27,7 +27,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.11, y: 0.58, z: 0}
-  m_LocalScale: {x: 1.4635627, y: 1.3355011, z: 1.4635627}
+  m_LocalScale: {x: 2.7698655, y: 1.6306467, z: 1.7870101}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5557847260316694396}
@@ -117,8 +117,8 @@ Transform:
   m_GameObject: {fileID: 6726677171863991195}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0.3, z: 0}
+  m_LocalScale: {x: 1.0972, y: 1.0972, z: 1.0972}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3454760917465186791}
@@ -208,8 +208,8 @@ Transform:
   m_GameObject: {fileID: 7085322210445489102}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.1, z: 0}
-  m_LocalScale: {x: 1.0783209, y: 1.280506, z: 1.0783209}
+  m_LocalPosition: {x: -0.04, y: 1.2, z: 0}
+  m_LocalScale: {x: 1.4973795, y: 1.5133091, z: 1.2743657}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9066293206641434296}
@@ -404,10 +404,6 @@ PrefabInstance:
       propertyPath: foodPrefab
       value: 
       objectReference: {fileID: 7145729521898110643, guid: 92662209ef884ef4bd19ddc736322202, type: 3}
-    - target: {fileID: 5983385280804613021, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
-      propertyPath: cutsRequiredToDestroy
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6360245018159625436, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: m_Size.x
       value: 3.43
@@ -418,7 +414,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6891517490676250439, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: m_GravityScale
-      value: 2
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6916914159093397040, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 7008882931735631613, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
       propertyPath: foodPrefab

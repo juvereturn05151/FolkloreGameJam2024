@@ -36,6 +36,10 @@ public class CharacterCustomizationData
     public const string LegsIndexKey = "CustomLegsIndex";
     public const string CursorIdKey = "CustomWeaponCursorId";
     public const string HumanTypeKey = "CustomHumanType";
+    public const string HeadSpriteIdKey = "CustomHeadSpriteId";
+    public const string NeckSpriteIdKey = "CustomNeckSpriteId";
+    public const string BodySpriteIdKey = "CustomBodySpriteId";
+    public const string LegsSpriteIdKey = "CustomLegsSpriteId";
 
     public int headIndex;
     public int neckIndex;
@@ -43,6 +47,10 @@ public class CharacterCustomizationData
     public int legsIndex;
     public HumanType selectedHumanType = HumanType.NormalHuman;
     public string selectedCursorId = CursorCustomizationSelection.DefaultCursorId;
+    public string headSpriteId;
+    public string neckSpriteId;
+    public string bodySpriteId;
+    public string legsSpriteId;
 
     public static CharacterCustomizationData LoadFromPlayerPrefs()
     {
@@ -53,7 +61,11 @@ public class CharacterCustomizationData
             bodyIndex = PlayerPrefs.GetInt(BodyIndexKey, 0),
             legsIndex = PlayerPrefs.GetInt(LegsIndexKey, 0),
             selectedHumanType = (HumanType)PlayerPrefs.GetInt(HumanTypeKey, (int)HumanType.NormalHuman),
-            selectedCursorId = PlayerPrefs.GetString(CursorIdKey, CursorCustomizationSelection.GetSelectedCursorId())
+            selectedCursorId = PlayerPrefs.GetString(CursorIdKey, CursorCustomizationSelection.GetSelectedCursorId()),
+            headSpriteId = PlayerPrefs.GetString(HeadSpriteIdKey, string.Empty),
+            neckSpriteId = PlayerPrefs.GetString(NeckSpriteIdKey, string.Empty),
+            bodySpriteId = PlayerPrefs.GetString(BodySpriteIdKey, string.Empty),
+            legsSpriteId = PlayerPrefs.GetString(LegsSpriteIdKey, string.Empty)
         };
 
         if (!Enum.IsDefined(typeof(HumanType), data.selectedHumanType))
@@ -77,6 +89,10 @@ public class CharacterCustomizationData
         PlayerPrefs.SetInt(BodyIndexKey, bodyIndex);
         PlayerPrefs.SetInt(LegsIndexKey, legsIndex);
         PlayerPrefs.SetInt(HumanTypeKey, (int)selectedHumanType);
+        PlayerPrefs.SetString(HeadSpriteIdKey, headSpriteId ?? string.Empty);
+        PlayerPrefs.SetString(NeckSpriteIdKey, neckSpriteId ?? string.Empty);
+        PlayerPrefs.SetString(BodySpriteIdKey, bodySpriteId ?? string.Empty);
+        PlayerPrefs.SetString(LegsSpriteIdKey, legsSpriteId ?? string.Empty);
         string cursorId = string.IsNullOrWhiteSpace(selectedCursorId) || !CharacterCustomizer.IsWeaponCursorUnlocked(selectedCursorId)
             ? CursorCustomizationSelection.DefaultCursorId
             : selectedCursorId;
@@ -85,6 +101,42 @@ public class CharacterCustomizationData
         CursorCustomizationSelection.SetSelectedCursorId(cursorId);
         PlayerPrefs.Save();
         Debug.Log($"Manual character customization saved: type={selectedHumanType}, head={headIndex}, neck={neckIndex}, body={bodyIndex}, legs={legsIndex}, cursor={selectedCursorId}");
+    }
+
+    public string GetSpriteId(BodyPartType part)
+    {
+        switch (part)
+        {
+            case BodyPartType.Head:
+                return headSpriteId;
+            case BodyPartType.Neck:
+                return neckSpriteId;
+            case BodyPartType.Stomach:
+                return bodySpriteId;
+            case BodyPartType.Leg:
+                return legsSpriteId;
+            default:
+                return string.Empty;
+        }
+    }
+
+    public void SetSpriteId(BodyPartType part, string spriteId)
+    {
+        switch (part)
+        {
+            case BodyPartType.Head:
+                headSpriteId = spriteId ?? string.Empty;
+                break;
+            case BodyPartType.Neck:
+                neckSpriteId = spriteId ?? string.Empty;
+                break;
+            case BodyPartType.Stomach:
+                bodySpriteId = spriteId ?? string.Empty;
+                break;
+            case BodyPartType.Leg:
+                legsSpriteId = spriteId ?? string.Empty;
+                break;
+        }
     }
 }
 

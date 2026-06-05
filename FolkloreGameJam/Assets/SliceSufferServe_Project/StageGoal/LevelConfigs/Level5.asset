@@ -15,7 +15,7 @@ MonoBehaviour:
   levelId: level_5
   displayName: 5 -Busy Day
   levelNumber: 5
-  storyModeSelectionSprite: {fileID: 21300000, guid: f3b21383ee5548a8b4fe47dc19d37256, type: 3}
+  storyModeSelectionSprite: {fileID: 21300000, guid: 3be914e3c681410da99a44edeb64faa4, type: 3}
   gameplaySceneName: GameplayScene
   stageGoal: {fileID: 11400000, guid: 9ab5321d8fed47fba00ab04502a87479, type: 2}
   allowSuperMeter: 1

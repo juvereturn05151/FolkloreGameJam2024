@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,8 +20,10 @@ public class StageSelectUIBuilder : MonoBehaviour
     [SerializeField] private float rowSpacing = 320f;
     [SerializeField] private int maxNodesPerRow = 4;
     [SerializeField] private int levelsPerPage = 6;
+    [SerializeField] private string firstCutsceneName = "Opening";
     [SerializeField] private string firstTutorialName = "First Tutorial";
     [SerializeField] private string secondTutorialName = "Second Tutorial";
+    [SerializeField] private Sprite firstCutscenePreviewSprite;
 
     private int currentPageIndex;
     private bool loadingStore;
@@ -102,52 +105,65 @@ public class StageSelectUIBuilder : MonoBehaviour
 
         ClearLevelList();
 
-        int levelCount = levelDatabase == null ? 0 : levelDatabase.Count;
+        List<StageSelectEntry> entries = BuildEntries();
         int safeLevelsPerPage = Mathf.Max(1, levelsPerPage);
-        int pageCount = Mathf.Max(1, Mathf.CeilToInt(levelCount / (float)safeLevelsPerPage));
+        int pageCount = Mathf.Max(1, Mathf.CeilToInt(entries.Count / (float)safeLevelsPerPage));
         currentPageIndex = Mathf.Clamp(currentPageIndex, 0, pageCount - 1);
 
-        int firstLevelIndex = currentPageIndex * safeLevelsPerPage;
-        int lastLevelIndexExclusive = Mathf.Min(levelCount, firstLevelIndex + safeLevelsPerPage);
-        int tutorialCount = GetTutorialNodeCount(firstLevelIndex, lastLevelIndexExclusive);
-        int nodeCount = lastLevelIndexExclusive - firstLevelIndex + tutorialCount;
+        int firstEntryIndex = currentPageIndex * safeLevelsPerPage;
+        int lastEntryIndexExclusive = Mathf.Min(entries.Count, firstEntryIndex + safeLevelsPerPage);
+        int nodeCount = lastEntryIndexExclusive - firstEntryIndex;
         int nodeIndex = 0;
 
-        if (IsLevelOnCurrentPage(0, firstLevelIndex, lastLevelIndexExclusive))
+        for (int i = firstEntryIndex; i < lastEntryIndexExclusive; i++)
         {
-            CreateTutorialNode(nodeIndex++, 0, firstTutorialName, nodeCount);
-        }
-
-        for (int i = firstLevelIndex; i < lastLevelIndexExclusive; i++)
-        {
-            if (IsLevelOnCurrentPage(3, firstLevelIndex, lastLevelIndexExclusive) && i == 3)
-            {
-                CreateTutorialNode(nodeIndex++, 3, secondTutorialName, nodeCount);
-            }
-
-            StageLevelConfig levelConfig = levelDatabase.GetLevel(i);
-            StageSelectButton stageNode = CreateNode(nodeIndex++, nodeCount);
-            stageNode.Configure(stageSelectManager, i, levelConfig);
+            CreateEntryNode(entries[i], nodeIndex++, nodeCount);
         }
 
         UpdatePageControls(pageCount);
     }
 
-    private int GetTutorialNodeCount(int firstLevelIndex, int lastLevelIndexExclusive)
+    private List<StageSelectEntry> BuildEntries()
     {
-        int tutorialCount = IsLevelOnCurrentPage(0, firstLevelIndex, lastLevelIndexExclusive) ? 1 : 0;
-        return IsLevelOnCurrentPage(3, firstLevelIndex, lastLevelIndexExclusive) ? tutorialCount + 1 : tutorialCount;
+        List<StageSelectEntry> entries = new List<StageSelectEntry>();
+        int levelCount = levelDatabase == null ? 0 : levelDatabase.Count;
+
+        if (levelCount > 0)
+        {
+            entries.Add(StageSelectEntry.Cutscene(0));
+            entries.Add(StageSelectEntry.Tutorial(0, firstTutorialName));
+        }
+
+        for (int i = 0; i < levelCount; i++)
+        {
+            if (i == 3)
+            {
+                entries.Add(StageSelectEntry.Tutorial(3, secondTutorialName));
+            }
+
+            entries.Add(StageSelectEntry.Level(i));
+        }
+
+        return entries;
     }
 
-    private bool IsLevelOnCurrentPage(int levelIndex, int firstLevelIndex, int lastLevelIndexExclusive)
-    {
-        return levelIndex >= firstLevelIndex && levelIndex < lastLevelIndexExclusive;
-    }
-
-    private void CreateTutorialNode(int nodeIndex, int targetLevelIndex, string tutorialName, int nodeCount)
+    private void CreateEntryNode(StageSelectEntry entry, int nodeIndex, int nodeCount)
     {
         StageSelectButton stageNode = CreateNode(nodeIndex, nodeCount);
-        stageNode.ConfigureTutorial(stageSelectManager, targetLevelIndex, tutorialName, levelDatabase);
+
+        switch (entry.Mode)
+        {
+            case StageSelectEntryMode.Cutscene:
+                stageNode.ConfigureCutscene(stageSelectManager, entry.LevelIndex, firstCutsceneName, levelDatabase, firstCutscenePreviewSprite);
+                break;
+            case StageSelectEntryMode.Tutorial:
+                stageNode.ConfigureTutorial(stageSelectManager, entry.LevelIndex, entry.Title, levelDatabase);
+                break;
+            default:
+                StageLevelConfig levelConfig = levelDatabase.GetLevel(entry.LevelIndex);
+                stageNode.Configure(stageSelectManager, entry.LevelIndex, levelConfig);
+                break;
+        }
     }
 
     private StageSelectButton CreateNode(int nodeIndex, int nodeCount)
@@ -222,8 +238,8 @@ public class StageSelectUIBuilder : MonoBehaviour
 
     private void GoToNextPage()
     {
-        int levelCount = levelDatabase == null ? 0 : levelDatabase.Count;
-        int pageCount = Mathf.Max(1, Mathf.CeilToInt(levelCount / (float)Mathf.Max(1, levelsPerPage)));
+        int entryCount = BuildEntries().Count;
+        int pageCount = Mathf.Max(1, Mathf.CeilToInt(entryCount / (float)Mathf.Max(1, levelsPerPage)));
 
         if (currentPageIndex >= pageCount - 1)
         {
@@ -254,6 +270,42 @@ public class StageSelectUIBuilder : MonoBehaviour
         {
             pageText.gameObject.SetActive(showPageControls);
             pageText.text = $"Page {currentPageIndex + 1} / {pageCount}";
+        }
+    }
+
+    private enum StageSelectEntryMode
+    {
+        Level,
+        Tutorial,
+        Cutscene
+    }
+
+    private readonly struct StageSelectEntry
+    {
+        public StageSelectEntryMode Mode { get; }
+        public int LevelIndex { get; }
+        public string Title { get; }
+
+        private StageSelectEntry(StageSelectEntryMode mode, int levelIndex, string title)
+        {
+            Mode = mode;
+            LevelIndex = levelIndex;
+            Title = title;
+        }
+
+        public static StageSelectEntry Level(int levelIndex)
+        {
+            return new StageSelectEntry(StageSelectEntryMode.Level, levelIndex, string.Empty);
+        }
+
+        public static StageSelectEntry Tutorial(int levelIndex, string title)
+        {
+            return new StageSelectEntry(StageSelectEntryMode.Tutorial, levelIndex, title);
+        }
+
+        public static StageSelectEntry Cutscene(int levelIndex)
+        {
+            return new StageSelectEntry(StageSelectEntryMode.Cutscene, levelIndex, string.Empty);
         }
     }
 }
