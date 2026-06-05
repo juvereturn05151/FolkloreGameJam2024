@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77cc8a905509a9342879386f4830765c, type: 3}
   m_Name: TeachRottenAttribute
   m_EditorClassIdentifier: 
-  requiredProgress: 2
+  requiredProgress: 1

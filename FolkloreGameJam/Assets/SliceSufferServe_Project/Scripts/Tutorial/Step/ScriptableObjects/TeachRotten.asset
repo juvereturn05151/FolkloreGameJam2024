@@ -21,6 +21,6 @@ MonoBehaviour:
   ShowTutorialGuideOnStart: 0
   ShowOnSecondDialogue: 1
   ShowOnLastDialogue: 1
-  ObjectiveDialogue: Wait For 2  Food To Fully Rotten
-  WhatToDoDialogue: Wait For 2  Food To Fully Rotten
+  ObjectiveDialogue: Wait For 1  Food To Fully Rotten
+  WhatToDoDialogue: Wait For 1  Food To Fully Rotten
   TutorialAttribute: {fileID: 11400000, guid: 2e803742b4fe1a0409b44aaee1a73eba, type: 2}

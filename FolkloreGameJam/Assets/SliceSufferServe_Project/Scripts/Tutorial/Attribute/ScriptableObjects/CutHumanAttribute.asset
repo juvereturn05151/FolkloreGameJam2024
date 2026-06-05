@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bba23d93fbcccf64ca118100dc124b09, type: 3}
   m_Name: CutHumanAttribute
   m_EditorClassIdentifier: 
-  requiredProgress: 2
+  requiredProgress: 1
