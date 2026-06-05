@@ -15,6 +15,7 @@ MonoBehaviour:
   levelId: level_9
   displayName: Level 9 - Full Body Spinner Robot Big Three Customers
   levelNumber: 9
+  storyModeSelectionSprite: {fileID: 21300000, guid: d1e39f7d8c0de9743abf0ce0600e237a, type: 3}
   gameplaySceneName: GameplayScene
   stageGoal: {fileID: 11400000, guid: 405bf08f3e194f1a88272414cb7ba224, type: 2}
   allowSuperMeter: 1
@@ -25,10 +26,26 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3773c85fcdaf6f841839a87456861e97, type: 2}
   - {fileID: 11400000, guid: 02006c8ba69015e418b4a73cbb3f9f9d, type: 2}
   - {fileID: 11400000, guid: aadd87bc3fa161f4399ab252ca555a53, type: 2}
+  ghostSpawnPercentages:
+  - ghost: {fileID: 11400000, guid: d2952cb466b75414ebc175f0b6c76687, type: 2}
+    spawnPercentage: 25
+  - ghost: {fileID: 11400000, guid: 3773c85fcdaf6f841839a87456861e97, type: 2}
+    spawnPercentage: 25
+  - ghost: {fileID: 11400000, guid: 02006c8ba69015e418b4a73cbb3f9f9d, type: 2}
+    spawnPercentage: 25
+  - ghost: {fileID: 11400000, guid: aadd87bc3fa161f4399ab252ca555a53, type: 2}
+    spawnPercentage: 25
   humanPrefabOverrides:
   - {fileID: 752638607334200436, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
   - {fileID: 2930828951274456624, guid: 11459b7c95d94fd4a975ddf32b4b0759, type: 3}
   - {fileID: 3309805145410399744, guid: c2e6239c092ba42469de1925b1e3988d, type: 3}
+  humanPrefabSpawnPercentages:
+  - prefab: {fileID: 752638607334200436, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+    spawnPercentage: 33.333332
+  - prefab: {fileID: 2930828951274456624, guid: 11459b7c95d94fd4a975ddf32b4b0759, type: 3}
+    spawnPercentage: 33.333332
+  - prefab: {fileID: 3309805145410399744, guid: c2e6239c092ba42469de1925b1e3988d, type: 3}
+    spawnPercentage: 33.333332
   spawnPhases:
   - startTime: 0
     endTime: 10
@@ -36,57 +53,99 @@ MonoBehaviour:
     humanSpeedMultiplier: 0.05
     doubleSpawnChance: 0
     doubleSpawnDelay: 0.5
+    customerMinOrderCount: 0
+    customerMaxOrderCount: 0
     allowedFoodStates: 00000000
+    ghostSpawnOverrides: []
     humanPrefabOverrides:
     - {fileID: 1355700126600169132, guid: a4f53d1498984805b723d7217d2f1d01, type: 3}
+    humanPrefabSpawnOverrides:
+    - prefab: {fileID: 1355700126600169132, guid: a4f53d1498984805b723d7217d2f1d01, type: 3}
+      spawnPercentage: 100
   - startTime: 10
     endTime: 20
     spawnInterval: 4
     humanSpeedMultiplier: 0.5
     doubleSpawnChance: 0.3
     doubleSpawnDelay: 0.25
+    customerMinOrderCount: 0
+    customerMaxOrderCount: 0
     allowedFoodStates: 000000000100000002000000
+    ghostSpawnOverrides: []
     humanPrefabOverrides:
     - {fileID: 3309805145410399744, guid: c2e6239c092ba42469de1925b1e3988d, type: 3}
+    humanPrefabSpawnOverrides:
+    - prefab: {fileID: 3309805145410399744, guid: c2e6239c092ba42469de1925b1e3988d, type: 3}
+      spawnPercentage: 100
   - startTime: 20
     endTime: 1120
     spawnInterval: 4
     humanSpeedMultiplier: 1.25
     doubleSpawnChance: 0
     doubleSpawnDelay: 0.25
+    customerMinOrderCount: 0
+    customerMaxOrderCount: 0
     allowedFoodStates: 000000000100000002000000
+    ghostSpawnOverrides: []
     humanPrefabOverrides:
     - {fileID: 752638607334200436, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
     - {fileID: 752638607334200436, guid: 0dbec903a46148b69cdb6fbbdf40c245, type: 3}
+    humanPrefabSpawnOverrides:
+    - prefab: {fileID: 752638607334200436, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      spawnPercentage: 50
+    - prefab: {fileID: 752638607334200436, guid: 0dbec903a46148b69cdb6fbbdf40c245, type: 3}
+      spawnPercentage: 50
   - startTime: 40
     endTime: 70
     spawnInterval: 4
     humanSpeedMultiplier: 1.25
     doubleSpawnChance: 0
     doubleSpawnDelay: 0.25
+    customerMinOrderCount: 0
+    customerMaxOrderCount: 0
     allowedFoodStates: 000000000100000002000000
+    ghostSpawnOverrides: []
     humanPrefabOverrides: []
+    humanPrefabSpawnOverrides: []
   - startTime: 70
     endTime: 71
     spawnInterval: 0.6
     humanSpeedMultiplier: 1.25
     doubleSpawnChance: 0.3
     doubleSpawnDelay: 0.25
+    customerMinOrderCount: 0
+    customerMaxOrderCount: 0
     allowedFoodStates: 00000000
+    ghostSpawnOverrides: []
     humanPrefabOverrides:
     - {fileID: 752638607334200436, guid: 6132527dfd73478db7feb50ab8ffbe99, type: 3}
+    humanPrefabSpawnOverrides:
+    - prefab: {fileID: 752638607334200436, guid: 6132527dfd73478db7feb50ab8ffbe99, type: 3}
+      spawnPercentage: 100
   - startTime: 71
     endTime: 90
     spawnInterval: 4
     humanSpeedMultiplier: 0.5
     doubleSpawnChance: 0.3
     doubleSpawnDelay: 0.25
+    customerMinOrderCount: 0
+    customerMaxOrderCount: 0
     allowedFoodStates: 00000000
+    ghostSpawnOverrides: []
     humanPrefabOverrides:
     - {fileID: 752638607334200436, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
     - {fileID: 1355700126600169132, guid: a4f53d1498984805b723d7217d2f1d01, type: 3}
     - {fileID: 752638607334200436, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
     - {fileID: 752638607334200436, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+    humanPrefabSpawnOverrides:
+    - prefab: {fileID: 752638607334200436, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      spawnPercentage: 25
+    - prefab: {fileID: 1355700126600169132, guid: a4f53d1498984805b723d7217d2f1d01, type: 3}
+      spawnPercentage: 25
+    - prefab: {fileID: 752638607334200436, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      spawnPercentage: 25
+    - prefab: {fileID: 752638607334200436, guid: 47c00439bfed88c449389bd5b9e18b5b, type: 3}
+      spawnPercentage: 25
   customerPatienceMultiplier: 1
   customerMinOrderCount: 0
   customerMaxOrderCount: 0
