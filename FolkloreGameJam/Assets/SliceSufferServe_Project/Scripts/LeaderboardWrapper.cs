@@ -58,6 +58,19 @@ public class LeaderboardWrapper : MonoBehaviour
         FadingUI.Instance.OnStopFading.AddListener(LoadGameplayScene);
     }
 
+    public void ShowGooglePlayClassicLeaderboardUI()
+    {
+#if UNITY_ANDROID
+        SetText(info, "Opening Google Play Classic Leaderboard...");
+        GooglePlayManager.ShowClassicLeaderboard((success, status) =>
+        {
+            SetText(info, success ? string.Empty : "Google Play leaderboard failed: " + status);
+        });
+#else
+        SetText(info, "Google Play leaderboard is available on Android.");
+#endif
+    }
+
     private void LoadGameplayScene()
     {
         if (GameUtility.SoundManagerExists())
