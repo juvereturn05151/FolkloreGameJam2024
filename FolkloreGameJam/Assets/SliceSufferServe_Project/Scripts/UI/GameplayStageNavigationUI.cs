@@ -13,6 +13,14 @@ public class GameplayStageNavigationUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nextStageButtonText;
     [SerializeField] private Button storyModeSelectButton;
 
+    [Header("Story Cutscenes")]
+    [SerializeField] private string cinematicSceneName = "Cinematic";
+    [SerializeField] private int postStageCutsceneLevelNumber = 13;
+    [SerializeField] private int postStageCutsceneStartIndex = 5;
+    [SerializeField] private int postStageCutsceneCount = 4;
+    [SerializeField] private bool playPostStageCutsceneOnce = true;
+    [SerializeField] private string postStageCutscenePlayedKey = "StoryCutsceneAfterStage13Played";
+
     public void SetupButtons()
     {
         if (gameOverActionsRoot != null)
@@ -85,7 +93,7 @@ public class GameplayStageNavigationUI : MonoBehaviour
         string label;
         if (canGoNext)
         {
-            label = IsNextStageTutorialRequired() ? "Next Tutorial" : "Next Stage";
+            label = IsPostStageCutsceneRequired() ? "Next Cutscene" : IsNextStageTutorialRequired() ? "Next Tutorial" : "Next Stage";
         }
         else
         {
@@ -140,8 +148,19 @@ public class GameplayStageNavigationUI : MonoBehaviour
             SoundManager.instance.PlayGameplayBGM();
         }
 
+        string nextSceneName = GetNextStageSceneName(nextStage);
+        bool playPostStageCutscene = IsPostStageCutsceneRequired();
+
         StageSelection.SelectLevel(nextStage);
-        SceneManager.LoadScene(GetNextStageSceneName(nextStage));
+        if (playPostStageCutscene)
+        {
+            MarkPostStageCutscenePlayed();
+            CutsceneManager.SetPlaybackOverride(nextSceneName, postStageCutsceneStartIndex, postStageCutsceneCount);
+            SceneManager.LoadScene(cinematicSceneName);
+            return;
+        }
+
+        SceneManager.LoadScene(nextSceneName);
     }
 
     private string GetNextStageSceneName(StageLevelConfig nextStage)
@@ -154,6 +173,28 @@ public class GameplayStageNavigationUI : MonoBehaviour
     private bool IsNextStageTutorialRequired()
     {
         return IsSecondTutorialRequired(GetNextStage());
+    }
+
+    private bool IsPostStageCutsceneRequired()
+    {
+        StageLevelConfig selectedLevel = StageSelection.SelectedLevel;
+        if (selectedLevel == null || selectedLevel.LevelNumber != postStageCutsceneLevelNumber || string.IsNullOrWhiteSpace(cinematicSceneName))
+        {
+            return false;
+        }
+
+        return !playPostStageCutsceneOnce || PlayerPrefs.GetInt(postStageCutscenePlayedKey, 0) == 0;
+    }
+
+    private void MarkPostStageCutscenePlayed()
+    {
+        if (!playPostStageCutsceneOnce || string.IsNullOrWhiteSpace(postStageCutscenePlayedKey))
+        {
+            return;
+        }
+
+        PlayerPrefs.SetInt(postStageCutscenePlayedKey, 1);
+        PlayerPrefs.Save();
     }
 
     private bool IsSecondTutorialRequired(StageLevelConfig nextStage)

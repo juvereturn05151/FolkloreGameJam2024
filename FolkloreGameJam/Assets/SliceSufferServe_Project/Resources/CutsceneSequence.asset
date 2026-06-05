@@ -40,3 +40,31 @@ MonoBehaviour:
     - And that is how the restaurant began.
     - Now he cooks for the things that live in the dark.
     - Welcome to Slice Suffer Serve!
+  - title: CutScene 6
+    background: {fileID: 21300000, guid: c7ccdb8582cf3a0408287bc4c8b36982, type: 3}
+    dialogueLines:
+    - The restaurant became a place for those who lived in the dark.
+    - Monsters, devils, and forgotten things came from everywhere to taste his food.
+    - For the first time in years, the boy felt useful again.
+    - The customers smiled, laughed, and praised his work.
+  - title: CutScene 7
+    background: {fileID: 21300000, guid: 6942b39fcac26bc4b80f68f1e3c0d6e0, type: 3}
+    dialogueLines:
+    - The devil watched his work with great satisfaction.
+    - "\u201CYou have served us well,\u201D the devil said."
+    - "\u201CYour hands are no longer weak. They create hunger, fear, and joy.\u201D"
+    - The room cheered for him, but the boy could not smile.
+  - title: CutScene 8
+    background: {fileID: 21300000, guid: 3fe7e1252e0a4a14d8eaa27878cc6d2e, type: 3}
+    dialogueLines:
+    - But when the noise faded, silence returned.
+    - The boy looked at his hands and wondered what he had become.
+    - Was he finally accepted?
+    - Or had he only become the monster they said he was?
+  - title: CutScene 9
+    background: {fileID: 21300000, guid: 22a5782c09866ea42bc7be61c9051d88, type: 3}
+    dialogueLines:
+    - Far away, the humans heard rumors of the cursed restaurant.
+    - They feared the butcher who fed the creatures of the dark.
+    - A cruel man placed gold on the table and hired a hunter.
+    - "\u201CBring me the boy,\u201D he said. \u201CDead or alive.\u201D"

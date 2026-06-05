@@ -7,7 +7,8 @@ public class StageSelectButton : MonoBehaviour
     {
         Level,
         Tutorial,
-        Cutscene
+        OpeningCutscene,
+        PostStageCutscene
     }
 
     [SerializeField] private StageSelectManager stageSelectManager;
@@ -108,8 +109,30 @@ public class StageSelectButton : MonoBehaviour
     {
         stageSelectManager = manager;
         levelIndex = targetLevelIndex;
-        selectMode = SelectMode.Cutscene;
+        selectMode = SelectMode.OpeningCutscene;
         isUnlocked = StageUnlockSystem.IsTutorialUnlocked(levelDatabase, targetLevelIndex);
+
+        if (titleText != null)
+        {
+            titleText.text = cutsceneName;
+        }
+
+        if (starsText != null)
+        {
+            starsText.text = string.Empty;
+        }
+
+        SetButtonState();
+        SetPreviewSprite(isUnlocked ? previewSprite : lockSprite);
+    }
+
+    public void ConfigurePostStageCutscene(StageSelectManager manager, int completedLevelIndex, string cutsceneName, StageLevelDatabase levelDatabase, Sprite previewSprite)
+    {
+        stageSelectManager = manager;
+        levelIndex = completedLevelIndex;
+        selectMode = SelectMode.PostStageCutscene;
+        StageLevelConfig completedLevel = levelDatabase != null ? levelDatabase.GetLevel(completedLevelIndex) : null;
+        isUnlocked = StageUnlockSystem.IsLevelCompleted(completedLevel);
 
         if (titleText != null)
         {
@@ -195,9 +218,15 @@ public class StageSelectButton : MonoBehaviour
             return;
         }
 
-        if (selectMode == SelectMode.Cutscene)
+        if (selectMode == SelectMode.OpeningCutscene)
         {
             stageSelectManager.SelectCutsceneBeforeTutorial(levelIndex);
+            return;
+        }
+
+        if (selectMode == SelectMode.PostStageCutscene)
+        {
+            stageSelectManager.SelectCutsceneAfterLevel(levelIndex);
             return;
         }
 

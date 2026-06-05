@@ -23,7 +23,9 @@ public class StageSelectUIBuilder : MonoBehaviour
     [SerializeField] private string firstCutsceneName = "Opening";
     [SerializeField] private string firstTutorialName = "First Tutorial";
     [SerializeField] private string secondTutorialName = "Second Tutorial";
+    [SerializeField] private string postStage13CutsceneName = "Dark Rumors";
     [SerializeField] private Sprite firstCutscenePreviewSprite;
+    [SerializeField] private Sprite postStage13CutscenePreviewSprite;
 
     private int currentPageIndex;
     private bool loadingStore;
@@ -142,6 +144,12 @@ public class StageSelectUIBuilder : MonoBehaviour
             }
 
             entries.Add(StageSelectEntry.Level(i));
+
+            StageLevelConfig levelConfig = levelDatabase.GetLevel(i);
+            if (levelConfig != null && levelConfig.LevelNumber == 13)
+            {
+                entries.Add(StageSelectEntry.PostStageCutscene(i, postStage13CutsceneName));
+            }
         }
 
         return entries;
@@ -155,6 +163,9 @@ public class StageSelectUIBuilder : MonoBehaviour
         {
             case StageSelectEntryMode.Cutscene:
                 stageNode.ConfigureCutscene(stageSelectManager, entry.LevelIndex, firstCutsceneName, levelDatabase, firstCutscenePreviewSprite);
+                break;
+            case StageSelectEntryMode.PostStageCutscene:
+                stageNode.ConfigurePostStageCutscene(stageSelectManager, entry.LevelIndex, entry.Title, levelDatabase, postStage13CutscenePreviewSprite);
                 break;
             case StageSelectEntryMode.Tutorial:
                 stageNode.ConfigureTutorial(stageSelectManager, entry.LevelIndex, entry.Title, levelDatabase);
@@ -277,7 +288,8 @@ public class StageSelectUIBuilder : MonoBehaviour
     {
         Level,
         Tutorial,
-        Cutscene
+        Cutscene,
+        PostStageCutscene
     }
 
     private readonly struct StageSelectEntry
@@ -306,6 +318,11 @@ public class StageSelectUIBuilder : MonoBehaviour
         public static StageSelectEntry Cutscene(int levelIndex)
         {
             return new StageSelectEntry(StageSelectEntryMode.Cutscene, levelIndex, string.Empty);
+        }
+
+        public static StageSelectEntry PostStageCutscene(int levelIndex, string title)
+        {
+            return new StageSelectEntry(StageSelectEntryMode.PostStageCutscene, levelIndex, title);
         }
     }
 }

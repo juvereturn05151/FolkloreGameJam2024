@@ -8,10 +8,14 @@ public class CutsceneManager : MonoBehaviour
 {
     private const string DefaultSequenceResourcePath = "CutsceneSequence";
     private static string nextSceneNameOverride;
+    private static int? startCutsceneIndexOverride;
+    private static int? cutsceneCountOverride;
 
     [Header("Cutscene Data")]
     [SerializeField] private CutsceneSequence sequence;
     [SerializeField] private string nextSceneName = "MainMenu";
+    [SerializeField] private int startCutsceneIndex;
+    [SerializeField] private int cutsceneCount = 5;
     [SerializeField] private bool playOnStart = true;
 
     [Header("UI References")]
@@ -38,6 +42,18 @@ public class CutsceneManager : MonoBehaviour
         {
             nextSceneName = nextSceneNameOverride;
             nextSceneNameOverride = null;
+        }
+
+        if (startCutsceneIndexOverride.HasValue)
+        {
+            startCutsceneIndex = startCutsceneIndexOverride.Value;
+            startCutsceneIndexOverride = null;
+        }
+
+        if (cutsceneCountOverride.HasValue)
+        {
+            cutsceneCount = cutsceneCountOverride.Value;
+            cutsceneCountOverride = null;
         }
 
         sequence ??= Resources.Load<CutsceneSequence>(DefaultSequenceResourcePath);
@@ -75,7 +91,7 @@ public class CutsceneManager : MonoBehaviour
         }
 
         isPlaying = true;
-        cutsceneIndex = 0;
+        cutsceneIndex = GetPlaybackStartIndex();
         dialogueIndex = 0;
         ShowCurrentCutscene();
     }
@@ -116,6 +132,13 @@ public class CutsceneManager : MonoBehaviour
         nextSceneNameOverride = sceneName;
     }
 
+    public static void SetPlaybackOverride(string sceneName, int startIndex, int count)
+    {
+        nextSceneNameOverride = sceneName;
+        startCutsceneIndexOverride = startIndex;
+        cutsceneCountOverride = count;
+    }
+
     private IEnumerator GoToNextCutscene()
     {
         isTransitioning = true;
@@ -128,7 +151,7 @@ public class CutsceneManager : MonoBehaviour
         cutsceneIndex++;
         dialogueIndex = 0;
 
-        if (cutsceneIndex >= sequence.Count)
+        if (cutsceneIndex >= GetPlaybackEndIndex())
         {
             LoadNextScene();
             yield break;
@@ -170,13 +193,13 @@ public class CutsceneManager : MonoBehaviour
             {
                 SetFadeAlpha(0f);
             }
-            else if (cutsceneIndex == 0 && !isTransitioning)
+            else if (cutsceneIndex == GetPlaybackStartIndex() && !isTransitioning)
             {
                 SetFadeAlpha(1f);
             }
         }
 
-        if (useFade && cutsceneIndex == 0)
+        if (useFade && cutsceneIndex == GetPlaybackStartIndex())
         {
             StartCoroutine(FadeInFromStart());
         }
@@ -245,6 +268,28 @@ public class CutsceneManager : MonoBehaviour
         }
 
         SceneManager.LoadScene(nextSceneName);
+    }
+
+    private int GetPlaybackStartIndex()
+    {
+        if (sequence == null || sequence.Count == 0)
+        {
+            return 0;
+        }
+
+        return Mathf.Clamp(startCutsceneIndex, 0, sequence.Count - 1);
+    }
+
+    private int GetPlaybackEndIndex()
+    {
+        if (sequence == null || sequence.Count == 0)
+        {
+            return 0;
+        }
+
+        int startIndex = GetPlaybackStartIndex();
+        int safeCount = cutsceneCount <= 0 ? sequence.Count - startIndex : cutsceneCount;
+        return Mathf.Clamp(startIndex + safeCount, startIndex + 1, sequence.Count);
     }
 
     private static bool GetAdvanceInput()

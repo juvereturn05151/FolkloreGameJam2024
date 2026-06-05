@@ -118,6 +118,8 @@ public static class CutsceneSceneSetupUtility
         SerializedObject serializedManager = new SerializedObject(manager);
         serializedManager.FindProperty("sequence").objectReferenceValue = AssetDatabase.LoadAssetAtPath<CutsceneSequence>(SequencePath);
         serializedManager.FindProperty("nextSceneName").stringValue = "MainMenu";
+        serializedManager.FindProperty("startCutsceneIndex").intValue = 0;
+        serializedManager.FindProperty("cutsceneCount").intValue = 5;
         serializedManager.FindProperty("playOnStart").boolValue = true;
         serializedManager.FindProperty("backgroundImage").objectReferenceValue = backgroundImage;
         serializedManager.FindProperty("dialogueBoxImage").objectReferenceValue = dialogueBoxImage;

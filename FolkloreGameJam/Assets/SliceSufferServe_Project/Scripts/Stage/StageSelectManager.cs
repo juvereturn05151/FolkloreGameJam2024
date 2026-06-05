@@ -5,6 +5,8 @@ public class StageSelectManager : MonoBehaviour
 {
     [SerializeField] private StageLevelDatabase levelDatabase;
     [SerializeField] private string cutsceneSceneName = "Cinematic";
+    [SerializeField] private int postStageCutsceneStartIndex = 5;
+    [SerializeField] private int postStageCutsceneCount = 4;
 
     private bool loadingSelectedStage;
     private string pendingSceneName;
@@ -89,6 +91,38 @@ public class StageSelectManager : MonoBehaviour
 
         StageSelection.SelectLevel(selectedLevel);
         CutsceneManager.SetNextSceneNameOverride(StageSelection.GetTutorialSceneName(selectedLevel));
+        LoadSelectedStageWithFade(cutsceneSceneName);
+    }
+
+    public void SelectCutsceneAfterLevel(int completedLevelIndex)
+    {
+        if (loadingSelectedStage)
+        {
+            return;
+        }
+
+        StageLevelConfig completedLevel = GetLevel(completedLevelIndex);
+        StageLevelConfig nextLevel = levelDatabase != null ? levelDatabase.GetLevel(completedLevelIndex + 1) : null;
+
+        if (completedLevel == null)
+        {
+            Debug.LogWarning($"Cannot select cutscene after level at index {completedLevelIndex}.");
+            return;
+        }
+
+        if (!StageUnlockSystem.IsLevelCompleted(completedLevel))
+        {
+            Debug.LogWarning($"Cutscene after level index {completedLevelIndex} is locked.");
+            return;
+        }
+
+        string nextSceneName = nextLevel != null ? StageSelection.GetGameplaySceneName(nextLevel) : "StoryModeSelect";
+        if (nextLevel != null)
+        {
+            StageSelection.SelectLevel(nextLevel);
+        }
+
+        CutsceneManager.SetPlaybackOverride(nextSceneName, postStageCutsceneStartIndex, postStageCutsceneCount);
         LoadSelectedStageWithFade(cutsceneSceneName);
     }
 

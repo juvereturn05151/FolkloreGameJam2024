@@ -592,6 +592,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequence: {fileID: 11400000, guid: 3e9b45d5116c4278a8baecb37f0d4a59, type: 2}
   nextSceneName: MainMenu
+  startCutsceneIndex: 0
+  cutsceneCount: 5
   playOnStart: 1
   backgroundImage: {fileID: 910620322}
   dialogueBoxImage: {fileID: 910620332}
@@ -735,7 +737,7 @@ RectTransform:
   m_GameObject: {fileID: 910620320}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0442, y: 1.0442, z: 1.0442}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 910620311}
@@ -818,7 +820,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.06, y: 0.04}
   m_AnchorMax: {x: 0.94, y: 0.28}
-  m_AnchoredPosition: {x: 7.9918823, y: 24.167969}
+  m_AnchoredPosition: {x: 7.9918213, y: 24.167969}
   m_SizeDelta: {x: -111.5168, y: 48.3359}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &910620332
@@ -1270,7 +1272,7 @@ RectTransform:
   m_GameObject: {fileID: 1816098489}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.154533, y: 1.154533, z: 1.154533}
+  m_LocalScale: {x: 1.3076241, y: 1.3076241, z: 1.3076241}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 910620311}
