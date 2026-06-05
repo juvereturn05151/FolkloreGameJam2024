@@ -19,6 +19,14 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
+    public void TriggerPause() 
+    {
+        if (isPaused)
+            Resume();
+        else
+            Pause();
+    }
+
     public void Resume()
     {
         pauseMenuUI.SetActive(false); // Hide the pause menu UI
