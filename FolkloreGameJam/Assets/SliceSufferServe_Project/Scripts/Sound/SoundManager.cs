@@ -13,6 +13,10 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
 
+    private const string MusicVolumePrefsKey = "Settings.MusicVolume";
+    private const string SfxVolumePrefsKey = "Settings.SfxVolume";
+    private const string MusicMutedPrefsKey = "Settings.MusicMuted";
+    private const string SfxMutedPrefsKey = "Settings.SfxMuted";
     private const string DefaultGameplaySceneName = "GameplayScene";
     private const string ArcadeGameplaySceneName = "ArcadeMode";
 
@@ -22,6 +26,11 @@ public class SoundManager : MonoBehaviour
 
     [Range(0f, 1f)] public float musicVolume = 1f;
     [Range(0f, 1f)] public float sfxVolume = 1f;
+
+    public bool IsMusicMuted { get; private set; }
+    public bool IsSfxMuted { get; private set; }
+    public float MusicVolume => musicVolume;
+    public float SfxVolume => sfxVolume;
 
     [SerializeField] private List<SoundEffect> soundEffectsList;
 
@@ -55,6 +64,8 @@ public class SoundManager : MonoBehaviour
         }
 
         EnsureLoopingSfxSource();
+        LoadAudioSettings();
+        ApplyAudioSettings();
     }
 
     private void Start()
@@ -116,7 +127,8 @@ public class SoundManager : MonoBehaviour
         }
 
         musicSource.clip = clip;
-        musicSource.volume = musicVolume;
+        musicSource.volume = GetEffectiveMusicVolume();
+        musicSource.mute = IsMusicMuted;
         musicSource.loop = true;
         musicSource.pitch = 1.0f;
         musicSource.Play();
@@ -129,9 +141,14 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySFX(string sfxName)
     {
+        if (IsSfxMuted || sfxSource == null)
+        {
+            return;
+        }
+
         if (soundEffects.ContainsKey(sfxName))
         {
-            sfxSource.PlayOneShot(soundEffects[sfxName], sfxVolume);
+            sfxSource.PlayOneShot(soundEffects[sfxName], 1f);
         }
         else
         {
@@ -141,7 +158,7 @@ public class SoundManager : MonoBehaviour
 
     public bool PlayRandomSFXByPrefix(string sfxNamePrefix)
     {
-        if (string.IsNullOrWhiteSpace(sfxNamePrefix) || soundEffects == null || sfxSource == null)
+        if (IsSfxMuted || string.IsNullOrWhiteSpace(sfxNamePrefix) || soundEffects == null || sfxSource == null)
         {
             return false;
         }
@@ -161,7 +178,7 @@ public class SoundManager : MonoBehaviour
             return false;
         }
 
-        sfxSource.PlayOneShot(matchingClips[Random.Range(0, matchingClips.Count)], sfxVolume);
+        sfxSource.PlayOneShot(matchingClips[Random.Range(0, matchingClips.Count)], 1f);
         return true;
     }
 
@@ -186,7 +203,8 @@ public class SoundManager : MonoBehaviour
 
         loopingSfxSource.Stop();
         loopingSfxSource.clip = clip;
-        loopingSfxSource.volume = sfxVolume;
+        loopingSfxSource.volume = GetEffectiveSfxVolume();
+        loopingSfxSource.mute = IsSfxMuted;
         loopingSfxSource.loop = true;
         loopingSfxSource.Play();
     }
@@ -217,18 +235,44 @@ public class SoundManager : MonoBehaviour
 
     public void SetMusicVolume(float volume)
     {
-        musicVolume = volume;
-        musicSource.volume = musicVolume;
+        musicVolume = Mathf.Clamp01(volume);
+        PlayerPrefs.SetFloat(MusicVolumePrefsKey, musicVolume);
+        PlayerPrefs.Save();
+        ApplyMusicSettings();
     }
 
     public void SetSFXVolume(float volume)
     {
-        sfxVolume = volume;
+        sfxVolume = Mathf.Clamp01(volume);
+        PlayerPrefs.SetFloat(SfxVolumePrefsKey, sfxVolume);
+        PlayerPrefs.Save();
+        ApplySfxSettings();
+    }
 
-        if (loopingSfxSource != null)
-        {
-            loopingSfxSource.volume = sfxVolume;
-        }
+    public void SetMusicMuted(bool muted)
+    {
+        IsMusicMuted = muted;
+        PlayerPrefs.SetInt(MusicMutedPrefsKey, IsMusicMuted ? 1 : 0);
+        PlayerPrefs.Save();
+        ApplyMusicSettings();
+    }
+
+    public void SetSfxMuted(bool muted)
+    {
+        IsSfxMuted = muted;
+        PlayerPrefs.SetInt(SfxMutedPrefsKey, IsSfxMuted ? 1 : 0);
+        PlayerPrefs.Save();
+        ApplySfxSettings();
+    }
+
+    public void ToggleMusicMuted()
+    {
+        SetMusicMuted(!IsMusicMuted);
+    }
+
+    public void ToggleSfxMuted()
+    {
+        SetSfxMuted(!IsSfxMuted);
     }
 
     private bool TryGetSoundEffect(string sfxName, out AudioClip clip)
@@ -250,6 +294,58 @@ public class SoundManager : MonoBehaviour
         loopingSfxSource = gameObject.AddComponent<AudioSource>();
         loopingSfxSource.playOnAwake = false;
         loopingSfxSource.loop = true;
-        loopingSfxSource.volume = sfxVolume;
+        loopingSfxSource.volume = GetEffectiveSfxVolume();
+        loopingSfxSource.mute = IsSfxMuted;
+    }
+
+    private void LoadAudioSettings()
+    {
+        musicVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(MusicVolumePrefsKey, musicVolume));
+        sfxVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(SfxVolumePrefsKey, sfxVolume));
+        IsMusicMuted = PlayerPrefs.GetInt(MusicMutedPrefsKey, 0) == 1;
+        IsSfxMuted = PlayerPrefs.GetInt(SfxMutedPrefsKey, 0) == 1;
+    }
+
+    private void ApplyAudioSettings()
+    {
+        ApplyMusicSettings();
+        ApplySfxSettings();
+    }
+
+    private void ApplyMusicSettings()
+    {
+        if (musicSource == null)
+        {
+            return;
+        }
+
+        musicSource.volume = GetEffectiveMusicVolume();
+        musicSource.mute = IsMusicMuted;
+    }
+
+    private void ApplySfxSettings()
+    {
+        if (sfxSource != null)
+        {
+            sfxSource.volume = GetEffectiveSfxVolume();
+            sfxSource.mute = IsSfxMuted;
+        }
+
+        if (loopingSfxSource != null)
+        {
+            loopingSfxSource.volume = GetEffectiveSfxVolume();
+            loopingSfxSource.mute = IsSfxMuted;
+
+        }
+    }
+
+    private float GetEffectiveMusicVolume()
+    {
+        return IsMusicMuted ? 0f : musicVolume;
+    }
+
+    private float GetEffectiveSfxVolume()
+    {
+        return IsSfxMuted ? 0f : sfxVolume;
     }
 }
