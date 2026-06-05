@@ -2,7 +2,7 @@
 - Project name: FolkloreGameJam
 - Unity version: Unity 6000.4.6f1
 - Active game object:
-  - Name: RockProjectile
+  - Name: AdvancedTutorialManager
   - Tag: Untagged
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
