@@ -93,6 +93,11 @@ public class GameplayUIManager : MonoBehaviour
         stageNavigationUI?.GoToLeaderboard();
     }
 
+    public void ActivateSuperIfReady()
+    {
+        GameManager.Instance?.TryActivateSuper();
+    }
+
     private void ResolveSplitComponents()
     {
         if (gameOverUI == null)

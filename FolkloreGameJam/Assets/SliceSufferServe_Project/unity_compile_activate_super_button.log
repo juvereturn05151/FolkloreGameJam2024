@@ -1,0 +1,20 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+Built from '6000.4/staging' branch; Version is '6000.4.6f1 (0b051c2e5d54) revision 722204'; Using compiler version '194234433'; Build Type 'Release'
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-drago" at "2026-06-05T02:09:27.0047317Z"
+OS: 'Windows 11  (10.0.26200) CoreSingleLanguage' Language: 'en' Physical Memory: 23916 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-06-05T02:09:27Z
+
+COMMAND LINE ARGUMENTS:
+E:\Unity\Editor\6000.4.6f1\Editor\Unity.exe
+-batchmode
+-quit
+-projectPath
+E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam
+-logFile
+E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Assets\SliceSufferServe_Project\unity_compile_activate_super_button.log
+Successfully changed project path to: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam
+E:/FolkloreJam/FolkloreGameJam2024/FolkloreGameJam
+Exiting without the bug reporter. Application will terminate with return code 1
