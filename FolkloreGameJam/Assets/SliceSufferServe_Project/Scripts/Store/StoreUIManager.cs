@@ -517,21 +517,19 @@ public class StoreUIManager : MonoBehaviour
 
         HumanType humanType = section.HumanType;
         BodyPartType part = section.BodyPart;
-        Sprite[] sprites = CharacterCustomizer.LoadHumanPartSprites(humanType, part);
-        int freePartCount = CharacterCustomizer.GetFreeHumanPartCount(humanType, part);
-        if (sprites.Length == 0)
+        Sprite[] unlockableSprites = CharacterCustomizer.LoadUnlockableHumanPartSprites(humanType, part);
+        if (unlockableSprites.Length == 0)
         {
             Sprite defaultSprite = GetDefaultHumanPartSprite(humanType, part);
             if (defaultSprite != null)
             {
-                sprites = new[] { defaultSprite };
-                freePartCount = 0;
+                unlockableSprites = new[] { defaultSprite };
             }
         }
 
-        int firstItemIndex = freePartCount + section.SkipUnlockableCount;
+        int firstItemIndex = section.SkipUnlockableCount;
         int maxItemCount = section.MaxItems <= 0 ? int.MaxValue : section.MaxItems;
-        if (firstItemIndex >= sprites.Length || maxItemCount <= 0)
+        if (firstItemIndex >= unlockableSprites.Length || maxItemCount <= 0)
         {
             return;
         }
@@ -539,11 +537,13 @@ public class StoreUIManager : MonoBehaviour
         CreateSectionTitle(content, section.SectionTitle, $"{section.SectionTitle}Title");
 
         int addedItemCount = 0;
+        Sprite[] allSprites = CharacterCustomizer.LoadHumanPartSprites(humanType, part);
 
-        for (int i = firstItemIndex; i < sprites.Length && addedItemCount < maxItemCount; i++)
+        for (int i = firstItemIndex; i < unlockableSprites.Length && addedItemCount < maxItemCount; i++)
         {
-            int unlockableIndex = i - freePartCount;
-            HumanStoreItem item = new HumanStoreItem(humanType, part, i, section.Price, section.GetDisplayName(unlockableIndex, sprites[i]), sprites[i]);
+            Sprite sprite = unlockableSprites[i];
+            int optionIndex = CharacterCustomizer.FindSpriteIndex(allSprites, CharacterCustomizer.GetHumanPartSpriteId(sprite));
+            HumanStoreItem item = new HumanStoreItem(humanType, part, optionIndex, section.Price, section.GetDisplayName(i, sprite), sprite);
             humanItemViews.Add(CreateHumanItemView(content, item));
             addedItemCount++;
         }

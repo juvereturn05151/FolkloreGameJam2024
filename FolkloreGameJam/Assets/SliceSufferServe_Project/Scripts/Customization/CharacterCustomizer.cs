@@ -84,7 +84,8 @@ public class CharacterCustomizer : MonoBehaviour
     public void NextHead()
     {
         selectedData.headIndex = NextUnlockedIndex(BodyPartType.Head, selectedData.headIndex, headOptions);
-        Debug.Log($"Manual customization selected head index: {selectedData.headIndex}");
+        LogSelectedPart(BodyPartType.Head, selectedData.headIndex, headOptions);
+        UpdateSelectedSpriteIds();
         ApplyHead();
         UpdateStatusText();
     }
@@ -92,7 +93,8 @@ public class CharacterCustomizer : MonoBehaviour
     public void PreviousHead()
     {
         selectedData.headIndex = PreviousUnlockedIndex(BodyPartType.Head, selectedData.headIndex, headOptions);
-        Debug.Log($"Manual customization selected head index: {selectedData.headIndex}");
+        LogSelectedPart(BodyPartType.Head, selectedData.headIndex, headOptions);
+        UpdateSelectedSpriteIds();
         ApplyHead();
         UpdateStatusText();
     }
@@ -100,7 +102,8 @@ public class CharacterCustomizer : MonoBehaviour
     public void NextNeck()
     {
         selectedData.neckIndex = NextUnlockedIndex(BodyPartType.Neck, selectedData.neckIndex, neckOptions);
-        Debug.Log($"Manual customization selected neck index: {selectedData.neckIndex}");
+        LogSelectedPart(BodyPartType.Neck, selectedData.neckIndex, neckOptions);
+        UpdateSelectedSpriteIds();
         ApplyNeck();
         UpdateStatusText();
     }
@@ -108,7 +111,8 @@ public class CharacterCustomizer : MonoBehaviour
     public void PreviousNeck()
     {
         selectedData.neckIndex = PreviousUnlockedIndex(BodyPartType.Neck, selectedData.neckIndex, neckOptions);
-        Debug.Log($"Manual customization selected neck index: {selectedData.neckIndex}");
+        LogSelectedPart(BodyPartType.Neck, selectedData.neckIndex, neckOptions);
+        UpdateSelectedSpriteIds();
         ApplyNeck();
         UpdateStatusText();
     }
@@ -116,7 +120,8 @@ public class CharacterCustomizer : MonoBehaviour
     public void NextStomach()
     {
         selectedData.bodyIndex = NextUnlockedIndex(BodyPartType.Stomach, selectedData.bodyIndex, bodyOptions);
-        Debug.Log($"Manual customization selected stomach index: {selectedData.bodyIndex}");
+        LogSelectedPart(BodyPartType.Stomach, selectedData.bodyIndex, bodyOptions);
+        UpdateSelectedSpriteIds();
         ApplyBody();
         UpdateStatusText();
     }
@@ -129,7 +134,8 @@ public class CharacterCustomizer : MonoBehaviour
     public void PreviousStomach()
     {
         selectedData.bodyIndex = PreviousUnlockedIndex(BodyPartType.Stomach, selectedData.bodyIndex, bodyOptions);
-        Debug.Log($"Manual customization selected stomach index: {selectedData.bodyIndex}");
+        LogSelectedPart(BodyPartType.Stomach, selectedData.bodyIndex, bodyOptions);
+        UpdateSelectedSpriteIds();
         ApplyBody();
         UpdateStatusText();
     }
@@ -142,7 +148,8 @@ public class CharacterCustomizer : MonoBehaviour
     public void NextLegs()
     {
         selectedData.legsIndex = NextUnlockedIndex(BodyPartType.Leg, selectedData.legsIndex, legsOptions);
-        Debug.Log($"Manual customization selected legs index: {selectedData.legsIndex}");
+        LogSelectedPart(BodyPartType.Leg, selectedData.legsIndex, legsOptions);
+        UpdateSelectedSpriteIds();
         ApplyLegs();
         UpdateStatusText();
     }
@@ -150,7 +157,8 @@ public class CharacterCustomizer : MonoBehaviour
     public void PreviousLegs()
     {
         selectedData.legsIndex = PreviousUnlockedIndex(BodyPartType.Leg, selectedData.legsIndex, legsOptions);
-        Debug.Log($"Manual customization selected legs index: {selectedData.legsIndex}");
+        LogSelectedPart(BodyPartType.Leg, selectedData.legsIndex, legsOptions);
+        UpdateSelectedSpriteIds();
         ApplyLegs();
         UpdateStatusText();
     }
@@ -290,22 +298,37 @@ public class CharacterCustomizer : MonoBehaviour
 
     public static void SetHumanPartUnlocked(HumanType humanType, BodyPartType part, int index, bool unlocked)
     {
-        if (index < GetFreeHumanPartCount(humanType, part))
+        Sprite[] sprites = LoadHumanPartSprites(humanType, part);
+        SetHumanPartUnlocked(humanType, part, index, GetSprite(sprites, index), unlocked);
+    }
+
+    public static void SetHumanPartUnlocked(HumanType humanType, BodyPartType part, int index, Sprite sprite, bool unlocked)
+    {
+        string spriteId = GetHumanPartSpriteId(sprite);
+        if (!string.IsNullOrWhiteSpace(spriteId))
+        {
+            Sprite[] sprites = LoadHumanPartSprites(humanType, part);
+            int spriteIndex = FindSpriteIndex(sprites, spriteId);
+            if (spriteIndex >= 0)
+            {
+                index = spriteIndex;
+            }
+        }
+
+        if (index < 0 || index < GetFreeHumanPartCount(humanType, part))
         {
             return;
         }
 
         PlayerPrefs.SetInt(GetHumanPartUnlockKey(humanType, part, index), unlocked ? 1 : 0);
-        Sprite[] sprites = LoadHumanPartSprites(humanType, part);
-        Sprite sprite = GetSprite(sprites, index);
-        string spriteId = GetHumanPartSpriteId(sprite);
         if (!string.IsNullOrWhiteSpace(spriteId))
         {
             PlayerPrefs.SetInt(GetHumanPartUnlockKey(humanType, part, spriteId), unlocked ? 1 : 0);
+            PlayerPrefs.SetInt(GetHumanPartUnlockKey(part, spriteId), unlocked ? 1 : 0);
         }
 
         PlayerPrefs.Save();
-        Debug.Log($"Manual customization unlock updated: humanType={humanType}, part={part}, index={index}, unlocked={unlocked}");
+        Debug.Log($"Manual customization unlock updated: humanType={humanType}, part={part}, index={index}, sprite={spriteId}, unlocked={unlocked}");
     }
 
     public static void SetHumanPartUnlocked(HumanType humanType, BodyPartType part, Sprite sprite, bool unlocked)
@@ -326,6 +349,7 @@ public class CharacterCustomizer : MonoBehaviour
         if (!string.IsNullOrWhiteSpace(spriteId))
         {
             PlayerPrefs.SetInt(GetHumanPartUnlockKey(humanType, part, spriteId), unlocked ? 1 : 0);
+            PlayerPrefs.SetInt(GetHumanPartUnlockKey(part, spriteId), unlocked ? 1 : 0);
         }
 
         if (index >= 0)
@@ -339,15 +363,20 @@ public class CharacterCustomizer : MonoBehaviour
 
     public static bool IsHumanPartUnlocked(HumanType humanType, BodyPartType part, int index)
     {
+        Sprite[] sprites = LoadHumanPartSprites(humanType, part);
+        if (index < 0 || index >= sprites.Length)
+        {
+            return false;
+        }
+
         if (index < GetFreeHumanPartCount(humanType, part) || PlayerPrefs.GetInt(GetHumanPartUnlockKey(humanType, part, index), 0) == 1)
         {
             return true;
         }
 
-        Sprite[] sprites = LoadHumanPartSprites(humanType, part);
         Sprite sprite = GetSprite(sprites, index);
         string spriteId = GetHumanPartSpriteId(sprite);
-        return !string.IsNullOrWhiteSpace(spriteId) && PlayerPrefs.GetInt(GetHumanPartUnlockKey(humanType, part, spriteId), 0) == 1;
+        return IsHumanPartSpriteIdUnlocked(humanType, part, spriteId);
     }
 
     public static bool IsHumanPartUnlocked(HumanType humanType, BodyPartType part, Sprite sprite)
@@ -365,7 +394,7 @@ public class CharacterCustomizer : MonoBehaviour
         }
 
         string spriteId = GetHumanPartSpriteId(sprite);
-        return !string.IsNullOrWhiteSpace(spriteId) && PlayerPrefs.GetInt(GetHumanPartUnlockKey(humanType, part, spriteId), 0) == 1;
+        return IsHumanPartSpriteIdUnlocked(humanType, part, spriteId);
     }
 
     public static string GetHumanPartUnlockKey(HumanType humanType, BodyPartType part, int index)
@@ -376,6 +405,37 @@ public class CharacterCustomizer : MonoBehaviour
     public static string GetHumanPartUnlockKey(HumanType humanType, BodyPartType part, string spriteId)
     {
         return $"Unlocked{humanType}{part}_{spriteId}";
+    }
+
+    public static string GetHumanPartUnlockKey(BodyPartType part, string spriteId)
+    {
+        return $"UnlockedHumanPart{part}_{spriteId}";
+    }
+
+    private static bool IsHumanPartSpriteIdUnlocked(HumanType humanType, BodyPartType part, string spriteId)
+    {
+        if (string.IsNullOrWhiteSpace(spriteId))
+        {
+            return false;
+        }
+
+        if (PlayerPrefs.GetInt(GetHumanPartUnlockKey(humanType, part, spriteId), 0) == 1
+            || PlayerPrefs.GetInt(GetHumanPartUnlockKey(part, spriteId), 0) == 1)
+        {
+            return true;
+        }
+
+        foreach (HumanType savedHumanType in System.Enum.GetValues(typeof(HumanType)))
+        {
+            if (PlayerPrefs.GetInt(GetHumanPartUnlockKey(savedHumanType, part, spriteId), 0) == 1)
+            {
+                PlayerPrefs.SetInt(GetHumanPartUnlockKey(part, spriteId), 1);
+                PlayerPrefs.Save();
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static void SetWeaponCursorUnlocked(string cursorId, bool unlocked)
@@ -409,15 +469,23 @@ public class CharacterCustomizer : MonoBehaviour
     public static Sprite[] LoadHumanPartSprites(HumanType humanType, BodyPartType part)
     {
         Sprite[] freeSprites = LoadPartSprites(humanType, part, true);
-        Sprite[] unlockableSprites = LoadPartSprites(humanType, part, false);
+        Sprite[] unlockableSprites = LoadUnlockableHumanPartSprites(humanType, part);
 
         SortSpritesByDefaultFirst(freeSprites);
-        SortSpritesByDefaultFirst(unlockableSprites);
-        unlockableSprites = RemoveFreeSpriteDuplicates(unlockableSprites, freeSprites);
         Sprite[] sprites = new Sprite[freeSprites.Length + unlockableSprites.Length];
         freeSprites.CopyTo(sprites, 0);
         unlockableSprites.CopyTo(sprites, freeSprites.Length);
         return sprites;
+    }
+
+    public static Sprite[] LoadUnlockableHumanPartSprites(HumanType humanType, BodyPartType part)
+    {
+        Sprite[] freeSprites = LoadPartSprites(humanType, part, true);
+        Sprite[] unlockableSprites = LoadPartSprites(humanType, part, false);
+
+        SortSpritesByDefaultFirst(freeSprites);
+        SortSpritesByDefaultFirst(unlockableSprites);
+        return RemoveFreeSpriteDuplicates(unlockableSprites, freeSprites);
     }
 
     public static int GetFreeHumanPartCount(HumanType humanType, BodyPartType part)
@@ -1100,6 +1168,13 @@ public class CharacterCustomizer : MonoBehaviour
 
         HumanType humanType = selectedData != null ? selectedData.selectedHumanType : HumanType.NormalHuman;
         return IsHumanPartUnlocked(humanType, part, index);
+    }
+
+    private void LogSelectedPart(BodyPartType part, int index, Sprite[] options)
+    {
+        HumanType humanType = selectedData != null ? selectedData.selectedHumanType : HumanType.NormalHuman;
+        string spriteId = GetHumanPartSpriteId(GetSprite(options, index));
+        Debug.Log($"Manual customization selected {humanType} {part}: index={index}, sprite={spriteId}");
     }
 
     private bool AreSelectedPartsUnlocked()
