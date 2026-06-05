@@ -1,15 +1,21 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GlobalCurrencyPanel : MonoBehaviour
 {
     private const string ResourcePath = "GlobalCurrencyPanel";
+    private const string CharacterCustomizationSceneName = "CharacterCustomizationScene";
 
     private static GlobalCurrencyPanel instance;
     private static bool desiredVisible = true;
 
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI currencyBalanceText;
+
+    private Canvas panelCanvas;
+    private GraphicRaycaster panelRaycaster;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void EnsureInstance()
@@ -47,16 +53,29 @@ public class GlobalCurrencyPanel : MonoBehaviour
     private void OnEnable()
     {
         SaveSystem.OnCurrencyChanged += UpdateCurrencyBalance;
+        SceneManager.sceneLoaded += OnSceneLoaded;
         Refresh();
+        ApplyDesiredVisibility();
     }
 
     private void OnDisable()
     {
         SaveSystem.OnCurrencyChanged -= UpdateCurrencyBalance;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void BindReferences()
     {
+        if (panelCanvas == null)
+        {
+            panelCanvas = GetComponent<Canvas>();
+        }
+
+        if (panelRaycaster == null)
+        {
+            panelRaycaster = GetComponent<GraphicRaycaster>();
+        }
+
         if (currencyBalanceText != null)
         {
             return;
@@ -83,6 +102,11 @@ public class GlobalCurrencyPanel : MonoBehaviour
         }
     }
 
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ApplyDesiredVisibility();
+    }
+
     public static void SetVisible(bool visible)
     {
         desiredVisible = visible;
@@ -95,6 +119,21 @@ public class GlobalCurrencyPanel : MonoBehaviour
 
     private void ApplyDesiredVisibility()
     {
-        gameObject.SetActive(desiredVisible);
+        bool visible = desiredVisible && !IsSuppressedInActiveScene();
+
+        if (panelCanvas != null)
+        {
+            panelCanvas.enabled = visible;
+        }
+
+        if (panelRaycaster != null)
+        {
+            panelRaycaster.enabled = visible;
+        }
+    }
+
+    private static bool IsSuppressedInActiveScene()
+    {
+        return SceneManager.GetActiveScene().name == CharacterCustomizationSceneName;
     }
 }
