@@ -11,14 +11,14 @@ public class CharacterCustomizer : MonoBehaviour
     private const string BigHumanResourceRoot = "Characters/Human/Big";
     private const string KnightHumanResourceRoot = "Characters/Human/Knight";
     private const string RobotHumanResourceRoot = "Characters/Human/Robot";
-    private const string FreeHeadsResourcePath = "Characters/Human/Normal/Free/Heads";
-    private const string FreeNecksResourcePath = "Characters/Human/Normal/Free/Necks";
+    private const string FreeHeadsResourcePath = "Characters/Human/Normal/Free/Head";
+    private const string FreeNecksResourcePath = "Characters/Human/Normal/Free/Neck";
     private const string FreeStomachsResourcePath = "Characters/Human/Normal/Free/Stomach";
-    private const string FreeLegsResourcePath = "Characters/Human/Normal/Free/Legs";
-    private const string UnlockableHeadsResourcePath = "Characters/Human/Normal/Unlockables/Heads";
-    private const string UnlockableNecksResourcePath = "Characters/Human/Normal/Unlockables/Necks";
+    private const string FreeLegsResourcePath = "Characters/Human/Normal/Free/Leg";
+    private const string UnlockableHeadsResourcePath = "Characters/Human/Normal/Unlockables/Head";
+    private const string UnlockableNecksResourcePath = "Characters/Human/Normal/Unlockables/Neck";
     private const string UnlockableStomachsResourcePath = "Characters/Human/Normal/Unlockables/Stomach";
-    private const string UnlockableLegsResourcePath = "Characters/Human/Normal/Unlockables/Legs";
+    private const string UnlockableLegsResourcePath = "Characters/Human/Normal/Unlockables/Leg";
 
     [Header("Preview UI Images")]
     [SerializeField] private Image headImage;
@@ -337,12 +337,8 @@ public class CharacterCustomizer : MonoBehaviour
 
     public static Sprite[] LoadHumanPartSprites(HumanType humanType, BodyPartType part)
     {
-        Sprite[] freeSprites = humanType == HumanType.NormalHuman
-            ? Resources.LoadAll<Sprite>(GetFreeResourcePath(part))
-            : FilterSpritesByPart(Resources.LoadAll<Sprite>(GetFreeResourcePath(humanType, part)), part);
-        Sprite[] unlockableSprites = humanType == HumanType.NormalHuman
-            ? Resources.LoadAll<Sprite>(GetUnlockableResourcePath(part))
-            : FilterSpritesByPart(Resources.LoadAll<Sprite>(GetUnlockableResourcePath(humanType, part)), part);
+        Sprite[] freeSprites = LoadPartSprites(humanType, part, true);
+        Sprite[] unlockableSprites = LoadPartSprites(humanType, part, false);
 
         SortSpritesByDefaultFirst(freeSprites);
         SortSpritesByDefaultFirst(unlockableSprites);
@@ -359,7 +355,19 @@ public class CharacterCustomizer : MonoBehaviour
             return Resources.LoadAll<Sprite>(GetFreeResourcePath(part)).Length > 0 ? 1 : 0;
         }
 
-        return 0;
+        Sprite[] freeSprites = LoadPartSprites(humanType, part, true);
+        Sprite[] unlockableSprites = LoadPartSprites(humanType, part, false);
+        int defaultUnlockableCount = 0;
+
+        for (int i = 0; i < unlockableSprites.Length; i++)
+        {
+            if (unlockableSprites[i] != null && IsDefaultSpriteName(unlockableSprites[i].name))
+            {
+                defaultUnlockableCount++;
+            }
+        }
+
+        return freeSprites.Length + defaultUnlockableCount;
     }
 
     private void ResolvePreviewReferences()
@@ -1094,7 +1102,12 @@ public class CharacterCustomizer : MonoBehaviour
             return GetFreeResourcePath(part);
         }
 
-        return $"{GetHumanResourceRoot(humanType)}/Free";
+        return $"{GetHumanResourceRoot(humanType)}/Free/{GetPartResourceFolder(part)}";
+    }
+
+    private static string GetFlatFreeResourcePath(HumanType humanType)
+    {
+        return humanType == HumanType.NormalHuman ? $"{NormalHumanResourceRoot}/Free" : $"{GetHumanResourceRoot(humanType)}/Free";
     }
 
     private static string GetUnlockableResourcePath(HumanType humanType, BodyPartType part)
@@ -1104,7 +1117,12 @@ public class CharacterCustomizer : MonoBehaviour
             return GetUnlockableResourcePath(part);
         }
 
-        return $"{GetHumanResourceRoot(humanType)}/Unlockables";
+        return $"{GetHumanResourceRoot(humanType)}/Unlockables/{GetPartResourceFolder(part)}";
+    }
+
+    private static string GetFlatUnlockableResourcePath(HumanType humanType)
+    {
+        return humanType == HumanType.NormalHuman ? $"{NormalHumanResourceRoot}/Unlockables" : $"{GetHumanResourceRoot(humanType)}/Unlockables";
     }
 
     private static string GetHumanResourceRoot(HumanType humanType)
@@ -1147,6 +1165,36 @@ public class CharacterCustomizer : MonoBehaviour
         Sprite[] result = filtered.ToArray();
         SortSpritesByDefaultFirst(result);
         return result;
+    }
+
+    private static Sprite[] LoadPartSprites(HumanType humanType, BodyPartType part, bool free)
+    {
+        string partFolderPath = free ? GetFreeResourcePath(humanType, part) : GetUnlockableResourcePath(humanType, part);
+        Sprite[] sprites = Resources.LoadAll<Sprite>(partFolderPath);
+        if (sprites.Length > 0)
+        {
+            return sprites;
+        }
+
+        string flatFolderPath = free ? GetFlatFreeResourcePath(humanType) : GetFlatUnlockableResourcePath(humanType);
+        return FilterSpritesByPart(Resources.LoadAll<Sprite>(flatFolderPath), part);
+    }
+
+    private static string GetPartResourceFolder(BodyPartType part)
+    {
+        switch (part)
+        {
+            case BodyPartType.Head:
+                return "Head";
+            case BodyPartType.Neck:
+                return "Neck";
+            case BodyPartType.Stomach:
+                return "Stomach";
+            case BodyPartType.Leg:
+                return "Leg";
+            default:
+                return string.Empty;
+        }
     }
 
     public static string GetHumanTypeDisplayName(HumanType humanType)

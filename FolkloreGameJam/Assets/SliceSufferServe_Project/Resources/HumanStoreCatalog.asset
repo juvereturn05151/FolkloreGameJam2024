@@ -1,0 +1,215 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afe9c5e0175f4a0b9586167bae575021, type: 3}
+  m_Name: HumanStoreCatalog
+  m_EditorClassIdentifier: 
+  sections:
+  - enabled: 1
+    sectionTitle: Heads
+    humanType: 0
+    bodyPart: 0
+    price: 100
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{index} {part}'
+    itemDisplayNames:
+    - Dark Head
+    - Person2 Head
+    - Person3 Head
+    - Person4 Head
+    - Person5 Head
+  - enabled: 1
+    sectionTitle: Necks
+    humanType: 0
+    bodyPart: 1
+    price: 100
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{index} {part}'
+    itemDisplayNames:
+    - Person1 Neck
+    - Person2 Neck
+    - Person3 Neck
+    - Person4 Neck
+    - Person5 Neck
+  - enabled: 1
+    sectionTitle: Stomachs
+    humanType: 0
+    bodyPart: 2
+    price: 100
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{index} {part}'
+    itemDisplayNames:
+    - Dark Stomach
+    - Person2 Stomach
+    - Person3 Stomach
+    - Person4 Stomach
+    - Person5 Stomach
+  - enabled: 1
+    sectionTitle: Legs
+    humanType: 0
+    bodyPart: 3
+    price: 100
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{index} {part}'
+    itemDisplayNames:
+    - Dark Leg
+    - Person2 Leg
+    - Person3 Leg
+    - Person4 Leg
+    - Person5 Leg
+  - enabled: 1
+    sectionTitle: Rock Thrower Heads
+    humanType: 1
+    bodyPart: 0
+    price: 300
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{human} {part} {number}'
+    itemDisplayNames: []
+  - enabled: 1
+    sectionTitle: Rock Thrower Necks
+    humanType: 1
+    bodyPart: 1
+    price: 300
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{human} {part} {number}'
+    itemDisplayNames: []
+  - enabled: 1
+    sectionTitle: Rock Thrower Stomachs
+    humanType: 1
+    bodyPart: 2
+    price: 300
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{human} {part} {number}'
+    itemDisplayNames: []
+  - enabled: 1
+    sectionTitle: Rock Thrower Legs
+    humanType: 1
+    bodyPart: 3
+    price: 300
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{human} {part} {number}'
+    itemDisplayNames: []
+  - enabled: 1
+    sectionTitle: Big Heads
+    humanType: 2
+    bodyPart: 0
+    price: 300
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{human} {part} {number}'
+    itemDisplayNames: []
+  - enabled: 1
+    sectionTitle: Big Necks
+    humanType: 2
+    bodyPart: 1
+    price: 300
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{human} {part} {number}'
+    itemDisplayNames: []
+  - enabled: 1
+    sectionTitle: Big Stomachs
+    humanType: 2
+    bodyPart: 2
+    price: 300
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{human} {part} {number}'
+    itemDisplayNames: []
+  - enabled: 1
+    sectionTitle: Big Legs
+    humanType: 2
+    bodyPart: 3
+    price: 300
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{human} {part} {number}'
+    itemDisplayNames: []
+  - enabled: 1
+    sectionTitle: Knight Heads
+    humanType: 4
+    bodyPart: 0
+    price: 300
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{human} {part} {number}'
+    itemDisplayNames: []
+  - enabled: 1
+    sectionTitle: Knight Necks
+    humanType: 4
+    bodyPart: 1
+    price: 300
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{human} {part} {number}'
+    itemDisplayNames: []
+  - enabled: 1
+    sectionTitle: Knight Stomachs
+    humanType: 4
+    bodyPart: 2
+    price: 300
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{human} {part} {number}'
+    itemDisplayNames: []
+  - enabled: 1
+    sectionTitle: Knight Legs
+    humanType: 4
+    bodyPart: 3
+    price: 300
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{human} {part} {number}'
+    itemDisplayNames: []
+  - enabled: 1
+    sectionTitle: Robot Heads
+    humanType: 3
+    bodyPart: 0
+    price: 300
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{human} {part} {number}'
+    itemDisplayNames: []
+  - enabled: 1
+    sectionTitle: Robot Necks
+    humanType: 3
+    bodyPart: 1
+    price: 300
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{human} {part} {number}'
+    itemDisplayNames: []
+  - enabled: 1
+    sectionTitle: Robot Stomachs
+    humanType: 3
+    bodyPart: 2
+    price: 300
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{human} {part} {number}'
+    itemDisplayNames: []
+  - enabled: 1
+    sectionTitle: Robot Legs
+    humanType: 3
+    bodyPart: 3
+    price: 300
+    skipUnlockableCount: 0
+    maxItems: 0
+    itemNameFormat: '{human} {part} {number}'
+    itemDisplayNames: []

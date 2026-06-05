@@ -11,9 +11,7 @@ public class StoreUIManager : MonoBehaviour
     private const string DisableAdsTabId = "disable_ads";
     private const string ItemsTabId = "items";
     private const string HumanTabId = "human";
-    private const int HumanPartPrice = 1000;
-    private const int SpecialHumanPartPrice = 2000;
-    private const int WeaponCursorPrice = 3000;
+    private const int WeaponCursorPrice = 1000;
     private const float HumanItemRowHeight = 176f;
     private const float HumanItemPreviewWidth = 190f;
     private const float HumanItemPreviewHeight = 148f;
@@ -31,6 +29,7 @@ public class StoreUIManager : MonoBehaviour
     [Header("Store")]
     [SerializeField] private StoreManager storeManager;
     [SerializeField] private CharacterCustomizationManager customizationManager;
+    [SerializeField] private HumanStoreCatalog humanStoreCatalog;
     [SerializeField] private string defaultTabId = DisableAdsTabId;
     [SerializeField] private string backSceneName = "GameModeSelect";
     [SerializeField] private List<StoreTabView> tabs = new List<StoreTabView>();
@@ -79,6 +78,7 @@ public class StoreUIManager : MonoBehaviour
         }
 
         ResolveCustomizationManager();
+        humanStoreCatalog ??= HumanStoreCatalog.LoadDefault();
         cursorCatalog = CursorCustomizationCatalog.LoadDefault();
     }
 
@@ -376,28 +376,17 @@ public class StoreUIManager : MonoBehaviour
         }
 
         RectTransform content = CreateHumanItemsContent(humanPanel.transform);
-        string[] personaNames = { "Person1", "Person2", "Person3", "Person4", "Person5" };
+        if (humanStoreCatalog == null)
+        {
+            Debug.LogWarning("Human store catalog is missing. Create one at Resources/HumanStoreCatalog.asset or assign it on StoreUIManager.");
+            return;
+        }
 
-        AddHumanSection(content, "Heads", HumanType.NormalHuman, BodyPartType.Head, HumanPartPrice, personaNames);
-        AddHumanSection(content, "Necks", HumanType.NormalHuman, BodyPartType.Neck, HumanPartPrice, personaNames);
-        AddHumanSection(content, "Stomachs", HumanType.NormalHuman, BodyPartType.Stomach, HumanPartPrice, personaNames);
-        AddHumanSection(content, "Legs", HumanType.NormalHuman, BodyPartType.Leg, HumanPartPrice, personaNames);
-        AddHumanSection(content, "Rock Thrower Heads", HumanType.RockThrowerHuman, BodyPartType.Head, SpecialHumanPartPrice);
-        AddHumanSection(content, "Rock Thrower Necks", HumanType.RockThrowerHuman, BodyPartType.Neck, SpecialHumanPartPrice);
-        AddHumanSection(content, "Rock Thrower Stomachs", HumanType.RockThrowerHuman, BodyPartType.Stomach, SpecialHumanPartPrice);
-        AddHumanSection(content, "Rock Thrower Legs", HumanType.RockThrowerHuman, BodyPartType.Leg, SpecialHumanPartPrice);
-        AddHumanSection(content, "Big Heads", HumanType.BigHuman, BodyPartType.Head, SpecialHumanPartPrice);
-        AddHumanSection(content, "Big Necks", HumanType.BigHuman, BodyPartType.Neck, SpecialHumanPartPrice);
-        AddHumanSection(content, "Big Stomachs", HumanType.BigHuman, BodyPartType.Stomach, SpecialHumanPartPrice);
-        AddHumanSection(content, "Big Legs", HumanType.BigHuman, BodyPartType.Leg, SpecialHumanPartPrice);
-        AddHumanSection(content, "Knight Heads", HumanType.KnightHuman, BodyPartType.Head, SpecialHumanPartPrice);
-        AddHumanSection(content, "Knight Necks", HumanType.KnightHuman, BodyPartType.Neck, SpecialHumanPartPrice);
-        AddHumanSection(content, "Knight Stomachs", HumanType.KnightHuman, BodyPartType.Stomach, SpecialHumanPartPrice);
-        AddHumanSection(content, "Knight Legs", HumanType.KnightHuman, BodyPartType.Leg, SpecialHumanPartPrice);
-        AddHumanSection(content, "Robot Heads", HumanType.RobotHuman, BodyPartType.Head, SpecialHumanPartPrice);
-        AddHumanSection(content, "Robot Necks", HumanType.RobotHuman, BodyPartType.Neck, SpecialHumanPartPrice);
-        AddHumanSection(content, "Robot Stomachs", HumanType.RobotHuman, BodyPartType.Stomach, SpecialHumanPartPrice);
-        AddHumanSection(content, "Robot Legs", HumanType.RobotHuman, BodyPartType.Leg, SpecialHumanPartPrice);
+        IReadOnlyList<HumanStoreSectionConfig> sections = humanStoreCatalog.Sections;
+        for (int i = 0; i < sections.Count; i++)
+        {
+            AddHumanSection(content, sections[i]);
+        }
     }
 
     private RectTransform CreateHumanItemsContent(Transform parent)
@@ -519,10 +508,17 @@ public class StoreUIManager : MonoBehaviour
         }
     }
 
-    private void AddHumanSection(RectTransform content, string title, HumanType humanType, BodyPartType part, int price, string[] personaNames = null)
+    private void AddHumanSection(RectTransform content, HumanStoreSectionConfig section)
     {
-        CreateSectionTitle(content, title, $"{title}Title");
+        if (section == null || !section.Enabled)
+        {
+            return;
+        }
 
+        CreateSectionTitle(content, section.SectionTitle, $"{section.SectionTitle}Title");
+
+        HumanType humanType = section.HumanType;
+        BodyPartType part = section.BodyPart;
         Sprite[] sprites = CharacterCustomizer.LoadHumanPartSprites(humanType, part);
         int freePartCount = CharacterCustomizer.GetFreeHumanPartCount(humanType, part);
         if (sprites.Length == 0)
@@ -535,15 +531,16 @@ public class StoreUIManager : MonoBehaviour
             }
         }
 
-        for (int i = freePartCount; i < sprites.Length; i++)
+        int firstItemIndex = freePartCount + section.SkipUnlockableCount;
+        int maxItemCount = section.MaxItems <= 0 ? int.MaxValue : section.MaxItems;
+        int addedItemCount = 0;
+
+        for (int i = firstItemIndex; i < sprites.Length && addedItemCount < maxItemCount; i++)
         {
             int unlockableIndex = i - freePartCount;
-            string personaName = personaNames != null && unlockableIndex >= 0 && unlockableIndex < personaNames.Length ? personaNames[unlockableIndex] : $"Unlockable {unlockableIndex + 1}";
-            string displayName = humanType == HumanType.NormalHuman
-                ? $"{personaName} {GetPartDisplayName(part)}"
-                : $"{CharacterCustomizer.GetHumanTypeDisplayName(humanType)} {GetPartDisplayName(part)} {unlockableIndex + 1}";
-            HumanStoreItem item = new HumanStoreItem(humanType, part, i, price, displayName, sprites[i]);
+            HumanStoreItem item = new HumanStoreItem(humanType, part, i, section.Price, section.GetDisplayName(unlockableIndex, sprites[i]), sprites[i]);
             humanItemViews.Add(CreateHumanItemView(content, item));
+            addedItemCount++;
         }
     }
 
@@ -1053,23 +1050,6 @@ public class StoreUIManager : MonoBehaviour
         }
 
         layout.preferredHeight = preferredHeight;
-    }
-
-    private static string GetPartDisplayName(BodyPartType part)
-    {
-        switch (part)
-        {
-            case BodyPartType.Head:
-                return "Head";
-            case BodyPartType.Neck:
-                return "Neck";
-            case BodyPartType.Stomach:
-                return "Stomach";
-            case BodyPartType.Leg:
-                return "Leg";
-            default:
-                return "Part";
-        }
     }
 
     private static string GetWeaponDescription(string cursorId)
