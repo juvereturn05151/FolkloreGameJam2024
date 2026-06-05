@@ -24,8 +24,6 @@ public class CutsceneManager : MonoBehaviour
     [SerializeField] private bool useFade = true;
     [SerializeField] private float fadeDuration = 0.35f;
     [SerializeField] private float inputCooldown = 0.12f;
-    [SerializeField] private Color dialogueBoxColor = new Color(0.04f, 0f, 0f, 0.88f);
-    [SerializeField] private Color dialogueTextColor = new Color(0.95f, 0.88f, 0.78f, 1f);
     [SerializeField] private Color fadeColor = Color.black;
 
     private int cutsceneIndex;
@@ -43,7 +41,7 @@ public class CutsceneManager : MonoBehaviour
         }
 
         sequence ??= Resources.Load<CutsceneSequence>(DefaultSequenceResourcePath);
-        EnsureUI();
+        ValidateUIReferences();
     }
 
     private void Start()
@@ -272,95 +270,11 @@ public class CutsceneManager : MonoBehaviour
         return false;
     }
 
-    private void EnsureUI()
+    private void ValidateUIReferences()
     {
-        if (backgroundImage != null && dialogueText != null && dialogueBoxImage != null && fadeImage != null)
+        if (backgroundImage == null || dialogueBoxImage == null || dialogueText == null || fadeImage == null)
         {
-            ApplyUIStyle();
-            return;
+            Debug.LogWarning("CutsceneManager needs scene UI references assigned: Background Image, Dialogue Box Image, Dialogue Text, and Fade Image.", this);
         }
-
-        Canvas canvas = GetComponentInChildren<Canvas>(true);
-        if (canvas == null)
-        {
-            GameObject canvasObject = new GameObject("CutsceneCanvas", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
-            canvasObject.transform.SetParent(transform, false);
-            canvas = canvasObject.GetComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-
-            CanvasScaler scaler = canvasObject.GetComponent<CanvasScaler>();
-            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1920f, 1080f);
-            scaler.matchWidthOrHeight = 0.5f;
-        }
-
-        RectTransform canvasRect = canvas.transform as RectTransform;
-        backgroundImage ??= CreateImage(canvasRect, "CutsceneBackground", Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
-        dialogueBoxImage ??= CreateImage(canvasRect, "DialogueBox", new Vector2(0.06f, 0.04f), new Vector2(0.94f, 0.28f), Vector2.zero, Vector2.zero);
-        dialogueText ??= CreateDialogueText(dialogueBoxImage.transform as RectTransform);
-        fadeImage ??= CreateImage(canvasRect, "FadeImage", Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
-
-        ApplyUIStyle();
-    }
-
-    private void ApplyUIStyle()
-    {
-        if (backgroundImage != null)
-        {
-            backgroundImage.color = Color.white;
-            backgroundImage.type = Image.Type.Simple;
-            backgroundImage.preserveAspect = true;
-            backgroundImage.raycastTarget = false;
-        }
-
-        if (dialogueBoxImage != null)
-        {
-            dialogueBoxImage.color = dialogueBoxColor;
-            dialogueBoxImage.raycastTarget = false;
-        }
-
-        if (dialogueText != null)
-        {
-            dialogueText.color = dialogueTextColor;
-            dialogueText.fontSize = 42f;
-            dialogueText.alignment = TextAlignmentOptions.TopLeft;
-            dialogueText.enableWordWrapping = true;
-            dialogueText.raycastTarget = false;
-        }
-
-        if (fadeImage != null)
-        {
-            fadeImage.color = new Color(fadeColor.r, fadeColor.g, fadeColor.b, 0f);
-            fadeImage.raycastTarget = false;
-            fadeImage.transform.SetAsLastSibling();
-        }
-    }
-
-    private static Image CreateImage(RectTransform parent, string objectName, Vector2 anchorMin, Vector2 anchorMax, Vector2 offsetMin, Vector2 offsetMax)
-    {
-        GameObject imageObject = new GameObject(objectName, typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
-        imageObject.transform.SetParent(parent, false);
-
-        RectTransform rectTransform = imageObject.GetComponent<RectTransform>();
-        rectTransform.anchorMin = anchorMin;
-        rectTransform.anchorMax = anchorMax;
-        rectTransform.offsetMin = offsetMin;
-        rectTransform.offsetMax = offsetMax;
-
-        return imageObject.GetComponent<Image>();
-    }
-
-    private static TextMeshProUGUI CreateDialogueText(RectTransform parent)
-    {
-        GameObject textObject = new GameObject("DialogueText", typeof(RectTransform), typeof(TextMeshProUGUI));
-        textObject.transform.SetParent(parent, false);
-
-        RectTransform rectTransform = textObject.GetComponent<RectTransform>();
-        rectTransform.anchorMin = Vector2.zero;
-        rectTransform.anchorMax = Vector2.one;
-        rectTransform.offsetMin = new Vector2(42f, 28f);
-        rectTransform.offsetMax = new Vector2(-42f, -28f);
-
-        return textObject.GetComponent<TextMeshProUGUI>();
     }
 }
