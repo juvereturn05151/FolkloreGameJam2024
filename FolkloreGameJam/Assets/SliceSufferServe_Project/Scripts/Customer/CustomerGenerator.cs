@@ -14,6 +14,8 @@ public class CustomerGenerator : MonoBehaviour
 
     [SerializeField]
     private float _spawnInterval = 5f; // Interval between spawning customers
+    [SerializeField]
+    private float sameHumanGeneratorRepeatCooldown = 2f;
 
     private float _demandCheckTimer;
     private const float DemandCheckInterval = 2.0f;
@@ -27,6 +29,8 @@ public class CustomerGenerator : MonoBehaviour
     private HumanGenerator[] humanGenerators;
     private int pendingDemandHumanSpawns;
     private bool isRapidSlicePaused;
+    private HumanGenerator lastHumanGenerator;
+    private float lastHumanGeneratorSpawnTime = float.NegativeInfinity;
 
     private void Awake()
     {
@@ -172,14 +176,63 @@ public class CustomerGenerator : MonoBehaviour
             yield break;
         }
 
-        HumanGenerator generator = humanGenerators[Random.Range(0, humanGenerators.Length)];
+        HumanGenerator generator = GetRandomHumanGeneratorAvoidingRapidRepeat();
         if (generator != null)
         {
             // Resolve the prefab override pool using priority: phase > level config > generator defaults
             StageHumanPrefabSpawnEntry[] phaseOverrides = activePhase.HasHumanPrefabSpawnOverrides ? activePhase.HumanPrefabSpawnOverrides : null;
             Debug.Log($"Spawning human to meet demand. Pending demand spawns remaining: {pendingDemandHumanSpawns}. Active phase: {activePhase.StartTime}-{activePhase.EndTime}s. Using {(phaseOverrides != null ? "phase overrides" : "generator defaults")}.");
             generator.SpawnHuman(activePhase.HumanSpeedMultiplier, phaseOverrides);
+            lastHumanGenerator = generator;
+            lastHumanGeneratorSpawnTime = Time.time;
         }
+    }
+
+    private HumanGenerator GetRandomHumanGeneratorAvoidingRapidRepeat()
+    {
+        if (humanGenerators == null || humanGenerators.Length == 0)
+        {
+            return null;
+        }
+
+        int validGeneratorCount = 0;
+        for (int i = 0; i < humanGenerators.Length; i++)
+        {
+            if (humanGenerators[i] != null)
+            {
+                validGeneratorCount++;
+            }
+        }
+
+        if (validGeneratorCount == 0)
+        {
+            return null;
+        }
+
+        bool shouldAvoidLastGenerator = lastHumanGenerator != null &&
+            validGeneratorCount > 1 &&
+            Time.time - lastHumanGeneratorSpawnTime < sameHumanGeneratorRepeatCooldown;
+
+        int eligibleGeneratorCount = shouldAvoidLastGenerator ? validGeneratorCount - 1 : validGeneratorCount;
+        int selectedIndex = Random.Range(0, eligibleGeneratorCount);
+
+        for (int i = 0; i < humanGenerators.Length; i++)
+        {
+            HumanGenerator generator = humanGenerators[i];
+            if (generator == null || (shouldAvoidLastGenerator && generator == lastHumanGenerator))
+            {
+                continue;
+            }
+
+            if (selectedIndex == 0)
+            {
+                return generator;
+            }
+
+            selectedIndex--;
+        }
+
+        return lastHumanGenerator;
     }
 
     public void SetRapidSlicePaused(bool paused)
@@ -344,6 +397,8 @@ public class CustomerGenerator : MonoBehaviour
     {
         StopAllCoroutines();
         pendingDemandHumanSpawns = 0;
+        lastHumanGenerator = null;
+        lastHumanGeneratorSpawnTime = float.NegativeInfinity;
         _isGenerating = true;
 
         for (int i = 0; i < activeCustomerSpots.Count; i++)
