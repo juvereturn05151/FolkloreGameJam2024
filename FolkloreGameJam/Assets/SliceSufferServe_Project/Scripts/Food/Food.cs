@@ -37,6 +37,7 @@ public class Food : MonoBehaviour
     [SerializeField] private bool useUniversalGlow = true;
 
     private CustomerFoodPlace currentPlate;
+    private bool canServeAfterRelease;
 
     public float UniversalScoreMultiplier => universalScoreMultiplier;
     public bool IsUniversalFood => isUniversalFood;
@@ -47,6 +48,7 @@ public class Food : MonoBehaviour
     {
         IsFinished = false;
         IsReadyToEat = false;
+        canServeAfterRelease = false;
 
         if (foodRotting != null)
         {
@@ -133,6 +135,8 @@ public class Food : MonoBehaviour
         {
             return;
         }
+
+        canServeAfterRelease = false;
             
         SoundManager.instance.PlaySFX("SFX_WhenPickUpItem");
 
@@ -145,6 +149,8 @@ public class Food : MonoBehaviour
 
     private void HandleDragEnded()
     {
+        canServeAfterRelease = true;
+
         if (GameUtility.DragAndDropManagerExists())
         {
             DragAndDropManager.Instance.isDragging = false;
@@ -156,6 +162,8 @@ public class Food : MonoBehaviour
 
     private void HandleDragCancelled()
     {
+        canServeAfterRelease = false;
+
         if (GameUtility.DragAndDropManagerExists())
         {
             DragAndDropManager.Instance.isDragging = false;
@@ -233,6 +241,8 @@ public class Food : MonoBehaviour
             currentPlate = plate;
             currentPlate.OnFoodInOnPlate();
         }
+
+        TryServeCurrentPlate();
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -249,7 +259,8 @@ public class Food : MonoBehaviour
 
     private void TryServeCurrentPlate()
     {
-        if (IsReadyToEat || currentPlate == null)
+        if (IsReadyToEat || currentPlate == null || !canServeAfterRelease ||
+            (draggable2D != null && draggable2D.IsDragging))
         {
             return;
         }
@@ -257,6 +268,7 @@ public class Food : MonoBehaviour
         if (currentPlate.canBeDropped())
         {
             currentPlate.PrepareToEat(this);
+            canServeAfterRelease = !IsReadyToEat;
         }
     }
 
