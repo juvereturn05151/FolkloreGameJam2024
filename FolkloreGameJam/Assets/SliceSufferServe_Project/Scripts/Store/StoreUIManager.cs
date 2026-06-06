@@ -520,11 +520,7 @@ public class StoreUIManager : MonoBehaviour
         Sprite[] unlockableSprites = CharacterCustomizer.LoadUnlockableHumanPartSprites(humanType, part);
         if (unlockableSprites.Length == 0)
         {
-            Sprite defaultSprite = GetDefaultHumanPartSprite(humanType, part);
-            if (defaultSprite != null)
-            {
-                unlockableSprites = new[] { defaultSprite };
-            }
+            return;
         }
 
         int firstItemIndex = section.SkipUnlockableCount;
@@ -543,6 +539,11 @@ public class StoreUIManager : MonoBehaviour
         {
             Sprite sprite = unlockableSprites[i];
             int optionIndex = CharacterCustomizer.FindSpriteIndex(allSprites, CharacterCustomizer.GetHumanPartSpriteId(sprite));
+            if (optionIndex < 0)
+            {
+                continue;
+            }
+
             HumanStoreItem item = new HumanStoreItem(humanType, part, optionIndex, section.Price, section.GetDisplayName(i, sprite), sprite);
             humanItemViews.Add(CreateHumanItemView(content, item));
             addedItemCount++;

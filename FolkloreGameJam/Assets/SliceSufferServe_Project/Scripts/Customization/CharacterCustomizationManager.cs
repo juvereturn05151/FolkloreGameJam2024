@@ -2,12 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class CharacterCustomizationManager : MonoBehaviour
 {
     public const int GeneratedSlotsPerHuman = 10;
 
     private const string PlayerPrefsKey = "CharacterCustomizationData";
+    private const string RuntimePrefabPath = "Assets/SliceSufferServe_Project/Prefabs/CharacterCustomizationManager.prefab";
 
     public static CharacterCustomizationManager Instance { get; private set; }
 
@@ -30,9 +34,39 @@ public class CharacterCustomizationManager : MonoBehaviour
             return existingManager;
         }
 
-        GameObject managerObject = new GameObject("CharacterCustomizationManager");
+        CharacterCustomizationManager prefabInstance = InstantiateRuntimePrefab();
+        if (prefabInstance == null)
+        {
+            Debug.LogError($"Failed to create {nameof(CharacterCustomizationManager)}. Assign or load the prefab at {RuntimePrefabPath}.");
+        }
+
+        return prefabInstance;
+    }
+
+    private static CharacterCustomizationManager InstantiateRuntimePrefab()
+    {
+#if UNITY_EDITOR
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(RuntimePrefabPath);
+        if (prefab == null)
+        {
+            return null;
+        }
+
+        CharacterCustomizationManager prefabManager = prefab.GetComponent<CharacterCustomizationManager>();
+        if (prefabManager == null)
+        {
+            Debug.LogError($"{RuntimePrefabPath} does not have a {nameof(CharacterCustomizationManager)} component.");
+            return null;
+        }
+
+        GameObject managerObject = Instantiate(prefab);
+        managerObject.name = prefab.name;
         DontDestroyOnLoad(managerObject);
-        return managerObject.AddComponent<CharacterCustomizationManager>();
+        return managerObject.GetComponent<CharacterCustomizationManager>();
+#else
+        Debug.LogError($"{RuntimePrefabPath} cannot be loaded directly in a player build. Put the prefab in a Resources folder, use Addressables, or keep a scene reference.");
+        return null;
+#endif
     }
 
     private void Awake()
