@@ -14,6 +14,7 @@ public class HumanRockThrower : MonoBehaviour
 
     private HumanBody humanBody;
     private Camera mainCamera;
+    private RockProjectile activeRockProjectile;
     private bool pickedRock;
     private bool threwRock;
 
@@ -28,6 +29,7 @@ public class HumanRockThrower : MonoBehaviour
         if (humanBody != null && humanBody.IsBeingDestroyed)
         {
             HideHeldRock();
+            DestroyActiveRockProjectile();
             return;
         }
 
@@ -84,8 +86,19 @@ public class HumanRockThrower : MonoBehaviour
             return;
         }
 
-        Instantiate(rockPrefab, spawnPosition, spawnRotation);
+        activeRockProjectile = Instantiate(rockPrefab, spawnPosition, spawnRotation);
         HideHeldRock();
+    }
+
+    private void DestroyActiveRockProjectile()
+    {
+        if (activeRockProjectile == null)
+        {
+            return;
+        }
+
+        Destroy(activeRockProjectile.gameObject);
+        activeRockProjectile = null;
     }
 
     private void HideHeldRock()
@@ -94,5 +107,10 @@ public class HumanRockThrower : MonoBehaviour
         {
             heldRockSpawner.SetActive(false);
         }
+    }
+
+    private void OnDestroy()
+    {
+        DestroyActiveRockProjectile();
     }
 }
