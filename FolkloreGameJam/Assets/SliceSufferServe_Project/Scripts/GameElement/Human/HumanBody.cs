@@ -134,12 +134,12 @@ public class HumanBody : MonoBehaviour
             return;
         }
 
-        ResetComboForMissedDestroyerIfNeeded();
         _parts.Remove(missedPart);
         missedPart.DestroyWithoutFood();
 
         if (!HasRemainingParts())
         {
+            ResetComboForMissedDestroyerIfNeeded();
             GrantRobotMissedRewardIfNeeded();
             Destroy(gameObject);
         }
