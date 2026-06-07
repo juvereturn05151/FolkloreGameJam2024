@@ -89,11 +89,12 @@ public class GameplayStageNavigationUI : MonoBehaviour
 
         bool hasOneStar = result != null && result.Stars >= 1;
         bool hasNextStage = GetNextStage() != null;
-        bool canGoNext = hasOneStar && hasNextStage;
+        bool hasPostStageCutscene = IsPostStageCutsceneRequired();
+        bool canGoNext = hasOneStar && (hasNextStage || hasPostStageCutscene);
         string label;
         if (canGoNext)
         {
-            label = IsPostStageCutsceneRequired() ? "Next Cutscene" : IsNextStageTutorialRequired() ? "Next Tutorial" : "Next Stage";
+            label = hasPostStageCutscene ? "Next Cutscene" : IsNextStageTutorialRequired() ? "Next Tutorial" : "Next Stage";
         }
         else
         {
@@ -138,7 +139,8 @@ public class GameplayStageNavigationUI : MonoBehaviour
     public void GoToNextStage()
     {
         StageLevelConfig nextStage = GetNextStage();
-        if (nextStage == null)
+        bool playPostStageCutscene = IsPostStageCutsceneRequired();
+        if (nextStage == null && !playPostStageCutscene)
         {
             return;
         }
@@ -148,10 +150,13 @@ public class GameplayStageNavigationUI : MonoBehaviour
             SoundManager.instance.PlayGameplayBGM();
         }
 
-        string nextSceneName = GetNextStageSceneName(nextStage);
-        bool playPostStageCutscene = IsPostStageCutsceneRequired();
+        string nextSceneName = nextStage != null ? GetNextStageSceneName(nextStage) : storyModeSelectSceneName;
 
-        StageSelection.SelectLevel(nextStage);
+        if (nextStage != null)
+        {
+            StageSelection.SelectLevel(nextStage);
+        }
+
         if (playPostStageCutscene)
         {
             MarkPostStageCutscenePlayed();
