@@ -16,17 +16,17 @@ MonoBehaviour:
   - title: CutScene 1
     background: {fileID: 21300000, guid: 633da36568dea0443bbf8bdb5a67032d, type: 3}
     dialogueLines:
-    - Long ago, there was a boy who believed in AI.
+    - Long ago, there was a boy who believed in building Frankenstein.
     - He studied day and night, hoping to use it to make the world better.
   - title: CutScene 2
     background: {fileID: 21300000, guid: 35312809bf85fb84eb2f45fa180d304e, type: 3}
     dialogueLines:
-    - But as AI grew stronger, fear grew with it.
-    - People blamed AI for everything they could not understand.
+    - But as the moral panic grew stronger, fear grew with it.
+    - People blamed the Frankenstein for everything they could not understand.
   - title: CutScene 3
     background: {fileID: 21300000, guid: 917bc91126d7a204fa7041edb05510fa, type: 3}
     dialogueLines:
-    - Because he still supported AI, the boy became a target.
+    - Because he still supported Frankenstein, the boy became a target.
     - They mocked him, hunted him, and chased him away.
   - title: CutScene 4
     background: {fileID: 21300000, guid: 7794d543e3f952b4697e215cbb15a04c, type: 3}
