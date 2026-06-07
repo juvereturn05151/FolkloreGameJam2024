@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class SoundEffect
@@ -19,10 +20,14 @@ public class SoundManager : MonoBehaviour
     private const string SfxMutedPrefsKey = "Settings.SfxMuted";
     private const string DefaultGameplaySceneName = "GameplayScene";
     private const string ArcadeGameplaySceneName = "ArcadeMode";
+    private const string DefaultClickSoundName = "EvilClickSoundEffect";
 
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioSource loopingSfxSource;
+    [SerializeField] private AudioClip clickSoundClip;
+    [SerializeField] private string clickSoundName = DefaultClickSoundName;
+    [SerializeField] private float clickButtonScanInterval = 0.5f;
 
     [Range(0f, 1f)] public float musicVolume = 1f;
     [Range(0f, 1f)] public float sfxVolume = 1f;
@@ -35,6 +40,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private List<SoundEffect> soundEffectsList;
 
     private Dictionary<string, AudioClip> soundEffects;
+    private readonly HashSet<Selectable> clickSoundSelectables = new();
+    private float nextClickButtonScanTime;
 
     public AudioClip backgroundMusic;
     public AudioClip backgroundGameplayMusic;
@@ -63,6 +70,11 @@ public class SoundManager : MonoBehaviour
             }
         }
 
+        if (clickSoundClip != null)
+        {
+            soundEffects[GetClickSoundName()] = clickSoundClip;
+        }
+
         EnsureLoopingSfxSource();
         LoadAudioSettings();
         ApplyAudioSettings();
@@ -70,6 +82,8 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
+        BindClickSoundsToSelectables();
+
         Scene activeScene = SceneManager.GetActiveScene();
         if (IsGameplayScene(activeScene.name))
         {
@@ -79,6 +93,17 @@ public class SoundManager : MonoBehaviour
         {
             PlayMusic(backgroundMusic);
         }
+    }
+
+    private void Update()
+    {
+        if (Time.unscaledTime < nextClickButtonScanTime)
+        {
+            return;
+        }
+
+        nextClickButtonScanTime = Time.unscaledTime + Mathf.Max(0.1f, clickButtonScanInterval);
+        BindClickSoundsToSelectables();
     }
 
     private void OnDestroy()
@@ -91,6 +116,9 @@ public class SoundManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        clickSoundSelectables.Clear();
+        BindClickSoundsToSelectables();
+
         if (IsGameplayScene(scene.name))
         {
             PlayGameplayBGM();
@@ -154,6 +182,11 @@ public class SoundManager : MonoBehaviour
         {
             Debug.LogWarning("Sound effect not found: " + sfxName);
         }
+    }
+
+    public void PlayClickSFX()
+    {
+        PlaySFX(GetClickSoundName());
     }
 
     public bool PlayRandomSFXByPrefix(string sfxNamePrefix)
@@ -282,6 +315,31 @@ public class SoundManager : MonoBehaviour
             && soundEffects != null
             && soundEffects.TryGetValue(sfxName, out clip)
             && clip != null;
+    }
+
+    private void BindClickSoundsToSelectables()
+    {
+        Selectable[] selectables = FindObjectsByType<Selectable>(FindObjectsInactive.Include);
+        for (int i = 0; i < selectables.Length; i++)
+        {
+            Selectable selectable = selectables[i];
+            if (selectable == null || clickSoundSelectables.Contains(selectable))
+            {
+                continue;
+            }
+
+            if (selectable.GetComponent<UIClickSoundPlayer>() == null)
+            {
+                selectable.gameObject.AddComponent<UIClickSoundPlayer>();
+            }
+
+            clickSoundSelectables.Add(selectable);
+        }
+    }
+
+    private string GetClickSoundName()
+    {
+        return string.IsNullOrWhiteSpace(clickSoundName) ? DefaultClickSoundName : clickSoundName;
     }
 
     private void EnsureLoopingSfxSource()

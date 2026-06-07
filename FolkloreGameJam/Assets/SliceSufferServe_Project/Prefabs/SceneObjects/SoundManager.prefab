@@ -48,6 +48,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 7865003671529669970}
   sfxSource: {fileID: 2835618846328463637}
+  loopingSfxSource: {fileID: 0}
+  clickSoundClip: {fileID: 8300000, guid: f73633d724f511e4ca6a90a03d7e65f7, type: 3}
+  clickSoundName: EvilClick2
+  clickButtonScanInterval: 0.5
   musicVolume: 1
   sfxVolume: 1
   soundEffectsList:
