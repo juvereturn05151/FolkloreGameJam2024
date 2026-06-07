@@ -29,6 +29,11 @@ public class SpinnerHuman : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (GameManager.Instance != null && GameManager.Instance.IsRapidSliceEventActive)
+        {
+            return;
+        }
+
         if (rigidbodies == null || rigidbodies.Length == 0)
         {
             return;

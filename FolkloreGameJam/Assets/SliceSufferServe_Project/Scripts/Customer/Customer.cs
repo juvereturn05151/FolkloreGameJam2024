@@ -94,6 +94,9 @@ public class Customer : MonoBehaviour
         if (GameManager.Instance.IsGameOver)
             return;
 
+        if (GameManager.Instance.IsRapidSliceEventActive)
+            return;
+
         UpdateStateLogic();
         UpdateVisualState();
     }

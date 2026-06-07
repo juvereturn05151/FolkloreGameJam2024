@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -16,7 +17,6 @@ public class BigRapidSliceEvent : MonoBehaviour
 
     [Header("Rapid Slice Event")]
     [SerializeField] private float eventDuration = 5f;
-    [SerializeField] private float slowMotionScale = 0.18f;
     [SerializeField] private float slashRegisterInterval = 0.055f;
     [SerializeField] private Color flashColor = new Color(1f, 0.26f, 0.18f, 1f);
     [SerializeField] private Color blobColor = new Color(1f, 0.62f, 0.38f, 1f);
@@ -33,8 +33,16 @@ public class BigRapidSliceEvent : MonoBehaviour
     private bool eventFinished;
     private float lastSlashTime;
     private int sliceCount;
-    private float previousFixedDeltaTime;
     private TextMeshPro comboText;
+    private readonly List<RigidbodyPauseState> pausedRigidbodies = new();
+
+    private struct RigidbodyPauseState
+    {
+        public Rigidbody2D Rigidbody;
+        public bool Simulated;
+        public Vector2 LinearVelocity;
+        public float AngularVelocity;
+    }
 
     private void Awake()
     {
@@ -91,14 +99,11 @@ public class BigRapidSliceEvent : MonoBehaviour
     private IEnumerator RapidSliceRoutine()
     {
         eventActive = true;
-        previousFixedDeltaTime = Time.fixedDeltaTime;
 
         GameManager.Instance?.SetRapidSliceEventActive(true);
         TimeManager.Instance?.SetStageTimerPaused(true);
         CustomerGenerator.Instance?.SetRapidSlicePaused(true);
-
-        Time.timeScale = Mathf.Clamp(slowMotionScale, 0.01f, 1f);
-        Time.fixedDeltaTime = previousFixedDeltaTime * Time.timeScale;
+        FreezeOtherRigidbodies();
 
         wholeBodyRigidbody.linearVelocity = Vector2.zero;
         wholeBodyRigidbody.bodyType = RigidbodyType2D.Kinematic;
@@ -122,9 +127,7 @@ public class BigRapidSliceEvent : MonoBehaviour
         eventFinished = true;
         eventActive = false;
 
-        Time.timeScale = 1.0f;
-        Time.fixedDeltaTime = previousFixedDeltaTime;
-
+        RestoreOtherRigidbodies();
         TimeManager.Instance?.SetStageTimerPaused(false);
         CustomerGenerator.Instance?.SetRapidSlicePaused(false);
         GameManager.Instance?.SetRapidSliceEventActive(false);
@@ -132,6 +135,74 @@ public class BigRapidSliceEvent : MonoBehaviour
         TrySpawnBiomass();
 
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        if (!eventActive || eventFinished)
+        {
+            return;
+        }
+
+        RestoreOtherRigidbodies();
+        TimeManager.Instance?.SetStageTimerPaused(false);
+        CustomerGenerator.Instance?.SetRapidSlicePaused(false);
+        GameManager.Instance?.SetRapidSliceEventActive(false);
+    }
+
+    private void FreezeOtherRigidbodies()
+    {
+        pausedRigidbodies.Clear();
+
+        Rigidbody2D[] rigidbodies = FindObjectsByType<Rigidbody2D>(FindObjectsSortMode.None);
+        for (int i = 0; i < rigidbodies.Length; i++)
+        {
+            Rigidbody2D rb = rigidbodies[i];
+            if (rb == null || ShouldKeepRigidbodyRunning(rb))
+            {
+                continue;
+            }
+
+            pausedRigidbodies.Add(new RigidbodyPauseState
+            {
+                Rigidbody = rb,
+                Simulated = rb.simulated,
+                LinearVelocity = rb.linearVelocity,
+                AngularVelocity = rb.angularVelocity
+            });
+
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.simulated = false;
+        }
+    }
+
+    private bool ShouldKeepRigidbodyRunning(Rigidbody2D rb)
+    {
+        if (rb.transform == transform || rb.transform.IsChildOf(transform))
+        {
+            return true;
+        }
+
+        return rb.CompareTag(GameTagContainer.BladeTag);
+    }
+
+    private void RestoreOtherRigidbodies()
+    {
+        for (int i = 0; i < pausedRigidbodies.Count; i++)
+        {
+            RigidbodyPauseState state = pausedRigidbodies[i];
+            if (state.Rigidbody == null)
+            {
+                continue;
+            }
+
+            state.Rigidbody.simulated = state.Simulated;
+            state.Rigidbody.linearVelocity = state.LinearVelocity;
+            state.Rigidbody.angularVelocity = state.AngularVelocity;
+        }
+
+        pausedRigidbodies.Clear();
     }
 
     private void ConvertToSingleBodyTarget()

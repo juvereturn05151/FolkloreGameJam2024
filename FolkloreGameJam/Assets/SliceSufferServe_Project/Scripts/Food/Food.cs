@@ -109,6 +109,11 @@ public class Food : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance != null && GameManager.Instance.IsRapidSliceEventActive)
+        {
+            return;
+        }
+
         if (IsReadyToEat)
         {
             foodEating.Tick(Time.deltaTime);
