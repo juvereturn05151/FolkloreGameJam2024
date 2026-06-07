@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class StageSelectButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
+public class StageSelectButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     private enum SelectMode
     {
@@ -32,6 +32,7 @@ public class StageSelectButton : MonoBehaviour, IPointerDownHandler, IPointerUpH
     private Vector2 cutStartScreenPosition;
     private Vector2 lastScreenPosition;
     private bool isPlayingCutEffect;
+    private bool suppressPressSelection;
 
     private void Awake()
     {
@@ -88,6 +89,22 @@ public class StageSelectButton : MonoBehaviour, IPointerDownHandler, IPointerUpH
     public void OnPointerUp(PointerEventData eventData)
     {
         StopTrackingCut();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData == null || eventData.button != PointerEventData.InputButton.Left)
+        {
+            return;
+        }
+
+        if (suppressPressSelection || isPlayingCutEffect)
+        {
+            suppressPressSelection = false;
+            return;
+        }
+
+        SelectLevel();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -291,6 +308,7 @@ public class StageSelectButton : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
         isTrackingCut = true;
         cutSelectionTriggered = false;
+        suppressPressSelection = false;
         cutStartScreenPosition = screenPosition;
         lastScreenPosition = screenPosition;
     }
@@ -312,6 +330,7 @@ public class StageSelectButton : MonoBehaviour, IPointerDownHandler, IPointerUpH
         }
 
         cutSelectionTriggered = true;
+        suppressPressSelection = true;
         StopTrackingCut();
         StartCoroutine(PlayCutEffectThenSelect());
     }

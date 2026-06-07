@@ -41,6 +41,7 @@ public class Food : MonoBehaviour
 
     public float UniversalScoreMultiplier => universalScoreMultiplier;
     public bool IsUniversalFood => isUniversalFood;
+    private bool DoesNotRot => IsPremiumFood || IsUniversalFood;
     public bool IsReadyToEat { get; private set; } 
     public bool IsFinished { get; private set; }
 
@@ -52,10 +53,10 @@ public class Food : MonoBehaviour
 
         if (foodRotting != null)
         {
-            foodRotting.SetCanRot(!IsPremiumFood);
+            foodRotting.SetCanRot(!DoesNotRot);
         }
 
-        if (IsPremiumFood)
+        if (DoesNotRot)
         {
             foodVisuals?.HideRotUI();
         }
@@ -114,7 +115,7 @@ public class Food : MonoBehaviour
             return;
         }
 
-        if (!IsPremiumFood)
+        if (!DoesNotRot)
         {
             foodRotting.Tick(Time.deltaTime);
 
