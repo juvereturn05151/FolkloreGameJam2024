@@ -43,7 +43,18 @@ public class CustomerGenerator : MonoBehaviour
     private void Start()
     {
         levelConfig = StageSelection.SelectedLevel;
-        humanGenerators = FindObjectsByType<HumanGenerator>(FindObjectsSortMode.None);
+        RefreshHumanGenerators();
+
+        BuildCustomersByGhost();
+        ApplyActiveCustomerSpots();
+        _spawnTimer = GetActivePhase().SpawnInterval;
+
+        TimeManager.Instance.OnRushTime.AddListener(DoubleSpawnInterval);
+    }
+
+    public void RefreshHumanGenerators()
+    {
+        humanGenerators = FindObjectsByType<HumanGenerator>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         for (int i = 0; i < humanGenerators.Length; i++)
         {
             if (humanGenerators[i] != null)
@@ -51,12 +62,6 @@ public class CustomerGenerator : MonoBehaviour
                 humanGenerators[i].SetExternallyControlled(true);
             }
         }
-
-        BuildCustomersByGhost();
-        ApplyActiveCustomerSpots();
-        _spawnTimer = GetActivePhase().SpawnInterval;
-
-        TimeManager.Instance.OnRushTime.AddListener(DoubleSpawnInterval);
     }
 
     private void Update()

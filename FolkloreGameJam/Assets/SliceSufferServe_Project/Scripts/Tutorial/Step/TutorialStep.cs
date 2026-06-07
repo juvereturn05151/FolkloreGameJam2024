@@ -12,7 +12,9 @@ public enum TutorialType
     PutTrashToBin,      // Dispose of trash properly
     PutFoodInRottenPot, // Place food in the rotten pot
     UseSuperMeter,      // Activate the super meter
-    ServeWithSuper      // Serve a customer while the super meter is active
+    ServeWithSuper,     // Serve a customer while the super meter is active
+    ServePremiumFood,   // Serve premium food to a customer
+    ServeUniversalFood  // Serve universal food to a customer
 }
 
 [CreateAssetMenu(menuName = "Tutorial/Tutorial Step", fileName = "NewTutorialStep")]

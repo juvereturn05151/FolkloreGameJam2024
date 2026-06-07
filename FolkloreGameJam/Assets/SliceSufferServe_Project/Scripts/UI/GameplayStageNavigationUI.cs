@@ -170,14 +170,14 @@ public class GameplayStageNavigationUI : MonoBehaviour
 
     private string GetNextStageSceneName(StageLevelConfig nextStage)
     {
-        return IsSecondTutorialRequired(nextStage)
+        return IsTutorialRequired(nextStage)
             ? StageSelection.GetTutorialSceneName(nextStage)
             : StageSelection.GetGameplaySceneName(nextStage);
     }
 
     private bool IsNextStageTutorialRequired()
     {
-        return IsSecondTutorialRequired(GetNextStage());
+        return IsTutorialRequired(GetNextStage());
     }
 
     private bool IsPostStageCutsceneRequired()
@@ -202,7 +202,7 @@ public class GameplayStageNavigationUI : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    private bool IsSecondTutorialRequired(StageLevelConfig nextStage)
+    private bool IsTutorialRequired(StageLevelConfig nextStage)
     {
         if (nextStage == null || levelDatabase == null)
         {
@@ -210,8 +210,9 @@ public class GameplayStageNavigationUI : MonoBehaviour
         }
 
         int nextStageIndex = levelDatabase.IndexOf(nextStage);
-        return nextStageIndex == 3
-            && !SaveSystem.IsTutorialCompleted(StageUnlockSystem.SecondTutorialId);
+        string tutorialId = StageUnlockSystem.GetTutorialIdForTargetLevelIndex(nextStageIndex);
+        return !string.IsNullOrWhiteSpace(tutorialId)
+            && !SaveSystem.IsTutorialCompleted(tutorialId);
     }
 
     public void GoToStoryModeSelect()

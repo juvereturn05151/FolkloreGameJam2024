@@ -40,13 +40,60 @@ public class SSSAdvancedTutorialManager : AdvancedTutorialManager_Base
     {
         _textBox.SetActive(false);
         _tutorialDisplayBackGround.SetActive(false);
-        SetGeneratorActive(_humanGenerator, true);
-        SetGeneratorActive(_humanGenerator2, true);
+        SetAllHumanGeneratorsActive(true);
     }
 
     public void ActivateCustomerGenerator()
     {
         SetGeneratorActive(_customerGenerator, true);
+    }
+
+    public void SpawnTutorialHuman(HumanBody humanPrefab, float movementSpeedMultiplier = 1f)
+    {
+        if (humanPrefab == null)
+        {
+            return;
+        }
+
+        HumanGenerator generator = GetPrimaryHumanGenerator();
+        if (generator != null)
+        {
+            generator.gameObject.SetActive(true);
+            generator.SpawnSpecificHuman(humanPrefab, movementSpeedMultiplier);
+        }
+    }
+
+    public void RestrictHumanGeneratorsToTutorialHuman(HumanBody humanPrefab, bool clearExistingHumans = true)
+    {
+        if (clearExistingHumans)
+        {
+            ClearActiveHumans();
+        }
+
+        if (_customerGenerator != null)
+        {
+            _customerGenerator.ClearActiveCustomers();
+        }
+
+        HumanGenerator[] generators = GetSceneHumanGenerators();
+        for (int i = 0; i < generators.Length; i++)
+        {
+            SetTutorialOnlyHuman(generators[i], humanPrefab);
+        }
+
+        if (_customerGenerator != null)
+        {
+            _customerGenerator.RefreshHumanGenerators();
+        }
+    }
+
+    public void ClearHumanGeneratorRestriction()
+    {
+        HumanGenerator[] generators = GetSceneHumanGenerators();
+        for (int i = 0; i < generators.Length; i++)
+        {
+            SetTutorialOnlyHuman(generators[i], null);
+        }
     }
 
     public void DeactivateGenerator()
@@ -56,8 +103,8 @@ public class SSSAdvancedTutorialManager : AdvancedTutorialManager_Base
             _customerGenerator.ClearActiveCustomers();
         }
 
-        SetGeneratorActive(_humanGenerator, false);
-        SetGeneratorActive(_humanGenerator2, false);
+        ClearHumanGeneratorRestriction();
+        SetAllHumanGeneratorsActive(false);
         SetGeneratorActive(_customerGenerator, false);
     }
 
@@ -135,6 +182,87 @@ public class SSSAdvancedTutorialManager : AdvancedTutorialManager_Base
         if (generator != null)
         {
             generator.gameObject.SetActive(isActive);
+        }
+    }
+
+    private void SetTutorialOnlyHuman(HumanGenerator generator, HumanBody humanPrefab)
+    {
+        if (generator == null)
+        {
+            return;
+        }
+
+        if (humanPrefab == null)
+        {
+            generator.ClearTutorialOnlyHuman();
+            return;
+        }
+
+        generator.SetTutorialOnlyHuman(humanPrefab);
+    }
+
+    private void ClearActiveHumans()
+    {
+        HumanBody[] humans = FindObjectsByType<HumanBody>(FindObjectsSortMode.None);
+        for (int i = 0; i < humans.Length; i++)
+        {
+            if (humans[i] != null)
+            {
+                Destroy(humans[i].gameObject);
+            }
+        }
+    }
+
+    private HumanGenerator GetPrimaryHumanGenerator()
+    {
+        if (_humanGenerator != null)
+        {
+            return _humanGenerator;
+        }
+
+        if (_humanGenerator2 != null)
+        {
+            return _humanGenerator2;
+        }
+
+        HumanGenerator[] generators = GetSceneHumanGenerators();
+        return generators.Length > 0 ? generators[0] : null;
+    }
+
+    private HumanGenerator[] GetSceneHumanGenerators()
+    {
+        HumanGenerator[] generators = FindObjectsByType<HumanGenerator>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        List<HumanGenerator> uniqueGenerators = new List<HumanGenerator>();
+        AddUniqueGenerator(uniqueGenerators, _humanGenerator);
+        AddUniqueGenerator(uniqueGenerators, _humanGenerator2);
+
+        for (int i = 0; i < generators.Length; i++)
+        {
+            AddUniqueGenerator(uniqueGenerators, generators[i]);
+        }
+
+        return uniqueGenerators.ToArray();
+    }
+
+    private void SetAllHumanGeneratorsActive(bool isActive)
+    {
+        HumanGenerator[] generators = GetSceneHumanGenerators();
+        for (int i = 0; i < generators.Length; i++)
+        {
+            SetGeneratorActive(generators[i], isActive);
+        }
+
+        if (_customerGenerator != null)
+        {
+            _customerGenerator.RefreshHumanGenerators();
+        }
+    }
+
+    private void AddUniqueGenerator(List<HumanGenerator> generators, HumanGenerator generator)
+    {
+        if (generator != null && !generators.Contains(generator))
+        {
+            generators.Add(generator);
         }
     }
 }

@@ -17,6 +17,9 @@ public class HumanGenerator : MonoBehaviour
     private float spawnTimer; // Timer to track spawn interval
     private StageLevelConfig levelConfig;
     private bool isExternallyControlled;
+    private HumanBody tutorialOnlyHumanPrefab;
+    private HumanBody[] originalHumanPrefabs;
+    private bool hasTutorialHumanPrefabOverride;
     private StageHumanPrefabSpawnEntry[] levelHumanPrefabOverrides; // Level-config overrides, resolved once at Start
     private CharacterCustomizationManager customizationManager;
 
@@ -54,6 +57,29 @@ public class HumanGenerator : MonoBehaviour
         isExternallyControlled = controlled;
     }
 
+    public void SetTutorialOnlyHuman(HumanBody humanPrefab)
+    {
+        if (!hasTutorialHumanPrefabOverride)
+        {
+            originalHumanPrefabs = humanPrefabs;
+            hasTutorialHumanPrefabOverride = true;
+        }
+
+        tutorialOnlyHumanPrefab = humanPrefab;
+        humanPrefabs = humanPrefab == null ? null : new[] { humanPrefab };
+    }
+
+    public void ClearTutorialOnlyHuman()
+    {
+        tutorialOnlyHumanPrefab = null;
+        if (hasTutorialHumanPrefabOverride)
+        {
+            humanPrefabs = originalHumanPrefabs;
+            originalHumanPrefabs = null;
+            hasTutorialHumanPrefabOverride = false;
+        }
+    }
+
     private bool IsTutorialActive()
     {
         return GameManager.Instance != null && GameManager.Instance.IsTutorial;
@@ -77,6 +103,19 @@ public class HumanGenerator : MonoBehaviour
         spawnedHuman.ApplyMovementSpeedMultiplier(movementSpeedMultiplier);
     }
 
+    public void SpawnSpecificHuman(HumanBody humanPrefab, float movementSpeedMultiplier = 1f)
+    {
+        if (humanPrefab == null || spawnPoint == null)
+        {
+            return;
+        }
+
+        HumanBody spawnedHuman = Instantiate(humanPrefab, spawnPoint.position, humanPrefab.transform.rotation);
+        spawnedHuman.ApplyLevelConfig(levelConfig);
+        ApplyHumanCustomization(spawnedHuman);
+        spawnedHuman.ApplyMovementSpeedMultiplier(movementSpeedMultiplier);
+    }
+
     /// <summary>
     /// Checks whether any prefab in the resolved pool can produce the given menu,
     /// respecting the same three-tier priority as SpawnHuman.
@@ -86,6 +125,11 @@ public class HumanGenerator : MonoBehaviour
         if (menu == null)
         {
             return false;
+        }
+
+        if (tutorialOnlyHumanPrefab != null)
+        {
+            return CanPrefabSpawnMenu(tutorialOnlyHumanPrefab, menu, config);
         }
 
         StageHumanPrefabSpawnEntry[] pool = ResolveHumanPrefabOverrides(config, phaseOverrides);
@@ -128,6 +172,11 @@ public class HumanGenerator : MonoBehaviour
     private HumanBody SpawnConfiguredHuman(StageHumanPrefabSpawnEntry[] phaseOverrides = null)
     {
         Debug.Log("Spawn");
+        if (tutorialOnlyHumanPrefab != null)
+        {
+            return Instantiate(tutorialOnlyHumanPrefab, spawnPoint.position, tutorialOnlyHumanPrefab.transform.rotation);
+        }
+
         // Tier 1: phase overrides
         if (HasValidHumanPrefabSpawnEntries(phaseOverrides))
         {

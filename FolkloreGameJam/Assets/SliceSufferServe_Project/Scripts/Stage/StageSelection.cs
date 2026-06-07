@@ -3,6 +3,7 @@ public static class StageSelection
     private const string DefaultGameplaySceneName = "GameplayScene";
     private const string FirstTutorialSceneName = "FirstTutorial";
     private const string SecondTutorialSceneName = "SecondTutorial";
+    private const string ThirdTutorialSceneName = "ThirdTutorial";
 
     public static StageLevelConfig SelectedLevel { get; private set; }
     public static bool IsClassicMode => IsClassicLevel(SelectedLevel);
@@ -40,6 +41,8 @@ public static class StageSelection
                 return FirstTutorialSceneName;
             case 4:
                 return SecondTutorialSceneName;
+            case 8:
+                return ThirdTutorialSceneName;
             default:
                 return levelConfig.GameplaySceneName;
         }

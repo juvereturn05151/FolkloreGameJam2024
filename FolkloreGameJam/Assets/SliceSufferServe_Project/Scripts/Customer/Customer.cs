@@ -293,7 +293,7 @@ public class Customer : MonoBehaviour
             return;
         }
 
-        HandleSatisfied();
+        HandleSatisfied(finishedFood);
 
         if (currentOrders.Count > 0)
         {
@@ -331,11 +331,11 @@ public class Customer : MonoBehaviour
         currentState = CustomerState.WaitingForFood;
     }
 
-    private void HandleSatisfied()
+    private void HandleSatisfied(Food food)
     {
         ComboSystem.AddCombo();
         AndroidAchievementSystem.ReportOrganServed();
-        HandleTutorialServeProgress();
+        HandleTutorialServeProgress(food);
         PlayCustomerAISound(SatisfiedAISound);
         feedbackController?.PlaySatisfiedFeedback();
         orderUI?.TriggerRight();
@@ -347,7 +347,7 @@ public class Customer : MonoBehaviour
         StartCoroutine(LeaveAfterDelay(food));
     }
 
-    private void HandleTutorialServeProgress()
+    private void HandleTutorialServeProgress(Food food)
     {
         if (!GameUtility.SSSAdvancedTutorialManagerExists())
             return;
@@ -356,6 +356,16 @@ public class Customer : MonoBehaviour
             return;
 
         SSSAdvancedTutorialManager.Instance.ReportProgress(TutorialType.ServeCustomer);
+
+        if (food != null && food.IsPremiumFood)
+        {
+            SSSAdvancedTutorialManager.Instance.ReportProgress(TutorialType.ServePremiumFood);
+        }
+
+        if (food != null && food.IsUniversalFood)
+        {
+            SSSAdvancedTutorialManager.Instance.ReportProgress(TutorialType.ServeUniversalFood);
+        }
 
         if (GameManager.Instance.IsSuperScoreMultiplierActive)
         {

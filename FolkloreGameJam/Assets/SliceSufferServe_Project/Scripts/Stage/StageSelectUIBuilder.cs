@@ -23,6 +23,7 @@ public class StageSelectUIBuilder : MonoBehaviour
     [SerializeField] private string firstCutsceneName = "Opening";
     [SerializeField] private string firstTutorialName = "First Tutorial";
     [SerializeField] private string secondTutorialName = "Second Tutorial";
+    [SerializeField] private string thirdTutorialName = "Third Tutorial";
     [SerializeField] private string postStage13CutsceneName = "Dark Rumors";
     [SerializeField] private Sprite firstCutscenePreviewSprite;
     [SerializeField] private Sprite postStage13CutscenePreviewSprite;
@@ -141,6 +142,11 @@ public class StageSelectUIBuilder : MonoBehaviour
             if (i == 3)
             {
                 entries.Add(StageSelectEntry.Tutorial(3, secondTutorialName));
+            }
+
+            if (i == 7)
+            {
+                entries.Add(StageSelectEntry.Tutorial(7, thirdTutorialName));
             }
 
             entries.Add(StageSelectEntry.Level(i));
