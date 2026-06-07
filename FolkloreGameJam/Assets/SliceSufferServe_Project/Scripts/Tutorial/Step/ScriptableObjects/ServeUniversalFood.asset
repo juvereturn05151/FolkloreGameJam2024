@@ -14,12 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 9
   DialogueLines:
+  - Big humans can produce universal food if you slice them enough during the rapid
+    slice event.
   - Universal food can satisfy any order.
-  - Big humans can produce universal food if you slice them enough during the rapid slice event.
   - Make one universal food and serve it to any customer.
   ShowTutorialGuideOnStart: 0
   ShowOnSecondDialogue: 1
-  ShowOnLastDialogue: 1
+  ShowOnLastDialogue: 0
   ObjectiveDialogue: Serve 1 universal food
-  WhatToDoDialogue: Slice the big human rapidly, then serve the universal food to a customer.
+  WhatToDoDialogue: Slice the big human rapidly, then serve the universal food to
+    a customer.
   TutorialAttribute: {fileID: 11400000, guid: 45d1820a45964c3fb87cbe9d0d22396f, type: 2}

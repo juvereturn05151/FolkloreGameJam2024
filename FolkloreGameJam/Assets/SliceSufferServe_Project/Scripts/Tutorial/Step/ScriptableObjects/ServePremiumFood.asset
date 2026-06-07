@@ -14,12 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 8
   DialogueLines:
-  - Premium food is rare, valuable, and always ready to serve.
+  - You get the premium food by slicing noble knights
   - It does not rot, and customers will accept it at any requested freshness.
+  - However, the type must match. You can't serve golden poop to a customer who wants
+    to eat brain.
   - Slice a premium human and serve one premium food to a customer.
   ShowTutorialGuideOnStart: 0
   ShowOnSecondDialogue: 1
-  ShowOnLastDialogue: 1
+  ShowOnLastDialogue: 0
   ObjectiveDialogue: Serve 1 premium food
-  WhatToDoDialogue: Slice the premium human, then serve the premium food to the waiting customer.
+  WhatToDoDialogue: Slice the premium human, then serve the premium food to the waiting
+    customer.
   TutorialAttribute: {fileID: 11400000, guid: f2e2dea207f947f28a8f2c311c4f4c59, type: 2}

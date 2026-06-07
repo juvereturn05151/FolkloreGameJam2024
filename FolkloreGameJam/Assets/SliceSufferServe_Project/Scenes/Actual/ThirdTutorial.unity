@@ -1876,6 +1876,26 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 80
       objectReference: {fileID: 0}
+    - target: {fileID: 6307986409994273133, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
+      propertyPath: _appearOnLastDialogue.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6307986409994273133, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
+      propertyPath: _appearOnSecondDialogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6307986409994273133, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
+      propertyPath: '_appearOnLastDialogue.Array.data[1]'
+      value: 
+      objectReference: {fileID: 5691162468773266428}
+    - target: {fileID: 6307986409994273133, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
+      propertyPath: '_appearOnSecondDialogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 5691162468773266429}
+    - target: {fileID: 6307986409994273133, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
+      propertyPath: '_appearOnSecondDialogue.Array.data[1]'
+      value: 
+      objectReference: {fileID: 5691162468773266427}
     - target: {fileID: 6380716473646798782, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
       propertyPath: m_Color.a
       value: 1
@@ -1923,6 +1943,21 @@ PrefabInstance:
 --- !u!224 &5691162468773266426 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1223328829803316354, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
+  m_PrefabInstance: {fileID: 5691162468773266425}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5691162468773266427 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9045914355554285020, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
+  m_PrefabInstance: {fileID: 5691162468773266425}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5691162468773266428 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8703318759358893226, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
+  m_PrefabInstance: {fileID: 5691162468773266425}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5691162468773266429 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4747157858064593406, guid: b4be23d3c1dd42b0af58812efb4a7652, type: 3}
   m_PrefabInstance: {fileID: 5691162468773266425}
   m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
