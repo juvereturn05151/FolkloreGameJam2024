@@ -1,11 +1,11 @@
 [Licensing::Module] Trying to connect to existing licensing client channel...
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-drago" at "2026-06-06T18:44:28.65142Z"
 Built from '6000.4/staging' branch; Version is '6000.4.6f1 (0b051c2e5d54) revision 722204'; Using compiler version '194234433'; Build Type 'Release'
 OS: 'Windows 11  (10.0.26200) CoreSingleLanguage' Language: 'en' Physical Memory: 23916 MB
 BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-drago" at "2026-06-07T00:57:45.2048796Z"
 System  architecture: x64
 Process architecture: x64
-Date: 2026-06-06T18:44:28Z
+Date: 2026-06-07T00:57:45Z
 
 COMMAND LINE ARGUMENTS:
 E:\Unity\Editor\6000.4.6f1\Editor\Unity.exe
@@ -17,4 +17,852 @@ E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam
 E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Assets\SliceSufferServe_Project\unity_compile_human_generator_repeat.log
 Successfully changed project path to: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam
 E:/FolkloreJam/FolkloreGameJam2024/FolkloreGameJam
-Exiting without the bug reporter. Application will terminate with return code 1
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Player connection [6848]  Target information:
+
+Player connection [6848]  * "[IP] 10.0.0.194 [Port] 55504 [Flags] 2 [Guid] 1382465990 [EditorId] 1382465990 [Version] 1048832 [Id] WindowsEditor(7,LAPTOP-UQAN8QGN) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [6848] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [6848] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Package Manager] Connected to IPC stream "Upm-41712" after 0.4 seconds.
+[Licensing::Module] Licensing is not yet initialized.
+[Licensing::Client] Error: HandshakeResponse reported an error:
+	ResponseCode: 505
+	ResponseStatus: Unsupported protocol version '1.18.1'.
+[Licensing::Module] Error: Failed to handshake to channel: "LicenseClient-drago"
+[Licensing::IpcConnector] LicenseClient-drago channel disconnected successfully.
+[Licensing::IpcConnector] Channel LicenseClient-drago-6000.4.6 doesn't exist
+[Licensing::Module] Successfully launched the LicensingClient (PId: 34068)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-drago-6000.4.6" at "2026-06-07T00:57:49.0696375Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 34068, path: "E:/Unity/Editor/6000.4.6f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.1+9fbee8e
+  Session Id:              b499ba294ba54b67befcb9983d669f0b
+  Correlation Id:          46ad1aeea90e9345568940e5e003c11b
+  External correlation Id: 5488326363705038249
+  Machine Id:              bYaRNzVr1vQKYoYl6u3rIbRzEZs=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-drago-6000.4.6" (connect: 0.57s, validation: 0.51s, handshake: 0.03s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-drago-6000.4.6-notifications" at "2026-06-07T00:57:49.6098425Z"
+[Licensing::Module] Connected to LicensingClient (PId: 34068, launch time: 0.01, total connection time: 1.11s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-EZV9-7JM5-ABU4-5ZCY-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 18966997012086-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.01
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-EZV9-7JM5-ABU4-5ZCY-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 18966997012086-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Module] Licensing Background thread has ended after 4.50s
+[Licensing::Module] Licensing is initialized (took 3.71s).
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-EZV9-7JM5-ABU4-5ZCY-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 18966997012086-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Artifact Garbage Collection - Removed 3 unused hashed content files
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-EZV9-7JM5-ABU4-5ZCY-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 18966997012086-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+Refreshing native plugins compatible for Editor in 6.90 ms, found 2 plugins.
+Initialize engine version: 6000.4.6f1 (0b051c2e5d54)
+[Subsystems] Discovering subsystems at path E:/Unity/Editor/6000.4.6f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path E:/FolkloreJam/FolkloreGameJam2024/FolkloreGameJam/Assets
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 3060 Laptop GPU (ID=0x2520)
+    Vendor:   NVIDIA
+    VRAM:     5994 MB
+    Driver:   32.0.15.9597
+Shader 'MoreMountains/MMRipple': fallback shader 'Particle/AlphaBlended' not found
+Initialize mono
+Mono path[0] = 'E:/Unity/Editor/6000.4.6f1/Editor/Data/Managed'
+Mono path[1] = 'E:/Unity/Editor/6000.4.6f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'E:/Unity/Editor/6000.4.6f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56712
+CodeReloadManager initialized
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: E:/Unity/Editor/6000.4.6f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Register platform support module: E:/Unity/Editor/6000.4.6f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
+Registered in 0.004343 seconds.
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.685 seconds
+Domain Reload Profiling: 1613ms
+	BeginReloadAssembly (325ms)
+		CreateAndSetChildDomain (7ms)
+	RebuildCommonClasses (87ms)
+	RebuildNativeTypeToScriptingClass (24ms)
+	initialDomainReloadingComplete (120ms)
+	LoadAllAssembliesAndSetupDomain (369ms)
+		LoadAssemblies (321ms)
+		AnalyzeDomain (352ms)
+			TypeCache.Refresh (350ms)
+				TypeCache.ScanAssembly (332ms)
+	FinalizeReload (688ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (84ms)
+			BeforeProcessingInitializeOnLoad (156ms)
+			ProcessInitializeOnLoadAttributes (194ms)
+			ProcessInitializeOnLoadMethodAttributes (160ms)
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-EZV9-7JM5-ABU4-5ZCY-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 18966997012086-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-EZV9-7JM5-ABU4-5ZCY-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 18966997012086-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 72 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.ai.assistant@2.7.0-pre.3 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.ai.assistant@198d71476a35)
+    com.unity.ai.inference@2.6.1 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.ai.inference@9a123aee5df7)
+    com.unity.collab-proxy@2.12.4 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.collab-proxy@0b1559bcd34e)
+    com.unity.mobile.android-logcat@1.4.7 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.mobile.android-logcat@a8a404f035b3)
+    com.unity.postprocessing@3.5.4 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.postprocessing@141166b789e3)
+    com.unity.purchasing@5.3.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.purchasing@c1f2e55dc464)
+    com.unity.timeline@1.8.12 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.timeline@8cd8509afae5)
+    com.unity.visualscripting@1.9.11 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.visualscripting@8bed5ad90189)
+    com.unity.services.core@1.16.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.services.core@8ba50f624741)
+    com.unity.ide.visualstudio@2.0.27 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.ide.visualstudio@dc1ddd4f09b6)
+    com.unity.ide.rider@3.0.39 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.ide.rider@4504839d03f7)
+    com.unity.editorcoroutines@1.1.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.editorcoroutines@87a15ed012c2)
+    com.unity.performance.profile-analyzer@1.3.4 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.performance.profile-analyzer@418130329099)
+    com.unity.testtools.codecoverage@1.3.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.testtools.codecoverage@19a841221620)
+    com.unity.burst@1.8.29 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.burst@6bb9aca3ef38)
+    com.unity.dt.app-ui@2.1.1 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.dt.app-ui@8ac7e730dd5d)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.mathematics@1.3.3 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.mathematics@19a9377c4ffa)
+    com.unity.cloud.gltfast@6.14.1 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.cloud.gltfast@0847aee0f6da)
+    com.unity.searcher@4.9.4 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.searcher@d45a78918735)
+    com.unity.settings-manager@2.1.1 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.settings-manager@0b8638c5ce86)
+    com.unity.nuget.mono-cecil@1.11.6 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.test-framework.performance@3.4.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.test-framework.performance@aa81a99c4a75)
+  Built-in packages:
+    com.unity.2d.sprite@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.2d.sprite@929df5adbb1f)
+    com.unity.feature.development@1.0.2 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.feature.development@767aadbc6eb7)
+    com.unity.multiplayer.center@1.0.1 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.multiplayer.center@f01f4ba8d00a)
+    com.unity.render-pipelines.high-definition@17.4.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.render-pipelines.high-definition@390b04b9db7c)
+    com.unity.ugui@2.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.ugui@473409526770)
+    com.unity.visualeffectgraph@17.4.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.visualeffectgraph@e00a147af410)
+    com.unity.modules.accessibility@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.physics2d)
+    com.unity.modules.screencapture@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.video)
+    com.unity.modules.vr@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.vr)
+    com.unity.modules.wind@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.xr)
+    com.unity.modules.subsystems@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.modules.hierarchycore)
+    com.unity.shadergraph@17.4.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.shadergraph@04a6ef07359e)
+    com.unity.render-pipelines.core@17.4.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.render-pipelines.core@630143bbfe2b)
+    com.unity.render-pipelines.high-definition-config@17.4.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.render-pipelines.high-definition-config@f2a20abb2a1c)
+    com.unity.test-framework@1.6.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.test-framework@76560ee600cb)
+    com.unity.collections@6.4.0 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.collections@65f499a3cc26)
+    com.unity.ext.nunit@2.0.5 (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Library\PackageCache\com.unity.ext.nunit@d8c07649098d)
+  Embedded packages:
+    com.merry-yellow.code-assist@file:E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Packages\com.merry-yellow.code-assist (location: E:\FolkloreJam\FolkloreGameJam2024\FolkloreGameJam\Packages\com.merry-yellow.code-assist)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.05 seconds
+'Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log' Amount of processed bytes '22606' does not match file size '4405'
+[ScriptCompilation] Requested script compilation because: AssetDatabase observed changes in script compilation related files
+Duplicate assembly 'System.Runtime.CompilerServices.Unsafe.dll' with different versions detected, using 'Packages/com.unity.ai.assistant/Plugins/Shared/System.Runtime.CompilerServices.Unsafe.dll, AssemblyName=System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a' and ignoring 'Packages/com.unity.collections/Unity.Collections.Tests/System.Runtime.CompilerServices.Unsafe/System.Runtime.CompilerServices.Unsafe.dll, AssemblyName=System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'.Refreshing native plugins compatible for Editor in 33.78 ms, found 7 plugins.
+Starting: E:\Unity\Editor\6000.4.6f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1300b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: E:/FolkloreJam/FolkloreGameJam2024/FolkloreGameJam
+Duplicate assembly 'System.Runtime.CompilerServices.Unsafe.dll' with different versions detected, using 'Packages/com.unity.ai.assistant/Plugins/Shared/System.Runtime.CompilerServices.Unsafe.dll, AssemblyName=System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a' and ignoring 'Packages/com.unity.collections/Unity.Collections.Tests/System.Runtime.CompilerServices.Unsafe/System.Runtime.CompilerServices.Unsafe.dll, AssemblyName=System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'.DisplayProgressbar: Compiling Scripts
+ExitCode: 0 Duration: 6s45ms
+[1536/2049  0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[2041/2049  4s] Csc Library/Bee/artifacts/1300b0aE.dag/Assembly-CSharp.dll (+2 others)
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(233,40): warning CS0618: 'IScore' is obsolete: 'IScore is deprecated and will be removed in a future release.'
+
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(241,40): warning CS0618: 'IScore' is obsolete: 'IScore is deprecated and will be removed in a future release.'
+
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(251,67): warning CS0618: 'IUserProfile' is obsolete: 'IUserProfile is deprecated and will be removed in a future release.'
+
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(275,42): warning CS0618: 'IScore' is obsolete: 'IScore is deprecated and will be removed in a future release.'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(5,44): warning CS0618: 'IDetailedStoreListener' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(101,31): warning CS0618: 'IStoreController' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(101,60): warning CS0618: 'IExtensionProvider' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(115,36): warning CS0618: 'InitializationFailureReason' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(122,36): warning CS0618: 'InitializationFailureReason' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(129,53): warning CS0618: 'PurchaseEventArgs' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(129,12): warning CS0618: 'PurchaseProcessingResult' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(15,13): warning CS0618: 'IStoreController' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(16,13): warning CS0618: 'IExtensionProvider' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+
+Assets\SliceSufferServe_Project\Scripts\Customer\CustomerGenerator.cs(46,61): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+
+Assets\SliceSufferServe_Project\Scripts\Customer\CustomerGenerator.cs(46,27): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+
+Assets\SliceSufferServe_Project\Scripts\Customer\CustomerGenerator.cs(486,48): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+
+Assets\SliceSufferServe_Project\Scripts\Customer\CustomerGenerator.cs(486,24): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+
+Assets\SliceSufferServe_Project\Scripts\Customer\CustomerGenerator.cs(546,48): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+
+Assets\SliceSufferServe_Project\Scripts\Customer\CustomerGenerator.cs(546,24): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+
+Assets\SliceSufferServe_Project\Scripts\Customer\CustomerGenerator.cs(558,59): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+
+Assets\SliceSufferServe_Project\Scripts\Customer\CustomerGenerator.cs(558,30): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(172,9): warning CS0618: 'IScore' is obsolete: 'IScore is deprecated and will be removed in a future release.'
+
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(172,52): warning CS0618: 'IScore' is obsolete: 'IScore is deprecated and will be removed in a future release.'
+
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(192,9): warning CS0618: 'IScore' is obsolete: 'IScore is deprecated and will be removed in a future release.'
+
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(192,52): warning CS0618: 'IScore' is obsolete: 'IScore is deprecated and will be removed in a future release.'
+
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(203,13): warning CS0618: 'IScore' is obsolete: 'IScore is deprecated and will be removed in a future release.'
+
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(216,9): warning CS0618: 'IScore' is obsolete: 'IScore is deprecated and will be removed in a future release.'
+
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(262,13): warning CS0618: 'IUserProfile' is obsolete: 'IUserProfile is deprecated and will be removed in a future release.'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreUIManager.cs(77,28): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterGenerationManager.cs(624,77): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterGenerationManager.cs(624,24): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(92,32): warning CS0618: 'Product.hasReceipt' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(137,16): warning CS0618: 'PurchaseProcessingResult' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(160,9): warning CS0618: 'ConfigurationBuilder' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(160,40): warning CS0618: 'ConfigurationBuilder' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(160,70): warning CS0618: 'StandardPurchasingModule' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(162,9): warning CS0618: 'UnityPurchasing' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterCustomizer.cs(1452,80): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterCustomizer.cs(1452,26): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterCustomizer.cs(1466,77): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterCustomizer.cs(1466,24): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterCustomizer.cs(1480,83): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterCustomizer.cs(1480,28): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterCustomizer.cs(1494,92): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterCustomizer.cs(1494,34): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+
+Assets\SliceSufferServe_Project\Scripts\UI\GameplayGameOverUI.cs(136,31): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreUIManager.cs(722,9): warning CS0618: 'TMP_Text.enableWordWrapping' is obsolete: 'The enabledWordWrapping property is now obsolete. Please use the textWrappingMode property instead.'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreUIManager.cs(732,9): warning CS0618: 'TMP_Text.enableWordWrapping' is obsolete: 'The enabledWordWrapping property is now obsolete. Please use the textWrappingMode property instead.'
+
+Assets\SliceSufferServe_Project\Scripts\UI\SettingManager.cs(373,97): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+
+Assets\SliceSufferServe_Project\Scripts\UI\SettingManager.cs(373,39): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+
+Assets\SliceSufferServe_Project\Scripts\UI\SettingManager.cs(387,97): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+
+Assets\SliceSufferServe_Project\Scripts\UI\SettingManager.cs(387,39): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreUIManager.cs(1097,83): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreUIManager.cs(1097,28): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreUIManager.cs(1111,92): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+
+Assets\SliceSufferServe_Project\Scripts\Store\StoreUIManager.cs(1111,34): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+
+Assets\SliceSufferServe_Project\Scripts\SteamLeaderboardDisplay.cs(10,17): warning CS0414: The field 'SteamLeaderboardDisplay._maxPlayer' is assigned but its value is never used
+[2043/2049  0s] ILPostProcess Library/Bee/artifacts/1300b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1300b0aE.dag/Assembly-CSharp-Editor.dll, with 155 defines and 426 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[2046/2049  0s] ILPostProcess Library/Bee/artifacts/1300b0aE.dag/post-processed/Assembly-CSharp.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1300b0aE.dag/Assembly-CSharp.dll, with 157 defines and 385 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[2047/2049  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+[2048/2049  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+*** Tundra build success (5.97 seconds), 6 items updated, 2049 evaluated
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(233,40): warning CS0618: 'IScore' is obsolete: 'IScore is deprecated and will be removed in a future release.'
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(241,40): warning CS0618: 'IScore' is obsolete: 'IScore is deprecated and will be removed in a future release.'
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(251,67): warning CS0618: 'IUserProfile' is obsolete: 'IUserProfile is deprecated and will be removed in a future release.'
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(275,42): warning CS0618: 'IScore' is obsolete: 'IScore is deprecated and will be removed in a future release.'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(5,44): warning CS0618: 'IDetailedStoreListener' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(101,31): warning CS0618: 'IStoreController' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(101,60): warning CS0618: 'IExtensionProvider' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(115,36): warning CS0618: 'InitializationFailureReason' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(122,36): warning CS0618: 'InitializationFailureReason' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(129,53): warning CS0618: 'PurchaseEventArgs' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(129,12): warning CS0618: 'PurchaseProcessingResult' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(15,13): warning CS0618: 'IStoreController' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(16,13): warning CS0618: 'IExtensionProvider' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+Assets\SliceSufferServe_Project\Scripts\Customer\CustomerGenerator.cs(46,61): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets\SliceSufferServe_Project\Scripts\Customer\CustomerGenerator.cs(46,27): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets\SliceSufferServe_Project\Scripts\Customer\CustomerGenerator.cs(486,48): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets\SliceSufferServe_Project\Scripts\Customer\CustomerGenerator.cs(486,24): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets\SliceSufferServe_Project\Scripts\Customer\CustomerGenerator.cs(546,48): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets\SliceSufferServe_Project\Scripts\Customer\CustomerGenerator.cs(546,24): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets\SliceSufferServe_Project\Scripts\Customer\CustomerGenerator.cs(558,59): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets\SliceSufferServe_Project\Scripts\Customer\CustomerGenerator.cs(558,30): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(172,9): warning CS0618: 'IScore' is obsolete: 'IScore is deprecated and will be removed in a future release.'
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(172,52): warning CS0618: 'IScore' is obsolete: 'IScore is deprecated and will be removed in a future release.'
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(192,9): warning CS0618: 'IScore' is obsolete: 'IScore is deprecated and will be removed in a future release.'
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(192,52): warning CS0618: 'IScore' is obsolete: 'IScore is deprecated and will be removed in a future release.'
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(203,13): warning CS0618: 'IScore' is obsolete: 'IScore is deprecated and will be removed in a future release.'
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(216,9): warning CS0618: 'IScore' is obsolete: 'IScore is deprecated and will be removed in a future release.'
+Assets\SliceSufferServe_Project\Scripts\LeaderboardWrapper.cs(262,13): warning CS0618: 'IUserProfile' is obsolete: 'IUserProfile is deprecated and will be removed in a future release.'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreUIManager.cs(77,28): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterGenerationManager.cs(624,77): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterGenerationManager.cs(624,24): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(92,32): warning CS0618: 'Product.hasReceipt' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(137,16): warning CS0618: 'PurchaseProcessingResult' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(160,9): warning CS0618: 'ConfigurationBuilder' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(160,40): warning CS0618: 'ConfigurationBuilder' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(160,70): warning CS0618: 'StandardPurchasingModule' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreManager.cs(162,9): warning CS0618: 'UnityPurchasing' is obsolete: 'This API is deprecated. Please upgrade to the new APIs introduced in IAP v5. For more information, visit the IAP manual: https://docs.unity.com/ugs/en-us/manual/iap/manual/upgrade-to-iap-v5'
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterCustomizer.cs(1452,80): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterCustomizer.cs(1452,26): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterCustomizer.cs(1466,77): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterCustomizer.cs(1466,24): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterCustomizer.cs(1480,83): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterCustomizer.cs(1480,28): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterCustomizer.cs(1494,92): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets\SliceSufferServe_Project\Scripts\Customization\CharacterCustomizer.cs(1494,34): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets\SliceSufferServe_Project\Scripts\UI\GameplayGameOverUI.cs(136,31): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreUIManager.cs(722,9): warning CS0618: 'TMP_Text.enableWordWrapping' is obsolete: 'The enabledWordWrapping property is now obsolete. Please use the textWrappingMode property instead.'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreUIManager.cs(732,9): warning CS0618: 'TMP_Text.enableWordWrapping' is obsolete: 'The enabledWordWrapping property is now obsolete. Please use the textWrappingMode property instead.'
+Assets\SliceSufferServe_Project\Scripts\UI\SettingManager.cs(373,97): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets\SliceSufferServe_Project\Scripts\UI\SettingManager.cs(373,39): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets\SliceSufferServe_Project\Scripts\UI\SettingManager.cs(387,97): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets\SliceSufferServe_Project\Scripts\UI\SettingManager.cs(387,39): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreUIManager.cs(1097,83): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreUIManager.cs(1097,28): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreUIManager.cs(1111,92): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets\SliceSufferServe_Project\Scripts\Store\StoreUIManager.cs(1111,34): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets\SliceSufferServe_Project\Scripts\SteamLeaderboardDisplay.cs(10,17): warning CS0414: The field 'SteamLeaderboardDisplay._maxPlayer' is assigned but its value is never used
+AssetDatabase: script compilation time: 6.984950s
+'Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log' Amount of processed bytes '60085' does not match file size '24470'
+Begin MonoManager ReloadAssembly
+Duplicate assembly 'System.Runtime.CompilerServices.Unsafe.dll' with different versions detected, using 'Packages/com.unity.ai.assistant/Plugins/Shared/System.Runtime.CompilerServices.Unsafe.dll, AssemblyName=System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a' and ignoring 'Packages/com.unity.collections/Unity.Collections.Tests/System.Runtime.CompilerServices.Unsafe/System.Runtime.CompilerServices.Unsafe.dll, AssemblyName=System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'.Assembly Assembly-CSharp-Editor-firstpass.dll at Library/ScriptAssemblies/Assembly-CSharp-Editor-firstpass.dll not valid. Loading of assembly skipped.
+Assembly DocCodeExamples.dll at Library/ScriptAssemblies/DocCodeExamples.dll not valid. Loading of assembly skipped.
+Assembly TestNewCustomAssembly.dll at Library/ScriptAssemblies/TestNewCustomAssembly.dll not valid. Loading of assembly skipped.
+Assembly Unity.2D.Sprite.Package.EditorTests.dll at Library/ScriptAssemblies/Unity.2D.Sprite.Package.EditorTests.dll not valid. Loading of assembly skipped.
+Assembly Unity.AI.Assistant.Integrations.Sample.Editor.dll at Library/ScriptAssemblies/Unity.AI.Assistant.Integrations.Sample.Editor.dll not valid. Loading of assembly skipped.
+Assembly Unity.AppUI.Editor.Tests.dll at Library/ScriptAssemblies/Unity.AppUI.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.AppUI.Tests.dll at Library/ScriptAssemblies/Unity.AppUI.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Collections.BurstCompatibilityGen.dll at Library/ScriptAssemblies/Unity.Collections.BurstCompatibilityGen.dll not valid. Loading of assembly skipped.
+Assembly Unity.Collections.DocCodeSamples.dll at Library/ScriptAssemblies/Unity.Collections.DocCodeSamples.dll not valid. Loading of assembly skipped.
+Assembly Unity.Collections.PerformanceTests.dll at Library/ScriptAssemblies/Unity.Collections.PerformanceTests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Collections.Tests.dll at Library/ScriptAssemblies/Unity.Collections.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Collections.Tests.Playmode.dll at Library/ScriptAssemblies/Unity.Collections.Tests.Playmode.dll not valid. Loading of assembly skipped.
+Assembly Unity.Mathematics.Tests.dll at Library/ScriptAssemblies/Unity.Mathematics.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Mobile.AndroidLogcat.Editor.Tests.dll at Library/ScriptAssemblies/Unity.Mobile.AndroidLogcat.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Mobile.AndroidLogcat.Integration.Editor.Tests.dll at Library/ScriptAssemblies/Unity.Mobile.AndroidLogcat.Integration.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Mobile.AndroidLogcat.Performance.Editor.Tests.dll at Library/ScriptAssemblies/Unity.Mobile.AndroidLogcat.Performance.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Mobile.AndroidLogcat.Runtime.Tests.dll at Library/ScriptAssemblies/Unity.Mobile.AndroidLogcat.Runtime.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Mobile.AndroidLogcat.Shared.Editor.Tests.dll at Library/ScriptAssemblies/Unity.Mobile.AndroidLogcat.Shared.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Multiplayer.Center.Editor.Tests.dll at Library/ScriptAssemblies/Unity.Multiplayer.Center.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Multiplayer.Center.Tests.dll at Library/ScriptAssemblies/Unity.Multiplayer.Center.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Nuget.Mono-Cecil.dll at Library/ScriptAssemblies/Unity.Nuget.Mono-Cecil.dll not valid. Loading of assembly skipped.
+Assembly Unity.PathTracing.Editor.Tests.dll at Library/ScriptAssemblies/Unity.PathTracing.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.PathTracing.Runtime.Tests.dll at Library/ScriptAssemblies/Unity.PathTracing.Runtime.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Performance.Profile-Analyzer.EditorTests.dll at Library/ScriptAssemblies/Unity.Performance.Profile-Analyzer.EditorTests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Postprocessing.Editor.Tests.dll at Library/ScriptAssemblies/Unity.Postprocessing.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Postprocessing.Runtime.Tests.dll at Library/ScriptAssemblies/Unity.Postprocessing.Runtime.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Purchasing.Apple.dll at Library/ScriptAssemblies/Unity.Purchasing.Apple.dll not valid. Loading of assembly skipped.
+Assembly Unity.Purchasing.AppleMacos.dll at Library/ScriptAssemblies/Unity.Purchasing.AppleMacos.dll not valid. Loading of assembly skipped.
+Assembly Unity.Purchasing.Security.dll at Library/ScriptAssemblies/Unity.Purchasing.Security.dll not valid. Loading of assembly skipped.
+Assembly Unity.Purchasing.TransactionVerifier.dll at Library/ScriptAssemblies/Unity.Purchasing.TransactionVerifier.dll not valid. Loading of assembly skipped.
+Assembly Unity.RenderPipelines.Core.Editor.Tests.dll at Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.RenderPipelines.Core.Runtime.Tests.dll at Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.RenderPipelines.HighDefinition.Editor.Tests.dll at Library/ScriptAssemblies/Unity.RenderPipelines.HighDefinition.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.RenderPipelines.HighDefinition.Runtime.Tests.dll at Library/ScriptAssemblies/Unity.RenderPipelines.HighDefinition.Runtime.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.RenderPipelines.HighDefinitionConfig.Editor.Tests.dll at Library/ScriptAssemblies/Unity.RenderPipelines.HighDefinitionConfig.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Searcher.EditorTests.dll at Library/ScriptAssemblies/Unity.Searcher.EditorTests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Settings.Tests.dll at Library/ScriptAssemblies/Unity.Settings.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.ShaderGraph.Editor.Tests.dll at Library/ScriptAssemblies/Unity.ShaderGraph.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.TestTools.CodeCoverage.Editor.Compatibility.dll at Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.Compatibility.dll not valid. Loading of assembly skipped.
+Assembly Unity.TextMeshPro.Editor.Tests.dll at Library/ScriptAssemblies/Unity.TextMeshPro.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.TextMeshPro.Tests.dll at Library/ScriptAssemblies/Unity.TextMeshPro.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.UnifiedRayTracing.Editor.Tests.dll at Library/ScriptAssemblies/Unity.UnifiedRayTracing.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.VisualEffectGraph.Editor.Tests.dll at Library/ScriptAssemblies/Unity.VisualEffectGraph.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.VisualEffectGraph.Runtime.Tests.dll at Library/ScriptAssemblies/Unity.VisualEffectGraph.Runtime.Tests.dll not valid. Loading of assembly skipped.
+Assembly UnityEditor.UI.Common.Tests.dll at Library/ScriptAssemblies/UnityEditor.UI.Common.Tests.dll not valid. Loading of assembly skipped.
+Assembly UnityEditor.UI.EditorTests.dll at Library/ScriptAssemblies/UnityEditor.UI.EditorTests.dll not valid. Loading of assembly skipped.
+Assembly UnityEngine.UI.Tests.dll at Library/ScriptAssemblies/UnityEngine.UI.Tests.dll not valid. Loading of assembly skipped.
+Refreshing native plugins compatible for Editor in 53.01 ms, found 7 plugins.
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 37.70 ms, found 7 plugins.
+Duplicate assembly 'System.Runtime.CompilerServices.Unsafe.dll' with different versions detected, using 'Packages/com.unity.ai.assistant/Plugins/Shared/System.Runtime.CompilerServices.Unsafe.dll, AssemblyName=System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a' and ignoring 'Packages/com.unity.collections/Unity.Collections.Tests/System.Runtime.CompilerServices.Unsafe/System.Runtime.CompilerServices.Unsafe.dll, AssemblyName=System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'.GPGSUpgrader start
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GooglePlayGames.Editor.GPGSUpgrader:.cctor () (at Assets/GooglePlayGames/com.google.play.games/Editor/GPGSUpgrader.cs:38)
+System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+(Filename: Assets/GooglePlayGames/com.google.play.games/Editor/GPGSUpgrader.cs Line: 38)
+
+GPGSUpgrader done
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GooglePlayGames.Editor.GPGSUpgrader:.cctor () (at Assets/GooglePlayGames/com.google.play.games/Editor/GPGSUpgrader.cs:57)
+System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+(Filename: Assets/GooglePlayGames/com.google.play.games/Editor/GPGSUpgrader.cs Line: 57)
+
+Refreshing native plugins compatible for Editor in 42.14 ms, found 7 plugins.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in 14.884 seconds
+Domain Reload Profiling: 17491ms
+	BeginReloadAssembly (527ms)
+		DisableScriptedObjects (40ms)
+		CreateAndSetChildDomain (181ms)
+	RebuildCommonClasses (58ms)
+	RebuildNativeTypeToScriptingClass (19ms)
+	initialDomainReloadingComplete (208ms)
+	LoadAllAssembliesAndSetupDomain (1794ms)
+		LoadAssemblies (994ms)
+		AnalyzeDomain (1042ms)
+			TypeCache.Refresh (796ms)
+				TypeCache.ScanAssembly (755ms)
+			BuildScriptInfoCaches (199ms)
+			ResolveRequiredComponents (40ms)
+	FinalizeReload (14885ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (86ms)
+			BeforeProcessingInitializeOnLoad (601ms)
+			ProcessInitializeOnLoadAttributes (12295ms)
+			ProcessInitializeOnLoadMethodAttributes (1075ms)
+			AfterProcessingInitializeOnLoad (3ms)
+		AwakeInstancesAfterBackupRestoration (99ms)
+'Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log' Amount of processed bytes '72152' does not match file size '70605'
+Start importing Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log using Guid(6b97da4f8a8802a4d8cb98f7dde28a7c) (DefaultImporter)IPCStream (Upm-41712): IPC stream failed to read (Not connected)
+ -> (Import Result ID: '00000000000000000000000000000000') in 0.0688577 seconds
+Import Error Code:(4)
+Message: Build asset version error: assets/slicesufferserve_project/unity_compile_human_generator_repeat.log in SourceAssetDB has modification time of '2026-06-07T00:58:20.2576134Z' while content on disk has modification time of '2026-06-07T00:58:20.7595126Z'
+Start importing Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log using Guid(6b97da4f8a8802a4d8cb98f7dde28a7c) (DefaultImporter) -> (Import Result ID: '00000000000000000000000000000000') in 0.001589 seconds
+Import Error Code:(4)
+Message: Build asset version error: assets/slicesufferserve_project/unity_compile_human_generator_repeat.log in SourceAssetDB has modification time of '2026-06-07T00:58:20.2576134Z' while content on disk has modification time of '2026-06-07T00:58:20.8190194Z'
+Start importing Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log using Guid(6b97da4f8a8802a4d8cb98f7dde28a7c) (DefaultImporter) -> (Import Result ID: '00000000000000000000000000000000') in 0.0012476 seconds
+Import Error Code:(4)
+Message: Build asset version error: assets/slicesufferserve_project/unity_compile_human_generator_repeat.log in SourceAssetDB has modification time of '2026-06-07T00:58:20.2576134Z' while content on disk has modification time of '2026-06-07T00:58:20.8541321Z'
+Start importing Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log using Guid(6b97da4f8a8802a4d8cb98f7dde28a7c) (DefaultImporter) -> (Import Result ID: '00000000000000000000000000000000') in 0.0009586 seconds
+Import Error Code:(4)
+Message: Build asset version error: assets/slicesufferserve_project/unity_compile_human_generator_repeat.log in SourceAssetDB has modification time of '2026-06-07T00:58:20.2576134Z' while content on disk has modification time of '2026-06-07T00:58:20.9007343Z'
+Start importing Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log using Guid(6b97da4f8a8802a4d8cb98f7dde28a7c) (DefaultImporter) -> (Import Result ID: '00000000000000000000000000000000') in 0.0009386 seconds
+Import Error Code:(4)
+Message: Build asset version error: assets/slicesufferserve_project/unity_compile_human_generator_repeat.log in SourceAssetDB has modification time of '2026-06-07T00:58:20.2576134Z' while content on disk has modification time of '2026-06-07T00:58:20.932759Z'
+Start importing Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log using Guid(6b97da4f8a8802a4d8cb98f7dde28a7c) (DefaultImporter) -> (Import Result ID: '00000000000000000000000000000000') in 0.0014726 seconds
+Import Error Code:(4)
+Message: Build asset version error: assets/slicesufferserve_project/unity_compile_human_generator_repeat.log in SourceAssetDB has modification time of '2026-06-07T00:58:20.2576134Z' while content on disk has modification time of '2026-06-07T00:58:20.9711301Z'
+Start importing Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log using Guid(6b97da4f8a8802a4d8cb98f7dde28a7c) (DefaultImporter) -> (Import Result ID: '00000000000000000000000000000000') in 0.0013331 seconds
+Import Error Code:(4)
+Message: Build asset version error: assets/slicesufferserve_project/unity_compile_human_generator_repeat.log in SourceAssetDB has modification time of '2026-06-07T00:58:20.2576134Z' while content on disk has modification time of '2026-06-07T00:58:21.0044737Z'
+Start importing Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log using Guid(6b97da4f8a8802a4d8cb98f7dde28a7c) (DefaultImporter) -> (Import Result ID: '00000000000000000000000000000000') in 0.0009923 seconds
+Import Error Code:(4)
+Message: Build asset version error: assets/slicesufferserve_project/unity_compile_human_generator_repeat.log in SourceAssetDB has modification time of '2026-06-07T00:58:20.2576134Z' while content on disk has modification time of '2026-06-07T00:58:21.0421434Z'
+An infinite import loop has been detected. The following Assets were imported multiple times, but no changes to them have been detected. Please check if any custom code is trying to import them:
+Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log(modified date 2026-06-07T00:58:21.0426488Z)
+Assets/SliceSufferServe_Project/Prefabs/FullHuman/RobotHuman.prefab(modified date 2026-06-03T13:06:29.431135Z)
+Unable to parse file Assets/UnityAssets/UniversalRenderPipelineGlobalSettings.asset: [Parser Failure at line 107: Expected closing '}']
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.Rendering.EditorGraphicsSettings:Internal_GetSettingsForRenderPipelineAt (int)
+UnityEditor.Rendering.EditorGraphicsSettings:ForEachPipelineSettings (System.Action`1<UnityEngine.Rendering.RenderPipelineGlobalSettings>)
+UnityEditor.Inspector.GraphicsSettingsInspectors.Notifier:RecomputeDictionary ()
+UnityEditor.Rendering.EditorGraphicsSettings:SetRenderPipelineGlobalSettingsAsset (System.Type,UnityEngine.Rendering.RenderPipelineGlobalSettings)
+UnityEditor.Rendering.EditorGraphicsSettings:SetRenderPipelineGlobalSettingsAsset<UnityEngine.Rendering.HighDefinition.HDRenderPipeline> (UnityEngine.Rendering.RenderPipelineGlobalSettings)
+UnityEngine.Rendering.RenderPipelineGlobalSettingsUtils:TryEnsure<UnityEngine.Rendering.HighDefinition.HDRenderPipelineGlobalSettings, UnityEngine.Rendering.HighDefinition.HDRenderPipeline> (UnityEngine.Rendering.HighDefinition.HDRenderPipelineGlobalSettings&,string,bool,System.Exception&) (at ./Library/PackageCache/com.unity.render-pipelines.core@630143bbfe2b/Runtime/RenderPipeline/RenderPipelineGlobalSettingsUtils.cs:138)
+UnityEngine.Rendering.RenderPipelineGlobalSettingsUtils:TryEnsure<UnityEngine.Rendering.HighDefinition.HDRenderPipelineGlobalSettings, UnityEngine.Rendering.HighDefinition.HDRenderPipeline> (UnityEngine.Rendering.HighDefinition.HDRenderPipelineGlobalSettings&,string,bool) (at ./Library/PackageCache/com.unity.render-pipelines.core@630143bbfe2b/Runtime/RenderPipeline/RenderPipelineGlobalSettingsUtils.cs:90)
+UnityEngine.Rendering.HighDefinition.HDRenderPipelineGlobalSettings:Ensure (bool) (at ./Library/PackageCache/com.unity.render-pipelines.high-definition@390b04b9db7c/Runtime/RenderPipeline/HDRenderPipelineGlobalSettings.cs:75)
+UnityEditor.Rendering.HighDefinition.HDRenderPipelineGlobalSettingsPostprocessor:OnPostprocessAllAssets (string[],string[],string[],string[],bool) (at ./Library/PackageCache/com.unity.render-pipelines.high-definition@390b04b9db7c/Editor/AssetProcessors/HDRenderPipelineGlobalSettingsPostprocessor.cs:14)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+UnityEditor.AssetPostprocessingInternal:InvokeMethod (System.Reflection.MethodInfo,object[])
+UnityEditor.AssetPostprocessingInternal:PostprocessAllAssets (string[],string[],string[],string[],string[],bool)
+
+[./Library/PackageCache/com.unity.render-pipelines.high-definition@390b04b9db7c/Editor/AssetProcessors/HDRenderPipelineGlobalSettingsPostprocessor.cs line 14]
+
+Unable to parse file Assets/UnityAssets/UniversalRenderPipelineGlobalSettings.asset: [Parser Failure at line 127: Expected closing '}']
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.Rendering.EditorGraphicsSettings:Internal_GetSettingsForRenderPipelineAt (int)
+UnityEditor.Rendering.EditorGraphicsSettings:ForEachPipelineSettings (System.Action`1<UnityEngine.Rendering.RenderPipelineGlobalSettings>)
+UnityEditor.Inspector.GraphicsSettingsInspectors.Notifier:RecomputeDictionary ()
+UnityEditor.Rendering.EditorGraphicsSettings:SetRenderPipelineGlobalSettingsAsset (System.Type,UnityEngine.Rendering.RenderPipelineGlobalSettings)
+UnityEditor.Rendering.EditorGraphicsSettings:SetRenderPipelineGlobalSettingsAsset<UnityEngine.Rendering.HighDefinition.HDRenderPipeline> (UnityEngine.Rendering.RenderPipelineGlobalSettings)
+UnityEngine.Rendering.RenderPipelineGlobalSettingsUtils:TryEnsure<UnityEngine.Rendering.HighDefinition.HDRenderPipelineGlobalSettings, UnityEngine.Rendering.HighDefinition.HDRenderPipeline> (UnityEngine.Rendering.HighDefinition.HDRenderPipelineGlobalSettings&,string,bool,System.Exception&) (at ./Library/PackageCache/com.unity.render-pipelines.core@630143bbfe2b/Runtime/RenderPipeline/RenderPipelineGlobalSettingsUtils.cs:138)
+UnityEngine.Rendering.RenderPipelineGlobalSettingsUtils:TryEnsure<UnityEngine.Rendering.HighDefinition.HDRenderPipelineGlobalSettings, UnityEngine.Rendering.HighDefinition.HDRenderPipeline> (UnityEngine.Rendering.HighDefinition.HDRenderPipelineGlobalSettings&,string,bool) (at ./Library/PackageCache/com.unity.render-pipelines.core@630143bbfe2b/Runtime/RenderPipeline/RenderPipelineGlobalSettingsUtils.cs:90)
+UnityEngine.Rendering.HighDefinition.HDRenderPipelineGlobalSettings:Ensure (bool) (at ./Library/PackageCache/com.unity.render-pipelines.high-definition@390b04b9db7c/Runtime/RenderPipeline/HDRenderPipelineGlobalSettings.cs:75)
+UnityEditor.Rendering.HighDefinition.HDRenderPipelineGlobalSettingsPostprocessor:OnPostprocessAllAssets (string[],string[],string[],string[],bool) (at ./Library/PackageCache/com.unity.render-pipelines.high-definition@390b04b9db7c/Editor/AssetProcessors/HDRenderPipelineGlobalSettingsPostprocessor.cs:14)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+UnityEditor.AssetPostprocessingInternal:InvokeMethod (System.Reflection.MethodInfo,object[])
+UnityEditor.AssetPostprocessingInternal:PostprocessAllAssets (string[],string[],string[],string[],string[],bool)
+
+[./Library/PackageCache/com.unity.render-pipelines.high-definition@390b04b9db7c/Editor/AssetProcessors/HDRenderPipelineGlobalSettingsPostprocessor.cs line 14]
+
+Unable to parse file Assets/UnityAssets/UniversalRenderPipelineGlobalSettings.asset: [Parser Failure at line 141: Expected closing '}']
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.Rendering.EditorGraphicsSettings:Internal_GetSettingsForRenderPipelineAt (int)
+UnityEditor.Rendering.EditorGraphicsSettings:ForEachPipelineSettings (System.Action`1<UnityEngine.Rendering.RenderPipelineGlobalSettings>)
+UnityEditor.Inspector.GraphicsSettingsInspectors.Notifier:RecomputeDictionary ()
+UnityEditor.Rendering.EditorGraphicsSettings:SetRenderPipelineGlobalSettingsAsset (System.Type,UnityEngine.Rendering.RenderPipelineGlobalSettings)
+UnityEditor.Rendering.EditorGraphicsSettings:SetRenderPipelineGlobalSettingsAsset<UnityEngine.Rendering.HighDefinition.HDRenderPipeline> (UnityEngine.Rendering.RenderPipelineGlobalSettings)
+UnityEngine.Rendering.RenderPipelineGlobalSettingsUtils:TryEnsure<UnityEngine.Rendering.HighDefinition.HDRenderPipelineGlobalSettings, UnityEngine.Rendering.HighDefinition.HDRenderPipeline> (UnityEngine.Rendering.HighDefinition.HDRenderPipelineGlobalSettings&,string,bool,System.Exception&) (at ./Library/PackageCache/com.unity.render-pipelines.core@630143bbfe2b/Runtime/RenderPipeline/RenderPipelineGlobalSettingsUtils.cs:138)
+UnityEngine.Rendering.RenderPipelineGlobalSettingsUtils:TryEnsure<UnityEngine.Rendering.HighDefinition.HDRenderPipelineGlobalSettings, UnityEngine.Rendering.HighDefinition.HDRenderPipeline> (UnityEngine.Rendering.HighDefinition.HDRenderPipelineGlobalSettings&,string,bool) (at ./Library/PackageCache/com.unity.render-pipelines.core@630143bbfe2b/Runtime/RenderPipeline/RenderPipelineGlobalSettingsUtils.cs:90)
+UnityEngine.Rendering.HighDefinition.HDRenderPipelineGlobalSettings:Ensure (bool) (at ./Library/PackageCache/com.unity.render-pipelines.high-definition@390b04b9db7c/Runtime/RenderPipeline/HDRenderPipelineGlobalSettings.cs:75)
+UnityEditor.Rendering.HighDefinition.HDRenderPipelineGlobalSettingsPostprocessor:OnPostprocessAllAssets (string[],string[],string[],string[],bool) (at ./Library/PackageCache/com.unity.render-pipelines.high-definition@390b04b9db7c/Editor/AssetProcessors/HDRenderPipelineGlobalSettingsPostprocessor.cs:14)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+UnityEditor.AssetPostprocessingInternal:InvokeMethod (System.Reflection.MethodInfo,object[])
+UnityEditor.AssetPostprocessingInternal:PostprocessAllAssets (string[],string[],string[],string[],string[],bool)
+
+[./Library/PackageCache/com.unity.render-pipelines.high-definition@390b04b9db7c/Editor/AssetProcessors/HDRenderPipelineGlobalSettingsPostprocessor.cs line 14]
+
+Refreshing native plugins compatible for Editor in 19.67 ms, found 7 plugins.
+(Values over 0.050ms)
+Asset Pipeline Refresh (id=1d0741666781f124581a9dc898ebf9f9): Total: 31.239 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=0 (actual=8, local cache=18446744073709551608, cache server=0)
+		Asset DB Process Time: managed=6 ms, native=18246 ms
+		Asset DB Callback time: managed=3087 ms, native=85 ms
+		Scripting: domain reloads=1, domain reload time=2610 ms, compile time=6989 ms, other=211 ms
+		Project Asset Count: scripts=3579, non-scripts=8973
+		Asset File Changes: new=0, changed=3, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 68.309ms
+	ApplyChangesToAssetFolders: 2.350ms
+	Scan: 1098.957ms
+	OnSourceAssetsModified: 9.167ms
+	CategorizeScriptCompilationAssets: 240.052ms
+	ProcessAssetsWithTransientArtifactChanges: 659.097ms
+	CategorizeAssets: 557.794ms
+	CompileScripts: 6989.454ms
+	ImportOutOfDateAssets: 15126.645ms (15011.793ms without children)
+		ImportManagerImport: 88.321ms (8.398ms without children)
+		ReloadNativeAssets: 0.119ms
+		UnloadImportedAssets: 4.060ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 22.237ms
+		InitializingProgressBar: 0.086ms
+		OnDemandSchedulerStart: 2.145ms
+	PostProcessAllAssets: 3083.497ms
+		XRBuildSystem.XRAssetImported 2.161ms
+		VCAutoAddAssetPostprocess 1.608ms
+		MonoPostProcessAllAssets: 3078.939ms
+			HDRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 1292.610ms
+			AssetPostprocessor.OnPostprocessAllAssets 1292.009ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 53.572ms
+			AssetReferenceReimportMonitor.OnPostprocessAllAssets 42.574ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 9.236ms
+			SyncVS.PostprocessSyncProject 7.906ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 4.921ms
+			GraphRefreshPostprocessor.OnPostprocessAllAssets 4.444ms
+			MaterialPostprocessor.OnPostprocessAllAssets 4.408ms
+			PlayServicesResolver.OnPostprocessAllAssets 3.878ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 3.550ms
+			AssetChangedListener.OnPostprocessAllAssets 2.855ms
+			VFXGraphPreprocessor.OnPostprocessAllAssets 2.505ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 2.318ms
+			PackageManagerResolver.OnPostprocessAllAssets 2.183ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 2.138ms
+			VersionHandlerImpl.OnPostprocessAllAssets 1.772ms
+			AssetChangeDetector.OnPostprocessAllAssets 1.619ms
+			CubeLutAssetImporter.OnPostprocessAllAssets 1.333ms
+			SpriteEditorTexturePostprocessor.OnPostprocessAllAssets 1.284ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.708ms
+			SkillsProjectAssetPostprocessor.OnPostprocessAllAssets 0.696ms
+			UVCSAssetPostprocessor.OnPostprocessAllAssets 0.661ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 0.660ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.641ms
+			UtilityWindowPostProcessor.OnPostprocessAllAssets 0.624ms
+			CFXR_ShaderPostProcessor.OnPostprocessAllAssets 0.605ms
+			PostProcessor.OnPostprocessAllAssets 0.589ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.454ms
+			ModelAssetProcessor.OnPostprocessAllAssets 0.389ms
+			AssetEvents.OnPostprocessAllAssets 0.377ms
+			IOSResolver.OnPostprocessAllAssets 0.372ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.369ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.351ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.298ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.283ms
+			SamplePostprocessor.OnPostprocessAllAssets 0.229ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.222ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.208ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.199ms
+			TrackSelectedAssetsProcessor.OnPostprocessAllAssets 0.107ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.091ms
+	PostAssetChangesProfiler: 26.427ms
+	UnloadStreamsBegin: 6.684ms
+	GenerateScriptTypeHashes: 16.562ms
+	GenerateScriptTypeSerializationHashes: 23.442ms
+	Untracked: 3352.857ms
+
+Application.AssetDatabase Initial Refresh End
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.02 seconds
+Shader 'MoreMountains/MMRipple': fallback shader 'Particle/AlphaBlended' not found
+Scanning for USB devices : 14.018ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-Slice, Suffer, Serve!
+Unloading 418 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 13679 unused Assets / (24.4 MB). Loaded Objects now: 14827.
+Memory consumption went from 0.59 GB to 0.57 GB.
+Total: 87.498300 ms (FindLiveObjects: 4.002000 ms CreateObjectMapping: 6.370300 ms MarkObjects: 45.302500 ms  DeleteObjects: 31.813300 ms)
+
+Batchmode quit successfully invoked - shutting down!
+Killing ADB server in 2.1472418 seconds.
+Start importing ProjectSettings/ProjectSettings.asset using Guid(00000000000000004000000000000000) (LibraryAssetImporter) -> (Import Result ID: 'ad4394aadf3a9dc7452c03499369f332') in 0.0420769 seconds [static dependencies only]. Details - ImportResultOutputID=d3ca6db29495033f6ec6c171ea098da8 DependenciesID=2d7f0d99abf4d017dfbfb95a2d21d1e7 StaticDependenciesID=a94116defe2d8813192d01c9b282cc56 
+Start importing ProjectSettings/EditorBuildSettings.asset using Guid(0000000000000000b000000000000000) (LibraryAssetImporter) -> (Import Result ID: '6224381cd5c34d05d40ff034252ba982') in 0.0367205 seconds [static dependencies only]. Details - ImportResultOutputID=d777934f36c664454d62eda103573334 DependenciesID=2b4e536a7a677bc085126f1e325f619d StaticDependenciesID=8dcd8263d71620b3f03e1e2b10776b1b 
+Start importing Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log using Guid(6b97da4f8a8802a4d8cb98f7dde28a7c) (DefaultImporter) -> (Import Result ID: '00000000000000000000000000000000') in 0.0058748 seconds
+Import Error Code:(4)
+Message: Build asset version error: assets/slicesufferserve_project/unity_compile_human_generator_repeat.log in SourceAssetDB has modification time of '2026-06-07T00:58:20.2576134Z' while content on disk has modification time of '2026-06-07T00:58:34.8410778Z'
+'Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log' Amount of processed bytes '91795' does not match file size '90439'
+Start importing Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log using Guid(6b97da4f8a8802a4d8cb98f7dde28a7c) (DefaultImporter) -> (Import Result ID: '00000000000000000000000000000000') in 0.0016943 seconds
+Import Error Code:(4)
+Message: Build asset version error: assets/slicesufferserve_project/unity_compile_human_generator_repeat.log in SourceAssetDB has modification time of '2026-06-07T00:58:20.2576134Z' while content on disk has modification time of '2026-06-07T00:58:34.9353782Z'
+'Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log' Amount of processed bytes '92454' does not match file size '91938'
+Start importing Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log using Guid(6b97da4f8a8802a4d8cb98f7dde28a7c) (DefaultImporter) -> (Import Result ID: '00000000000000000000000000000000') in 0.001835 seconds
+Import Error Code:(4)
+Message: Build asset version error: assets/slicesufferserve_project/unity_compile_human_generator_repeat.log in SourceAssetDB has modification time of '2026-06-07T00:58:20.2576134Z' while content on disk has modification time of '2026-06-07T00:58:35.0371094Z'
+'Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log' Amount of processed bytes '93112' does not match file size '92597'
+Start importing Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log using Guid(6b97da4f8a8802a4d8cb98f7dde28a7c) (DefaultImporter) -> (Import Result ID: '00000000000000000000000000000000') in 0.0043997 seconds
+Import Error Code:(4)
+Message: Build asset version error: assets/slicesufferserve_project/unity_compile_human_generator_repeat.log in SourceAssetDB has modification time of '2026-06-07T00:58:20.2576134Z' while content on disk has modification time of '2026-06-07T00:58:35.1375811Z'
+'Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log' Amount of processed bytes '93771' does not match file size '93255'
+Start importing Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log using Guid(6b97da4f8a8802a4d8cb98f7dde28a7c) (DefaultImporter) -> (Import Result ID: '00000000000000000000000000000000') in 0.0023501 seconds
+Import Error Code:(4)
+Message: Build asset version error: assets/slicesufferserve_project/unity_compile_human_generator_repeat.log in SourceAssetDB has modification time of '2026-06-07T00:58:20.2576134Z' while content on disk has modification time of '2026-06-07T00:58:35.2130352Z'
+'Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log' Amount of processed bytes '94430' does not match file size '93914'
+Start importing Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log using Guid(6b97da4f8a8802a4d8cb98f7dde28a7c) (DefaultImporter) -> (Import Result ID: '00000000000000000000000000000000') in 0.0017128 seconds
+Import Error Code:(4)
+Message: Build asset version error: assets/slicesufferserve_project/unity_compile_human_generator_repeat.log in SourceAssetDB has modification time of '2026-06-07T00:58:20.2576134Z' while content on disk has modification time of '2026-06-07T00:58:35.3401935Z'
+Start importing Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log using Guid(6b97da4f8a8802a4d8cb98f7dde28a7c) (DefaultImporter) -> (Import Result ID: '00000000000000000000000000000000') in 0.0017651 seconds
+Import Error Code:(4)
+Message: Build asset version error: assets/slicesufferserve_project/unity_compile_human_generator_repeat.log in SourceAssetDB has modification time of '2026-06-07T00:58:35.342204Z' while content on disk has modification time of '2026-06-07T00:58:35.6985285Z'
+An infinite import loop has been detected. The following Assets were imported multiple times, but no changes to them have been detected. Please check if any custom code is trying to import them:
+Assets/SliceSufferServe_Project/unity_compile_human_generator_repeat.log(modified date 2026-06-07T00:58:35.6985285Z)
+Assets/SliceSufferServe_Project/Prefabs/FullHuman/RobotHuman.prefab(modified date 2026-06-03T13:06:29.431135Z)
+Refreshing native plugins compatible for Editor in 36.30 ms, found 7 plugins.
+(Values over 0.050ms)
+Asset Pipeline Refresh (id=6f16fcac57c8fae419b1aacae15ca9d4): Total: 1.676 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=2 (actual=9, local cache=18446744073709551609, cache server=0)
+		Asset DB Process Time: managed=3 ms, native=1569 ms
+		Asset DB Callback time: managed=11 ms, native=91 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=3579, non-scripts=8973
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 2
+	ApplyChangesToAssetFolders: 1.322ms
+	Scan: 204.438ms
+	OnSourceAssetsModified: 0.140ms
+	CategorizeScriptCompilationAssets: 0.067ms
+	ProcessAssetsWithTransientArtifactChanges: 2.889ms
+	CategorizeAssets: 1006.386ms
+	ImportOutOfDateAssets: 269.677ms (96.478ms without children)
+		ImportManagerImport: 119.839ms (9.717ms without children)
+			UpdateCategorizedAssets: 0.186ms
+		ReloadNativeAssets: 2.470ms
+		UnloadImportedAssets: 5.640ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 45.021ms
+		InitializingProgressBar: 0.140ms
+		OnDemandSchedulerStart: 13.473ms
+	PostProcessAllAssets: 66.063ms
+		XRBuildSystem.XRAssetImported 53.992ms
+		MonoPostProcessAllAssets: 11.316ms
+			AssetPostprocessor.OnPostprocessAllAssets 2.570ms
+			PackageManagerResolver.OnPostprocessAllAssets 2.152ms
+			VersionHandlerImpl.OnPostprocessAllAssets 1.906ms
+			PlayServicesResolver.OnPostprocessAllAssets 1.073ms
+			SyncVS.PostprocessSyncProject 0.789ms
+			AssetChangedListener.OnPostprocessAllAssets 0.652ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 0.418ms
+			GraphRefreshPostprocessor.OnPostprocessAllAssets 0.198ms
+			ModelAssetProcessor.OnPostprocessAllAssets 0.118ms
+			AssetReferenceReimportMonitor.OnPostprocessAllAssets 0.090ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.084ms
+			PostProcessor.OnPostprocessAllAssets 0.071ms
+			CFXR_ShaderPostProcessor.OnPostprocessAllAssets 0.069ms
+	PostAssetChangesProfiler: 36.730ms
+	GatherAllCurrentPrimaryImportResultRevisions: 0.647ms
+	UnloadStreamsBegin: 0.356ms
+	Untracked: 73.549ms
+
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-drago-6000.4.6-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-drago-6000.4.6 channel disconnected successfully.
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+CodeReloadManager destroyed
+Exiting batchmode successfully now!
+Exiting without the bug reporter. Application will terminate with return code 0

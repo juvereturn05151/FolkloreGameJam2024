@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Level9
   m_EditorClassIdentifier: Assembly-CSharp::StageLevelConfig
   levelId: level_9
-  displayName: Level 9 - Full Body Spinner Robot Big Three Customers
+  displayName: 9 - Knights
   levelNumber: 9
-  storyModeSelectionSprite: {fileID: 21300000, guid: d1e39f7d8c0de9743abf0ce0600e237a, type: 3}
+  storyModeSelectionSprite: {fileID: 21300000, guid: b898bb15e87a03342b9f6c20dae82b7f, type: 3}
   gameplaySceneName: GameplayScene
   stageGoal: {fileID: 11400000, guid: 405bf08f3e194f1a88272414cb7ba224, type: 2}
   allowSuperMeter: 1

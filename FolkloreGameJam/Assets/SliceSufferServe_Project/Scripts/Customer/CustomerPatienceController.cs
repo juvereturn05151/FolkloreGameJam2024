@@ -63,6 +63,16 @@ public class CustomerPatienceController : MonoBehaviour
         patienceSlider.DOValue(targetValue, duration);
     }
 
+    public void RewardPercentOfMax(float percent, float duration = 1f)
+    {
+        if (patienceSlider == null)
+            return;
+
+        float amount = patienceSlider.maxValue * Mathf.Max(0f, percent);
+        float targetValue = Mathf.Min(patienceSlider.maxValue, patienceSlider.value + amount);
+        patienceSlider.DOValue(targetValue, duration);
+    }
+
     public void PenalizeHalf(float duration = 1f)
     {
         if (patienceSlider == null)

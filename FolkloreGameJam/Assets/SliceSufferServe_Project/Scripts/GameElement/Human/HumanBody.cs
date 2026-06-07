@@ -16,6 +16,7 @@ public class HumanBody : MonoBehaviour
 
     private List<HumanPart> _parts = new List<HumanPart>();
     private bool _isBeingDestroyed;
+    private bool hasGrantedRobotMissedReward;
     public bool IsBeingDestroyed => _isBeingDestroyed;
 
     private void Awake()
@@ -115,6 +116,7 @@ public class HumanBody : MonoBehaviour
         if (_isBeingDestroyed) return;
         _isBeingDestroyed = true;
         ResetComboForMissedDestroyerIfNeeded();
+        GrantRobotMissedRewardIfNeeded();
 
         foreach (HumanPart part in _parts)
         {
@@ -138,6 +140,7 @@ public class HumanBody : MonoBehaviour
 
         if (!HasRemainingParts())
         {
+            GrantRobotMissedRewardIfNeeded();
             Destroy(gameObject);
         }
     }
@@ -210,6 +213,23 @@ public class HumanBody : MonoBehaviour
         }
 
         ComboSystem.ResetCombo();
+    }
+
+    private void GrantRobotMissedRewardIfNeeded()
+    {
+        if (hasGrantedRobotMissedReward)
+        {
+            return;
+        }
+
+        RobotHuman robotHuman = GetComponent<RobotHuman>();
+        if (robotHuman == null)
+        {
+            return;
+        }
+
+        hasGrantedRobotMissedReward = true;
+        robotHuman.GrantMissedDestroyerReward();
     }
 
     private void ResolvePartReferences()

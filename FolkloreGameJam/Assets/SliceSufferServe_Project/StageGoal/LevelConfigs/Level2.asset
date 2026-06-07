@@ -15,7 +15,7 @@ MonoBehaviour:
   levelId: level_2
   displayName: 2 - More More...
   levelNumber: 2
-  storyModeSelectionSprite: {fileID: 21300000, guid: dae2842b8fe04d8ea2560f845701194c, type: 3}
+  storyModeSelectionSprite: {fileID: 21300000, guid: 1b2c339113bfd6b4099d7217936d7878, type: 3}
   gameplaySceneName: GameplayScene
   stageGoal: {fileID: 11400000, guid: f147658f6064435b936acb0880d0de7b, type: 2}
   allowSuperMeter: 0

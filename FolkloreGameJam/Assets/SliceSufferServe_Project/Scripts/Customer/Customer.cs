@@ -170,6 +170,16 @@ public class Customer : MonoBehaviour
         maxOrderCount = Mathf.Max(minOrderCount, maxCount);
     }
 
+    public void RewardPatiencePercent(float percent)
+    {
+        if (!IsOrdering)
+        {
+            return;
+        }
+
+        patienceController?.RewardPercentOfMax(percent);
+    }
+
     private void SetupPatience()
     {
         int scaledPatience = Mathf.Max(1, Mathf.RoundToInt(patience * patienceMultiplier));

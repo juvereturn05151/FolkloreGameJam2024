@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Level10
   m_EditorClassIdentifier: Assembly-CSharp::StageLevelConfig
   levelId: level_10
-  displayName: Level 10 - Full Body Spinner Robot Big Rock Thrower
+  displayName: 10 - Enjoy the Feast
   levelNumber: 10
-  storyModeSelectionSprite: {fileID: 21300000, guid: 3be914e3c681410da99a44edeb64faa4, type: 3}
+  storyModeSelectionSprite: {fileID: 21300000, guid: 6ea8a21333b14ad48d3ceea79304ae57, type: 3}
   gameplaySceneName: GameplayScene
   stageGoal: {fileID: 11400000, guid: 0eca591993744f799883db7b022ac5d9, type: 2}
   allowSuperMeter: 1
