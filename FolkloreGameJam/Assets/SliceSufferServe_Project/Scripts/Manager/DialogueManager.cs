@@ -14,6 +14,10 @@ public class DialogueManager : MonoBehaviour
     private Button nextButton;
     [SerializeField]
     private GameObject _objectiveBG;
+    [SerializeField]
+    private bool advanceOnScreenTap = true;
+    [SerializeField]
+    private float tapAdvanceCooldown = 0.12f;
 
     public float typingSpeed = 0.05f;
     public event Action SecondLineAppeared;
@@ -25,10 +29,28 @@ public class DialogueManager : MonoBehaviour
     private bool isTyping = false;
     private string objectiveDialogue;
     private string _howToPlayDialogue;
+    private bool isDialogueActive;
+    private float nextTapAdvanceTime;
 
     private void Start()
     {
-        nextButton.onClick.AddListener(DisplayNextLine);
+        if (nextButton != null)
+        {
+            nextButton.onClick.AddListener(DisplayNextLine);
+        }
+    }
+
+    private void Update()
+    {
+        if (!advanceOnScreenTap || !isDialogueActive || Time.unscaledTime < nextTapAdvanceTime)
+        {
+            return;
+        }
+
+        if (WasScreenTapped())
+        {
+            DisplayNextLine();
+        }
     }
 
     public void StartDialogue(string[] lines, string objective, string howToPlay)
@@ -43,7 +65,14 @@ public class DialogueManager : MonoBehaviour
         _objectiveBG.SetActive(false);
         dialogueLines = lines;
         currentLineIndex = 0;
-        nextButton.gameObject.SetActive(true);
+        isDialogueActive = true;
+        nextTapAdvanceTime = Time.unscaledTime + tapAdvanceCooldown;
+
+        if (nextButton != null)
+        {
+            nextButton.gameObject.SetActive(true);
+        }
+
         StartCoroutine(TypeLine(dialogueLines[currentLineIndex]));
         objectiveDialogue = objective;
         _howToPlayDialogue = howToPlay;
@@ -51,6 +80,13 @@ public class DialogueManager : MonoBehaviour
 
     public void DisplayNextLine()
     {
+        if (!isDialogueActive || Time.unscaledTime < nextTapAdvanceTime)
+        {
+            return;
+        }
+
+        nextTapAdvanceTime = Time.unscaledTime + tapAdvanceCooldown;
+
         if (isTyping)
         {
             StopAllCoroutines();
@@ -95,11 +131,44 @@ public class DialogueManager : MonoBehaviour
 
     private void EndDialogue()
     {
+        isDialogueActive = false;
         dialogueText.text = "";
         dialogueText.text = _howToPlayDialogue;
         _objectiveText.text = objectiveDialogue;
-        nextButton.gameObject.SetActive(false);
+        if (nextButton != null)
+        {
+            nextButton.gameObject.SetActive(false);
+        }
+
         _objectiveBG.SetActive(true);
         DialogueEnded?.Invoke();
+    }
+
+    private bool WasScreenTapped()
+    {
+        if (Input.touchCount > 0)
+        {
+            for (int i = 0; i < Input.touchCount; i++)
+            {
+                Touch touch = Input.GetTouch(i);
+                if (touch.phase == TouchPhase.Began && !IsOverNextButton(touch.position))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return Input.GetMouseButtonDown(0) && !IsOverNextButton(Input.mousePosition);
+    }
+
+    private bool IsOverNextButton(Vector2 screenPosition)
+    {
+        if (nextButton == null || !nextButton.gameObject.activeInHierarchy)
+        {
+            return false;
+        }
+
+        RectTransform nextButtonRect = nextButton.transform as RectTransform;
+        return nextButtonRect != null && RectTransformUtility.RectangleContainsScreenPoint(nextButtonRect, screenPosition);
     }
 }
