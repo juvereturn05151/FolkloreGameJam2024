@@ -83,6 +83,6 @@ public class MainManager : MonoBehaviour
 
     public void ClickToExit()
     {
-        Application.Quit();
+        ExitConfirmationDialog.Show(Application.Quit);
     }
 }

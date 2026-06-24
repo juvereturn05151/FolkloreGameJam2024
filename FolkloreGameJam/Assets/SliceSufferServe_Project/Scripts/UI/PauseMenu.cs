@@ -55,6 +55,10 @@ public class PauseMenu : MonoBehaviour
 
     public void QuitGame()
     {
-        Application.Quit(); // Close the game
+        ExitConfirmationDialog.Show(() =>
+        {
+            Time.timeScale = 1f;
+            Application.Quit();
+        });
     }
 }
