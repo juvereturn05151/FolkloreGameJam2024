@@ -70,12 +70,11 @@ MonoBehaviour:
   focusPosition: {x: 0, y: 1, z: 0}
   focusedScale: 1.2
   eventDuration: 5
-  slowMotionScale: 0.5
   slashRegisterInterval: 0.055
   flashColor: {r: 1, g: 0.26, b: 0.18, a: 1}
   blobColor: {r: 1, g: 0.62, b: 0.38, a: 1}
   biomassPrefab: {fileID: 7651374190844604091, guid: b17dcb8f1c3b40f4ab2a4718c7424a71, type: 3}
-  requiredSlicesForBiomass: 30
+  requiredSlicesForBiomass: 10
 --- !u!1 &5245707710223056521
 GameObject:
   m_ObjectHideFlags: 0

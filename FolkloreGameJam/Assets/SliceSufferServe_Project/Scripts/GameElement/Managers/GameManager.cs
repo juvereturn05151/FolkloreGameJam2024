@@ -297,7 +297,11 @@ public class GameManager : MonoBehaviour
 
         while (superScoreMultiplierRemainingTime > 0f)
         {
-            superScoreMultiplierRemainingTime = Mathf.Max(0f, superScoreMultiplierRemainingTime - Time.deltaTime);
+            if (!IsRapidSliceEventActive)
+            {
+                superScoreMultiplierRemainingTime = Mathf.Max(0f, superScoreMultiplierRemainingTime - Time.deltaTime);
+            }
+
             OnSuperActiveTimeChanged?.Invoke(superScoreMultiplierRemainingTime, duration);
             yield return null;
         }

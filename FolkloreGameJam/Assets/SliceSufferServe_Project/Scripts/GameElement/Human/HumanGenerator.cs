@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HumanGenerator : MonoBehaviour
@@ -110,6 +111,11 @@ public class HumanGenerator : MonoBehaviour
             return;
         }
 
+        if (IsBigHumanPrefab(humanPrefab) && HasActiveBigHuman())
+        {
+            return;
+        }
+
         HumanBody spawnedHuman = Instantiate(humanPrefab, spawnPoint.position, humanPrefab.transform.rotation);
         spawnedHuman.ApplyLevelConfig(levelConfig);
         ApplyHumanCustomization(spawnedHuman);
@@ -129,6 +135,11 @@ public class HumanGenerator : MonoBehaviour
 
         if (tutorialOnlyHumanPrefab != null)
         {
+            if (IsBigHumanPrefab(tutorialOnlyHumanPrefab) && HasActiveBigHuman())
+            {
+                return false;
+            }
+
             return CanPrefabSpawnMenu(tutorialOnlyHumanPrefab, menu, config);
         }
 
@@ -174,6 +185,11 @@ public class HumanGenerator : MonoBehaviour
         Debug.Log("Spawn");
         if (tutorialOnlyHumanPrefab != null)
         {
+            if (IsBigHumanPrefab(tutorialOnlyHumanPrefab) && HasActiveBigHuman())
+            {
+                return null;
+            }
+
             return Instantiate(tutorialOnlyHumanPrefab, spawnPoint.position, tutorialOnlyHumanPrefab.transform.rotation);
         }
 
@@ -195,7 +211,7 @@ public class HumanGenerator : MonoBehaviour
             return null;
         }
 
-        HumanBody selectedPrefab = humanPrefabs[Random.Range(0, humanPrefabs.Length)];
+        HumanBody selectedPrefab = GetRandomSerializedPrefab();
         if (selectedPrefab == null)
         {
             return null;
@@ -218,10 +234,11 @@ public class HumanGenerator : MonoBehaviour
 
     private static GameObject GetWeightedPrefab(StageHumanPrefabSpawnEntry[] pool)
     {
+        bool allowBigHuman = !HasActiveBigHuman();
         float totalWeight = 0f;
         for (int i = 0; i < pool.Length; i++)
         {
-            if (pool[i] != null && pool[i].IsValid)
+            if (pool[i] != null && pool[i].IsValid && (allowBigHuman || !IsBigHumanPrefab(pool[i].Prefab)))
             {
                 totalWeight += pool[i].SpawnPercentage;
             }
@@ -235,7 +252,7 @@ public class HumanGenerator : MonoBehaviour
         float randomWeight = Random.Range(0f, totalWeight);
         for (int i = 0; i < pool.Length; i++)
         {
-            if (pool[i] == null || !pool[i].IsValid)
+            if (pool[i] == null || !pool[i].IsValid || (!allowBigHuman && IsBigHumanPrefab(pool[i].Prefab)))
             {
                 continue;
             }
@@ -248,6 +265,27 @@ public class HumanGenerator : MonoBehaviour
         }
 
         return null;
+    }
+
+    private HumanBody GetRandomSerializedPrefab()
+    {
+        bool allowBigHuman = !HasActiveBigHuman();
+        List<HumanBody> eligiblePrefabs = new List<HumanBody>();
+        for (int i = 0; i < humanPrefabs.Length; i++)
+        {
+            HumanBody prefab = humanPrefabs[i];
+            if (prefab != null && (allowBigHuman || !IsBigHumanPrefab(prefab)))
+            {
+                eligiblePrefabs.Add(prefab);
+            }
+        }
+
+        if (eligiblePrefabs.Count == 0)
+        {
+            return null;
+        }
+
+        return eligiblePrefabs[Random.Range(0, eligiblePrefabs.Count)];
     }
 
     /// <summary>
@@ -306,9 +344,9 @@ public class HumanGenerator : MonoBehaviour
             return false;
         }
 
-        if (prefab.GetComponent<BigRapidSliceEvent>() != null)
+        if (IsBigHumanPrefab(prefab))
         {
-            return true;
+            return !HasActiveBigHuman();
         }
 
         HumanPart[] parts = prefab.GetComponentsInChildren<HumanPart>(true);
@@ -380,7 +418,7 @@ public class HumanGenerator : MonoBehaviour
 
     private static HumanType GetHumanType(HumanBody humanBody)
     {
-        if (humanBody.GetComponent<BigRapidSliceEvent>() != null)
+        if (IsBigHumanPrefab(humanBody))
         {
             return HumanType.BigHuman;
         }
@@ -422,5 +460,20 @@ public class HumanGenerator : MonoBehaviour
         }
 
         return HumanType.NormalHuman;
+    }
+
+    private static bool HasActiveBigHuman()
+    {
+        return FindAnyObjectByType<BigRapidSliceEvent>() != null;
+    }
+
+    private static bool IsBigHumanPrefab(Component prefab)
+    {
+        return prefab != null && IsBigHumanPrefab(prefab.gameObject);
+    }
+
+    private static bool IsBigHumanPrefab(GameObject prefab)
+    {
+        return prefab != null && prefab.GetComponent<BigRapidSliceEvent>() != null;
     }
 }
